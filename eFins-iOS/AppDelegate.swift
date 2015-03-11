@@ -1,8 +1,8 @@
 //
 //  AppDelegate.swift
-//  eFins-iOS
+//  eFins
 //
-//  Created by CHAD BURT on 3/6/15.
+//  Created by CHAD BURT on 3/5/15.
 //  Copyright (c) 2015 McClintock Lab. All rights reserved.
 //
 
@@ -16,6 +16,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
+        println(Urls.root)
+        if (true)
+        {
+            let storyboard:UIStoryboard = UIStoryboard(name: "Login", bundle: NSBundle(identifier: "mainBundle"))
+            var viewController = storyboard.instantiateViewControllerWithIdentifier("LoginViewController") as LoginViewController
+            self.window?.rootViewController = viewController
+        }
+        else
+        {
+//            UIViewController* rootController = [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:@"LoginViewController"];
+//            UINavigationController* navigation = [[UINavigationController alloc] initWithRootViewController:rootController];
+//            
+//            self.window.rootViewController = navigation;
+        }
         return true
     }
 

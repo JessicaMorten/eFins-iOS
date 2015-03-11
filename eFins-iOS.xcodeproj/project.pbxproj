@@ -15,8 +15,12 @@
 		CB81E9391AAA21F70071C2D2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CB81E9381AAA21F70071C2D2 /* Images.xcassets */; };
 		CB81E93C1AAA21F70071C2D2 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = CB81E93A1AAA21F70071C2D2 /* LaunchScreen.xib */; };
 		CB81E9481AAA21F80071C2D2 /* eFins_iOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB81E9471AAA21F80071C2D2 /* eFins_iOSTests.swift */; };
+		CBD00BAB1AB0E6A300ED784E /* RegistrationIncompleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBD00BAA1AB0E6A300ED784E /* RegistrationIncompleteViewController.swift */; };
+		CBD00BAD1AB0F79700ED784E /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBD00BAC1AB0F79700ED784E /* Constants.swift */; };
 		CBEAFA051AAA233C00C8A85A /* LogbookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBEAFA041AAA233C00C8A85A /* LogbookViewController.swift */; };
 		CBEAFA071AAA234B00C8A85A /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBEAFA061AAA234B00C8A85A /* MapViewController.swift */; };
+		CBF9850F1AAE010500C4F721 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CBF9850D1AAE010500C4F721 /* Login.storyboard */; };
+		CBF985101AAE010500C4F721 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF9850E1AAE010500C4F721 /* LoginViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,8 +47,12 @@
 		CB81E9411AAA21F80071C2D2 /* eFins-iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "eFins-iOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CB81E9461AAA21F80071C2D2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CB81E9471AAA21F80071C2D2 /* eFins_iOSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = eFins_iOSTests.swift; sourceTree = "<group>"; };
+		CBD00BAA1AB0E6A300ED784E /* RegistrationIncompleteViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationIncompleteViewController.swift; sourceTree = "<group>"; };
+		CBD00BAC1AB0F79700ED784E /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		CBEAFA041AAA233C00C8A85A /* LogbookViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogbookViewController.swift; sourceTree = "<group>"; };
 		CBEAFA061AAA234B00C8A85A /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		CBF9850D1AAE010500C4F721 /* Login.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
+		CBF9850E1AAE010500C4F721 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		ECD4EECAA55731D96DE64EE3 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -107,6 +115,9 @@
 		CB81E92C1AAA21F70071C2D2 /* eFins-iOS */ = {
 			isa = PBXGroup;
 			children = (
+				CBF9850D1AAE010500C4F721 /* Login.storyboard */,
+				CBD00BAA1AB0E6A300ED784E /* RegistrationIncompleteViewController.swift */,
+				CBF9850E1AAE010500C4F721 /* LoginViewController.swift */,
 				CB81E92F1AAA21F70071C2D2 /* AppDelegate.swift */,
 				CB81E9311AAA21F70071C2D2 /* FirstViewController.swift */,
 				CB81E9331AAA21F70071C2D2 /* SecondViewController.swift */,
@@ -116,6 +127,7 @@
 				CB81E9381AAA21F70071C2D2 /* Images.xcassets */,
 				CB81E93A1AAA21F70071C2D2 /* LaunchScreen.xib */,
 				CB81E92D1AAA21F70071C2D2 /* Supporting Files */,
+				CBD00BAC1AB0F79700ED784E /* Constants.swift */,
 			);
 			path = "eFins-iOS";
 			sourceTree = "<group>";
@@ -228,6 +240,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CBF9850F1AAE010500C4F721 /* Login.storyboard in Resources */,
 				CB81E9371AAA21F70071C2D2 /* Main.storyboard in Resources */,
 				CB81E93C1AAA21F70071C2D2 /* LaunchScreen.xib in Resources */,
 				CB81E9391AAA21F70071C2D2 /* Images.xcassets in Resources */,
@@ -296,11 +309,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CBF985101AAE010500C4F721 /* LoginViewController.swift in Sources */,
 				CB81E9341AAA21F70071C2D2 /* SecondViewController.swift in Sources */,
 				CB81E9301AAA21F70071C2D2 /* AppDelegate.swift in Sources */,
 				CBEAFA051AAA233C00C8A85A /* LogbookViewController.swift in Sources */,
 				CBEAFA071AAA234B00C8A85A /* MapViewController.swift in Sources */,
 				CB81E9321AAA21F70071C2D2 /* FirstViewController.swift in Sources */,
+				CBD00BAB1AB0E6A300ED784E /* RegistrationIncompleteViewController.swift in Sources */,
+				CBD00BAD1AB0F79700ED784E /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -428,6 +444,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = "eFins-iOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_SWIFT_FLAGS = "\"-D\" \"COCOAPODS\" \"-D\" \"DEBUG_SERVER\"";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
