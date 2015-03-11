@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		935887521AB0D67C0089CDE8 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 935887511AB0D67C0089CDE8 /* User.swift */; };
+		935887561AB0D7F60089CDE8 /* Agency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 935887551AB0D7F60089CDE8 /* Agency.swift */; };
 		C2D23E5308706D97FF932B04 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D70047102BE3CA65EBCD536 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		CB81E9301AAA21F70071C2D2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB81E92F1AAA21F70071C2D2 /* AppDelegate.swift */; };
 		CB81E9321AAA21F70071C2D2 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB81E9311AAA21F70071C2D2 /* FirstViewController.swift */; };
@@ -29,9 +31,24 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		935887531AB0D6A70089CDE8 /* Copy Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 7;
+			files = (
+			);
+			name = "Copy Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		5D70047102BE3CA65EBCD536 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		793C641AC78FACAF6D5F6BBD /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		935887511AB0D67C0089CDE8 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		935887551AB0D7F60089CDE8 /* Agency.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Agency.swift; sourceTree = "<group>"; };
 		CB81E92A1AAA21F70071C2D2 /* eFins-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "eFins-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CB81E92E1AAA21F70071C2D2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CB81E92F1AAA21F70071C2D2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -75,6 +92,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		935887501AB0D2050089CDE8 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				935887511AB0D67C0089CDE8 /* User.swift */,
+				935887551AB0D7F60089CDE8 /* Agency.swift */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
 		A48B52BC4776BDBE7A47998D /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -107,6 +133,7 @@
 		CB81E92C1AAA21F70071C2D2 /* eFins-iOS */ = {
 			isa = PBXGroup;
 			children = (
+				935887501AB0D2050089CDE8 /* Models */,
 				CB81E92F1AAA21F70071C2D2 /* AppDelegate.swift */,
 				CB81E9311AAA21F70071C2D2 /* FirstViewController.swift */,
 				CB81E9331AAA21F70071C2D2 /* SecondViewController.swift */,
@@ -158,6 +185,7 @@
 				CB81E9281AAA21F70071C2D2 /* Resources */,
 				2818CD5D8DC24A88D932C9EF /* Embed Pods Frameworks */,
 				B9C80EE28D68FAA6245F9ECC /* Copy Pods Resources */,
+				935887531AB0D6A70089CDE8 /* Copy Frameworks */,
 			);
 			buildRules = (
 			);
@@ -301,6 +329,8 @@
 				CBEAFA051AAA233C00C8A85A /* LogbookViewController.swift in Sources */,
 				CBEAFA071AAA234B00C8A85A /* MapViewController.swift in Sources */,
 				CB81E9321AAA21F70071C2D2 /* FirstViewController.swift in Sources */,
+				935887561AB0D7F60089CDE8 /* Agency.swift in Sources */,
+				935887521AB0D67C0089CDE8 /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -426,8 +456,16 @@
 			baseConfigurationReference = 793C641AC78FACAF6D5F6BBD /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Realm-dynamic",
+				);
 				INFOPLIST_FILE = "eFins-iOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Realm-dynamic-simulator/Realm.framework",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -437,8 +475,16 @@
 			baseConfigurationReference = ECD4EECAA55731D96DE64EE3 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Realm-dynamic",
+				);
 				INFOPLIST_FILE = "eFins-iOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Realm-dynamic-simulator/Realm.framework",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
