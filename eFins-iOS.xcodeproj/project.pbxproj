@@ -10,6 +10,7 @@
 		935887521AB0D67C0089CDE8 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 935887511AB0D67C0089CDE8 /* User.swift */; };
 		935887561AB0D7F60089CDE8 /* Agency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 935887551AB0D7F60089CDE8 /* Agency.swift */; };
 		93E701EE1AB0E3A900BD179E /* Realm.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 93E701E91AB0E21B00BD179E /* Realm.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		93E701F01AB0E6C800BD179E /* DataSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93E701EF1AB0E6C800BD179E /* DataSync.swift */; };
 		C2D23E5308706D97FF932B04 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D70047102BE3CA65EBCD536 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		CB81E9301AAA21F70071C2D2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB81E92F1AAA21F70071C2D2 /* AppDelegate.swift */; };
 		CB81E9321AAA21F70071C2D2 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB81E9311AAA21F70071C2D2 /* FirstViewController.swift */; };
@@ -53,6 +54,7 @@
 		935887551AB0D7F60089CDE8 /* Agency.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Agency.swift; sourceTree = "<group>"; };
 		93E701E71AB0E21B00BD179E /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Realm.framework; sourceTree = "<group>"; };
 		93E701E91AB0E21B00BD179E /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Realm.framework; sourceTree = "<group>"; };
+		93E701EF1AB0E6C800BD179E /* DataSync.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataSync.swift; sourceTree = "<group>"; };
 		CB81E92A1AAA21F70071C2D2 /* eFins-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "eFins-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CB81E92E1AAA21F70071C2D2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CB81E92F1AAA21F70071C2D2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -165,6 +167,7 @@
 				CB81E9381AAA21F70071C2D2 /* Images.xcassets */,
 				CB81E93A1AAA21F70071C2D2 /* LaunchScreen.xib */,
 				CB81E92D1AAA21F70071C2D2 /* Supporting Files */,
+				93E701EF1AB0E6C800BD179E /* DataSync.swift */,
 			);
 			path = "eFins-iOS";
 			sourceTree = "<group>";
@@ -348,6 +351,7 @@
 			files = (
 				CB81E9341AAA21F70071C2D2 /* SecondViewController.swift in Sources */,
 				CB81E9301AAA21F70071C2D2 /* AppDelegate.swift in Sources */,
+				93E701F01AB0E6C800BD179E /* DataSync.swift in Sources */,
 				CBEAFA051AAA233C00C8A85A /* LogbookViewController.swift in Sources */,
 				CBEAFA071AAA234B00C8A85A /* MapViewController.swift in Sources */,
 				CB81E9321AAA21F70071C2D2 /* FirstViewController.swift in Sources */,
