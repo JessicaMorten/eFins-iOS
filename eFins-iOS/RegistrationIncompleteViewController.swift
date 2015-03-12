@@ -7,14 +7,37 @@
 //
 
 import UIKit
+import MaterialKit
+import Alamofire
 
 class RegistrationIncompleteViewController: UIViewController {
     @IBOutlet weak var backgroundImageView: UIImageView!
+    @IBOutlet weak var headerLabel: UILabel!
+    @IBOutlet weak var registerButton: MKButton!
+    var email:String?
+    var password:String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         applyBlur()
-        // Do any additional setup after loading the view.
+        let defaults = NSUserDefaults.standardUserDefaults()
+        var state = "NoAccount"
+        if let storedState = defaults.stringForKey("SessionState") {
+            state = storedState
+        }
+        switch state {
+            case "Authenticated":
+                println("Authenticated")
+            case "NotApproved":
+                println("NotApproved")
+            case "EmailNotConfirmed":
+                println("EmailNotConfirmed")
+            default:
+                var replacementHeader = NSMutableAttributedString(attributedString: self.headerLabel.attributedText)
+                replacementHeader.mutableString.replaceOccurrencesOfString("<email>", withString: self.email!, options: NSStringCompareOptions.CaseInsensitiveSearch, range: NSMakeRange(0, replacementHeader.mutableString.length))
+                self.headerLabel.attributedText = replacementHeader
+        }
+        
     }
 
     func applyBlur() {
@@ -35,4 +58,19 @@ class RegistrationIncompleteViewController: UIViewController {
         
     }
 
+    @IBAction func goBackAction(sender: AnyObject) {
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    @IBAction func registerAction(sender: AnyObject) {
+        let params = [
+            "email": self.email!,
+            "password": self.password!
+        ]
+        Alamofire.request(.POST, Urls.register, parameters: params)
+            .responseString { (request, response, data, error) in
+            println(response)
+            println(data)
+        }
+    }
 }

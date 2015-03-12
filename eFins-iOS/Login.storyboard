@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -45,7 +45,7 @@
                                             <constraint firstAttribute="width" constant="91" id="PFF-4O-ymT"/>
                                             <constraint firstAttribute="height" constant="47" id="psN-od-1oN"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="36"/>
+                                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="36"/>
                                         <nil key="highlightedColor"/>
                                         <size key="shadowOffset" width="2" height="2"/>
                                     </label>
@@ -272,22 +272,113 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash" translatesAutoresizingMaskIntoConstraints="NO" id="QL3-lG-Kbg">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8qg-ab-1se" customClass="MKButton" customModule="MaterialKit">
+                                <rect key="frame" x="160" y="122" width="280" height="48"/>
+                                <color key="backgroundColor" name="alternateSelectedControlColor" catalog="System" colorSpace="catalog"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="280" id="3xC-Bf-fmd"/>
+                                    <constraint firstAttribute="height" constant="48" id="zWS-2F-1Rf"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                <state key="normal" title="Register using this Email">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="5"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="registerAction:" destination="n9e-fv-TJX" eventType="touchUpInside" id="sTc-Xd-UCu"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yES-8g-dV0">
+                                <rect key="frame" x="64" y="20" width="472" height="94"/>
+                                <attributedString key="attributedText">
+                                    <fragment content="The user ">
+                                        <attributes>
+                                            <color key="NSColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <font key="NSFont" size="36" name="HelveticaNeue-Light"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content="&lt;email&gt; does not exist ">
+                                        <attributes>
+                                            <color key="NSColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <font key="NSFont" size="36" name="HelveticaNeue-LightItalic"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <nil key="highlightedColor"/>
+                                <color key="shadowColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <size key="shadowOffset" width="-1" height="1"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="T7T-0m-K6m" customClass="MKButton" customModule="MaterialKit">
+                                <rect key="frame" x="193" y="178" width="214" height="34"/>
+                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="34" id="GBw-U7-jFo"/>
+                                    <constraint firstAttribute="width" constant="214" id="yT1-oD-SuN"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <state key="normal" title="Login with a different account">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="5"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="goBackAction:" destination="n9e-fv-TJX" eventType="touchUpInside" id="CmA-7H-phd"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="QL3-lG-Kbg" firstAttribute="leading" secondItem="JAl-KZ-dmk" secondAttribute="leading" id="7ND-Wf-3Rq"/>
-                            <constraint firstItem="QL3-lG-Kbg" firstAttribute="bottom" secondItem="B4v-YM-guE" secondAttribute="top" id="C44-EN-Jid"/>
-                            <constraint firstAttribute="trailing" secondItem="QL3-lG-Kbg" secondAttribute="trailing" id="JDA-QU-2Ka"/>
-                            <constraint firstItem="QL3-lG-Kbg" firstAttribute="top" secondItem="JAl-KZ-dmk" secondAttribute="top" id="jlq-mt-Mdh"/>
+                            <constraint firstItem="8qg-ab-1se" firstAttribute="top" secondItem="yES-8g-dV0" secondAttribute="bottom" constant="8" symbolic="YES" id="3il-WG-JSS"/>
+                            <constraint firstAttribute="trailing" secondItem="QL3-lG-Kbg" secondAttribute="trailing" id="5tO-zP-1rF"/>
+                            <constraint firstItem="QL3-lG-Kbg" firstAttribute="bottom" secondItem="B4v-YM-guE" secondAttribute="top" id="9Zn-Xv-Y0p"/>
+                            <constraint firstItem="8qg-ab-1se" firstAttribute="top" secondItem="yES-8g-dV0" secondAttribute="bottom" constant="32" id="ChP-Kt-z6B"/>
+                            <constraint firstAttribute="centerX" secondItem="8qg-ab-1se" secondAttribute="centerX" id="Di0-ag-ReV"/>
+                            <constraint firstItem="B4v-YM-guE" firstAttribute="top" secondItem="8qg-ab-1se" secondAttribute="bottom" constant="448" id="GPH-cs-eGs"/>
+                            <constraint firstAttribute="centerX" secondItem="T7T-0m-K6m" secondAttribute="centerX" id="HrM-ZJ-gLQ"/>
+                            <constraint firstItem="yES-8g-dV0" firstAttribute="centerX" secondItem="QL3-lG-Kbg" secondAttribute="centerX" id="Kgq-DB-Fbu"/>
+                            <constraint firstItem="B4v-YM-guE" firstAttribute="top" secondItem="yES-8g-dV0" secondAttribute="bottom" constant="470" id="NZP-9o-6wL"/>
+                            <constraint firstItem="yES-8g-dV0" firstAttribute="leading" secondItem="JAl-KZ-dmk" secondAttribute="leadingMargin" constant="64" id="Nx0-wO-dda"/>
+                            <constraint firstItem="T7T-0m-K6m" firstAttribute="top" secondItem="8qg-ab-1se" secondAttribute="bottom" constant="32" id="Q0n-08-usu"/>
+                            <constraint firstItem="T7T-0m-K6m" firstAttribute="centerX" secondItem="8qg-ab-1se" secondAttribute="centerX" id="QDQ-71-zkQ"/>
+                            <constraint firstItem="B4v-YM-guE" firstAttribute="top" secondItem="8qg-ab-1se" secondAttribute="bottom" constant="440" id="VIs-Lb-arB"/>
+                            <constraint firstItem="QL3-lG-Kbg" firstAttribute="leading" secondItem="JAl-KZ-dmk" secondAttribute="leading" id="cjX-6Y-LzO"/>
+                            <constraint firstItem="B4v-YM-guE" firstAttribute="top" secondItem="T7T-0m-K6m" secondAttribute="bottom" constant="398" id="dTh-MO-FQP"/>
+                            <constraint firstItem="8qg-ab-1se" firstAttribute="centerX" secondItem="yES-8g-dV0" secondAttribute="centerX" id="np4-eq-5M3"/>
+                            <constraint firstItem="8qg-ab-1se" firstAttribute="centerX" secondItem="yES-8g-dV0" secondAttribute="centerX" id="rKF-7r-Uzf"/>
+                            <constraint firstItem="QL3-lG-Kbg" firstAttribute="top" secondItem="JAl-KZ-dmk" secondAttribute="top" id="raV-hc-peK"/>
+                            <constraint firstItem="yES-8g-dV0" firstAttribute="top" secondItem="vm1-t0-v7J" secondAttribute="bottom" constant="120" id="xZD-oN-fNd"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="3il-WG-JSS"/>
+                                <exclude reference="np4-eq-5M3"/>
+                                <exclude reference="rKF-7r-Uzf"/>
+                                <exclude reference="QDQ-71-zkQ"/>
+                                <exclude reference="GPH-cs-eGs"/>
+                                <exclude reference="NZP-9o-6wL"/>
+                                <exclude reference="VIs-Lb-arB"/>
+                                <exclude reference="dTh-MO-FQP"/>
+                            </mask>
+                        </variation>
                     </view>
                     <connections>
                         <outlet property="backgroundImageView" destination="QL3-lG-Kbg" id="HWf-Bv-Ndw"/>
+                        <outlet property="headerLabel" destination="yES-8g-dV0" id="HMj-dl-tWl"/>
+                        <outlet property="registerButton" destination="8qg-ab-1se" id="URD-TO-bXf"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rOb-NX-TBf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1801" y="501"/>
+            <point key="canvasLocation" x="1792" y="459"/>
         </scene>
     </scenes>
     <resources>

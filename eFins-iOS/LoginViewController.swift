@@ -8,6 +8,7 @@
 
 import UIKit
 import MaterialKit
+import Alamofire
 
 class LoginViewController: UIViewController, UITextFieldDelegate {
 
@@ -39,6 +40,12 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
 //            selector: "keyboardDidShow", name: UIKeyboardDidShowNotification, object: nil)
 //        NSNotificationCenter.defaultCenter().addObserver(self,
 //            selector: "keyboardWillHide", name: UIKeyboardWillHideNotification, object: nil)
+    }
+    
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        self.clearForm()
     }
     
     func applyBlur() {
@@ -96,19 +103,38 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
 
     @IBAction func login(sender: AnyObject) {
         if (validateEmail(self.emailTextField.text)) {
-            if (true) {
-                self.performSegueWithIdentifier("registrationIncomplete", sender: self)
-            } else {
-                // proceed to main application
-            }
+            let params = [
+                "email": self.emailTextField.text,
+                "password": self.passwordTextField.text
+            ]
+            println("Posting to \(Urls.getToken)")
+            Alamofire.request(.POST, Urls.getToken, parameters: params)
+                .responseString { (request, response, data, error) in
+                    println(error)
+                    if (error != nil) {
+                        self.alert("Login Error", message: "Problem connecting to server")
+                    } else if (response?.statusCode == 404) {
+                        println("User not registered")
+                        self.performSegueWithIdentifier("registrationIncomplete", sender: self)
+                    } else if (response?.statusCode == 403) {
+                        self.passwordTextField.becomeFirstResponder()
+                        self.alert("Login Error", message: "Invalid password")
+                    } else {
+                        self.alert("Login Error", message: "Unknown error attempting login")
+                    }
+                }
         } else {
             self.emailTextField.becomeFirstResponder()
-            var alert = UIAlertController(title: "Login Error", message: "You must enter a valid email", preferredStyle: UIAlertControllerStyle.Alert)
-            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler:{ (ACTION :UIAlertAction!)in
-                println("Okay, I see that my email is messed up.")                
-            }))
-            self.presentViewController(alert, animated: true, completion: nil)
+            self.alert("Login Error", message: "You must enter a valid email")
         }
+    }
+    
+    func alert(title:String, message:String) {
+        var alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler:{ (ACTION :UIAlertAction!)in
+            println("Okay, I see that my email is messed up.")
+        }))
+        self.presentViewController(alert, animated: true, completion: nil)
     }
     
     func validateEmail(email: String) -> Bool {
@@ -119,14 +145,20 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    /*
     // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        if (segue.identifier == "registrationIncomplete") {
+            var controller:RegistrationIncompleteViewController = segue.destinationViewController as RegistrationIncompleteViewController
+            controller.password = self.passwordTextField.text
+            controller.email = self.emailTextField.text
+        }
     }
-    */
-
+    
+    func clearForm() {
+        self.passwordTextField.text = ""
+        self.emailTextField.text = ""
+        formValuesChanged()
+    }
+    
 }
