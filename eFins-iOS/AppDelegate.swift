@@ -16,21 +16,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
-        println(Urls.root)
-        if (true)
+        let defaults = NSUserDefaults.standardUserDefaults()
+        if ((defaults.objectForKey("SessionToken")) != nil)
         {
-            let storyboard:UIStoryboard = UIStoryboard(name: "Login", bundle: NSBundle(identifier: "mainBundle"))
-            var viewController = storyboard.instantiateViewControllerWithIdentifier("LoginViewController") as LoginViewController
-            self.window?.rootViewController = viewController
-        }
-        else
-        {
-//            UIViewController* rootController = [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:@"LoginViewController"];
-//            UINavigationController* navigation = [[UINavigationController alloc] initWithRootViewController:rootController];
-//            
-//            self.window.rootViewController = navigation;
+            self.gotoMainStoryboard()
+        } else {
+            self.showLogin()
         }
         return true
+    }
+    
+    func showLogin() {
+        let storyboard:UIStoryboard = UIStoryboard(name: "Login", bundle: NSBundle(identifier: "mainBundle"))
+        var viewController = storyboard.instantiateViewControllerWithIdentifier("LoginViewController") as LoginViewController
+        self.window?.rootViewController = viewController
+    }
+    
+    func signOut() {
+        let defaults = NSUserDefaults.standardUserDefaults()
+        defaults.removeObjectForKey("SessionToken")
+        defaults.removeObjectForKey("SessionState")
+        defaults.removeObjectForKey("UserEmail")
+        self.showLogin()
+        
+    }
+    
+    func gotoMainStoryboard() {
+        let storyboard:UIStoryboard = UIStoryboard(name: "Main", bundle: NSBundle(identifier: "mainBundle"))
+        var viewController = storyboard.instantiateViewControllerWithIdentifier("MainTabs") as UITabBarController
+        self.window?.rootViewController = viewController
     }
 
     func applicationWillResignActive(application: UIApplication) {

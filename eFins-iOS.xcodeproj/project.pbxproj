@@ -10,6 +10,7 @@
 		93E701EE1AB0E3A900BD179E /* Realm.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 93E701E91AB0E21B00BD179E /* Realm.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		93E701F01AB0E6C800BD179E /* DataSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93E701EF1AB0E6C800BD179E /* DataSync.swift */; };
 		C2D23E5308706D97FF932B04 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D70047102BE3CA65EBCD536 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		CB03EED71AB8E1B9004CCB47 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB03EED61AB8E1B9004CCB47 /* SettingsViewController.swift */; };
 		CB81E9301AAA21F70071C2D2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB81E92F1AAA21F70071C2D2 /* AppDelegate.swift */; };
 		CB81E9321AAA21F70071C2D2 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB81E9311AAA21F70071C2D2 /* FirstViewController.swift */; };
 		CB81E9341AAA21F70071C2D2 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB81E9331AAA21F70071C2D2 /* SecondViewController.swift */; };
@@ -55,7 +56,8 @@
 		93E701E71AB0E21B00BD179E /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Realm.framework; sourceTree = "<group>"; };
 		93E701E91AB0E21B00BD179E /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Realm.framework; sourceTree = "<group>"; };
 		93E701EF1AB0E6C800BD179E /* DataSync.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataSync.swift; sourceTree = "<group>"; };
-		CB81E92A1AAA21F70071C2D2 /* eFins-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "eFins-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		CB03EED61AB8E1B9004CCB47 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		CB81E92A1AAA21F70071C2D2 /* eFins.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = eFins.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CB81E92E1AAA21F70071C2D2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CB81E92F1AAA21F70071C2D2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CB81E9311AAA21F70071C2D2 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
@@ -143,7 +145,7 @@
 		CB81E92B1AAA21F70071C2D2 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				CB81E92A1AAA21F70071C2D2 /* eFins-iOS.app */,
+				CB81E92A1AAA21F70071C2D2 /* eFins.app */,
 				CB81E9411AAA21F80071C2D2 /* eFins-iOSTests.xctest */,
 			);
 			name = Products;
@@ -152,6 +154,7 @@
 		CB81E92C1AAA21F70071C2D2 /* eFins-iOS */ = {
 			isa = PBXGroup;
 			children = (
+				CB03EED61AB8E1B9004CCB47 /* SettingsViewController.swift */,
 				CBF9850D1AAE010500C4F721 /* Login.storyboard */,
 				CBD00BAA1AB0E6A300ED784E /* RegistrationIncompleteViewController.swift */,
 				CBF9850E1AAE010500C4F721 /* LoginViewController.swift */,
@@ -216,7 +219,7 @@
 			);
 			name = "eFins-iOS";
 			productName = "eFins-iOS";
-			productReference = CB81E92A1AAA21F70071C2D2 /* eFins-iOS.app */;
+			productReference = CB81E92A1AAA21F70071C2D2 /* eFins.app */;
 			productType = "com.apple.product-type.application";
 		};
 		CB81E9401AAA21F80071C2D2 /* eFins-iOSTests */ = {
@@ -351,6 +354,7 @@
 				CBF985101AAE010500C4F721 /* LoginViewController.swift in Sources */,
 				CB81E9341AAA21F70071C2D2 /* SecondViewController.swift in Sources */,
 				CB81E9301AAA21F70071C2D2 /* AppDelegate.swift in Sources */,
+				CB03EED71AB8E1B9004CCB47 /* SettingsViewController.swift in Sources */,
 				93E701F01AB0E6C800BD179E /* DataSync.swift in Sources */,
 				CBEAFA051AAA233C00C8A85A /* LogbookViewController.swift in Sources */,
 				CBEAFA071AAA234B00C8A85A /* MapViewController.swift in Sources */,
@@ -491,7 +495,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_SWIFT_FLAGS = "\"-D\" \"COCOAPODS\" \"-D\" \"DEBUG_SERVER\"";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = eFins;
 			};
 			name = Debug;
 		};
@@ -512,7 +516,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Realm-dynamic-simulator/Realm.framework",
 				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = eFins;
 			};
 			name = Release;
 		};

@@ -9,8 +9,7 @@
 import Foundation
 
 #if DEBUG_SERVER
-//let SERVER_ROOT = "http://localhost:3002/"
-let SERVER_ROOT = "http://10.0.1.27:3002/"
+let SERVER_ROOT = "http://localhost:3002/"
 #else
 let SERVER_ROOT = "https://efins.org/"
 #endif
@@ -27,5 +26,5 @@ struct Urls {
     static let passwordReset = "\(root)auth/requestPasswordReset"
 }
 
-
+let ADMIN_EMAIL = "support@efins.org"
 
