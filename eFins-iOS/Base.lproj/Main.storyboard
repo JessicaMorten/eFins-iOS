@@ -7,7 +7,7 @@
         <!--Logbook-->
         <scene sceneID="hNz-n2-bh7">
             <objects>
-                <viewController id="9pv-A4-QxB" customClass="LogbookViewController" customModule="eFins_iOS" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="9pv-A4-QxB" customClass="LogbookViewController" customModule="eFins" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Ia1-K6-d13"/>
                         <viewControllerLayoutGuide type="bottom" id="4ug-Mw-9AY"/>
@@ -38,7 +38,7 @@
                             <constraint firstAttribute="centerY" secondItem="KQZ-1w-vlD" secondAttribute="centerY" id="exm-UA-ej4"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Logbook" image="first" id="acW-dT-cKf"/>
+                    <tabBarItem key="tabBarItem" title="Logbook" image="book" id="acW-dT-cKf"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W5J-7L-Pyd" sceneMemberID="firstResponder"/>
             </objects>
@@ -47,7 +47,7 @@
         <!--Map-->
         <scene sceneID="wg7-f3-ORb">
             <objects>
-                <viewController id="8rJ-Kc-sve" customClass="MapViewController" customModule="eFins_iOS" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="8rJ-Kc-sve" customClass="MapViewController" customModule="eFins" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="L7p-HK-0SC"/>
                         <viewControllerLayoutGuide type="bottom" id="Djb-ko-YwX"/>
@@ -78,7 +78,7 @@
                             <constraint firstAttribute="centerY" secondItem="zEq-FU-wV5" secondAttribute="centerY" id="qzY-Ky-pLD"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Map" image="second" id="cPa-gy-q4n"/>
+                    <tabBarItem key="tabBarItem" title="Map" image="map_route" id="cPa-gy-q4n"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Nw-L8-lE0" sceneMemberID="firstResponder"/>
             </objects>
@@ -107,7 +107,7 @@
         <!--Settings-->
         <scene sceneID="zel-rl-emf">
             <objects>
-                <viewController title="Settings" id="0I7-55-a6f" customClass="SettingsViewController" customModule="eFins_iOS" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Settings" id="0I7-55-a6f" customClass="SettingsViewController" customModule="eFins" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="4kg-Ut-5Bi"/>
                         <viewControllerLayoutGuide type="bottom" id="ALz-g4-z4b"/>
@@ -147,7 +147,7 @@
                             <constraint firstAttribute="centerX" secondItem="J8n-OW-iPn" secondAttribute="centerX" id="whg-4T-RpR"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Settings" image="second" id="BfY-Dw-hIS" userLabel="Settings"/>
+                    <tabBarItem key="tabBarItem" title="Settings" image="cog" id="BfY-Dw-hIS" userLabel="Settings"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JWT-4a-4BS" sceneMemberID="firstResponder"/>
             </objects>
@@ -155,7 +155,8 @@
         </scene>
     </scenes>
     <resources>
-        <image name="first" width="30" height="30"/>
-        <image name="second" width="30" height="30"/>
+        <image name="book" width="32" height="32"/>
+        <image name="cog" width="22" height="22"/>
+        <image name="map_route" width="32" height="32"/>
     </resources>
 </document>

@@ -539,8 +539,8 @@
         </scene>
     </scenes>
     <resources>
-        <image name="background-blurred" width="2961" height="1666"/>
-        <image name="background-dark" width="2961" height="1666"/>
+        <image name="background-blurred" width="2954" height="1662"/>
+        <image name="background-dark" width="2954" height="1662"/>
         <image name="inbox" width="512" height="512"/>
     </resources>
 </document>
