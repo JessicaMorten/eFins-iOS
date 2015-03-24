@@ -20,7 +20,6 @@
 		CB81E9481AAA21F80071C2D2 /* eFins_iOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB81E9471AAA21F80071C2D2 /* eFins_iOSTests.swift */; };
 		CBD00BAB1AB0E6A300ED784E /* RegistrationIncompleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBD00BAA1AB0E6A300ED784E /* RegistrationIncompleteViewController.swift */; };
 		CBD00BAD1AB0F79700ED784E /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBD00BAC1AB0F79700ED784E /* Constants.swift */; };
-		CBEAFA051AAA233C00C8A85A /* LogbookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBEAFA041AAA233C00C8A85A /* LogbookViewController.swift */; };
 		CBEAFA071AAA234B00C8A85A /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBEAFA061AAA234B00C8A85A /* MapViewController.swift */; };
 		CBF9850F1AAE010500C4F721 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CBF9850D1AAE010500C4F721 /* Login.storyboard */; };
 		CBF985101AAE010500C4F721 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF9850E1AAE010500C4F721 /* LoginViewController.swift */; };
@@ -70,7 +69,6 @@
 		CB81E9471AAA21F80071C2D2 /* eFins_iOSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = eFins_iOSTests.swift; sourceTree = "<group>"; };
 		CBD00BAA1AB0E6A300ED784E /* RegistrationIncompleteViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationIncompleteViewController.swift; sourceTree = "<group>"; };
 		CBD00BAC1AB0F79700ED784E /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		CBEAFA041AAA233C00C8A85A /* LogbookViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogbookViewController.swift; sourceTree = "<group>"; };
 		CBEAFA061AAA234B00C8A85A /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		CBF9850D1AAE010500C4F721 /* Login.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
 		CBF9850E1AAE010500C4F721 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -162,7 +160,6 @@
 				CB81E9311AAA21F70071C2D2 /* FirstViewController.swift */,
 				CB81E9331AAA21F70071C2D2 /* SecondViewController.swift */,
 				CB81E9351AAA21F70071C2D2 /* Main.storyboard */,
-				CBEAFA041AAA233C00C8A85A /* LogbookViewController.swift */,
 				CBEAFA061AAA234B00C8A85A /* MapViewController.swift */,
 				CB81E9381AAA21F70071C2D2 /* Images.xcassets */,
 				CB81E93A1AAA21F70071C2D2 /* LaunchScreen.xib */,
@@ -356,7 +353,6 @@
 				CB81E9301AAA21F70071C2D2 /* AppDelegate.swift in Sources */,
 				CB03EED71AB8E1B9004CCB47 /* SettingsViewController.swift in Sources */,
 				93E701F01AB0E6C800BD179E /* DataSync.swift in Sources */,
-				CBEAFA051AAA233C00C8A85A /* LogbookViewController.swift in Sources */,
 				CBEAFA071AAA234B00C8A85A /* MapViewController.swift in Sources */,
 				CB81E9321AAA21F70071C2D2 /* FirstViewController.swift in Sources */,
 				CBD00BAB1AB0E6A300ED784E /* RegistrationIncompleteViewController.swift in Sources */,
