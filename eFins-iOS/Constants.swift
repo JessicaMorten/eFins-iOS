@@ -9,7 +9,8 @@
 import Foundation
 
 #if DEBUG_SERVER
-let SERVER_ROOT = "http://localhost:3002/"
+//let SERVER_ROOT = "http://localhost:3002/"
+let SERVER_ROOT = "http://10.0.1.27:3002/"
 #else
 let SERVER_ROOT = "https://efins.org/"
 #endif
@@ -18,13 +19,13 @@ struct Urls {
     static let root = SERVER_ROOT
 
     // requires email, password
-    static let register = "\(root)register"
-    static let getToken = "\(root)getToken"
+    static let register = "\(root)auth/register"
+    static let getToken = "\(root)auth/getToken"
 
     // requires bearer token
-    static let expireToken = "\(root)expireToken"
-    static let passwordReset = "\(root)requestPasswordReset"
+    static let expireToken = "\(root)auth/expireToken"
+    static let passwordReset = "\(root)auth/requestPasswordReset"
 }
 
-
+let ADMIN_EMAIL = "support@efins.org"
 

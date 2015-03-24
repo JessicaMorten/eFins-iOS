@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "CB81E9291AAA21F70071C2D2"
-               BuildableName = "eFins-iOS.app"
+               BuildableName = "eFins.app"
                BlueprintName = "eFins-iOS"
                ReferencedContainer = "container:eFins-iOS.xcodeproj">
             </BuildableReference>
@@ -57,7 +57,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "CB81E9291AAA21F70071C2D2"
-            BuildableName = "eFins-iOS.app"
+            BuildableName = "eFins.app"
             BlueprintName = "eFins-iOS"
             ReferencedContainer = "container:eFins-iOS.xcodeproj">
          </BuildableReference>
@@ -72,11 +72,12 @@
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       allowLocationSimulation = "YES">
-      <BuildableProductRunnable>
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "CB81E9291AAA21F70071C2D2"
-            BuildableName = "eFins-iOS.app"
+            BuildableName = "eFins.app"
             BlueprintName = "eFins-iOS"
             ReferencedContainer = "container:eFins-iOS.xcodeproj">
          </BuildableReference>
@@ -90,11 +91,12 @@
       useCustomWorkingDirectory = "NO"
       buildConfiguration = "Release"
       debugDocumentVersioning = "YES">
-      <BuildableProductRunnable>
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "CB81E9291AAA21F70071C2D2"
-            BuildableName = "eFins-iOS.app"
+            BuildableName = "eFins.app"
             BlueprintName = "eFins-iOS"
             ReferencedContainer = "container:eFins-iOS.xcodeproj">
          </BuildableReference>

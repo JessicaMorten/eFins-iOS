@@ -8,6 +8,8 @@
 
 import UIKit
 import MaterialKit
+import Alamofire
+import SwiftyJSON
 
 class LoginViewController: UIViewController, UITextFieldDelegate {
 
@@ -17,6 +19,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var instructionLabel: UILabel!
     @IBOutlet weak var signInButton: UIButton!
     @IBOutlet weak var createdByLabel: UILabel!
+    @IBOutlet weak var forgotPasswordButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,7 +29,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         self.signInButton.layer.cornerRadius = 5.0
         self.signInButton.layer.masksToBounds = true;
         
-        self.applyBlur()
         
         self.emailTextField.layer.borderWidth = CGFloat(0.0)
         self.emailTextField.placeholder = "email address"
@@ -41,22 +43,10 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
 //            selector: "keyboardWillHide", name: UIKeyboardWillHideNotification, object: nil)
     }
     
-    func applyBlur() {
-        let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.Light)
-        let blurEffectView = UIVisualEffectView(effect: blurEffect)
-        blurEffectView.frame = view.bounds //view is self.view in a UIViewController
-        //            blurEffectView.alpha = 0.9;
-        self.view.insertSubview(blurEffectView, aboveSubview: self.backgroundImageView);
-        
-        //if you have more UIViews on screen, use insertSubview:belowSubview: to place it underneath the lowest view
-        
-        //add auto layout constraints so that the blur fills the screen upon rotating device
-        blurEffectView.setTranslatesAutoresizingMaskIntoConstraints(false)
-        view.addConstraint(NSLayoutConstraint(item: blurEffectView, attribute: NSLayoutAttribute.Top, relatedBy: NSLayoutRelation.Equal, toItem: view, attribute: NSLayoutAttribute.Top, multiplier: 1, constant: 0))
-        view.addConstraint(NSLayoutConstraint(item: blurEffectView, attribute: NSLayoutAttribute.Bottom, relatedBy: NSLayoutRelation.Equal, toItem: view, attribute: NSLayoutAttribute.Bottom, multiplier: 1, constant: 0))
-        view.addConstraint(NSLayoutConstraint(item: blurEffectView, attribute: NSLayoutAttribute.Leading, relatedBy: NSLayoutRelation.Equal, toItem: view, attribute: NSLayoutAttribute.Leading, multiplier: 1, constant: 0))
-        view.addConstraint(NSLayoutConstraint(item: blurEffectView, attribute: NSLayoutAttribute.Trailing, relatedBy: NSLayoutRelation.Equal, toItem: view, attribute: NSLayoutAttribute.Trailing, multiplier: 1, constant: 0))
-
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        self.clearForm()
     }
     
     @IBAction func usernameEditingChanged(sender: MKTextField) {
@@ -96,19 +86,76 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
 
     @IBAction func login(sender: AnyObject) {
         if (validateEmail(self.emailTextField.text)) {
-            if (true) {
-                self.performSegueWithIdentifier("registrationIncomplete", sender: self)
-            } else {
-                // proceed to main application
-            }
+            let params = [
+                "email": self.emailTextField.text,
+                "password": self.passwordTextField.text
+            ]
+            println("Posting to \(Urls.getToken)")
+            let defaults = NSUserDefaults.standardUserDefaults()
+            Alamofire.request(.POST, Urls.getToken, parameters: params)
+                .responseString { (request, response, data, error) in
+                    println(data)
+                    if (error != nil) {
+                        self.alert("Login Error", message: "Problem connecting to server")
+                    } else if (response?.statusCode == 404) {
+                        println("User not registered")
+                        defaults.setValue("NoAccount", forKey: "SessionState")
+                        self.performSegueWithIdentifier("registrationIncomplete", sender: self)
+                    } else if (response?.statusCode == 401) {
+                        self.passwordTextField.becomeFirstResponder()
+                        self.alert("Login Error", message: "Invalid password")
+                        self.forgotPasswordButton.hidden = false
+                    } else if (response?.statusCode == 403) {
+                        if ((data?.rangeOfString("approved")) != nil) {
+                            println("account not approved")
+                            defaults.setValue("NotApproved", forKey: "SessionState")
+                        } else {
+                            defaults.setValue("EmailNotConfirmed", forKey: "SessionState")
+                            println("email not confirmed")
+                        }
+                        defaults.setValue(self.emailTextField.text, forKey: "UserEmail")
+                        self.performSegueWithIdentifier("registrationIncomplete", sender: self)
+                        self.alert("Login Error", message: "Invalid password")
+                    } else if response?.statusCode == 200 {
+                        println("Authenticated!")
+                        let json = JSON(data: data!.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!)
+                        if let token = json["token"].string{
+                            println("Token is \(token)")
+                            defaults.setValue(token, forKey: "SessionToken")
+                            defaults.setValue("Authenticated", forKey: "SessionState")
+                            self.alert("Account Approved", message: "You may now access the system")
+                            let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+                            appDelegate.gotoMainStoryboard()
+                        }
+                    } else {
+                        println(data)
+                        self.alert("Login Error", message: "Unknown error attempting login")
+                    }
+                }
         } else {
             self.emailTextField.becomeFirstResponder()
-            var alert = UIAlertController(title: "Login Error", message: "You must enter a valid email", preferredStyle: UIAlertControllerStyle.Alert)
-            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler:{ (ACTION :UIAlertAction!)in
-                println("Okay, I see that my email is messed up.")                
-            }))
-            self.presentViewController(alert, animated: true, completion: nil)
+            self.alert("Login Error", message: "You must enter a valid email")
         }
+    }
+    
+    @IBAction func forgotPasswordAction(sender: AnyObject) {
+        let params = [
+            "email": self.emailTextField.text,
+        ]
+        Alamofire.request(.POST, Urls.passwordReset, parameters: params)
+            .responseString { (request, response, data, error) in
+                println(response)
+        }
+        self.alert("Password Reset", message: "An email has been sent with instructions on how to reset your password")
+        self.forgotPasswordButton.hidden = true
+    }
+    
+    func alert(title:String, message:String) {
+        var alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler:{ (ACTION :UIAlertAction!)in
+            println("Okay, I see that my email is messed up.")
+        }))
+        self.presentViewController(alert, animated: true, completion: nil)
     }
     
     func validateEmail(email: String) -> Bool {
@@ -119,14 +166,20 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    /*
     // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        if (segue.identifier == "registrationIncomplete") {
+            var controller:RegistrationIncompleteViewController = segue.destinationViewController as RegistrationIncompleteViewController
+            controller.password = self.passwordTextField.text
+            controller.email = self.emailTextField.text
+        }
     }
-    */
-
+    
+    func clearForm() {
+        self.passwordTextField.text = ""
+        self.emailTextField.text = ""
+        formValuesChanged()
+    }
+    
 }
