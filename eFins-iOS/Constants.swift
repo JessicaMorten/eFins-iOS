@@ -29,3 +29,12 @@ struct Urls {
 
 let ADMIN_EMAIL = "support@efins.org"
 
+let locale = NSLocale.currentLocale()
+
+func getDateFormatter() -> NSDateFormatter {
+    let formatter = NSDateFormatter()
+    formatter.dateFormat = NSDateFormatter.dateFormatFromTemplate("yyyy-MM-dd 'at' HH:mm", options: 0, locale: locale)
+    formatter.locale = locale
+    return formatter
+}
+
