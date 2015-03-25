@@ -196,9 +196,6 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
-                    <connections>
-                        <segue destination="Ojb-XN-plA" kind="show" identifier="ActivityLog" id="BDC-9b-khZ"/>
-                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="q9t-li-hcY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -359,10 +356,10 @@
             </objects>
             <point key="canvasLocation" x="6" y="822"/>
         </scene>
-        <!--New Entry Popover Table View Controller-->
+        <!--Table View Controller-->
         <scene sceneID="M8D-HZ-Cfx">
             <objects>
-                <tableViewController id="IFL-fc-4nK" customClass="NewEntryPopoverTableViewController" customModule="eFins" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="IFL-fc-4nK" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="D7o-UG-C1c">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -383,6 +380,9 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="Ojb-XN-plA" kind="show" id="CGW-JF-6Ys"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="LoO-5I-Cug" style="IBUITableViewCellStyleDefault" id="GXf-9O-7Qy">
                                         <autoresizingMask key="autoresizingMask"/>
@@ -448,6 +448,7 @@
                         <rect key="frame" x="0.0" y="64" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
+                        <gestureRecognizers/>
                         <sections>
                             <tableViewSection id="qZp-22-FZu">
                                 <cells>
@@ -502,9 +503,12 @@
                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" type="italicSystem" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                    <connections>
+                                                        <outlet property="delegate" destination="iUX-KI-gd5" id="TXj-On-dC5"/>
+                                                    </connections>
                                                 </textView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Remarks" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jbU-Tj-RvS">
-                                                    <rect key="frame" x="16" y="8" width="68" height="21"/>
+                                                    <rect key="frame" x="20" y="8" width="68" height="20.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -514,7 +518,7 @@
                                                 <constraint firstItem="jbU-Tj-RvS" firstAttribute="top" secondItem="1NQ-bi-QZI" secondAttribute="topMargin" id="515-D3-opw"/>
                                                 <constraint firstItem="jbU-Tj-RvS" firstAttribute="leading" secondItem="JaJ-NM-LiS" secondAttribute="leading" id="aMQ-pm-pft"/>
                                                 <constraint firstItem="JaJ-NM-LiS" firstAttribute="top" secondItem="jbU-Tj-RvS" secondAttribute="bottom" constant="4" id="i22-7b-xQL"/>
-                                                <constraint firstItem="jbU-Tj-RvS" firstAttribute="leading" secondItem="1NQ-bi-QZI" secondAttribute="leadingMargin" constant="8" id="nTd-s2-x0n"/>
+                                                <constraint firstItem="jbU-Tj-RvS" firstAttribute="leading" secondItem="1NQ-bi-QZI" secondAttribute="leadingMargin" constant="12" id="nTd-s2-x0n"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -608,6 +612,7 @@
                         <connections>
                             <outlet property="dataSource" destination="iUX-KI-gd5" id="Uwc-e5-TM6"/>
                             <outlet property="delegate" destination="iUX-KI-gd5" id="K6q-f9-ToB"/>
+                            <outletCollection property="gestureRecognizers" destination="m3Y-ba-H2J" appends="YES" id="Sbt-Bp-WcS"/>
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="5hw-zk-9zg">
@@ -618,9 +623,15 @@
                         <outlet property="dateTableCell" destination="VPE-lO-Dvq" id="sEc-RN-hmi"/>
                         <outlet property="locationActivityIndicator" destination="2HV-R3-rZl" id="A50-SB-Zq0"/>
                         <outlet property="locationTableCell" destination="f9y-GJ-eAN" id="b5t-Cr-4ZO"/>
+                        <outlet property="remarksTextView" destination="JaJ-NM-LiS" id="a2i-Sj-4NH"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vf6-Di-uQI" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer cancelsTouchesInView="NO" id="m3Y-ba-H2J">
+                    <connections>
+                        <action selector="tapRecognizer:" destination="iUX-KI-gd5" id="5BM-gg-8Qy"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="3438" y="428"/>
         </scene>

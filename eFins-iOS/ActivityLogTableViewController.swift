@@ -9,25 +9,28 @@
 import UIKit
 import Realm
 
-class ActivityLogTableViewController: UITableViewController {
+class ActivityLogTableViewController: UITableViewController, UITextViewDelegate {
 
     @IBOutlet weak var locationTableCell: UITableViewCell!
     // TODO: immediately fetch location in background and spin indicator
     @IBOutlet weak var locationActivityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var dateTableCell: UITableViewCell!
+    @IBOutlet weak var remarksTextView: UITextView!
 
-    var date:NSDate?
+    var activity:Activity?
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         if self.isNew() {
+            let realm = RLMRealm.defaultRealm()
+            activity = Activity()
             self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Cancel,
                 target: self, action: "cancel")
             self.locationTableCell.textLabel?.text = "Include Location"
-            self.date = NSDate()
+            activity?.time = NSDate()
             let formatter = getDateFormatter()
-            dateTableCell.detailTextLabel?.text = formatter.stringFromDate(self.date!)
+            dateTableCell.detailTextLabel?.text = formatter.stringFromDate(activity!.time)
         }
     }
     
@@ -54,9 +57,9 @@ class ActivityLogTableViewController: UITableViewController {
 
     @IBAction func unwindDatePicker(sender: UIStoryboardSegue) {
         let sourceViewController = sender.sourceViewController as DatePickerTableViewController
-        self.date = sourceViewController.date
+        activity?.time = sourceViewController.date!
         let formatter = getDateFormatter()
-        dateTableCell.detailTextLabel?.text = formatter.stringFromDate(self.date!)
+        dateTableCell.detailTextLabel?.text = formatter.stringFromDate(activity!.time)
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
@@ -64,9 +67,36 @@ class ActivityLogTableViewController: UITableViewController {
             let storyboard = UIStoryboard(name: "DatePicker", bundle: nil)
             let controller:DatePickerTableViewController = storyboard.instantiateInitialViewController() as DatePickerTableViewController
             self.navigationController?.pushViewController(controller, animated: true)
-            controller.date = self.date
+            controller.date = activity!.time
         }
         self.tableView.deselectRowAtIndexPath(indexPath, animated: false)
+    }
+    
+    func textViewDidBeginEditing(textView: UITextView) {
+        if textView.text == "Add any relevant comments here..." {
+            textView.text = ""
+            textView.textColor = UIColor.blackColor()
+        }
+        textView.becomeFirstResponder()
+    }
+    
+    func textViewDidEndEditing(textView: UITextView) {
+        if textView.text == "" {
+            textView.text = "Add any relevant comments here..."
+            textView.textColor = UIColor.lightGrayColor()
+            self.activity?.remarks = ""
+        } else {
+            self.activity?.remarks = textView.text
+        }
+        textView.resignFirstResponder()
+    }
+
+    @IBAction func tapRecognizer(sender:AnyObject) {
+        self.hideNotesKeyboard()
+    }
+    
+    func hideNotesKeyboard() {
+        self.remarksTextView.endEditing(true)
     }
     
 }
