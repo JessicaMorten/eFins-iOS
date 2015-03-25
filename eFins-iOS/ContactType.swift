@@ -9,12 +9,7 @@
 import Foundation
 import Realm
 
-class ContactType: RLMObject {
-    dynamic var localid = -1
-    dynamic var serverid = -1
-    dynamic var usn = -1
-    dynamic var createdAt = NSDate()
-    dynamic var updatedAt = NSDate()
+class ContactType: EfinsModel {
     dynamic var name = ""
     var activities: [Activity] {
         return linkingObjectsOfClass("Activity", forProperty: "contactType") as [Activity]

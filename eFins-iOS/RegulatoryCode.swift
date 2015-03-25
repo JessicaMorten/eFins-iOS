@@ -9,12 +9,7 @@
 import Foundation
 import Realm
 
-class RegulatoryCode: RLMObject {
-    dynamic var localid = -1
-    dynamic var serverid = -1
-    dynamic var usn = -1
-    dynamic var createdAt = NSDate()
-    dynamic var updatedAt = NSDate()
+class RegulatoryCode: EfinsModel {
     dynamic var name = ""
     dynamic var amount = 0
     var actionsTaken: [EnforcementActionTaken] {

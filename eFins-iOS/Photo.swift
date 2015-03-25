@@ -9,12 +9,7 @@
 import Foundation
 import Realm
 
-class Photo: RLMObject {
-    dynamic var localid = -1
-    dynamic var serverid = -1
-    dynamic var usn = -1
-    dynamic var createdAt = NSDate()
-    dynamic var updatedAt = NSDate()
+class Photo: EfinsModel {
     dynamic var originalUrl = ""
     dynamic var latitude = 0
     dynamic var longitude = 0

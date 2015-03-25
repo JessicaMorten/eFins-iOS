@@ -9,12 +9,7 @@
 import Foundation
 import Realm
 
-class EnforcementActionType: RLMObject {
-    dynamic var localid = -1
-    dynamic var serverid = -1
-    dynamic var usn = -1
-    dynamic var createdAt = NSDate()
-    dynamic var updatedAt = NSDate()
+class EnforcementActionType: EfinsModel {
     dynamic var name = ""
     var actionsTaken: [EnforcementActionTaken] {
         return linkingObjectsOfClass("EnforcementActionTaken", forProperty: "enforcementActionType") as [EnforcementActionTaken]

@@ -9,12 +9,7 @@
 import Foundation
 import Realm
 
-class PatrolLog: RLMObject {
-    dynamic var localid = -1
-    dynamic var serverid = -1
-    dynamic var usn = -1
-    dynamic var createdAt = NSDate()
-    dynamic var updatedAt = NSDate()
+class PatrolLog: EfinsModel {
     dynamic var user: User?
     dynamic var agencyVessel: AgencyVessel?
     dynamic var departurePort: Port?

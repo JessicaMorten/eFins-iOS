@@ -9,12 +9,7 @@
 import Foundation
 import Realm
 
-class AgencyVessel: RLMObject {
-    dynamic var localid = -1
-    dynamic var serverid = -1
-    dynamic var usn = -1
-    dynamic var createdAt = NSDate()
-    dynamic var updatedAt = NSDate()
+class AgencyVessel: EfinsModel {
     dynamic var name = ""
     
     var agency: Agency {
@@ -26,9 +21,6 @@ class AgencyVessel: RLMObject {
         return linkingObjectsOfClass("PatrolLog", forProperty: "agencyVessel") as [PatrolLog]
     }
     
-    override class func primaryKey() -> String {
-        return "localid"
-    }
 }
 
 

@@ -9,12 +9,7 @@
 import Foundation
 import Realm
 
-class Species: RLMObject {
-    dynamic var localid = -1
-    dynamic var serverid = -1
-    dynamic var usn = -1
-    dynamic var createdAt = NSDate()
-    dynamic var updatedAt = NSDate()
+class Species: EfinsModel {
     dynamic var name = ""
     
     var catches: [Catch] {
