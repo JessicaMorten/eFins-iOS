@@ -169,7 +169,7 @@
         <!--Logbook Activity-->
         <scene sceneID="nmW-NO-oWn">
             <objects>
-                <tableViewController id="wtn-kb-f5b" sceneMemberID="viewController">
+                <tableViewController id="wtn-kb-f5b" customClass="LogbookTableViewController" customModule="eFins" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="OR4-AA-i8y">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -196,6 +196,9 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <segue destination="Ojb-XN-plA" kind="show" identifier="ActivityLog" id="BDC-9b-khZ"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="q9t-li-hcY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -236,7 +239,7 @@
         <!--Logbook-->
         <scene sceneID="FQJ-gB-UzO">
             <objects>
-                <splitViewController id="4Oc-he-iz1" sceneMemberID="viewController">
+                <splitViewController id="4Oc-he-iz1" customClass="LogbookViewController" customModule="eFins" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Logbook" image="book" id="g5Z-8Q-C3I"/>
                     <connections>
                         <segue destination="xST-Qa-1aV" kind="relationship" relationship="masterViewController" id="uyD-jN-LEk"/>
@@ -356,10 +359,10 @@
             </objects>
             <point key="canvasLocation" x="6" y="822"/>
         </scene>
-        <!--Table View Controller-->
+        <!--New Entry Popover Table View Controller-->
         <scene sceneID="M8D-HZ-Cfx">
             <objects>
-                <tableViewController id="IFL-fc-4nK" sceneMemberID="viewController">
+                <tableViewController id="IFL-fc-4nK" customClass="NewEntryPopoverTableViewController" customModule="eFins" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="D7o-UG-C1c">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -380,9 +383,6 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
-                                        <connections>
-                                            <segue destination="Ojb-XN-plA" kind="show" id="40S-wb-6XI"/>
-                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="LoO-5I-Cug" style="IBUITableViewCellStyleDefault" id="GXf-9O-7Qy">
                                         <autoresizingMask key="autoresizingMask"/>
@@ -438,7 +438,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BkR-iv-NMA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2435" y="-449"/>
+            <point key="canvasLocation" x="2425" y="-709"/>
         </scene>
         <!--New Activity Log-->
         <scene sceneID="6EQ-JP-fh4">
