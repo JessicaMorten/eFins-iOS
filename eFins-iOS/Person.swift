@@ -9,12 +9,7 @@
 import Foundation
 import Realm
 
-class Person: RLMObject {
-    dynamic var localid = -1
-    dynamic var serverid = -1
-    dynamic var usn = -1
-    dynamic var createdAt = NSDate()
-    dynamic var updatedAt = NSDate()
+class Person: EfinsModel {
     dynamic var name = ""
     dynamic var license = ""
     dynamic var dateOfBirth = NSDate() //Optional

@@ -9,12 +9,7 @@
 import Foundation
 import Realm
 
-class Vessel: RLMObject {
-    dynamic var localid = -1
-    dynamic var serverid = -1
-    dynamic var usn = -1
-    dynamic var createdAt = NSDate()
-    dynamic var updatedAt = NSDate()
+class Vessel: EfinsModel {
     dynamic var name = ""
     dynamic var registration = ""
     dynamic var fgNumber = ""

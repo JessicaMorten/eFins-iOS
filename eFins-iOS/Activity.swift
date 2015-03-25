@@ -9,12 +9,7 @@
 import Foundation
 import Realm
 
-class Activity: RLMObject {
-    dynamic var localid = -1
-    dynamic var serverid = -1
-    dynamic var usn = -1
-    dynamic var createdAt = NSDate()
-    dynamic var updatedAt = NSDate()
+class Activity: EfinsModel{
     dynamic var type = "cdfwCommercialBoardingCard" //or "npsRecreationalBoardingCard" or "activityLog".  this "subclasses" the Activity model.
     dynamic var freeTextCrew = RLMArray(objectClassName: FreeTextCrew.className()) // Crew of the fishing Vessel associated with this Activity
     dynamic var users = RLMArray(objectClassName: User.className()) // Agency users associated

@@ -27,6 +27,7 @@
 		935D24DD1AC2149300A2854D /* ViolationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 935D24DC1AC2149300A2854D /* ViolationType.swift */; };
 		935D24DF1AC2153D00A2854D /* EnforcementActionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 935D24DE1AC2153D00A2854D /* EnforcementActionType.swift */; };
 		935D24E11AC215AB00A2854D /* EnforcementActionTaken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 935D24E01AC215AB00A2854D /* EnforcementActionTaken.swift */; };
+		935D24E31AC3548200A2854D /* EfinsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 935D24E21AC3548200A2854D /* EfinsModel.swift */; };
 		93E701EE1AB0E3A900BD179E /* Realm.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 93E701E91AB0E21B00BD179E /* Realm.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		93E701F01AB0E6C800BD179E /* DataSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93E701EF1AB0E6C800BD179E /* DataSync.swift */; };
 		C2D23E5308706D97FF932B04 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D70047102BE3CA65EBCD536 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
@@ -93,6 +94,7 @@
 		935D24DC1AC2149300A2854D /* ViolationType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViolationType.swift; sourceTree = "<group>"; };
 		935D24DE1AC2153D00A2854D /* EnforcementActionType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnforcementActionType.swift; sourceTree = "<group>"; };
 		935D24E01AC215AB00A2854D /* EnforcementActionTaken.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnforcementActionTaken.swift; sourceTree = "<group>"; };
+		935D24E21AC3548200A2854D /* EfinsModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EfinsModel.swift; sourceTree = "<group>"; };
 		93E701E71AB0E21B00BD179E /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Realm.framework; sourceTree = "<group>"; };
 		93E701E91AB0E21B00BD179E /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Realm.framework; sourceTree = "<group>"; };
 		93E701EF1AB0E6C800BD179E /* DataSync.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataSync.swift; sourceTree = "<group>"; };
@@ -167,6 +169,7 @@
 				935D24DC1AC2149300A2854D /* ViolationType.swift */,
 				935D24DE1AC2153D00A2854D /* EnforcementActionType.swift */,
 				935D24E01AC215AB00A2854D /* EnforcementActionTaken.swift */,
+				935D24E21AC3548200A2854D /* EfinsModel.swift */,
 			);
 			name = DataModels;
 			sourceTree = "<group>";
@@ -435,6 +438,7 @@
 				CB03EED71AB8E1B9004CCB47 /* SettingsViewController.swift in Sources */,
 				93E701F01AB0E6C800BD179E /* DataSync.swift in Sources */,
 				935D24BF1AC1DCBB00A2854D /* AgencyVessel.swift in Sources */,
+				935D24E31AC3548200A2854D /* EfinsModel.swift in Sources */,
 				935D24CF1AC1E8C000A2854D /* ContactType.swift in Sources */,
 				CBEAFA051AAA233C00C8A85A /* LogbookViewController.swift in Sources */,
 				CBEAFA071AAA234B00C8A85A /* MapViewController.swift in Sources */,
