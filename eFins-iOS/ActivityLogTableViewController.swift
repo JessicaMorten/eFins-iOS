@@ -14,6 +14,7 @@ class ActivityLogTableViewController: UITableViewController, UITextViewDelegate 
     @IBOutlet weak var locationTableCell: UITableViewCell!
     // TODO: immediately fetch location in background and spin indicator
     @IBOutlet weak var locationActivityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var locationSwitch: UISwitch!
     @IBOutlet weak var dateTableCell: UITableViewCell!
     @IBOutlet weak var remarksTextView: UITextView!
 
@@ -39,11 +40,34 @@ class ActivityLogTableViewController: UITableViewController, UITextViewDelegate 
         return true
     }
     
+    // MARK: Actions
+    
     // TODO: delete model on cancel
     func cancel() {
         self.dismissViewControllerAnimated(true, completion: nil)
     }
 
+    
+    // TODO: Implement location fetching
+    @IBAction func locationSwitchValueChanged(sender: UISwitch) {
+        if sender.on {
+            self.locationActivityIndicator.hidden = false
+            self.locationActivityIndicator.startAnimating()
+        } else {
+            self.locationActivityIndicator.hidden = true
+        }
+    }
+    
+    @IBAction func saveAction(sender: AnyObject) {
+        // TODO: Validation (if any?)
+        let realm = RLMRealm.defaultRealm()
+        realm.beginWriteTransaction()
+        realm.addObject(self.activity)
+        realm.commitWriteTransaction()
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    
     
     // MARK: - Navigation
 

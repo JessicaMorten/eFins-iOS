@@ -449,6 +449,32 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
                         <gestureRecognizers/>
+                        <view key="tableFooterView" opaque="NO" contentMode="scaleToFill" id="OhU-ik-mpC">
+                            <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o0L-fj-lX6">
+                                    <rect key="frame" x="223" y="4" width="155" height="36"/>
+                                    <color key="backgroundColor" red="0.40000000000000002" green="0.59999999999999998" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="155" id="8lj-5v-iyS"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <state key="normal" title="Save">
+                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="saveAction:" destination="iUX-KI-gd5" eventType="touchUpInside" id="Uk7-Rg-NPH"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <constraints>
+                                <constraint firstItem="o0L-fj-lX6" firstAttribute="centerX" secondItem="OhU-ik-mpC" secondAttribute="centerX" id="1QF-CC-c3C"/>
+                                <constraint firstItem="o0L-fj-lX6" firstAttribute="top" secondItem="OhU-ik-mpC" secondAttribute="top" constant="4" id="Jrc-dA-kK5"/>
+                                <constraint firstItem="o0L-fj-lX6" firstAttribute="centerY" secondItem="OhU-ik-mpC" secondAttribute="centerY" id="NOt-LB-5HS"/>
+                            </constraints>
+                        </view>
                         <sections>
                             <tableViewSection id="qZp-22-FZu">
                                 <cells>
@@ -457,12 +483,15 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="f9y-GJ-eAN" id="PcK-mE-zE1">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="E7H-gX-Nl9">
-                                                    <rect key="frame" x="510" y="6" width="51" height="31"/>
-                                                </switch>
-                                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="2HV-R3-rZl">
+                                                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="2HV-R3-rZl">
                                                     <rect key="frame" x="482" y="12" width="20" height="20"/>
                                                 </activityIndicatorView>
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="E7H-gX-Nl9">
+                                                    <rect key="frame" x="510" y="6" width="51" height="31"/>
+                                                    <connections>
+                                                        <action selector="locationSwitchValueChanged:" destination="iUX-KI-gd5" eventType="valueChanged" id="Q1r-Fd-DSo"/>
+                                                    </connections>
+                                                </switch>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="E7H-gX-Nl9" firstAttribute="trailing" secondItem="PcK-mE-zE1" secondAttribute="trailingMargin" id="2Fd-jc-BuN"/>
@@ -622,6 +651,7 @@
                     <connections>
                         <outlet property="dateTableCell" destination="VPE-lO-Dvq" id="sEc-RN-hmi"/>
                         <outlet property="locationActivityIndicator" destination="2HV-R3-rZl" id="A50-SB-Zq0"/>
+                        <outlet property="locationSwitch" destination="E7H-gX-Nl9" id="MZc-VZ-sQw"/>
                         <outlet property="locationTableCell" destination="f9y-GJ-eAN" id="b5t-Cr-4ZO"/>
                         <outlet property="remarksTextView" destination="JaJ-NM-LiS" id="a2i-Sj-4NH"/>
                     </connections>
