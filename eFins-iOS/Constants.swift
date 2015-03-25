@@ -10,7 +10,7 @@ import Foundation
 
 #if DEBUG_SERVER
 //let SERVER_ROOT = "http://localhost:3002/"
-let SERVER_ROOT = "http://10.0.1.27:3002/"
+let SERVER_ROOT = "http://10.0.1.7:3002/"
 #else
 let SERVER_ROOT = "https://efins.org/"
 #endif
@@ -28,4 +28,13 @@ struct Urls {
 }
 
 let ADMIN_EMAIL = "support@efins.org"
+
+let locale = NSLocale.currentLocale()
+
+func getDateFormatter() -> NSDateFormatter {
+    let formatter = NSDateFormatter()
+    formatter.dateFormat = NSDateFormatter.dateFormatFromTemplate("yyyy-MM-dd 'at' HH:mm", options: 0, locale: locale)
+    formatter.locale = locale
+    return formatter
+}
 
