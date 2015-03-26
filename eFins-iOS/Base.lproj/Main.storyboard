@@ -175,10 +175,24 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="U6A-yk-maL">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="Cell" textLabel="f1q-fm-3y5" detailTextLabel="F5r-q9-gvR" style="IBUITableViewCellStyleValue1" id="U6A-yk-maL">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="U6A-yk-maL" id="PHR-n5-1FT">
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="f1q-fm-3y5">
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="F5r-q9-gvR">
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                            <color key="textColor" red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
                                 </tableViewCellContentView>
                             </tableViewCell>
                         </prototypes>
@@ -196,6 +210,9 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <segue destination="Ojb-XN-plA" kind="presentation" identifier="ShowActivityLog" id="nmz-yj-cgL"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="q9t-li-hcY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -204,6 +221,7 @@
         <!--Navigation Controller-->
         <scene sceneID="U9Q-PJ-7CA">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6GY-Zb-Bj0" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController id="6xN-QB-DDn" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="NLJ-mr-YC3">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -213,7 +231,6 @@
                         <segue destination="wtn-kb-f5b" kind="relationship" relationship="rootViewController" id="Odm-zM-PJt"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="6GY-Zb-Bj0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="754" y="-390"/>
         </scene>
@@ -440,10 +457,10 @@
             </objects>
             <point key="canvasLocation" x="2425" y="-709"/>
         </scene>
-        <!--New Activity Log-->
+        <!--Activity Log Table View Controller-->
         <scene sceneID="6EQ-JP-fh4">
             <objects>
-                <tableViewController title="New Activity Log" id="iUX-KI-gd5" customClass="ActivityLogTableViewController" customModule="eFins" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="iUX-KI-gd5" customClass="ActivityLogTableViewController" customModule="eFins" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="jkq-aH-SCo">
                         <rect key="frame" x="0.0" y="64" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -654,6 +671,7 @@
                         <outlet property="locationSwitch" destination="E7H-gX-Nl9" id="MZc-VZ-sQw"/>
                         <outlet property="locationTableCell" destination="f9y-GJ-eAN" id="b5t-Cr-4ZO"/>
                         <outlet property="remarksTextView" destination="JaJ-NM-LiS" id="a2i-Sj-4NH"/>
+                        <outlet property="saveButton" destination="o0L-fj-lX6" id="9rb-Jb-MsK"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vf6-Di-uQI" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -681,77 +699,13 @@
             </objects>
             <point key="canvasLocation" x="3173" y="-347"/>
         </scene>
-        <!--DatePicker Table View Controller-->
-        <scene sceneID="EBV-fp-ff8">
-            <objects>
-                <tableViewController storyboardIdentifier="DatePicker" id="HnR-eH-jRA" userLabel="DatePicker Table View Controller" customClass="DatePickerTableViewController" customModule="eFins" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="xh4-Oy-3T7">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
-                        <sections>
-                            <tableViewSection headerTitle="" id="kma-x5-OYP">
-                                <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="220" id="6jt-Rq-KSe">
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="6jt-Rq-KSe" id="ukA-QY-KhK">
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="Khc-BI-LXt">
-                                                    <rect key="frame" x="140" y="29" width="320" height="162"/>
-                                                    <date key="date" timeIntervalSinceReferenceDate="439184322.22151399">
-                                                        <!--2014-12-02 03:38:42 +0000-->
-                                                    </date>
-                                                </datePicker>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="Khc-BI-LXt" firstAttribute="centerX" secondItem="ukA-QY-KhK" secondAttribute="centerX" id="9cd-MP-J2e"/>
-                                                <constraint firstItem="Khc-BI-LXt" firstAttribute="top" secondItem="ukA-QY-KhK" secondAttribute="topMargin" constant="21" id="I6B-VC-AZY"/>
-                                                <constraint firstItem="Khc-BI-LXt" firstAttribute="top" secondItem="ukA-QY-KhK" secondAttribute="top" id="Szb-lj-83J"/>
-                                                <constraint firstItem="Khc-BI-LXt" firstAttribute="leading" secondItem="ukA-QY-KhK" secondAttribute="leading" id="ezb-1i-Wda"/>
-                                                <constraint firstAttribute="trailing" secondItem="Khc-BI-LXt" secondAttribute="trailing" id="h2M-9A-JKj"/>
-                                            </constraints>
-                                            <variation key="default">
-                                                <mask key="constraints">
-                                                    <exclude reference="Szb-lj-83J"/>
-                                                    <exclude reference="ezb-1i-Wda"/>
-                                                    <exclude reference="h2M-9A-JKj"/>
-                                                </mask>
-                                            </variation>
-                                            <variation key="heightClass=regular-widthClass=compact">
-                                                <mask key="constraints">
-                                                    <include reference="Szb-lj-83J"/>
-                                                    <include reference="ezb-1i-Wda"/>
-                                                    <include reference="h2M-9A-JKj"/>
-                                                </mask>
-                                            </variation>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </cells>
-                            </tableViewSection>
-                        </sections>
-                        <connections>
-                            <outlet property="dataSource" destination="HnR-eH-jRA" id="W24-1c-rhn"/>
-                            <outlet property="delegate" destination="HnR-eH-jRA" id="qVi-BO-EOA"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" id="T3q-ps-BDY">
-                        <barButtonItem key="leftBarButtonItem" title="Back" id="anZ-ew-Rdd">
-                            <connections>
-                                <segue destination="jIM-WM-QvZ" kind="unwind" unwindAction="unwindDatePicker:" id="gvA-Hk-9ds"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="MxQ-8m-fDT" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <exit id="jIM-WM-QvZ" userLabel="Exit" sceneMemberID="exit"/>
-            </objects>
-            <point key="canvasLocation" x="4262" y="358"/>
-        </scene>
     </scenes>
     <resources>
         <image name="book" width="32" height="32"/>
         <image name="cog" width="22" height="22"/>
         <image name="map_route" width="32" height="32"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="nmz-yj-cgL"/>
+    </inferredMetricsTieBreakers>
 </document>

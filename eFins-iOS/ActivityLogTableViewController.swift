@@ -17,33 +17,53 @@ class ActivityLogTableViewController: UITableViewController, UITextViewDelegate 
     @IBOutlet weak var locationSwitch: UISwitch!
     @IBOutlet weak var dateTableCell: UITableViewCell!
     @IBOutlet weak var remarksTextView: UITextView!
+    @IBOutlet weak var saveButton: UIButton!
 
     var activity:Activity?
+    var isNew = true
+    var isEditing = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        if self.isNew() {
+        if self.activity != nil {
+            self.isNew = false
+        }
+        
+        if self.isNew {
             let realm = RLMRealm.defaultRealm()
             activity = Activity()
+            // TODO: Make an actual type
+            activity?.type = "activityLog"
+//            let predicate = NSPredicate(format: "color = %@ AND name BEGINSWITH %@", "tan", "B")
+//            let type = ContactType.objectsWithPredicate(predicate).firstObject()
             self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Cancel,
                 target: self, action: "cancel")
             self.locationTableCell.textLabel?.text = "Include Location"
             activity?.time = NSDate()
             let formatter = getDateFormatter()
             dateTableCell.detailTextLabel?.text = formatter.stringFromDate(activity!.time)
+        } else {
+            self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.Plain, target: self, action: "back")
+            self.navigationItem.rightBarButtonItem = nil
+            self.saveButton.hidden = true
+            let formatter = getDateFormatter()
+            dateTableCell.detailTextLabel?.text = formatter.stringFromDate(activity!.time)
+            self.dateTableCell.accessoryType = UITableViewCellAccessoryType.None
+            self.remarksTextView.text = activity?.remarks
+            self.locationTableCell.textLabel?.text = "Location"
+            self.locationSwitch.hidden = true
         }
-    }
-    
-    // TODO: Implement isNew when model is available
-    func isNew() -> Bool {
-        return true
     }
     
     // MARK: Actions
     
     // TODO: delete model on cancel
     func cancel() {
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+
+    func back() {
         self.dismissViewControllerAnimated(true, completion: nil)
     }
 
@@ -87,7 +107,7 @@ class ActivityLogTableViewController: UITableViewController, UITextViewDelegate 
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if indexPath.section == 0 && indexPath.row == 1 {
+        if indexPath.section == 0 && indexPath.row == 1 && (self.isNew || self.isEditing) {
             let storyboard = UIStoryboard(name: "DatePicker", bundle: nil)
             let controller:DatePickerTableViewController = storyboard.instantiateInitialViewController() as DatePickerTableViewController
             self.navigationController?.pushViewController(controller, animated: true)
