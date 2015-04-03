@@ -44,6 +44,7 @@
 		CBCE35A91AC1F7CD005C6CA8 /* DatePickerTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBCE35A81AC1F7CD005C6CA8 /* DatePickerTableViewController.swift */; };
 		CBD00BAB1AB0E6A300ED784E /* RegistrationIncompleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBD00BAA1AB0E6A300ED784E /* RegistrationIncompleteViewController.swift */; };
 		CBD00BAD1AB0F79700ED784E /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBD00BAC1AB0F79700ED784E /* Constants.swift */; };
+		CBE272E01AC3564600A4F236 /* LogbookTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE272DF1AC3564600A4F236 /* LogbookTableViewController.swift */; };
 		CBEAFA071AAA234B00C8A85A /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBEAFA061AAA234B00C8A85A /* MapViewController.swift */; };
 		CBF9850F1AAE010500C4F721 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CBF9850D1AAE010500C4F721 /* Login.storyboard */; };
 		CBF985101AAE010500C4F721 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF9850E1AAE010500C4F721 /* LoginViewController.swift */; };
@@ -117,6 +118,7 @@
 		CBCE35A81AC1F7CD005C6CA8 /* DatePickerTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatePickerTableViewController.swift; sourceTree = "<group>"; };
 		CBD00BAA1AB0E6A300ED784E /* RegistrationIncompleteViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationIncompleteViewController.swift; sourceTree = "<group>"; };
 		CBD00BAC1AB0F79700ED784E /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		CBE272DF1AC3564600A4F236 /* LogbookTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogbookTableViewController.swift; sourceTree = "<group>"; };
 		CBEAFA061AAA234B00C8A85A /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		CBF9850D1AAE010500C4F721 /* Login.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
 		CBF9850E1AAE010500C4F721 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -228,6 +230,7 @@
 		CB81E92C1AAA21F70071C2D2 /* eFins-iOS */ = {
 			isa = PBXGroup;
 			children = (
+				CBE272DF1AC3564600A4F236 /* LogbookTableViewController.swift */,
 				933454C11AB75C3100E5C65E /* DataModels */,
 				CB03EED61AB8E1B9004CCB47 /* SettingsViewController.swift */,
 				CBF9850D1AAE010500C4F721 /* Login.storyboard */,
@@ -449,7 +452,6 @@
 				935D24BF1AC1DCBB00A2854D /* AgencyVessel.swift in Sources */,
 				935D24E31AC3548200A2854D /* EfinsModel.swift in Sources */,
 				935D24CF1AC1E8C000A2854D /* ContactType.swift in Sources */,
-				CBEAFA051AAA233C00C8A85A /* LogbookViewController.swift in Sources */,
 				CBEAFA071AAA234B00C8A85A /* MapViewController.swift in Sources */,
 				935D24D11AC2117200A2854D /* VesselType.swift in Sources */,
 				935D24C31AC1E3C100A2854D /* FreeTextCrew.swift in Sources */,
@@ -461,6 +463,7 @@
 				935D24CD1AC1E82500A2854D /* RegulatoryCode.swift in Sources */,
 				CBD00BAD1AB0F79700ED784E /* Constants.swift in Sources */,
 				933454C51AB75C4A00E5C65E /* User.swift in Sources */,
+				CBE272E01AC3564600A4F236 /* LogbookTableViewController.swift in Sources */,
 				935D24C71AC1E57500A2854D /* Port.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
