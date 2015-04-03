@@ -14,7 +14,7 @@ class Photo: EfinsModel {
     dynamic var latitude = 0
     dynamic var longitude = 0
     dynamic var lowResolution = NSData()
-    dynamic var originalBlog = NSData()
+    dynamic var originalBlob = NSData()
     
     var activities: [Activity] {
         return linkingObjectsOfClass("Activity", forProperty: "photos") as [Activity]

@@ -12,7 +12,7 @@ import Realm
 class Agency: EfinsModel {
     dynamic var name = ""
     dynamic var agencyVessels = RLMArray(objectClassName: AgencyVessel.className())
-    dynamic var users = RLMArray(objectClassName: AgencyVessel.className())
+    dynamic var users = RLMArray(objectClassName: User.className())
 }
 
 
