@@ -183,7 +183,7 @@
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="f1q-fm-3y5">
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="F5r-q9-gvR">
@@ -221,7 +221,6 @@
         <!--Navigation Controller-->
         <scene sceneID="U9Q-PJ-7CA">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="6GY-Zb-Bj0" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController id="6xN-QB-DDn" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="NLJ-mr-YC3">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -231,6 +230,7 @@
                         <segue destination="wtn-kb-f5b" kind="relationship" relationship="rootViewController" id="Odm-zM-PJt"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6GY-Zb-Bj0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="754" y="-390"/>
         </scene>
@@ -337,7 +337,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="Settings View" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="J8n-OW-iPn">
-                                <rect key="frame" x="191" y="279" width="217.5" height="41.5"/>
+                                <rect key="frame" x="191" y="279" width="218" height="42"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="36"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -554,7 +554,7 @@
                                                     </connections>
                                                 </textView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Remarks" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jbU-Tj-RvS">
-                                                    <rect key="frame" x="20" y="8" width="68" height="20.5"/>
+                                                    <rect key="frame" x="20" y="8" width="68" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -632,7 +632,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="VG8-EP-WMi" detailTextLabel="igv-sn-sIB" style="IBUITableViewCellStyleValue1" id="lYO-BX-d5b">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="VG8-EP-WMi" detailTextLabel="igv-sn-sIB" style="IBUITableViewCellStyleValue1" id="lYO-BX-d5b" customClass="RelationTableViewCell" customModule="eFins" customModuleProvider="target">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="lYO-BX-d5b" id="8hK-8T-Yt6">
                                             <autoresizingMask key="autoresizingMask"/>
@@ -651,6 +651,10 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="propertyName" value="users"/>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="secondaryPropertyName" value="freeTextCrew"/>
+                                        </userDefinedRuntimeAttributes>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
@@ -670,6 +674,7 @@
                         <outlet property="locationActivityIndicator" destination="2HV-R3-rZl" id="A50-SB-Zq0"/>
                         <outlet property="locationSwitch" destination="E7H-gX-Nl9" id="MZc-VZ-sQw"/>
                         <outlet property="locationTableCell" destination="f9y-GJ-eAN" id="b5t-Cr-4ZO"/>
+                        <outlet property="observersTableViewCell" destination="lYO-BX-d5b" id="Sm6-u6-IVX"/>
                         <outlet property="remarksTextView" destination="JaJ-NM-LiS" id="a2i-Sj-4NH"/>
                         <outlet property="saveButton" destination="o0L-fj-lX6" id="9rb-Jb-MsK"/>
                     </connections>

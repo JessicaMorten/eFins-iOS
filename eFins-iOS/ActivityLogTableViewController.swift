@@ -18,6 +18,7 @@ class ActivityLogTableViewController: UITableViewController, UITextViewDelegate 
     @IBOutlet weak var dateTableCell: UITableViewCell!
     @IBOutlet weak var remarksTextView: UITextView!
     @IBOutlet weak var saveButton: UIButton!
+    @IBOutlet weak var observersTableViewCell: RelationTableViewCell!
 
     var activity:Activity?
     var isNew = true
@@ -30,8 +31,8 @@ class ActivityLogTableViewController: UITableViewController, UITextViewDelegate 
             self.isNew = false
         }
         
+        let realm = RLMRealm.defaultRealm()
         if self.isNew {
-            let realm = RLMRealm.defaultRealm()
             activity = Activity()
             // TODO: Make an actual type
             activity?.type = "activityLog"
@@ -54,6 +55,9 @@ class ActivityLogTableViewController: UITableViewController, UITextViewDelegate 
             self.locationTableCell.textLabel?.text = "Location"
             self.locationSwitch.hidden = true
         }
+        self.observersTableViewCell.model =  activity
+        self.observersTableViewCell.property = getRealmModelProperty("Activity", "freeTextCrew")
+        self.observersTableViewCell.secondaryProperty = getRealmModelProperty("Activity", "users")
     }
     
     // MARK: Actions
@@ -104,6 +108,11 @@ class ActivityLogTableViewController: UITableViewController, UITextViewDelegate 
         activity?.time = sourceViewController.date!
         let formatter = getDateFormatter()
         dateTableCell.detailTextLabel?.text = formatter.stringFromDate(activity!.time)
+    }
+    
+    @IBAction func unwindOneToMany(sender: UIStoryboardSegue) {
+        let source = sender.sourceViewController as OneToManyTableViewController
+        source.cell?.render()
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {

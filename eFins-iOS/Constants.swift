@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Realm
 
 #if DEBUG_SERVER
 //let SERVER_ROOT = "http://localhost:3002/"
@@ -38,3 +39,36 @@ func getDateFormatter() -> NSDateFormatter {
     return formatter
 }
 
+var Models: [String: RLMObject.Type] = [
+    "Agency": Agency.self,
+    "User": User.self,
+    "AgencyVessel": AgencyVessel.self,
+    "PatrolLog": PatrolLog.self,
+    "FreeTextCrew": FreeTextCrew.self,
+    "Species": Species.self,
+    "Port": Port.self,
+    "Activity": Activity.self,
+    "Catch": Catch.self,
+    "RegulatoryCode": RegulatoryCode.self,
+    "ContactType": ContactType.self,
+    "VesselType": VesselType.self,
+    "Vessel": Vessel.self,
+    "Fishery": Fishery.self,
+    "Person": Person.self,
+    "Action": Action.self,
+    "Photo": Photo.self,
+    "ViolationType": ViolationType.self,
+    "EnforcementActionType": EnforcementActionType.self,
+    "EnforcementActionTaken": EnforcementActionTaken.self
+]
+
+func getRealmModelProperty(model:String, propertyName:String) -> RLMProperty? {
+    let realm = RLMRealm.defaultRealm()
+    let properties = realm.schema.schemaForClassName(model).properties as [RLMProperty]
+    for prop in properties {
+        if prop.getterName == propertyName {
+            return prop
+        }
+    }
+    return nil
+}
