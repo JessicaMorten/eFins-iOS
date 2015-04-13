@@ -19,6 +19,7 @@ class PickerTableViewController: UITableViewController, UISearchBarDelegate, UIS
     var selection:RLMObject?
     var alreadySelected:RLMArray?
     var secondaryAlreadySelected:RLMArray?
+    @IBOutlet weak var helpLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,6 +27,13 @@ class PickerTableViewController: UITableViewController, UISearchBarDelegate, UIS
         if entryFieldName != nil {
             self.searchDisplayController?.searchBar.placeholder = "Tap here to search, show most used choices, or create new \(entryFieldName!.lowercaseString)"
         }
+        
+        if self.items().count < 1 {
+            let label = UILabel()
+            
+//            self.tableView.tableFooterView = 
+        }
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -33,6 +41,10 @@ class PickerTableViewController: UITableViewController, UISearchBarDelegate, UIS
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
     
+    override func viewWillAppear(animated: Bool) {
+        self.helpLabel.hidden = self.items().count != 0
+    }
+
     func searchDisplayController(controller: UISearchDisplayController, shouldReloadTableForSearchString searchString: String!) -> Bool {
         self.filterContentForSearchText(searchString)
         dispatch_async(dispatch_get_main_queue()) {

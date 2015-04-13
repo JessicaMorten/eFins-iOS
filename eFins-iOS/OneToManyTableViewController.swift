@@ -18,13 +18,22 @@ class OneToManyTableViewController: UITableViewController {
     var modelLabelProperty: String = "name"
     var modelFormClass: String?
     weak var cell:RelationTableViewCell?
+    @IBOutlet weak var addHelpLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: "add")
-
+        let attr = addHelpLabel.attributedText.mutableCopy() as NSMutableAttributedString
+        attr.mutableString.replaceOccurrencesOfString("<items>", withString: entryFieldName!, options: NSStringCompareOptions.CaseInsensitiveSearch, range: NSMakeRange(0, attr.mutableString.length))
+        println(attr)
+        addHelpLabel.attributedText = attr
+        
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        self.addHelpLabel.hidden = self.items().count != 0
     }
 
     // MARK: - Table view data source

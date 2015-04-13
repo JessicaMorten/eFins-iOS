@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="a6U-si-wNZ">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14D131" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="a6U-si-wNZ">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Picker Table View Controller-->
@@ -12,14 +13,28 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
-                        <searchBar key="tableHeaderView" contentMode="redraw" id="aXU-Zu-F6h">
+                        <searchBar key="tableHeaderView" contentMode="redraw" id="U0b-sD-Ron">
                             <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <textInputTraits key="textInputTraits"/>
                             <connections>
-                                <outlet property="delegate" destination="zMo-eb-3QX" id="mUV-rh-iWn"/>
+                                <outlet property="delegate" destination="zMo-eb-3QX" id="QsL-5O-ezj"/>
                             </connections>
                         </searchBar>
+                        <label key="tableFooterView" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="6rc-Tj-Dem">
+                            <rect key="frame" x="0.0" y="168" width="600" height="44"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <attributedString key="attributedText">
+                                <fragment content="Type into the search bar to create new choices">
+                                    <attributes>
+                                        <color key="NSColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <font key="NSFont" size="24" name="HelveticaNeue-LightItalic"/>
+                                        <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
+                                    </attributes>
+                                </fragment>
+                            </attributedString>
+                            <nil key="highlightedColor"/>
+                        </label>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="default" textLabel="cIq-Q5-6bR" style="IBUITableViewCellStyleDefault" id="HCG-n1-vuZ">
                                 <autoresizingMask key="autoresizingMask"/>
@@ -43,7 +58,8 @@
                     </tableView>
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="searchDisplayController" destination="2vi-JP-KBK" id="Yav-c6-44j"/>
+                        <outlet property="helpLabel" destination="6rc-Tj-Dem" id="fXM-xv-OKE"/>
+                        <outlet property="searchDisplayController" destination="9ep-52-9iG" id="FBv-Tq-Eli"/>
                         <segue destination="FBx-lm-nZ4" kind="unwind" identifier="UnwindPicker" unwindAction="unwindPicker:" id="ohy-7B-qYM"/>
                     </connections>
                 </tableViewController>
@@ -52,10 +68,18 @@
                 <searchDisplayController id="2vi-JP-KBK">
                     <connections>
                         <outlet property="delegate" destination="zMo-eb-3QX" id="Gui-K3-SyE"/>
-                        <outlet property="searchBar" destination="aXU-Zu-F6h" id="a5g-xy-IKa"/>
                         <outlet property="searchContentsController" destination="zMo-eb-3QX" id="fha-Ac-Y3r"/>
                         <outlet property="searchResultsDataSource" destination="zMo-eb-3QX" id="oae-xq-4To"/>
                         <outlet property="searchResultsDelegate" destination="zMo-eb-3QX" id="1B1-rb-leD"/>
+                    </connections>
+                </searchDisplayController>
+                <searchDisplayController id="9ep-52-9iG">
+                    <connections>
+                        <outlet property="delegate" destination="zMo-eb-3QX" id="EMi-uZ-3VO"/>
+                        <outlet property="searchBar" destination="U0b-sD-Ron" id="XRR-JE-AFw"/>
+                        <outlet property="searchContentsController" destination="zMo-eb-3QX" id="SJy-ye-PNP"/>
+                        <outlet property="searchResultsDataSource" destination="zMo-eb-3QX" id="Puf-cE-CR0"/>
+                        <outlet property="searchResultsDelegate" destination="zMo-eb-3QX" id="VIL-Ox-Fsq"/>
                     </connections>
                 </searchDisplayController>
             </objects>
@@ -69,6 +93,31 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
+                        <view key="tableFooterView" contentMode="scaleToFill" id="xqh-Rq-ZaI">
+                            <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8KK-Ih-IJu">
+                                    <rect key="frame" x="8" y="0.0" width="584" height="44"/>
+                                    <attributedString key="attributedText">
+                                        <fragment content="Tap the plus button above to add &lt;items&gt;">
+                                            <attributes>
+                                                <color key="NSColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <font key="NSFont" size="24" name="HelveticaNeue-LightItalic"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
+                                            </attributes>
+                                        </fragment>
+                                    </attributedString>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                            <constraints>
+                                <constraint firstItem="8KK-Ih-IJu" firstAttribute="top" secondItem="xqh-Rq-ZaI" secondAttribute="top" id="48i-Ku-LoZ"/>
+                                <constraint firstAttribute="bottom" secondItem="8KK-Ih-IJu" secondAttribute="bottom" id="5ez-Df-G4q"/>
+                                <constraint firstItem="8KK-Ih-IJu" firstAttribute="leading" secondItem="xqh-Rq-ZaI" secondAttribute="leadingMargin" id="Wyd-N6-ryS"/>
+                                <constraint firstItem="8KK-Ih-IJu" firstAttribute="trailing" secondItem="xqh-Rq-ZaI" secondAttribute="trailingMargin" id="k0y-et-Wtj"/>
+                            </constraints>
+                        </view>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="default" textLabel="IfC-jV-z56" style="IBUITableViewCellStyleDefault" id="utL-IV-XGB">
                                 <autoresizingMask key="autoresizingMask"/>
@@ -99,6 +148,7 @@
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
+                        <outlet property="addHelpLabel" destination="8KK-Ih-IJu" id="TLd-HO-Kmv"/>
                         <segue destination="zMo-eb-3QX" kind="show" identifier="Pick" id="fil-0z-lGd"/>
                     </connections>
                 </tableViewController>
