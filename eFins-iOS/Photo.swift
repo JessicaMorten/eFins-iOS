@@ -17,7 +17,7 @@ class Photo: EfinsModel {
     dynamic var originalBlog = NSData()
     
     var activities: [Activity] {
-        return linkingObjectsOfClass("Activity", forProperty: "photos") as [Activity]
+        return linkingObjectsOfClass("Activity", forProperty: "photos") as! [Activity]
     }
     // TODO: add relationship filters for different kinds of activity
 }

@@ -25,12 +25,6 @@ class RelationTableViewCell: UITableViewCell {
             }
         }
     }
-
-    var recentValuesKey:String {
-        get {
-            return "\(object_getClassName(model))-\(self.property!.getterName)"
-        }
-    }
     
     var propertyValue:AnyObject? {
         get {
@@ -47,7 +41,7 @@ class RelationTableViewCell: UITableViewCell {
     var model:RLMObject? {
         set(object) {
             self._model = object
-            render()
+            updateValues()
         }
         get {
             return self._model
@@ -58,14 +52,15 @@ class RelationTableViewCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
         
-        render()
+        updateValues()
     }
     
-    func render() {
+    func updateValues() {
         if model != nil {
             if oneToMany {
-                let array:RLMArray = propertyValue as RLMArray
+                let array:RLMArray = propertyValue as! RLMArray
                 self.detailTextLabel?.text = "\(array.count)"
+                self.updateRecentValuesCounts()
             } else {
                 if let object: AnyObject = propertyValue {
                     self.detailTextLabel?.text = "\(object.valueForKey(modelLabelProperty))"
@@ -78,12 +73,30 @@ class RelationTableViewCell: UITableViewCell {
         }
     }
     
+    func updateRecentValuesCounts() {
+        if model != nil {
+            if oneToMany {
+                let array:RLMArray = propertyValue as! RLMArray
+                var i = 0
+                while i < Int(array.count) {
+                    let item = array.objectAtIndex(UInt(i)) as! RLMObject?
+                    RecentValues.increment(item!, model: self.model!, property: self.property!)
+                    i++
+                }
+            } else {
+                if let item = propertyValue as? RLMObject {
+                    RecentValues.increment(item, model: self.model!, property: self.property!)
+                }
+            }
+        }
+    }
+    
     override func setSelected(selected: Bool, animated: Bool) {
         if selected {
             let storyboard = UIStoryboard(name: "OneToMany", bundle: nil)
-            let destination = storyboard.instantiateInitialViewController() as OneToManyTableViewController
-            let table:UITableView = self.superview?.superview as UITableView
-            let controller = table.dataSource as UITableViewController
+            let destination = storyboard.instantiateInitialViewController() as! OneToManyTableViewController
+            let table:UITableView = self.superview?.superview as! UITableView
+            let controller = table.dataSource as! UITableViewController
             destination.title = self.textLabel?.text
             destination.model = model
             destination.modelFormClass = modelFormClass

@@ -14,7 +14,7 @@ class EnforcementActionTaken: EfinsModel {
     dynamic var code: RegulatoryCode?
     dynamic var enforcementActionType: EnforcementActionType?
     var activities: [Activity] {
-        return linkingObjectsOfClass("Activity", forProperty: "enforcementActionsTaken") as [Activity]
+        return linkingObjectsOfClass("Activity", forProperty: "enforcementActionsTaken") as! [Activity]
     }
 }
 

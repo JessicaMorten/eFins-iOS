@@ -15,10 +15,10 @@ class Person: EfinsModel {
     dynamic var dateOfBirth = NSDate() //Optional
     dynamic var address = "" //Optional
     var crewActivities: [Activity] {
-        return linkingObjectsOfClass("Activity", forProperty: "crew") as [Activity]
+        return linkingObjectsOfClass("Activity", forProperty: "crew") as! [Activity]
     }
     var captainActivities: [Activity] {
-        return linkingObjectsOfClass("Activity", forProperty: "captain") as [Activity]
+        return linkingObjectsOfClass("Activity", forProperty: "captain") as! [Activity]
     }
 }
 

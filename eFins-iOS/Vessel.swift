@@ -16,6 +16,6 @@ class Vessel: EfinsModel {
     dynamic var vesselType: VesselType?
     
     var activities: [Activity] {
-        return linkingObjectsOfClass("Activity", forProperty: "vessel") as [Activity]
+        return linkingObjectsOfClass("Activity", forProperty: "vessel") as! [Activity]
     }
 }

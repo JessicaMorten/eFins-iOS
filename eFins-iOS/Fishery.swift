@@ -12,6 +12,6 @@ import Realm
 class Fishery: EfinsModel {
     dynamic var name = ""
     var activities: [Activity] {
-        return linkingObjectsOfClass("Activity", forProperty: "fishery") as [Activity]
+        return linkingObjectsOfClass("Activity", forProperty: "fishery") as! [Activity]
     }
 }

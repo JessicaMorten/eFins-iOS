@@ -13,7 +13,7 @@ class RegulatoryCode: EfinsModel {
     dynamic var name = ""
     dynamic var amount = 0
     var actionsTaken: [EnforcementActionTaken] {
-        return linkingObjectsOfClass("EnforcementActionTaken", forProperty: "code") as [EnforcementActionTaken]
+        return linkingObjectsOfClass("EnforcementActionTaken", forProperty: "code") as! [EnforcementActionTaken]
     }
 }
 

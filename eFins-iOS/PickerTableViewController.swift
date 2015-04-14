@@ -50,7 +50,7 @@ class PickerTableViewController: UITableViewController, UISearchBarDelegate, UIS
         dispatch_async(dispatch_get_main_queue()) {
             for view in self.searchDisplayController!.searchResultsTableView.subviews {
                 if view is UILabel && self.filteredObjects.count < 1 {
-                    let label = view as UILabel
+                    let label = view as! UILabel
                     label.text = "No search results"
                     let button = UIButton()
                     // x, y, width, height
@@ -114,7 +114,7 @@ class PickerTableViewController: UITableViewController, UISearchBarDelegate, UIS
         var results = Model.allObjects()
         if results.count > 0 {
             for index in 0...(Int(results.count) - 1) {
-                items.append(results.objectAtIndex(UInt(index)) as RLMObject)
+                items.append(results.objectAtIndex(UInt(index)) as! RLMObject)
             }            
         }
         if secondaryProperty != nil {
@@ -122,7 +122,7 @@ class PickerTableViewController: UITableViewController, UISearchBarDelegate, UIS
             results = Model.allObjects()
             if results.count > 0 {
                 for index in 0...(Int(results.count) - 1) {
-                    items.append(results.objectAtIndex(UInt(index)) as RLMObject)
+                    items.append(results.objectAtIndex(UInt(index)) as! RLMObject)
                 }
             }
         }
@@ -134,7 +134,7 @@ class PickerTableViewController: UITableViewController, UISearchBarDelegate, UIS
     func alreadyInList(item:RLMObject, list1:RLMArray?, list2:RLMArray?) -> Bool {
         if list1 != nil && list1?.count > 0 {
             for index in 1...(list1!.count) {
-                let object = list1!.objectAtIndex(index - 1) as RLMObject
+                let object = list1!.objectAtIndex(index - 1) as! RLMObject
                 if object.isEqualToObject(item) {
                     return true
                 }
@@ -142,7 +142,7 @@ class PickerTableViewController: UITableViewController, UISearchBarDelegate, UIS
         }
         if list2 != nil && list2?.count > 0 {
             for index in 1...(list2!.count) {
-                let object = list2!.objectAtIndex(index - 1) as RLMObject
+                let object = list2!.objectAtIndex(index - 1) as! RLMObject
                 if object.isEqualToObject(item) {
                     return true
                 }
@@ -155,8 +155,8 @@ class PickerTableViewController: UITableViewController, UISearchBarDelegate, UIS
     func labelAlreadyInList(label:String, list1:RLMArray?, list2:RLMArray?) -> Bool {
         if list1 != nil && list1?.count > 0 {
             for index in 1...(list1!.count) {
-                let object = list1!.objectAtIndex(index - 1) as RLMObject
-                let objectLabel = object.valueForKey(self.labelProperty!) as String
+                let object = list1!.objectAtIndex(index - 1) as! RLMObject
+                let objectLabel = object.valueForKey(self.labelProperty!) as! String
                 if objectLabel.lowercaseString == label.lowercaseString {
                     return true
                 }
@@ -164,8 +164,8 @@ class PickerTableViewController: UITableViewController, UISearchBarDelegate, UIS
         }
         if list2 != nil && list2?.count > 0 {
             for index in 1...(list2!.count) {
-                let object = list2!.objectAtIndex(index - 1) as RLMObject
-                let objectLabel = object.valueForKey(self.labelProperty!) as String
+                let object = list2!.objectAtIndex(index - 1) as! RLMObject
+                let objectLabel = object.valueForKey(self.labelProperty!) as! String
                 if objectLabel.lowercaseString == label.lowercaseString {
                     return true
                 }
@@ -181,7 +181,7 @@ class PickerTableViewController: UITableViewController, UISearchBarDelegate, UIS
         // That dumb fucking CONTAINS[c] means case insensitive - CB
         let predicate = NSPredicate(format: "\(labelProperty!) CONTAINS[c] %@", searchText)
         self.filteredObjects = self.items().filter {
-            return ($0.valueForKey(self.labelProperty!) as String).lowercaseString.rangeOfString(
+            return ($0.valueForKey(self.labelProperty!) as! String).lowercaseString.rangeOfString(
                 searchText.lowercaseString) != nil
         }
     }
@@ -219,8 +219,8 @@ class PickerTableViewController: UITableViewController, UISearchBarDelegate, UIS
         } else {
             object = items()[indexPath.row] as RLMObject
         }
-        let cell = tableView.dequeueReusableCellWithIdentifier("default", forIndexPath: indexPath) as UITableViewCell
-        cell.textLabel?.text = object.valueForKey(labelProperty!) as NSString
+        let cell = tableView.dequeueReusableCellWithIdentifier("default", forIndexPath: indexPath) as! UITableViewCell
+        cell.textLabel?.text = object.valueForKey(labelProperty!) as! String
         
         // Configure the cell...
 

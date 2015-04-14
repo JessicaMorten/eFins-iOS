@@ -18,16 +18,16 @@ class User: EfinsModel {
     
     //Belongs-to relationships
     var activities: [Activity] {
-        return linkingObjectsOfClass("Activity", forProperty: "user") as [Activity]
+        return linkingObjectsOfClass("Activity", forProperty: "user") as! [Activity]
     }
     
     var patrolLogs: [PatrolLog] {
-        return linkingObjectsOfClass("PatrolLog", forProperty: "user") as [PatrolLog]
+        return linkingObjectsOfClass("PatrolLog", forProperty: "user") as! [PatrolLog]
     }
     
     var agency: Agency {
         let agencies = linkingObjectsOfClass("Agency", forProperty: "users")
-        return agencies[0] as Agency
+        return agencies[0] as! Agency
     }
     
     //TODO: add filtered relationship fetchers to return CDFW boarding cards, activity logs, or nps boarding cards

@@ -13,12 +13,12 @@ class AgencyVessel: EfinsModel {
     dynamic var name = ""
     
     var agency: Agency {
-        let agencies = linkingObjectsOfClass("Agency", forProperty: "agencyVessels") as [Agency]
+        let agencies = linkingObjectsOfClass("Agency", forProperty: "agencyVessels") as! [Agency]
         return agencies[0]
     }
     
     var patrolLogs: [PatrolLog] {
-        return linkingObjectsOfClass("PatrolLog", forProperty: "agencyVessel") as [PatrolLog]
+        return linkingObjectsOfClass("PatrolLog", forProperty: "agencyVessel") as! [PatrolLog]
     }
     
 }

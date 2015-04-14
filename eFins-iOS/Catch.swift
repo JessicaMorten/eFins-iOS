@@ -14,7 +14,7 @@ class Catch: EfinsModel {
     dynamic var amount = 0
     var activity: Activity {
         let cards = linkingObjectsOfClass("Activity", forProperty: "catches")
-        return cards[0] as Activity
+        return cards[0] as! Activity
     }
 }
 

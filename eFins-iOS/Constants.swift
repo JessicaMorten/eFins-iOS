@@ -64,7 +64,7 @@ var Models: [String: RLMObject.Type] = [
 
 func getRealmModelProperty(model:String, propertyName:String) -> RLMProperty? {
     let realm = RLMRealm.defaultRealm()
-    let properties = realm.schema.schemaForClassName(model).properties as [RLMProperty]
+    let properties = realm.schema.schemaForClassName(model).properties as! [RLMProperty]
     for prop in properties {
         if prop.getterName == propertyName {
             return prop
@@ -72,3 +72,32 @@ func getRealmModelProperty(model:String, propertyName:String) -> RLMProperty? {
     }
     return nil
 }
+
+class _RecentValues {
+    
+    func increment(item: RLMObject, model: RLMObject, property: RLMProperty) {
+        let key = self.getKey(item, model: model, property: property)
+        let defaults = NSUserDefaults.standardUserDefaults()
+        defaults.setInteger(defaults.integerForKey(key) + 1, forKey: key)
+        debugValues()
+    }
+    
+    func getKey(item: RLMObject, model: RLMObject, property: RLMProperty) -> String {
+        let id = item.valueForKey("localid") as! String
+        return "recency-\(model.objectSchema.className)-\(property.getterName)-\(id)"
+    }
+    
+    func debugValues() {
+        println("===== Stored Values =====")
+        for (key, value) in NSUserDefaults.standardUserDefaults().dictionaryRepresentation() {
+            if (key as! NSString).containsString("recency") {
+                println("\(key): \(value)")
+            }
+        }
+    }
+}
+
+let RecentValues = _RecentValues()
+
+
+

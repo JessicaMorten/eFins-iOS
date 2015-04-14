@@ -13,10 +13,10 @@ class FreeTextCrew: EfinsModel {
     dynamic var name = ""
     
     var patrolLogs: [PatrolLog] {
-        return linkingObjectsOfClass("PatrolLog", forProperty: "freeTextCrew") as [PatrolLog]
+        return linkingObjectsOfClass("PatrolLog", forProperty: "freeTextCrew") as! [PatrolLog]
     }
     var activityLogs: [Activity] {
-        return linkingObjectsOfClass("Activity", forProperty: "freeTextCrew") as [Activity]
+        return linkingObjectsOfClass("Activity", forProperty: "freeTextCrew") as! [Activity]
     }
     
     //TODO_ add relationship accessors for particular types of activities

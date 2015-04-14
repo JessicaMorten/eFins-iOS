@@ -26,7 +26,7 @@ class Activity: EfinsModel{
     
     var patrolLog: PatrolLog {
         let logs = linkingObjectsOfClass("PatrolLog", forProperty: "activities")
-        return logs[0] as PatrolLog
+        return logs[0] as! PatrolLog
     }
     
     dynamic var time = NSDate()
