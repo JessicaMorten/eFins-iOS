@@ -23,8 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } else {
             self.showLogin()
         }
-        // to test
-        DataSync.manager.sync()
+        DataSync.manager.start()
         return true
     }
     
