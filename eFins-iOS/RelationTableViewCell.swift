@@ -29,7 +29,7 @@ class RelationTableViewCell: UITableViewCell {
     var propertyValue:AnyObject? {
         get {
             if let prop = property {
-                return model?.valueForKey(prop.getterName)
+                return model?.valueForKey(prop.name)
             } else {
                 return nil
             }
