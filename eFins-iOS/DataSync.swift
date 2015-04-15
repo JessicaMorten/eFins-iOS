@@ -47,8 +47,8 @@ class DataSync {
             self.log("Sync executing on background queue")
             
             let defaults = NSUserDefaults.standardUserDefaults()
-            let usn = (defaults.objectForKey("currentUsn") as String) ?? ""
-            let endOfLastSync = (defaults.objectForKey("endOfLastSync") as String) ?? ""
+            let usn = defaults.stringForKey("currentUsn")
+            let endOfLastSync = defaults.stringForKey("endOfLastSync")
             
             self.pull( usn, endOfLastSync: endOfLastSync, maxCount: "0")
             
@@ -80,7 +80,7 @@ class DataSync {
         self.log("Checking reachability against " + SERVER_ROOT);
         if (self.reachability.isReachable()) {
             self.log("Server " + SERVER_ROOT + " is currently reachable")
-            let token = NSUserDefaults.standardUserDefaults().objectForKey("SessionToken")
+            let token = NSUserDefaults.standardUserDefaults().stringForKey("SessionToken")
             if (token != nil) {
                 //If connectivity and a token, trigger a sync now.
                 self.log("Found a SessionToken: \(token)")
