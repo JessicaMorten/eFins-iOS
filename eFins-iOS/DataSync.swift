@@ -40,6 +40,11 @@ class DataSync {
             self.log("Synchronization already in progress; yielding.")
             return
         }
+        let token = NSUserDefaults.standardUserDefaults().stringForKey("SessionToken")
+        if (token == nil) {
+            self.log("Synchronization not yet possible; no session token; yielding.");
+            return
+        }
         let prio = DISPATCH_QUEUE_PRIORITY_DEFAULT
         let queue = dispatch_get_global_queue(prio, 0)
         self.syncInProgress = true
@@ -123,8 +128,16 @@ class DataSync {
             "endOfLastSync": endOfLastSync,
             "maxCount": maxCount
         ]
+        
+        let URL = NSURL(string: Urls.sync)
+        let mutableURLRequest = NSMutableURLRequest(URL: URL!)
+        mutableURLRequest.HTTPMethod = "POST"
+        var JSONSerializationError: NSError? = nil
+        mutableURLRequest.HTTPBody = NSJSONSerialization.dataWithJSONObject(params, options: nil, error: &JSONSerializationError)
+        mutableURLRequest.setValue("Bearer " + NSUserDefaults.standardUserDefaults().stringForKey("SessionToken")! , forHTTPHeaderField: "Authorization")
         self.log("Posting to \(Urls.sync)")
-        Alamofire.request(.POST, Urls.sync, parameters: params)
+        
+        Alamofire.request(mutableURLRequest)
             .responseString { (request, response, data, error) in
                 println(data)
                 if (error != nil) {

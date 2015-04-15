@@ -67,7 +67,7 @@ func getRealmModelProperty(model:String, propertyName:String) -> RLMProperty? {
     let realm = RLMRealm.defaultRealm()
     let properties = realm.schema.schemaForClassName(model).properties as! [RLMProperty]
     for prop in properties {
-        if prop.getterName == propertyName {
+        if prop.name == propertyName {
             return prop
         }
     }
@@ -85,7 +85,7 @@ class _RecentValues {
     
     func getKey(item: RLMObject, model: RLMObject, property: RLMProperty) -> String {
         let id = item.valueForKey("localid") as! String
-        return "recency-\(model.objectSchema.className)-\(property.getterName)-\(id)"
+        return "recency-\(model.objectSchema.className)-\(property.name)-\(id)"
     }
     
     func debugValues() {
