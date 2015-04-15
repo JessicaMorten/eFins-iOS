@@ -84,17 +84,49 @@ class _RecentValues {
     
     func getKey(item: RLMObject, model: RLMObject, property: RLMProperty) -> String {
         let id = item.valueForKey("localid") as! String
-        return "recency-\(model.objectSchema.className)-\(property.getterName)-\(id)"
+        return "recent-values,\(model.objectSchema.className),\(property.name),\(id)"
     }
     
     func debugValues() {
         println("===== Stored Recently Used Values =====")
         for (key, value) in NSUserDefaults.standardUserDefaults().dictionaryRepresentation() {
-            if (key as! NSString).containsString("recency") {
+            if (key as! NSString).containsString("recent-values") {
                 println("\(key): \(value)")
             }
         }
         println("======================================= ")
+    }
+    
+    func getRecent(model: RLMObject, property: RLMProperty) -> [RLMObject] {
+        var recent = [RLMObject]()
+        var items = [String:Int]()
+        var sortedKeys = [String]()
+        for (key, value) in NSUserDefaults.standardUserDefaults().dictionaryRepresentation() {
+            if sortedKeys.count > 9 {
+                break
+            }
+            if (key as! NSString).containsString("recent-values") && (key as! NSString).containsString(model.objectSchema.className) && (key as! NSString).containsString(property.name) {
+                var parts = split(key as! String) { $0 == ","}
+                let id = parts[3]
+                items[id] = value.integerValue
+                sortedKeys.append(id)
+            }
+        }
+        sortedKeys.sort {
+            items[$0] > items[$1]
+        }
+        println(sortedKeys)
+        let Model = Models[property.objectClassName]
+        for id in sortedKeys {
+            NSLog("localid = %@", id)
+            println(Model)
+            let results = Model!.objectsWithPredicate(NSPredicate(format: "localid = %@", id))
+            println(results)
+            if results.count > 0 {
+                recent.append(results.objectAtIndex(0) as! RLMObject)
+            }
+        }
+        return recent
     }
 }
 

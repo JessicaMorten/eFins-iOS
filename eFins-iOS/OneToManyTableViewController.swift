@@ -159,6 +159,7 @@ class OneToManyTableViewController: UITableViewController {
             controller.secondaryProperty = self.secondaryProperty
             controller.labelProperty = self.modelLabelProperty
             controller.entryFieldName = self.entryFieldName
+            controller.model = self.model
             let getter = property!.getterName!
             controller.alreadySelected = model?.valueForKey(getter) as? RLMArray
             let secgetter = secondaryProperty!.getterName!
