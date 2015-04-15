@@ -47,10 +47,10 @@ class DataSync {
             self.log("Sync executing on background queue")
             
             let defaults = NSUserDefaults.standardUserDefaults()
-            let usn = defaults.stringForKey("currentUsn")
-            let endOfLastSync = defaults.stringForKey("endOfLastSync")
+            let usn = defaults.integerForKey("currentUsn")
+            let endOfLastSync = defaults.integerForKey("endOfLastSync")
             
-            self.pull( usn, endOfLastSync: endOfLastSync, maxCount: "0")
+            self.pull( usn, endOfLastSync: endOfLastSync, maxCount: 0)
             
             
             let dRealm = self.defaultRealm()
@@ -117,7 +117,7 @@ class DataSync {
         NSLog("DataSync Manager: " + msg)
     }
     
-    func pull(currentUsn: String, endOfLastSync: String, maxCount: String ) {
+    func pull(currentUsn: Int, endOfLastSync: Int, maxCount: Int ) {
         let params = [
             "afterUsn": currentUsn,
             "endOfLastSync": endOfLastSync,
