@@ -12,7 +12,7 @@ import Realm
 class Action: EfinsModel {
     dynamic var name = ""
     var activities: [Activity] {
-        return linkingObjectsOfClass("Activity", forProperty: "action") as [Activity]
+        return linkingObjectsOfClass("Activity", forProperty: "action") as! [Activity]
     }
 }
 

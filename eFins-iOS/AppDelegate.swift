@@ -1,4 +1,4 @@
-//
+ //
 //  AppDelegate.swift
 //  eFins
 //
@@ -29,7 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func showLogin() {
         let storyboard:UIStoryboard = UIStoryboard(name: "Login", bundle: NSBundle(identifier: "mainBundle"))
-        var viewController = storyboard.instantiateViewControllerWithIdentifier("LoginViewController") as LoginViewController
+        var viewController = storyboard.instantiateViewControllerWithIdentifier("LoginViewController") as! LoginViewController
         self.window?.rootViewController = viewController
     }
     
@@ -44,7 +44,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func gotoMainStoryboard() {
         let storyboard:UIStoryboard = UIStoryboard(name: "Main", bundle: NSBundle(identifier: "mainBundle"))
-        var viewController = storyboard.instantiateViewControllerWithIdentifier("MainTabs") as UITabBarController
+        var viewController = storyboard.instantiateViewControllerWithIdentifier("MainTabs") as! UITabBarController
         self.window?.rootViewController = viewController
     }
 

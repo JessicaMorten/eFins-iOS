@@ -13,7 +13,7 @@ class VesselType: EfinsModel {
     dynamic var name = ""
     
     var vessels: [Vessel] {
-        return linkingObjectsOfClass("Vessel", forProperty: "vesselType") as [Vessel]
+        return linkingObjectsOfClass("Vessel", forProperty: "vesselType") as! [Vessel]
     }
 }
 

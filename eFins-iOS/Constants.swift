@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Realm
 
 #if DEBUG_SERVER
 let SERVER_ROOT = "http://128.111.242.188:3002/"
@@ -38,4 +39,66 @@ func getDateFormatter() -> NSDateFormatter {
     formatter.locale = locale
     return formatter
 }
+
+var Models: [String: RLMObject.Type] = [
+    "Agency": Agency.self,
+    "User": User.self,
+    "AgencyVessel": AgencyVessel.self,
+    "PatrolLog": PatrolLog.self,
+    "FreeTextCrew": FreeTextCrew.self,
+    "Species": Species.self,
+    "Port": Port.self,
+    "Activity": Activity.self,
+    "Catch": Catch.self,
+    "RegulatoryCode": RegulatoryCode.self,
+    "ContactType": ContactType.self,
+    "VesselType": VesselType.self,
+    "Vessel": Vessel.self,
+    "Fishery": Fishery.self,
+    "Person": Person.self,
+    "Action": Action.self,
+    "Photo": Photo.self,
+    "ViolationType": ViolationType.self,
+    "EnforcementActionType": EnforcementActionType.self,
+    "EnforcementActionTaken": EnforcementActionTaken.self
+]
+
+func getRealmModelProperty(model:String, propertyName:String) -> RLMProperty? {
+    let realm = RLMRealm.defaultRealm()
+    let properties = realm.schema.schemaForClassName(model).properties as! [RLMProperty]
+    for prop in properties {
+        if prop.getterName == propertyName {
+            return prop
+        }
+    }
+    return nil
+}
+
+class _RecentValues {
+    
+    func increment(item: RLMObject, model: RLMObject, property: RLMProperty) {
+        let key = self.getKey(item, model: model, property: property)
+        let defaults = NSUserDefaults.standardUserDefaults()
+        defaults.setInteger(defaults.integerForKey(key) + 1, forKey: key)
+        debugValues()
+    }
+    
+    func getKey(item: RLMObject, model: RLMObject, property: RLMProperty) -> String {
+        let id = item.valueForKey("localid") as! String
+        return "recency-\(model.objectSchema.className)-\(property.getterName)-\(id)"
+    }
+    
+    func debugValues() {
+        println("===== Stored Values =====")
+        for (key, value) in NSUserDefaults.standardUserDefaults().dictionaryRepresentation() {
+            if (key as! NSString).containsString("recency") {
+                println("\(key): \(value)")
+            }
+        }
+    }
+}
+
+let RecentValues = _RecentValues()
+
+
 

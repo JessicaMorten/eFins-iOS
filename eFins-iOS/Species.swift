@@ -13,7 +13,7 @@ class Species: EfinsModel {
     dynamic var name = ""
     
     var catches: [Catch] {
-        return linkingObjectsOfClass("Catch", forProperty: "species") as [Catch]
+        return linkingObjectsOfClass("Catch", forProperty: "species") as! [Catch]
     }
 }
 

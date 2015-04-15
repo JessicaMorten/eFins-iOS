@@ -33,7 +33,7 @@ class SettingsViewController: UIViewController {
     */
 
     @IBAction func signOutAction(sender: AnyObject) {
-        let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         appDelegate.signOut()
     }
 }

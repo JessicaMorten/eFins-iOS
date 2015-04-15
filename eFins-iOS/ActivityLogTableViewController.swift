@@ -18,10 +18,11 @@ class ActivityLogTableViewController: UITableViewController, UITextViewDelegate 
     @IBOutlet weak var dateTableCell: UITableViewCell!
     @IBOutlet weak var remarksTextView: UITextView!
     @IBOutlet weak var saveButton: UIButton!
+    @IBOutlet weak var observersTableViewCell: RelationTableViewCell!
 
     var activity:Activity?
     var isNew = true
-    var isEditing = false
+    var yesIsEditing = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,8 +31,8 @@ class ActivityLogTableViewController: UITableViewController, UITextViewDelegate 
             self.isNew = false
         }
         
+        let realm = RLMRealm.defaultRealm()
         if self.isNew {
-            let realm = RLMRealm.defaultRealm()
             activity = Activity()
             // TODO: Make an actual type
             activity?.type = "activityLog"
@@ -54,6 +55,9 @@ class ActivityLogTableViewController: UITableViewController, UITextViewDelegate 
             self.locationTableCell.textLabel?.text = "Location"
             self.locationSwitch.hidden = true
         }
+        self.observersTableViewCell.model =  activity
+        self.observersTableViewCell.property = getRealmModelProperty("Activity", "freeTextCrew")
+        self.observersTableViewCell.secondaryProperty = getRealmModelProperty("Activity", "users")
     }
     
     // MARK: Actions
@@ -100,16 +104,21 @@ class ActivityLogTableViewController: UITableViewController, UITextViewDelegate 
 
 
     @IBAction func unwindDatePicker(sender: UIStoryboardSegue) {
-        let sourceViewController = sender.sourceViewController as DatePickerTableViewController
+        let sourceViewController = sender.sourceViewController as! DatePickerTableViewController
         activity?.time = sourceViewController.date!
         let formatter = getDateFormatter()
         dateTableCell.detailTextLabel?.text = formatter.stringFromDate(activity!.time)
     }
     
+    @IBAction func unwindOneToMany(sender: UIStoryboardSegue) {
+        let source = sender.sourceViewController as! OneToManyTableViewController
+        source.cell?.updateValues()
+    }
+    
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if indexPath.section == 0 && indexPath.row == 1 && (self.isNew || self.isEditing) {
+        if indexPath.section == 0 && indexPath.row == 1 && (self.isNew || self.yesIsEditing) {
             let storyboard = UIStoryboard(name: "DatePicker", bundle: nil)
-            let controller:DatePickerTableViewController = storyboard.instantiateInitialViewController() as DatePickerTableViewController
+            let controller:DatePickerTableViewController = storyboard.instantiateInitialViewController() as! DatePickerTableViewController
             self.navigationController?.pushViewController(controller, animated: true)
             controller.date = activity!.time
         }

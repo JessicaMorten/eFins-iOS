@@ -193,10 +193,10 @@ class RegistrationIncompleteViewController: UIViewController {
                 } else if (response?.statusCode == 403) {
                     if ((data?.rangeOfString("approved")) != nil) {
                         defaults.setValue("NotApproved", forKey: "SessionState")
-                        self.prepareState(defaults.objectForKey("SessionState") as String)
+                        self.prepareState(defaults.objectForKey("SessionState") as! String)
                     } else {
                         defaults.setValue("EmailNotConfirmed", forKey: "SessionState")
-                        self.prepareState(defaults.objectForKey("SessionState") as String)
+                        self.prepareState(defaults.objectForKey("SessionState") as! String)
                     }
                 } else if (response?.statusCode == 200) {
                     let json = JSON(data: data!.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!)
@@ -204,7 +204,7 @@ class RegistrationIncompleteViewController: UIViewController {
                         defaults.setValue(token, forKey: "SessionToken")
                         defaults.setValue("Authenticated", forKey: "SessionState")
                         self.alert("Account Approved", message: "You may now access the system", completion: nil)
-                        let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+                        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
                         appDelegate.gotoMainStoryboard()
                     } else {
                         self.alert("Login Error", message: "Problem reading response from server", completion: nil)

@@ -44,10 +44,10 @@ class LogbookTableViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! UITableViewCell
         
         let index = UInt(indexPath.row)
-        let activity = activities.objectAtIndex(index) as Activity
+        let activity = activities.objectAtIndex(index) as! Activity
         switch activity.type {
             case "activityLog":
                 cell.textLabel?.text = "Activity Log"
@@ -60,7 +60,7 @@ class LogbookTableViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let activity = activities.objectAtIndex(UInt(indexPath.row)) as Activity
+        let activity = activities.objectAtIndex(UInt(indexPath.row)) as! Activity
         if activity.type == "activityLog" {
             self.performSegueWithIdentifier("ShowActivityLog", sender: activity)
         }
@@ -73,9 +73,9 @@ class LogbookTableViewController: UITableViewController {
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "ShowActivityLog" {
-            let activity = sender as Activity
-            let controller = (segue.destinationViewController as UINavigationController).viewControllers[0]
-                as ActivityLogTableViewController
+            let activity = sender as! Activity
+            let controller = (segue.destinationViewController as! UINavigationController).viewControllers[0]
+                as! ActivityLogTableViewController
             controller.activity = activity
         }
         

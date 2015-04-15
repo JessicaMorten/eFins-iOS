@@ -76,12 +76,13 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    func textFieldShouldReturn(textField: UITextField) {
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
         if (textField == self.emailTextField) {
             self.passwordTextField.becomeFirstResponder()
         } else if (textField == self.passwordTextField) {
             self.login(self)
         }
+        return true
     }
 
     @IBAction func login(sender: AnyObject) {
@@ -124,7 +125,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                             defaults.setValue(token, forKey: "SessionToken")
                             defaults.setValue("Authenticated", forKey: "SessionState")
                             self.alert("Account Approved", message: "You may now access the system")
-                            let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+                            let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
                             appDelegate.gotoMainStoryboard()
                         }
                     } else {
@@ -170,7 +171,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if (segue.identifier == "registrationIncomplete") {
-            var controller:RegistrationIncompleteViewController = segue.destinationViewController as RegistrationIncompleteViewController
+            var controller:RegistrationIncompleteViewController = segue.destinationViewController as! RegistrationIncompleteViewController
             controller.password = self.passwordTextField.text
             controller.email = self.emailTextField.text
         }
