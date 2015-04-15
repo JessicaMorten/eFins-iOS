@@ -89,12 +89,13 @@ class _RecentValues {
     }
     
     func debugValues() {
-        println("===== Stored Values =====")
+        println("===== Stored Recently Used Values =====")
         for (key, value) in NSUserDefaults.standardUserDefaults().dictionaryRepresentation() {
             if (key as! NSString).containsString("recency") {
                 println("\(key): \(value)")
             }
         }
+        println("======================================= ")
     }
 }
 

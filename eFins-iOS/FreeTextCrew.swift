@@ -15,7 +15,7 @@ class FreeTextCrew: EfinsModel {
     var patrolLogs: [PatrolLog] {
         return linkingObjectsOfClass("PatrolLog", forProperty: "freeTextCrew") as! [PatrolLog]
     }
-    var activityLogs: [Activity] {
+    var activities: [Activity] {
         return linkingObjectsOfClass("Activity", forProperty: "freeTextCrew") as! [Activity]
     }
     
