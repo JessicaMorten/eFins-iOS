@@ -220,6 +220,8 @@
 		CB81E92C1AAA21F70071C2D2 /* eFins-iOS */ = {
 			isa = PBXGroup;
 			children = (
+				CBE117F91ACB2A7800BC229F /* RelationTableViewCell.swift */,
+				CBE272DF1AC3564600A4F236 /* LogbookTableViewController.swift */,
 				939C2AF81ADC6317008E2748 /* RLMSupport.swift */,
 				CB81E92D1AAA21F70071C2D2 /* Supporting Files */,
 				933454C11AB75C3100E5C65E /* DataModels */,
@@ -240,6 +242,9 @@
 				CBD00BAC1AB0F79700ED784E /* Constants.swift */,
 				CBCE35A31AC1EB2F005C6CA8 /* ActivityLogTableViewController.swift */,
 				93E701EF1AB0E6C800BD179E /* DataSync.swift */,
+				CBE117FE1ACC8C5400BC229F /* OneToMany.storyboard */,
+				CBE118021ACC8FAC00BC229F /* OneToManyTableViewController.swift */,
+				CBE118071ACDE6A600BC229F /* PickerTableViewController.swift */,
 				9310B50F1ADC3BDD00D45CF3 /* Reachability.swift */,
 			);
 			path = "eFins-iOS";
