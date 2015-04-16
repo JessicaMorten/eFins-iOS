@@ -55,10 +55,7 @@ class ActivityLogTableViewController: UITableViewController, UITextViewDelegate 
             self.locationTableCell.textLabel?.text = "Location"
             self.locationSwitch.hidden = true
         }
-        self.observersTableViewCell.allowEditing = allowEditing
-        self.observersTableViewCell.model =  activity
-        self.observersTableViewCell.property = getRealmModelProperty("Activity", "freeTextCrew")
-        self.observersTableViewCell.secondaryProperty = getRealmModelProperty("Activity", "users")
+        self.observersTableViewCell.setup(self.activity!, allowEditing: allowEditing, property: "freeTextCrew", secondaryProperty: "users")
     }
     
     // MARK: Actions

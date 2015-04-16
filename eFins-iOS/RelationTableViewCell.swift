@@ -14,17 +14,14 @@ class RelationTableViewCell: UITableViewCell {
     var secondaryProperty: RLMProperty?
     @IBInspectable var modelLabelProperty: String = "name"
     @IBInspectable var modelFormClass: String?
+    var property:RLMProperty?
+    var model:RLMObject?
+    
     var allowEditing = true
     
     var oneToMany:Bool {
         get {
-            println(property)
             return property?.type == RLMPropertyType.Array
-//            if let val: AnyObject? = propertyValue {
-//                return val is RLMArray
-//            } else {
-//                return false
-//            }
         }
     }
     
@@ -52,45 +49,28 @@ class RelationTableViewCell: UITableViewCell {
         }
     }
     
-    var _model:RLMObject?
-    
-    var model:RLMObject? {
-        set(object) {
-            self._model = object
-            updateValues()
-        }
-        get {
-            return self._model
-        }
-    }
-    
-    var _property:RLMProperty?
-    
-    var property:RLMProperty? {
-        set(object) {
-            self._property = object
-            updateValues()
-        }
-        get {
-            return self._property
-        }
-    }
-    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
     }
     
+    func setup(model: RLMObject, allowEditing: Bool, property: String, secondaryProperty: String?) {
+        self.model = model
+        self.allowEditing = allowEditing
+        self.property = getRealmModelProperty(model.objectSchema.className, property)
+        if let prop = secondaryProperty {
+            self.secondaryProperty = getRealmModelProperty(model.objectSchema.className, prop)
+        }
+        updateValues()
+    }
+    
     func updateValues() {
-        println("updateValues")
         if model != nil {
             if oneToMany {
-                println("One to MAny")
                 let array:RLMArray = propertyValue as! RLMArray
                 self.detailTextLabel?.text = "\(array.count)"
                 self.updateRecentValuesCounts()
                 if array.count < 1 && !allowEditing {
-                    println("Setting accessory type")
                     self.accessoryType = UITableViewCellAccessoryType.None
                 } else {
                     self.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator

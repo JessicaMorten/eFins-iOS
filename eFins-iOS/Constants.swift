@@ -62,7 +62,7 @@ var Models: [String: RLMObject.Type] = [
     "EnforcementActionTaken": EnforcementActionTaken.self
 ]
 
-func getRealmModelProperty(model:String, propertyName:String) -> RLMProperty? {
+func getRealmModelProperty(model:String, propertyName:String) -> RLMProperty {
     let realm = RLMRealm.defaultRealm()
     let properties = realm.schema.schemaForClassName(model).properties as! [RLMProperty]
     for prop in properties {
@@ -70,7 +70,8 @@ func getRealmModelProperty(model:String, propertyName:String) -> RLMProperty? {
             return prop
         }
     }
-    return nil
+    NSException(name: "NoProperty", reason: "Property \(model).\(propertyName) could not be identified", userInfo: nil).raise()
+    return RLMProperty()
 }
 
 class _RecentValues {
