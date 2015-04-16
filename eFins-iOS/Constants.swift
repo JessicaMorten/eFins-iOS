@@ -98,7 +98,7 @@ class _RecentValues {
         println("======================================= ")
     }
     
-    func getRecent(model: RLMObject, property: RLMProperty) -> [RLMObject] {
+    func getRecent(model: RLMObject, property: RLMProperty, secondaryProperty: RLMProperty?) -> [RLMObject] {
         var recent = [RLMObject]()
         var items = [String:Int]()
         var sortedKeys = [String]()
@@ -106,7 +106,7 @@ class _RecentValues {
             if sortedKeys.count > 9 {
                 break
             }
-            if (key as! NSString).containsString("recent-values") && (key as! NSString).containsString(model.objectSchema.className) && (key as! NSString).containsString(property.name) {
+            if (key as! NSString).containsString("recent-values") && (key as! NSString).containsString(model.objectSchema.className) && ((key as! NSString).containsString(property.name) || (secondaryProperty != nil && (key as! NSString).containsString(secondaryProperty!.name))) {
                 var parts = split(key as! String) { $0 == ","}
                 let id = parts[3]
                 items[id] = value.integerValue
@@ -117,10 +117,21 @@ class _RecentValues {
             items[$0] > items[$1]
         }
         let Model = Models[property.objectClassName]
+        var Model2:RLMObject.Type?
+        if secondaryProperty != nil {
+            Model2 = Models[secondaryProperty!.objectClassName]
+        }
         for id in sortedKeys {
             let results = Model!.objectsWithPredicate(NSPredicate(format: "localid = %@", id))
             if results.count > 0 {
                 recent.append(results.objectAtIndex(0) as! RLMObject)
+            } else {
+                if Model2 != nil {
+                    let results2 = Model2!.objectsWithPredicate(NSPredicate(format: "localid = %@", id))
+                    if results2.count > 0 {
+                        recent.append(results2.objectAtIndex(0) as! RLMObject)
+                    }
+                }
             }
         }
         return recent
@@ -128,6 +139,16 @@ class _RecentValues {
 }
 
 let RecentValues = _RecentValues()
+
+func rlmArrayToNSArray(rlmArray:RLMArray) -> [RLMObject] {
+    var items = [RLMObject]()
+    var i = 0
+    while i < Int(rlmArray.count) {
+        items.append(rlmArray.objectAtIndex(UInt(i)) as! RLMObject)
+        i++
+    }
+    return items
+}
 
 
 

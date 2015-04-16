@@ -40,12 +40,12 @@ class OneToManyTableViewController: UITableViewController {
 
     // MARK: - Table view data source
     
-    func items() -> RLMArray {
-        let primaryItems = model!.valueForKey(property!.getterName) as! RLMArray
+    func items() -> NSArray {
+        var results = rlmArrayToNSArray(model!.valueForKey(property!.name) as! RLMArray)
         if secondaryProperty != nil {
-            primaryItems.addObjects(model!.valueForKey(secondaryProperty!.getterName) as! RLMArray)
+            results = results + rlmArrayToNSArray(model!.valueForKey(secondaryProperty!.name) as! RLMArray)
         }
-        return primaryItems
+        return results
     }
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -63,7 +63,7 @@ class OneToManyTableViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("default", forIndexPath: indexPath) as! UITableViewCell
-        let item:RLMObject = self.items().objectAtIndex(UInt(indexPath.row)) as! RLMObject
+        let item:RLMObject = self.items().objectAtIndex(indexPath.row) as! RLMObject
         if modelFormClass == nil {
             cell.textLabel?.text = item.valueForKey(modelLabelProperty) as! String
         }
@@ -72,15 +72,16 @@ class OneToManyTableViewController: UITableViewController {
     
 
     @IBAction func unwindPicker(sender: UIStoryboardSegue) {
+        
         let sourceViewController = sender.sourceViewController as! PickerTableViewController
         let selection = sourceViewController.selection!
         // Determine appropriate property (primary or secondary property)
         var prop:RLMArray
         if property?.objectClassName == selection.objectSchema.className {
-            let getter = property!.getterName!
+            let getter = property!.name!
             prop = model?.valueForKey(getter) as! RLMArray
         } else {
-            let getter = secondaryProperty!.getterName!
+            let getter = secondaryProperty!.name!
             prop = model?.valueForKey(getter) as! RLMArray
         }
         // append to array
@@ -100,18 +101,23 @@ class OneToManyTableViewController: UITableViewController {
 
     func removeItem(item:RLMObject) {
         let primaryItems = model!.valueForKey(property!.getterName) as! RLMArray
-        for i in 1...(primaryItems.count) {
-            if (primaryItems.objectAtIndex(UInt(i - 1)) as! RLMObject).isEqualToObject(item) {
-                primaryItems.removeObjectAtIndex(UInt(i-1))
-                return
+        if primaryItems.count > 0 {
+            for i in 1...(primaryItems.count) {
+                if (primaryItems.objectAtIndex(UInt(i - 1)) as! RLMObject).isEqualToObject(item) {
+                    primaryItems.removeObjectAtIndex(UInt(i-1))
+                    return
+                }
             }
         }
+        
         if self.secondaryProperty != nil {
             let secondaryItems = model!.valueForKey(secondaryProperty!.getterName) as! RLMArray
-            for i in 1...(secondaryItems.count) {
-                if (secondaryItems.objectAtIndex(UInt(i - 1)) as! RLMObject).isEqualToObject(item) {
-                    secondaryItems.removeObjectAtIndex(UInt(i-1))
-                    return
+            if secondaryItems.count > 0 {
+                for i in 1...(secondaryItems.count) {
+                    if (secondaryItems.objectAtIndex(UInt(i - 1)) as! RLMObject).isEqualToObject(item) {
+                        secondaryItems.removeObjectAtIndex(UInt(i-1))
+                        return
+                    }
                 }
             }
         }
@@ -121,7 +127,7 @@ class OneToManyTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
             // Delete the row from the data source
-            let item = self.items().objectAtIndex(UInt(indexPath.row)) as! RLMObject
+            let item = self.items().objectAtIndex(indexPath.row) as! RLMObject
             let name = item.valueForKey("name") as! String
             self.removeItem(item)
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
@@ -167,9 +173,9 @@ class OneToManyTableViewController: UITableViewController {
             controller.labelProperty = self.modelLabelProperty
             controller.entryFieldName = self.entryFieldName
             controller.model = self.model
-            let getter = property!.getterName!
+            let getter = property!.name!
             controller.alreadySelected = model?.valueForKey(getter) as? RLMArray
-            let secgetter = secondaryProperty!.getterName!
+            let secgetter = secondaryProperty!.name!
             controller.secondaryAlreadySelected = model?.valueForKey(secgetter) as? RLMArray
         }
     }

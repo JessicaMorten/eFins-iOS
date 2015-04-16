@@ -35,14 +35,51 @@ class RelationTableViewCell: UITableViewCell {
         }
     }
     
+    var secondaryPropertyValue:AnyObject? {
+        get {
+            if let prop = secondaryProperty {
+                return model?.valueForKey(prop.name)
+            } else {
+                return nil
+            }
+        }
+    }
+    
+    var allValues:[RLMObject] {
+        get {
+            var items = [RLMObject]()
+            println(propertyValue)
+            if propertyValue != nil {
+                items = items + rlmArrayToNSArray(propertyValue as! RLMArray)
+            }
+            if secondaryPropertyValue != nil {
+                items = items + rlmArrayToNSArray(secondaryPropertyValue as! RLMArray)
+            }
+            return items
+        }
+    }
+    
+    var value:RLMObject? {
+        get {
+            if propertyValue != nil {
+                return propertyValue as! RLMObject
+            } else if secondaryPropertyValue != nil {
+                return secondaryPropertyValue as! RLMObject
+            } else {
+                return nil
+            }
+        }
+    }
+
+
     var hasValue:Bool {
         get {
-            let value: AnyObject? = propertyValue
-            if value != nil {
+            let val: AnyObject? = propertyValue
+            if val != nil {
                 if self.oneToMany {
-                    return (value as! RLMArray).count > 0
+                    return (val as! RLMArray).count > 0
                 } else {
-                    return value != nil
+                    return val != nil
                 }
             }
             return false
@@ -67,10 +104,9 @@ class RelationTableViewCell: UITableViewCell {
     func updateValues() {
         if model != nil {
             if oneToMany {
-                let array:RLMArray = propertyValue as! RLMArray
-                self.detailTextLabel?.text = "\(array.count)"
+                self.detailTextLabel?.text = "\(allValues.count)"
                 self.updateRecentValuesCounts()
-                if array.count < 1 && !allowEditing {
+                if allValues.count < 1 && !allowEditing {
                     self.accessoryType = UITableViewCellAccessoryType.None
                 } else {
                     self.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
@@ -100,9 +136,23 @@ class RelationTableViewCell: UITableViewCell {
                     RecentValues.increment(item!, model: self.model!, property: self.property!)
                     i++
                 }
+                if secondaryProperty != nil {
+                    let array:RLMArray = secondaryPropertyValue as! RLMArray
+                    var i = 0
+                    while i < Int(array.count) {
+                        let item = array.objectAtIndex(UInt(i)) as! RLMObject?
+                        RecentValues.increment(item!, model: self.model!, property: self.secondaryProperty!)
+                        i++
+                    }
+                }
             } else {
                 if let item = propertyValue as? RLMObject {
                     RecentValues.increment(item, model: self.model!, property: self.property!)
+                }
+                if secondaryProperty != nil {
+                    if let item = secondaryPropertyValue as? RLMObject {
+                        RecentValues.increment(item, model: self.model!, property: self.secondaryProperty!)
+                    }
                 }
             }
         }
