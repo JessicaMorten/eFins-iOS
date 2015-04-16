@@ -152,6 +152,9 @@ class PickerTableViewController: UITableViewController, UISearchBarDelegate, UIS
                 }
             }
         }
+        items.sort {
+            return (($0 as RLMObject).valueForKey(self.labelProperty!) as! String) < (($1 as RLMObject).valueForKey(self.labelProperty!) as! String)
+        }
         return items.filter {
             return !self.alreadyInList($0, list1: self.alreadySelected, list2: self.alreadySelected)
         }
