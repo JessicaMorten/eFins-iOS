@@ -105,7 +105,6 @@ class RelationTableViewCell: UITableViewCell {
         if model != nil {
             if oneToMany {
                 self.detailTextLabel?.text = "\(allValues.count)"
-                self.updateRecentValuesCounts()
                 if allValues.count < 1 && !allowEditing {
                     self.accessoryType = UITableViewCellAccessoryType.None
                 } else {

@@ -86,6 +86,7 @@ class ActivityLogTableViewController: UITableViewController, UITextViewDelegate 
         realm.beginWriteTransaction()
         realm.addObject(self.activity)
         realm.commitWriteTransaction()
+        self.observersTableViewCell.updateRecentValuesCounts()
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
