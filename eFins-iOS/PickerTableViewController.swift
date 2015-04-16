@@ -70,7 +70,7 @@ class PickerTableViewController: UITableViewController, UISearchBarDelegate, UIS
             }
         }
         dispatch_async(dispatch_get_main_queue()) {
-            if self.filteredObjects.count < 1 && count(searchText) > 2 {
+            if self.filteredObjects.count < 1 && count(searchText) > 0 {
                 let button = UIButton()
                 // x, y, width, height
                 button.frame = CGRectMake((self.view.frame.width / 2) - 200, 120, 400, 40)
@@ -89,37 +89,6 @@ class PickerTableViewController: UITableViewController, UISearchBarDelegate, UIS
             }
         }
     }
-
-//    func searchDisplayController(controller: UISearchDisplayController, shouldReloadTableForSearchString searchString: String!) -> Bool {
-//        self.filterContentForSearchText(searchString)
-//        dispatch_async(dispatch_get_main_queue()) {
-//            for view in self.searchDisplayController!.searchResultsTableView.subviews {
-//                if view is UILabel && self.filteredObjects.count < 1 {
-//                    let label = view as! UILabel
-//                    label.text = "No search results"
-//                    let button = UIButton()
-//                    // x, y, width, height
-//                    button.frame = CGRectMake((self.view.frame.width / 2) - 200, label.frame.minY + 45, 400, 40)
-//                    button.addTarget(self, action: "addNewObject", forControlEvents: UIControlEvents.TouchUpInside)
-//                    button.layer.cornerRadius = 4.0
-//                    button.backgroundColor = UIColor(hex: 0x112244, alpha: 1.0)
-//                    if self.labelAlreadyInList(searchString, list1: self.alreadySelected, list2: self.secondaryAlreadySelected) {
-//                        button.enabled = false
-//                        button.setTitle("\"\(searchString)\" already selected", forState: UIControlState.Normal)
-//                        button.backgroundColor = UIColor(hex: 0x112244, alpha: 0.5)
-//                    } else {
-//                        button.setTitle("Add \"\(searchString)\" to list", forState: UIControlState.Normal)
-//                    }
-//                    self.searchDisplayController!.searchResultsTableView.insertSubview(button, belowSubview: label)
-//                    break
-//                } else if view is UIButton {
-//                    view.removeFromSuperview()
-//                }
-//            }
-//        }
-//        return true
-//    }
-    
     func addNewObject() {
         let text = self.searchController.searchBar.text
         var Model = Models[property!.objectClassName]! as RLMObject.Type
@@ -139,7 +108,15 @@ class PickerTableViewController: UITableViewController, UISearchBarDelegate, UIS
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if searchActive() {
-            self.selection = self.filteredObjects[indexPath.row] as RLMObject
+            if count(self.searchController.searchBar.text) == 0 {
+                if indexPath.row == 0 {
+                    return
+                } else {
+                    self.selection = self.filteredObjects[indexPath.row - 1] as RLMObject
+                }
+            } else {
+                self.selection = self.filteredObjects[indexPath.row] as RLMObject
+            }
         } else {
             self.selection = items()[indexPath.row] as RLMObject
         }
@@ -254,79 +231,42 @@ class PickerTableViewController: UITableViewController, UISearchBarDelegate, UIS
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
         if searchActive() {
-            if self.filteredObjects.count > 0 {
-                return self.filteredObjects.count
+            if count(self.searchController.searchBar.text) == 0 {
+                if self.filteredObjects.count > 0 {
+                    return self.filteredObjects.count + 1
+                } else {
+                    return 0
+                }
             } else {
-                return 0
+                return self.filteredObjects.count
             }
         } else {
             return Int(items().count)
         }
     }
 
-
-    
-    
-    
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var object:RLMObject
         if searchActive() {
-            object = self.filteredObjects[indexPath.row] as RLMObject
+            if count(self.searchController.searchBar.text) == 0 {
+                if self.filteredObjects.count > 0 && indexPath.row == 0 {
+                    let cell = tableView.dequeueReusableCellWithIdentifier("recent", forIndexPath: indexPath) as! UITableViewCell
+                    return cell
+                } else {
+                    object = self.filteredObjects[indexPath.row - 1] as RLMObject
+                }
+            } else {
+                object = self.filteredObjects[indexPath.row] as RLMObject
+            }
         } else {
             object = items()[indexPath.row] as RLMObject
         }
         let cell = tableView.dequeueReusableCellWithIdentifier("default", forIndexPath: indexPath) as! UITableViewCell
-        cell.textLabel?.text = object.valueForKey(labelProperty!) as! String
+        cell.textLabel?.text = object.valueForKey(labelProperty!) as? String
         
         // Configure the cell...
 
         return cell
     }
     
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return NO if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
-            // Delete the row from the data source
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-        } else if editingStyle == .Insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return NO if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
