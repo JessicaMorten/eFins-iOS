@@ -10,8 +10,8 @@ import Foundation
 import Realm
 
 #if DEBUG_SERVER
-//let SERVER_ROOT = "http://localhost:3002/"
-let SERVER_ROOT = "http://10.0.1.7:3002/"
+let SERVER_ROOT = "http://128.111.242.188:3002/"
+//let SERVER_ROOT = "http://10.0.1.7:3002/"
 #else
 let SERVER_ROOT = "https://efins.org/"
 #endif
@@ -26,6 +26,7 @@ struct Urls {
     // requires bearer token
     static let expireToken = "\(root)auth/expireToken"
     static let passwordReset = "\(root)auth/requestPasswordReset"
+    static let sync = "\(root)api/1/sync"
 }
 
 let ADMIN_EMAIL = "support@efins.org"
@@ -66,7 +67,7 @@ func getRealmModelProperty(model:String, propertyName:String) -> RLMProperty {
     let realm = RLMRealm.defaultRealm()
     let properties = realm.schema.schemaForClassName(model).properties as! [RLMProperty]
     for prop in properties {
-        if prop.getterName == propertyName {
+        if prop.name == propertyName {
             return prop
         }
     }
