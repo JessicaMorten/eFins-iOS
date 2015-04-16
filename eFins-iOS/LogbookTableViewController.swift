@@ -77,6 +77,7 @@ class LogbookTableViewController: UITableViewController {
             let controller = (segue.destinationViewController as! UINavigationController).viewControllers[0]
                 as! ActivityLogTableViewController
             controller.activity = activity
+            controller.allowEditing = false
         }
         
         // Get the new view controller using [segue destinationViewController].

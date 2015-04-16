@@ -17,12 +17,15 @@ class OneToManyTableViewController: UITableViewController {
     var secondaryProperty: RLMProperty?
     var modelLabelProperty: String = "name"
     var modelFormClass: String?
+    var allowEditing = true
     weak var cell:RelationTableViewCell?
     @IBOutlet weak var addHelpLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: "add")
+        if allowEditing {
+            self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: "add")
+        }
         let attr = addHelpLabel.attributedText.mutableCopy() as! NSMutableAttributedString
         attr.mutableString.replaceOccurrencesOfString("<items>", withString: entryFieldName!, options: NSStringCompareOptions.CaseInsensitiveSearch, range: NSMakeRange(0, attr.mutableString.length))
         addHelpLabel.attributedText = attr
@@ -125,6 +128,10 @@ class OneToManyTableViewController: UITableViewController {
         } else if editingStyle == .Insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }    
+    }
+    
+    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return allowEditing
     }
 
 

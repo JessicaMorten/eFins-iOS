@@ -22,7 +22,7 @@ class ActivityLogTableViewController: UITableViewController, UITextViewDelegate 
 
     var activity:Activity?
     var isNew = true
-    var yesIsEditing = false
+    var allowEditing = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,6 +55,7 @@ class ActivityLogTableViewController: UITableViewController, UITextViewDelegate 
             self.locationTableCell.textLabel?.text = "Location"
             self.locationSwitch.hidden = true
         }
+        self.observersTableViewCell.allowEditing = allowEditing
         self.observersTableViewCell.model =  activity
         self.observersTableViewCell.property = getRealmModelProperty("Activity", "freeTextCrew")
         self.observersTableViewCell.secondaryProperty = getRealmModelProperty("Activity", "users")
@@ -116,7 +117,7 @@ class ActivityLogTableViewController: UITableViewController, UITextViewDelegate 
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if indexPath.section == 0 && indexPath.row == 1 && (self.isNew || self.yesIsEditing) {
+        if indexPath.section == 0 && indexPath.row == 1 && (self.isNew || self.allowEditing) {
             let storyboard = UIStoryboard(name: "DatePicker", bundle: nil)
             let controller:DatePickerTableViewController = storyboard.instantiateInitialViewController() as! DatePickerTableViewController
             self.navigationController?.pushViewController(controller, animated: true)
