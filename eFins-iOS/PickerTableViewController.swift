@@ -230,8 +230,9 @@ class PickerTableViewController: UITableViewController, UISearchBarDelegate, UIS
         var Model = Models[property!.objectClassName]! as RLMObject.Type
         // That dumb fucking CONTAINS[c] means case insensitive - CB
         if count(searchText) == 0 {
-            println("use recently used items")
-            self.filteredObjects = RecentValues.getRecent(self.model!, property: self.property!)
+            self.filteredObjects = RecentValues.getRecent(self.model!, property: self.property!).filter {
+                return !self.alreadyInList($0, list1: self.alreadySelected, list2: self.alreadySelected)
+            }
         } else {
             let predicate = NSPredicate(format: "\(labelProperty!) CONTAINS[c] %@", searchText)
             self.filteredObjects = self.items().filter {

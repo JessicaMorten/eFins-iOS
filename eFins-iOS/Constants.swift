@@ -115,13 +115,9 @@ class _RecentValues {
         sortedKeys.sort {
             items[$0] > items[$1]
         }
-        println(sortedKeys)
         let Model = Models[property.objectClassName]
         for id in sortedKeys {
-            NSLog("localid = %@", id)
-            println(Model)
             let results = Model!.objectsWithPredicate(NSPredicate(format: "localid = %@", id))
-            println(results)
             if results.count > 0 {
                 recent.append(results.objectAtIndex(0) as! RLMObject)
             }
