@@ -19,6 +19,7 @@ class ActivityLogTableViewController: UITableViewController, UITextViewDelegate 
     @IBOutlet weak var remarksTextView: UITextView!
     @IBOutlet weak var saveButton: UIButton!
     @IBOutlet weak var observersTableViewCell: RelationTableViewCell!
+    @IBOutlet weak var vesselTableViewCell: RelationTableViewCell!
 
     var activity:Activity?
     var isNew = true
@@ -56,6 +57,8 @@ class ActivityLogTableViewController: UITableViewController, UITextViewDelegate 
             self.locationSwitch.hidden = true
         }
         self.observersTableViewCell.setup(self.activity!, allowEditing: allowEditing, property: "freeTextCrew", secondaryProperty: "users")
+        self.vesselTableViewCell.setup(self.activity!, allowEditing: allowEditing, property: "vessel", secondaryProperty: nil)
+        self.vesselTableViewCell.setCustomForm(UIStoryboard(name: "VesselForm", bundle: nil), identifier: "VesselForm")
     }
     
     // MARK: Actions
@@ -87,6 +90,7 @@ class ActivityLogTableViewController: UITableViewController, UITextViewDelegate 
         realm.addObject(self.activity)
         realm.commitWriteTransaction()
         self.observersTableViewCell.updateRecentValuesCounts()
+        self.vesselTableViewCell.updateRecentValuesCounts()
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     

@@ -16,7 +16,8 @@ class OneToManyTableViewController: UITableViewController {
     var property: RLMProperty?
     var secondaryProperty: RLMProperty?
     var modelLabelProperty: String = "name"
-    var modelFormClass: String?
+    var modelFormId: String?
+    var modelFormStoryboard: UIStoryboard?
     var allowEditing = true
     weak var cell:RelationTableViewCell?
     @IBOutlet weak var addHelpLabel: UILabel!
@@ -64,9 +65,7 @@ class OneToManyTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("default", forIndexPath: indexPath) as! UITableViewCell
         let item:RLMObject = self.items().objectAtIndex(indexPath.row) as! RLMObject
-        if modelFormClass == nil {
-            cell.textLabel?.text = item.valueForKey(modelLabelProperty) as! String
-        }
+        cell.textLabel?.text = item.valueForKey(modelLabelProperty) as! String
         return cell
     }
     
@@ -173,6 +172,8 @@ class OneToManyTableViewController: UITableViewController {
             controller.labelProperty = self.modelLabelProperty
             controller.entryFieldName = self.entryFieldName
             controller.model = self.model
+            controller.modelFormId = self.modelFormId
+            controller.modelFormStoryboard = self.modelFormStoryboard
             let getter = property!.name!
             controller.alreadySelected = model?.valueForKey(getter) as? RLMArray
             let secgetter = secondaryProperty!.name!

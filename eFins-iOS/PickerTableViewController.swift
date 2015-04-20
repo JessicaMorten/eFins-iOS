@@ -19,7 +19,10 @@ class PickerTableViewController: UITableViewController, UISearchBarDelegate, UIS
     var selection:RLMObject?
     var alreadySelected:RLMArray?
     var secondaryAlreadySelected:RLMArray?
+    var cell:RelationTableViewCell?
     var model:RLMObject?
+    var modelFormId:String?
+    var modelFormStoryboard:UIStoryboard?
     @IBOutlet weak var helpLabel: UILabel!
     var searchController = UISearchController(searchResultsController: nil)
     
@@ -92,15 +95,40 @@ class PickerTableViewController: UITableViewController, UISearchBarDelegate, UIS
     func addNewObject() {
         let text = self.searchController.searchBar.text
         var Model = Models[property!.objectClassName]! as RLMObject.Type
-        let object = Model()
-        object.setValue(text, forKey: self.labelProperty!)
-        let realm = RLMRealm.defaultRealm()
-        realm.beginWriteTransaction()
-        realm.addObject(object)
-        realm.commitWriteTransaction()
-        self.selection = object
-        self.performSegueWithIdentifier("UnwindPicker", sender: self)
+        let controller = self.getCustomForm()
+        if controller != nil {
+            let 💩 = controller as! ItemForm
+            💩.label = text
+            self.navigationItem.title = "Cancel"
+            self.navigationController?.pushViewController(controller!, animated: true)
+        } else {
+            let object = Model()
+            object.setValue(text, forKey: self.labelProperty!)
+            let realm = RLMRealm.defaultRealm()
+            realm.beginWriteTransaction()
+            realm.addObject(object)
+            realm.commitWriteTransaction()
+            self.selection = object
+            if self.cell != nil {
+                cell?.unwindOneToOnePicker(self)
+                self.navigationController?.popViewControllerAnimated(true)
+            } else {
+                self.performSegueWithIdentifier("UnwindPicker", sender: self)
+            }
+        }
     }
+    
+    @IBAction func unwindCustomForm(sender: UIStoryboardSegue) {
+        self.selection = (sender.sourceViewController as! ItemForm).model
+        
+        if self.cell != nil {
+            self.navigationController?.popToRootViewControllerAnimated(true)
+            cell?.unwindOneToOnePicker(self)
+        } else {
+            self.performSegueWithIdentifier("UnwindPicker", sender: self)
+        }
+    }
+
     
     func searchActive() -> Bool {
         return self.searchController.active
@@ -120,7 +148,14 @@ class PickerTableViewController: UITableViewController, UISearchBarDelegate, UIS
         } else {
             self.selection = items()[indexPath.row] as RLMObject
         }
-        self.performSegueWithIdentifier("UnwindPicker", sender: self)
+        // means it's a one-to-one relation
+        if cell != nil {
+            cell?.unwindOneToOnePicker(self)
+            self.navigationController?.popViewControllerAnimated(true)
+        } else {
+            // one-to-many
+            self.performSegueWithIdentifier("UnwindPicker", sender: self)
+        }
     }
     
 //    func searchDisplayController(controller: UISearchDisplayController, shouldReloadTableForSearchScope searchOption: Int) -> Bool {
@@ -245,6 +280,14 @@ class PickerTableViewController: UITableViewController, UISearchBarDelegate, UIS
             }
         } else {
             return Int(items().count)
+        }
+    }
+    
+    func getCustomForm() -> UITableViewController? {
+        if self.modelFormStoryboard != nil && self.modelFormId != nil {
+            return self.modelFormStoryboard?.instantiateViewControllerWithIdentifier(self.modelFormId!) as? UITableViewController
+        } else {
+            return nil
         }
     }
 

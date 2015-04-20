@@ -10,8 +10,8 @@ import Foundation
 import Realm
 
 #if DEBUG_SERVER
-let SERVER_ROOT = "http://128.111.242.188:3002/"
-//let SERVER_ROOT = "http://10.0.1.7:3002/"
+//let SERVER_ROOT = "http://128.111.242.188:3002/"
+let SERVER_ROOT = "http://10.0.1.7:3002/"
 #else
 let SERVER_ROOT = "https://efins.org/"
 #endif
@@ -151,5 +151,14 @@ func rlmArrayToNSArray(rlmArray:RLMArray) -> [RLMObject] {
     return items
 }
 
+import UIKit
+
+func alert(title:String, message:String, view:UIViewController) {
+    var alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
+    alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler:{ (ACTION :UIAlertAction!)in
+        println("ok")
+    }))
+    view.presentViewController(alert, animated: true, completion: nil)
+}
 
 
