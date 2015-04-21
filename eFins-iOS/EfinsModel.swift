@@ -8,11 +8,38 @@
 
 import Foundation
 import Realm
+import SwiftyJSON
 
 class EfinsModel : RLMObject {
-    dynamic var localid =  NSUUID.init().UUIDString
-    dynamic var serverid = -1
-    dynamic var usn = -1
+    dynamic var id =  NSUUID.init().UUIDString
+    dynamic var usn : Int = -1
     dynamic var createdAt = NSDate()
     dynamic var updatedAt = NSDate()
+    
+    override class func primaryKey() -> String {
+        return "id"
+    }
+    
+    class func ingest(json: JSON) -> Bool {
+        let classType = self.self
+        for (index: String, model: JSON) in json {
+            var dictionary = model.dictionaryObject
+            let idAsString = model["id"].stringValue
+            dictionary?.updateValue(idAsString, forKey: "id")
+        
+            // Convert all date strings to NSDates
+            let dateFormatter : NSDateFormatter = NSDateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+            for (k,v) in dictionary! {
+                if let dateString = v as? String {
+                    let newV = dateFormatter.dateFromString(dateString)
+                    if(newV != nil) {
+                        dictionary?.updateValue(newV!, forKey: k)
+                    }
+                }
+            }
+            classType.createOrUpdateInDefaultRealmWithObject(dictionary!)
+        }
+        return true
+    }
 }

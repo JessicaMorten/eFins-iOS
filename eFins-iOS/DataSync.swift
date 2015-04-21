@@ -49,8 +49,7 @@ class DataSync {
         let queue = dispatch_get_global_queue(prio, 0)
         self.syncInProgress = true
         dispatch_async(queue) {
-            self.log("Sync executing on background queue")
-            
+            //self.log("Sync executing on background queue")
             let defaults = NSUserDefaults.standardUserDefaults()
             let usn = defaults.integerForKey("currentUsn")
             let endOfLastSync = defaults.integerForKey("endOfLastSync")
@@ -58,10 +57,6 @@ class DataSync {
             self.pull( usn, endOfLastSync: endOfLastSync, maxCount: 0)
             
             
-            let dRealm = self.defaultRealm()
-            dRealm.beginWriteTransaction()
-            
-            dRealm.commitWriteTransaction()
             dispatch_async(dispatch_get_main_queue()) {
                 //Emit UI update event here if needed?
                 self.syncInProgress = false
@@ -123,35 +118,43 @@ class DataSync {
     }
     
     func pull(currentUsn: Int, endOfLastSync: Int, maxCount: Int ) {
-        let params = [
-            "afterUsn": currentUsn,
-            "endOfLastSync": endOfLastSync,
-            "maxCount": maxCount
-        ]
-        
-        let URL = NSURL(string: Urls.sync)
-        let mutableURLRequest = NSMutableURLRequest(URL: URL!)
-        mutableURLRequest.HTTPMethod = "POST"
-        var JSONSerializationError: NSError? = nil
-        mutableURLRequest.HTTPBody = NSJSONSerialization.dataWithJSONObject(params, options: nil, error: &JSONSerializationError)
+        let afterUsn = NSURLQueryItem(name: "afterUsn", value: "\(currentUsn)")
+        let endOfLastSync = NSURLQueryItem(name: "endOfLastSync", value: "\(endOfLastSync)")
+
+        var components = NSURLComponents(string: Urls.sync)!
+        components.queryItems = [ afterUsn, endOfLastSync]
+
+        let mutableURLRequest = NSMutableURLRequest(URL: components.URL!)
+        mutableURLRequest.HTTPMethod = "GET"
         mutableURLRequest.setValue("Bearer " + NSUserDefaults.standardUserDefaults().stringForKey("SessionToken")! , forHTTPHeaderField: "Authorization")
-        self.log("Posting to \(Urls.sync)")
+        self.log("Getting \(Urls.sync)")
         
         Alamofire.request(mutableURLRequest)
             .responseString { (request, response, data, error) in
                 println(data)
                 if (error != nil) {
-                    self.log("Connection Error, Problem connecting to server")
+                    self.log("Connection Error, Problem connecting to server: \(error). \(response)")
                 } else if (response?.statusCode == 404) {
                     self.log("404")
                 } else if (response?.statusCode == 401) {
                     self.log("401")
                 } else if (response?.statusCode == 403) {
                     self.log("403")
+                } else if (response?.statusCode == 204) {
+                    self.log("Server reports we are up-to-date")
                 } else if response?.statusCode == 200 {
-                    self.log("Got reply to sync request")
+                    self.log("Got reply to sync request: \(data)")
                     let json = JSON(data: data!.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!)
                     self.log(json.stringValue)
+                    if(self.digestResults(json) == true) {
+                        let defaults = NSUserDefaults.standardUserDefaults()
+                        let newUsn = json["highestUsn"].int
+                        defaults.setInteger(newUsn!, forKey: "currentUsn")
+                        defaults.setInteger(json["timestamp"].int!, forKey: "endOfLastSync")
+                        self.log("After a successful sync, setting currentUsn to \(newUsn)")
+                    } else {
+                        self.log("Failed to digest server results; discarding pulled data")
+                    }
                 } else {
                     self.log(data?.stringByStandardizingPath ?? "")
                 }
@@ -163,6 +166,38 @@ class DataSync {
     
     func push() {
         
+    }
+    
+    func digestResults(json: JSON) -> Bool {
+        let dRealm = self.defaultRealm()
+        dRealm.beginWriteTransaction()
+        
+
+        for (key: String, subJson: JSON) in json {
+            if(key == "models") {
+                for (key: String, modelArrayJson: JSON) in subJson {
+                    self.log("Handling \(key)")
+                    // This whole switch statement is only needed because we don't have a good way of turning a string into a Swift class yet
+                    switch(key) {
+                        case "Action":
+                            Action.ingest(modelArrayJson)
+                        case "Activity":
+                            Activity.ingest(modelArrayJson)
+                        case "Agency":
+                            Agency.ingest(modelArrayJson)
+                        case "AgencyVessel":
+                            AgencyVessel.ingest(modelArrayJson)
+                        case "User":
+                            User.ingest(modelArrayJson)
+                        default:
+                            self.log("Unknown/unimplemented model key \(key) in server json")
+                    }
+                }
+            }
+        }
+        dRealm.commitWriteTransaction()
+
+        return true
     }
     
 }
