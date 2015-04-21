@@ -19,10 +19,11 @@ class ActivityLogTableViewController: UITableViewController, UITextViewDelegate 
     @IBOutlet weak var remarksTextView: UITextView!
     @IBOutlet weak var saveButton: UIButton!
     @IBOutlet weak var observersTableViewCell: RelationTableViewCell!
+    @IBOutlet weak var vesselTableViewCell: RelationTableViewCell!
 
     var activity:Activity?
     var isNew = true
-    var yesIsEditing = false
+    var allowEditing = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,9 +56,9 @@ class ActivityLogTableViewController: UITableViewController, UITextViewDelegate 
             self.locationTableCell.textLabel?.text = "Location"
             self.locationSwitch.hidden = true
         }
-        self.observersTableViewCell.model =  activity
-        self.observersTableViewCell.property = getRealmModelProperty("Activity", "freeTextCrew")
-        self.observersTableViewCell.secondaryProperty = getRealmModelProperty("Activity", "users")
+        self.observersTableViewCell.setup(self.activity!, allowEditing: allowEditing, property: "freeTextCrew", secondaryProperty: "users")
+        self.vesselTableViewCell.setup(self.activity!, allowEditing: allowEditing, property: "vessel", secondaryProperty: nil)
+        self.vesselTableViewCell.setCustomForm(UIStoryboard(name: "VesselForm", bundle: nil), identifier: "VesselForm")
     }
     
     // MARK: Actions
@@ -88,6 +89,8 @@ class ActivityLogTableViewController: UITableViewController, UITextViewDelegate 
         realm.beginWriteTransaction()
         realm.addObject(self.activity)
         realm.commitWriteTransaction()
+        self.observersTableViewCell.updateRecentValuesCounts()
+        self.vesselTableViewCell.updateRecentValuesCounts()
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
@@ -116,7 +119,7 @@ class ActivityLogTableViewController: UITableViewController, UITextViewDelegate 
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if indexPath.section == 0 && indexPath.row == 1 && (self.isNew || self.yesIsEditing) {
+        if indexPath.section == 0 && indexPath.row == 1 && (self.isNew || self.allowEditing) {
             let storyboard = UIStoryboard(name: "DatePicker", bundle: nil)
             let controller:DatePickerTableViewController = storyboard.instantiateInitialViewController() as! DatePickerTableViewController
             self.navigationController?.pushViewController(controller, animated: true)
