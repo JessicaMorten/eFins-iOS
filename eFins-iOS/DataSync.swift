@@ -171,7 +171,7 @@ class DataSync {
     func digestResults(json: JSON) -> Bool {
         let dRealm = self.defaultRealm()
         dRealm.beginWriteTransaction()
-        
+        var newEntities: [RLMObject] = []
 
         for (key: String, subJson: JSON) in json {
             if(key == "models") {
@@ -195,6 +195,30 @@ class DataSync {
                 }
             }
         }
+        for (key: String, subJson: JSON) in json {
+            if(key == "models") {
+                for (key: String, modelArrayJson: JSON) in subJson {
+                    self.log("Associating \(key)")
+                    // This whole switch statement is only needed because we don't have a good way of turning a string into a Swift class yet
+                    switch(key) {
+                        case "Action":
+                            Action.setRelationships(modelArrayJson)
+                        case "Activity":
+                            Activity.setRelationships(modelArrayJson)
+                        case "Agency":
+                            Agency.setRelationships(modelArrayJson)
+                        case "AgencyVessel":
+                            AgencyVessel.setRelationships(modelArrayJson)
+                        case "User":
+                            User.setRelationships(modelArrayJson)
+                        default:
+                            self.log("Unknown/unimplemented model key \(key) in server json")
+                    }
+                }
+            }
+        }
+
+
         dRealm.commitWriteTransaction()
 
         return true

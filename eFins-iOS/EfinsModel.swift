@@ -20,7 +20,8 @@ class EfinsModel : RLMObject {
         return "id"
     }
     
-    class func ingest(json: JSON) -> Bool {
+    class func ingest(json: JSON) -> [RLMObject] {
+        var newEntities : [RLMObject] = []
         let classType = self.self
         for (index: String, model: JSON) in json {
             var dictionary = model.dictionaryObject
@@ -38,8 +39,12 @@ class EfinsModel : RLMObject {
                     }
                 }
             }
-            classType.createOrUpdateInDefaultRealmWithObject(dictionary!)
+            newEntities.append( classType.createOrUpdateInDefaultRealmWithObject(dictionary!) )
         }
+        return newEntities
+    }
+    
+    class func setRelationships(json : JSON) -> Bool {
         return true
     }
 }
