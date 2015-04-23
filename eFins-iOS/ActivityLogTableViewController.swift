@@ -20,6 +20,7 @@ class ActivityLogTableViewController: UITableViewController, UITextViewDelegate 
     @IBOutlet weak var saveButton: UIButton!
     @IBOutlet weak var observersTableViewCell: RelationTableViewCell!
     @IBOutlet weak var vesselTableViewCell: RelationTableViewCell!
+    @IBOutlet weak var crewCell: RelationTableViewCell!
 
     var activity:Activity?
     var isNew = true
@@ -59,6 +60,8 @@ class ActivityLogTableViewController: UITableViewController, UITextViewDelegate 
         self.observersTableViewCell.setup(self.activity!, allowEditing: allowEditing, property: "freeTextCrew", secondaryProperty: "users")
         self.vesselTableViewCell.setup(self.activity!, allowEditing: allowEditing, property: "vessel", secondaryProperty: nil)
         self.vesselTableViewCell.setCustomForm(UIStoryboard(name: "VesselForm", bundle: nil), identifier: "VesselForm")
+        self.crewCell.setup(self.activity!, allowEditing: allowEditing, property: "crew", secondaryProperty: nil)
+        self.crewCell.setCustomForm(UIStoryboard(name: "PersonForm", bundle: nil), identifier: "PersonForm")
     }
     
     // MARK: Actions
@@ -118,6 +121,13 @@ class ActivityLogTableViewController: UITableViewController, UITextViewDelegate 
         source.cell?.updateValues()
     }
     
+    @IBAction func unwindCustomForm(sender: UIStoryboardSegue) {
+//        let source = sender.sourceViewController as! OneToManyTableViewController
+//        source.cell?.updateValues()
+        self.vesselTableViewCell.updateValues()
+        self.observersTableViewCell.updateValues()
+    }
+    
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if indexPath.section == 0 && indexPath.row == 1 && (self.isNew || self.allowEditing) {
             let storyboard = UIStoryboard(name: "DatePicker", bundle: nil)
@@ -153,6 +163,13 @@ class ActivityLogTableViewController: UITableViewController, UITextViewDelegate 
     
     func hideNotesKeyboard() {
         self.remarksTextView.endEditing(true)
+    }
+    
+    override func tableView(tableView: UITableView, accessoryButtonTappedForRowWithIndexPath indexPath: NSIndexPath) {
+        let cell = tableView.cellForRowAtIndexPath(indexPath)
+        if cell is RelationTableViewCell {
+            (cell as! RelationTableViewCell).displayDetails(self)
+        }
     }
     
 }

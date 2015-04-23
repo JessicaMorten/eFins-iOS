@@ -23,6 +23,7 @@ class VesselFormTableViewController: UITableViewController, ItemForm, UITextFiel
     var model:RLMObject?
     var label:String?
     var allowEditing = true
+    var openTransaction = false
     var vessel:Vessel {
         get {
             return self.model as! Vessel
@@ -34,6 +35,8 @@ class VesselFormTableViewController: UITableViewController, ItemForm, UITextFiel
         if self.model == nil {
             self.model = Vessel()
             self.vessel.name = self.label!
+        } else {
+            self.title = "Vessel Details"
         }
         self.nameCell.textLabel?.text = "Vessel Name"
         self.registrationCell.textLabel?.text = "Registration"
@@ -41,14 +44,30 @@ class VesselFormTableViewController: UITableViewController, ItemForm, UITextFiel
         displayValues()
         self.vesselTypeCell.setup(self.vessel, allowEditing: self.allowEditing, property: "vesselType", secondaryProperty: nil)
         
+        setEditingState()
+    }
+    
+    func setEditingState() {
         if allowEditing {
             self.saveButton.hidden = false
         } else {
             self.saveButton.hidden = true
+            self.navigationItem.rightBarButtonItem = self.editButtonItem()
+            self.navigationItem.rightBarButtonItem?.action = "startEditing"
         }
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
-        
+        self.nameTextField.enabled = allowEditing
+        self.registrationTextField.enabled = allowEditing
+        self.fgNumberTextField.enabled = allowEditing
+        self.vesselTypeCell.allowEditing = allowEditing
+
+    }
+    
+    func startEditing() {
+        self.allowEditing = true
+        let realm = RLMRealm.defaultRealm()
+        realm.beginWriteTransaction()
+        self.openTransaction = true
+        setEditingState()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -69,6 +88,8 @@ class VesselFormTableViewController: UITableViewController, ItemForm, UITextFiel
     }
     
     @IBAction func nameChanged(sender: UITextField) {
+        println("name changed")
+        println(self.vessel)
         self.vessel.name = sender.text
     }
     
@@ -81,15 +102,16 @@ class VesselFormTableViewController: UITableViewController, ItemForm, UITextFiel
     }
     
     @IBAction func save(sender: AnyObject) {
-        println(vessel.name)
-        println(vessel.registration)
         if count(vessel.name) < 1 && count(vessel.registration) < 1 {
             alert("Incomplete", "You must enter a vessel name or registration", self)
         } else {
-            println("save")
             let realm = RLMRealm.defaultRealm()
-            realm.beginWriteTransaction()
-            realm.addObject(self.vessel)
+            if self.openTransaction {
+                
+            } else {
+                realm.beginWriteTransaction()
+                realm.addObject(self.vessel)
+            }
             realm.commitWriteTransaction()
             self.performSegueWithIdentifier("UnwindCustomForm", sender: self)
         }

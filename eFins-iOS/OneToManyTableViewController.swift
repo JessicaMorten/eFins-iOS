@@ -71,9 +71,14 @@ class OneToManyTableViewController: UITableViewController {
     
 
     @IBAction func unwindPicker(sender: UIStoryboardSegue) {
-        
-        let sourceViewController = sender.sourceViewController as! PickerTableViewController
-        let selection = sourceViewController.selection!
+        var selection:RLMObject
+        if sender.sourceViewController is PickerTableViewController {
+            let sourceViewController = sender.sourceViewController as! PickerTableViewController
+            selection = sourceViewController.selection!
+        } else {
+            let sourceViewController = sender.sourceViewController as! ItemForm
+            selection = sourceViewController.model!
+        }
         // Determine appropriate property (primary or secondary property)
         var prop:RLMArray
         if property?.objectClassName == selection.objectSchema.className {
@@ -176,8 +181,10 @@ class OneToManyTableViewController: UITableViewController {
             controller.modelFormStoryboard = self.modelFormStoryboard
             let getter = property!.name!
             controller.alreadySelected = model?.valueForKey(getter) as? RLMArray
-            let secgetter = secondaryProperty!.name!
-            controller.secondaryAlreadySelected = model?.valueForKey(secgetter) as? RLMArray
+            if secondaryProperty != nil {
+                let secgetter = secondaryProperty!.name!
+                controller.secondaryAlreadySelected = model?.valueForKey(secgetter) as? RLMArray                
+            }
         }
     }
 
