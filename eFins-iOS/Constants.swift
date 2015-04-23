@@ -10,8 +10,8 @@ import Foundation
 import Realm
 
 #if DEBUG_SERVER
-//let SERVER_ROOT = "http://128.111.242.188:3002/"
-let SERVER_ROOT = "http://10.0.1.7:3002/"
+let SERVER_ROOT = "http://localhost:3002/"
+//let SERVER_ROOT = "http://10.0.1.7:3002/"
 #else
 let SERVER_ROOT = "https://efins.org/"
 #endif

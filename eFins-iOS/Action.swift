@@ -8,6 +8,7 @@
 
 import Foundation
 import Realm
+import SwiftyJSON
 
 class Action: EfinsModel {
     dynamic var name = ""

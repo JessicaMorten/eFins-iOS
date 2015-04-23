@@ -8,13 +8,13 @@
 
 import Foundation
 import Realm
+import SwiftyJSON
 
 class User: EfinsModel {
     dynamic var email = ""
     dynamic var name = ""
-    dynamic var approved = false
-    dynamic var secrettoken = ""
-    dynamic var emailconfirmed = false
+    dynamic var agency: Agency?
+    
     
     //Belongs-to relationships
     var activities: [Activity] {
@@ -25,11 +25,19 @@ class User: EfinsModel {
         return linkingObjectsOfClass("PatrolLog", forProperty: "user") as! [PatrolLog]
     }
     
-    var agency: Agency {
-        let agencies = linkingObjectsOfClass("Agency", forProperty: "users")
-        return agencies[0] as! Agency
-    }
-    
     //TODO: add filtered relationship fetchers to return CDFW boarding cards, activity logs, or nps boarding cards
+    
+    override class func setRelationships(json : JSON) -> Bool {
+        for (index: String, model: JSON) in json {
+            //First, get the right user model for the ID in the JSON.
+            let uid = model["id"].stringValue
+            let user = User(forPrimaryKey: uid)
+            let agencyid = model["AgencyId"].stringValue
+            NSLog(" \(model) \(agencyid) \(agencyid.dynamicType)")
+            let agency = Agency(forPrimaryKey: agencyid)
+            if agency != nil { user.agency = agency }
+        }
+        return true
+    }
     
 }
