@@ -54,6 +54,9 @@
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
+                                                    <connections>
+                                                        <action selector="nameChanged:" destination="Pha-jM-qfj" eventType="editingDidEnd" id="2gp-Mq-MHl"/>
+                                                    </connections>
                                                 </textField>
                                             </subviews>
                                             <constraints>
@@ -74,6 +77,9 @@
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
+                                                    <connections>
+                                                        <action selector="licenseChanged:" destination="Pha-jM-qfj" eventType="editingDidEnd" id="LBZ-na-T0g"/>
+                                                    </connections>
                                                 </textField>
                                             </subviews>
                                             <constraints>
