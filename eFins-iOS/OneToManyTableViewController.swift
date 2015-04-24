@@ -66,11 +66,36 @@ class OneToManyTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCellWithIdentifier("default", forIndexPath: indexPath) as! UITableViewCell
         let item:RLMObject = self.items().objectAtIndex(indexPath.row) as! RLMObject
         cell.textLabel?.text = item.valueForKey(modelLabelProperty) as! String
+        if self.property?.objectClassName == item.objectSchema.className && self.modelFormStoryboard != nil {
+            cell.accessoryType = UITableViewCellAccessoryType.DetailButton
+        } else {
+            cell.accessoryType = UITableViewCellAccessoryType.None
+        }
         return cell
+    }
+    
+    override func tableView(tableView: UITableView, accessoryButtonTappedForRowWithIndexPath indexPath: NSIndexPath) {
+        let item:RLMObject = self.items().objectAtIndex(indexPath.row) as! RLMObject
+        if self.property?.objectClassName == item.objectSchema.className {
+            displayDetails(item)
+        } else {
+            println("this shouldn't happen")
+        }
+    }
+    
+    func displayDetails(item:RLMObject) {
+        if self.modelFormStoryboard != nil {
+            let form = self.modelFormStoryboard!.instantiateViewControllerWithIdentifier(self.modelFormId!) as! UIViewController
+            (form as! ItemForm).label = self.cell?.textLabel?.text
+            (form as! ItemForm).model = item
+            (form as! ItemForm).allowEditing = false
+            self.navigationController?.pushViewController(form, animated: true)
+        }
     }
     
 
     @IBAction func unwindPicker(sender: UIStoryboardSegue) {
+        println("unwinding picker")
         var selection:RLMObject
         if sender.sourceViewController is PickerTableViewController {
             let sourceViewController = sender.sourceViewController as! PickerTableViewController
@@ -88,10 +113,19 @@ class OneToManyTableViewController: UITableViewController {
             let getter = secondaryProperty!.name!
             prop = model?.valueForKey(getter) as! RLMArray
         }
-        // append to array
-        prop.addObject(selection)
-        // save Model
-        // reload table data
+        if self.allowEditing {
+            println("allowing editing")
+            // append to array
+            let 😭💊💊💊😂😆 = UInt(9223372036854775807)
+            let index = prop.indexOfObject(selection)
+            if index != 😭💊💊💊😂😆 {
+                prop.addObject(selection)
+            }
+            // save Model
+            // reload table data
+        } else {
+            println("Not allowing editing")
+        }
         self.tableView.reloadData()
     }
 

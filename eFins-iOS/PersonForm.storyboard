@@ -13,6 +13,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <gestureRecognizers/>
                         <view key="tableFooterView" contentMode="scaleToFill" id="Jmi-Wf-igq">
                             <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -42,7 +43,7 @@
                         <sections>
                             <tableViewSection id="gzb-1E-WhJ">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="7yv-51-Gsk">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="7yv-51-Gsk">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="7yv-51-Gsk" id="bJj-a7-76w">
                                             <autoresizingMask key="autoresizingMask"/>
@@ -53,9 +54,10 @@
                                                         <constraint firstAttribute="width" constant="260" id="PJa-sM-0A1"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits"/>
+                                                    <textInputTraits key="textInputTraits" returnKeyType="next"/>
                                                     <connections>
                                                         <action selector="nameChanged:" destination="Pha-jM-qfj" eventType="editingDidEnd" id="2gp-Mq-MHl"/>
+                                                        <outlet property="delegate" destination="Pha-jM-qfj" id="9ix-Ds-OfU"/>
                                                     </connections>
                                                 </textField>
                                             </subviews>
@@ -65,7 +67,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="AuF-f4-JSA">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="AuF-f4-JSA">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="AuF-f4-JSA" id="lnx-xZ-QBW">
                                             <autoresizingMask key="autoresizingMask"/>
@@ -79,6 +81,7 @@
                                                     <textInputTraits key="textInputTraits"/>
                                                     <connections>
                                                         <action selector="licenseChanged:" destination="Pha-jM-qfj" eventType="editingDidEnd" id="LBZ-na-T0g"/>
+                                                        <outlet property="delegate" destination="Pha-jM-qfj" id="raR-25-FkO"/>
                                                     </connections>
                                                 </textField>
                                             </subviews>
@@ -88,7 +91,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="rHD-ae-CeE" detailTextLabel="fW1-7b-qBm" style="IBUITableViewCellStyleValue1" id="pol-mI-Fuc">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="rHD-ae-CeE" detailTextLabel="fW1-7b-qBm" style="IBUITableViewCellStyleValue1" id="pol-mI-Fuc">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="pol-mI-Fuc" id="vtO-v4-KMu">
                                             <autoresizingMask key="autoresizingMask"/>
@@ -108,7 +111,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="129" id="kMO-kp-NRt">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="129" id="kMO-kp-NRt">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="kMO-kp-NRt" id="GJm-re-vyj">
                                             <autoresizingMask key="autoresizingMask"/>
@@ -116,12 +119,14 @@
                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KsK-6d-ufS">
                                                     <rect key="frame" x="16" y="33" width="576" height="88"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <fontDescription key="fontDescription" type="italicSystem" pointSize="14"/>
+                                                    <fontDescription key="fontDescription" type="italicSystem" pointSize="16"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                    <connections>
+                                                        <outlet property="delegate" destination="Pha-jM-qfj" id="9En-G7-Sii"/>
+                                                    </connections>
                                                 </textView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Address" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RmH-v6-2L5">
-                                                    <rect key="frame" x="20" y="8" width="64" height="21"/>
+                                                    <rect key="frame" x="8" y="8" width="64" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -131,7 +136,7 @@
                                                 <constraint firstItem="KsK-6d-ufS" firstAttribute="top" secondItem="RmH-v6-2L5" secondAttribute="bottom" constant="4" id="4ns-4s-kno"/>
                                                 <constraint firstItem="RmH-v6-2L5" firstAttribute="top" secondItem="GJm-re-vyj" secondAttribute="topMargin" id="IbA-LI-yOb"/>
                                                 <constraint firstItem="RmH-v6-2L5" firstAttribute="leading" secondItem="KsK-6d-ufS" secondAttribute="leading" id="clP-qi-wbo"/>
-                                                <constraint firstItem="RmH-v6-2L5" firstAttribute="leading" secondItem="GJm-re-vyj" secondAttribute="leadingMargin" constant="12" id="hXj-ff-ME4"/>
+                                                <constraint firstItem="RmH-v6-2L5" firstAttribute="leading" secondItem="GJm-re-vyj" secondAttribute="leadingMargin" id="hXj-ff-ME4"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -141,6 +146,7 @@
                         <connections>
                             <outlet property="dataSource" destination="Pha-jM-qfj" id="WC3-QO-cKG"/>
                             <outlet property="delegate" destination="Pha-jM-qfj" id="abv-1q-SmP"/>
+                            <outletCollection property="gestureRecognizers" destination="yuJ-iw-OlE" appends="YES" id="Odw-6l-Cyt"/>
                         </connections>
                     </tableView>
                     <connections>
@@ -158,6 +164,11 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Bds-6f-SBJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="69j-tN-0gc" userLabel="Exit" sceneMemberID="exit"/>
+                <tapGestureRecognizer cancelsTouchesInView="NO" delaysTouchesEnded="NO" id="yuJ-iw-OlE">
+                    <connections>
+                        <action selector="tapRecognizer:" destination="Pha-jM-qfj" id="MJm-St-Ml1"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="334" y="400"/>
         </scene>

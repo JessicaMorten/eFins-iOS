@@ -651,10 +651,6 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="string" keyPath="propertyName" value="users"/>
-                                            <userDefinedRuntimeAttribute type="string" keyPath="secondaryPropertyName" value="freeTextCrew"/>
-                                        </userDefinedRuntimeAttributes>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>

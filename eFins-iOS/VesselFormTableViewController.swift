@@ -50,10 +50,13 @@ class VesselFormTableViewController: UITableViewController, ItemForm, UITextFiel
     func setEditingState() {
         if allowEditing {
             self.saveButton.hidden = false
+            self.vesselTypeCell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
+            self.navigationItem.rightBarButtonItem = nil
         } else {
             self.saveButton.hidden = true
             self.navigationItem.rightBarButtonItem = self.editButtonItem()
             self.navigationItem.rightBarButtonItem?.action = "startEditing"
+            self.vesselTypeCell.accessoryType = UITableViewCellAccessoryType.None
         }
         self.nameTextField.enabled = allowEditing
         self.registrationTextField.enabled = allowEditing
@@ -69,6 +72,16 @@ class VesselFormTableViewController: UITableViewController, ItemForm, UITextFiel
         self.openTransaction = true
         setEditingState()
     }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        if (textField == self.nameTextField) {
+            self.registrationTextField.becomeFirstResponder()
+        } else if (textField == self.registrationTextField) {
+            self.fgNumberTextField.becomeFirstResponder()
+        }
+        return true
+    }
+
     
     override func viewWillAppear(animated: Bool) {
         displayValues()

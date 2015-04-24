@@ -95,6 +95,7 @@ class RelationTableViewCell: UITableViewCell {
     func setCustomForm(board:UIStoryboard, identifier: String?) {
         self.modelFormStoryboard = board
         self.modelFormId = identifier
+        updateValues()
     }
     
     func setup(model: RLMObject, allowEditing: Bool, property: String, secondaryProperty: String?) {
@@ -119,11 +120,15 @@ class RelationTableViewCell: UITableViewCell {
             } else {
                 if let object: AnyObject = propertyValue {
                     self.detailTextLabel?.text = "\(object.valueForKey(modelLabelProperty)!)"
+                    println("\(object.valueForKey(modelLabelProperty)!)")
+                    println(self.modelFormStoryboard)
+                    println(allowEditing)
                     if self.modelFormStoryboard != nil {
                         if allowEditing {
                             self.accessoryType = UITableViewCellAccessoryType.DetailDisclosureButton
                         } else {
-                            self.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
+                            println("Should be disclosure")
+                            self.accessoryType = UITableViewCellAccessoryType.DetailButton
                         }
                     } else {
                         self.accessoryType = UITableViewCellAccessoryType.None

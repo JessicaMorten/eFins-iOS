@@ -40,6 +40,8 @@ class PersonFormTableViewController: UITableViewController, ItemForm, UITextFiel
         }
         self.nameCell.textLabel?.text = "Name"
         self.licenseCell.textLabel?.text = "License"
+        self.nameCell.detailTextLabel?.text = " "
+        self.licenseCell.detailTextLabel?.text = " "
         displayValues()
         setEditingState()
     }
@@ -47,17 +49,20 @@ class PersonFormTableViewController: UITableViewController, ItemForm, UITextFiel
     func setEditingState() {
         if allowEditing {
             self.saveButton.hidden = false
+            self.dobCell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
         } else {
             self.saveButton.hidden = true
             self.navigationItem.rightBarButtonItem = self.editButtonItem()
             self.navigationItem.rightBarButtonItem?.action = "startEditing"
+            self.dobCell.accessoryType = UITableViewCellAccessoryType.None
         }
-        self.nameField.hidden = !allowEditing
-        self.licenseField.hidden = !allowEditing
+        self.nameField.enabled = allowEditing
+        self.licenseField.enabled = allowEditing
         self.addressTextView.editable = allowEditing
     }
     
     func startEditing() {
+        self.navigationItem.rightBarButtonItem = nil
         self.allowEditing = true
         let realm = RLMRealm.defaultRealm()
         realm.beginWriteTransaction()
@@ -65,6 +70,14 @@ class PersonFormTableViewController: UITableViewController, ItemForm, UITextFiel
         setEditingState()
     }
 
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        if (textField == self.nameField) {
+            self.licenseField.becomeFirstResponder()
+        }
+        return true
+    }
+
+    
     override func viewWillAppear(animated: Bool) {
         displayValues()
     }
@@ -77,40 +90,64 @@ class PersonFormTableViewController: UITableViewController, ItemForm, UITextFiel
         self.person.license = sender.text
     }
     
+    func textViewDidBeginEditing(textView: UITextView) {
+        textView.becomeFirstResponder()
+    }
+    
+    func textViewDidEndEditing(textView: UITextView) {
+        self.person.address = textView.text
+        textView.resignFirstResponder()
+    }
+    
+    @IBAction func tapRecognizer(sender:AnyObject) {
+        self.hideNotesKeyboard()
+    }
+    
+    func hideNotesKeyboard() {
+        self.addressTextView.endEditing(true)
+    }
+
+    
     func displayValues() {
         self.nameField.text = person.name
         self.licenseField.text = person.license
-        self.dobCell.detailTextLabel?.text = "\(person.dateOfBirth)"
+        let formatter = getDayDateFormatter()
+        self.dobCell.detailTextLabel?.text = formatter.stringFromDate(person.dateOfBirth)
+
         self.addressTextView.text = person.address
-        if !allowEditing {
-            self.nameCell.detailTextLabel?.text = person.name
-            self.licenseCell.detailTextLabel?.text = person.license
-        } else {
-            self.nameCell.detailTextLabel?.text = " "
-            self.licenseCell.detailTextLabel?.text = " "
-        }
+        
+//        if allowEditing == false {
+//            self.nameCell.detailTextLabel?.text = person.name
+//            self.licenseCell.detailTextLabel?.text = person.license
+//        } else {
+//            self.nameCell.detailTextLabel?.text = " "
+//            self.licenseCell.detailTextLabel?.text = " "
+//        }
     }
     
     @IBAction func unwindDatePicker(sender: UIStoryboardSegue) {
         let sourceViewController = sender.sourceViewController as! DayDatePickerTableViewController
         person.dateOfBirth = sourceViewController.date!
-        let formatter = getDateFormatter()
+        let formatter = getDayDateFormatter()
         dobCell.detailTextLabel?.text = formatter.stringFromDate(person.dateOfBirth)
     }
 
     
     @IBAction func save(sender: AnyObject) {
+        self.nameField.endEditing(true)
+        self.licenseField.endEditing(true)
         if count(person.name) < 1 && count(person.license) < 1 {
             alert("Incomplete", "You must enter a name or license", self)
         } else {
             let realm = RLMRealm.defaultRealm()
             if self.openTransaction {
-                
+                println("open transaction")
             } else {
                 realm.beginWriteTransaction()
                 realm.addObject(person)
             }
             realm.commitWriteTransaction()
+            self.allowEditing = false
             self.performSegueWithIdentifier("UnwindPicker", sender: self)
         }
     }

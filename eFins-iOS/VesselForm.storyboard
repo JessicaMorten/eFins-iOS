@@ -53,7 +53,7 @@
                                                         <constraint firstAttribute="width" constant="260" id="jL8-6t-gLC"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits"/>
+                                                    <textInputTraits key="textInputTraits" returnKeyType="next"/>
                                                     <connections>
                                                         <action selector="nameChanged:" destination="43k-6o-18m" eventType="editingChanged" id="BZh-5D-8ku"/>
                                                         <outlet property="delegate" destination="43k-6o-18m" id="nrC-We-pt3"/>
@@ -77,7 +77,7 @@
                                                         <constraint firstAttribute="width" constant="260" id="blH-1B-hQ4"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits"/>
+                                                    <textInputTraits key="textInputTraits" returnKeyType="next"/>
                                                     <connections>
                                                         <action selector="registrationChanged:" destination="43k-6o-18m" eventType="editingChanged" id="M6c-KH-Iko"/>
                                                         <outlet property="delegate" destination="43k-6o-18m" id="bce-2m-G3a"/>
