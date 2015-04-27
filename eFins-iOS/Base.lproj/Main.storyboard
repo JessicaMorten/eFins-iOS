@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7531" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="49e-Tb-3d3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="49e-Tb-3d3">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -662,10 +662,15 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="5hw-zk-9zg">
-                        <barButtonItem key="rightBarButtonItem" systemItem="camera" id="kjT-ni-SHn"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="camera" id="kjT-ni-SHn">
+                            <connections>
+                                <action selector="takePhoto:" destination="iUX-KI-gd5" id="LCw-CH-AV9"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
+                        <outlet property="cameraButton" destination="kjT-ni-SHn" id="76d-7D-9WQ"/>
                         <outlet property="crewCell" destination="FZu-A6-aF9" id="MuR-Ce-c2H"/>
                         <outlet property="dateTableCell" destination="VPE-lO-Dvq" id="sEc-RN-hmi"/>
                         <outlet property="locationActivityIndicator" destination="2HV-R3-rZl" id="A50-SB-Zq0"/>

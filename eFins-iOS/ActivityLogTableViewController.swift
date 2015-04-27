@@ -21,6 +21,7 @@ class ActivityLogTableViewController: UITableViewController, UITextViewDelegate 
     @IBOutlet weak var observersTableViewCell: RelationTableViewCell!
     @IBOutlet weak var vesselTableViewCell: RelationTableViewCell!
     @IBOutlet weak var crewCell: RelationTableViewCell!
+    @IBOutlet weak var cameraButton: UIBarButtonItem!
 
     var activity:Activity?
     var isNew = true
@@ -134,6 +135,10 @@ class ActivityLogTableViewController: UITableViewController, UITextViewDelegate 
             let controller:DatePickerTableViewController = storyboard.instantiateInitialViewController() as! DatePickerTableViewController
             self.navigationController?.pushViewController(controller, animated: true)
             controller.date = activity!.time
+        } else if indexPath.section == 0 && indexPath.row == 3 {
+            let storyboard = UIStoryboard(name: "PhotoList", bundle: nil)
+            let controller = storyboard.instantiateInitialViewController() as! PhotosCollectionViewController
+            self.navigationController?.pushViewController(controller, animated: true)
         }
         self.tableView.deselectRowAtIndexPath(indexPath, animated: false)
     }
@@ -171,5 +176,15 @@ class ActivityLogTableViewController: UITableViewController, UITextViewDelegate 
             (cell as! RelationTableViewCell).displayDetails(self)
         }
     }
+    
+    
+    @IBAction func takePhoto(sender: AnyObject) {
+        let storyboard = UIStoryboard(name: "PhotoList", bundle: nil)
+        let controller = storyboard.instantiateInitialViewController() as! PhotosCollectionViewController
+        self.navigationController?.pushViewController(controller, animated: true)
+        controller.takePhoto(sender)
+    }
+    
+    
     
 }

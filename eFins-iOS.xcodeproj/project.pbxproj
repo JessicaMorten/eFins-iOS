@@ -38,6 +38,8 @@
 		CB0076711AE6E7BC00AD0590 /* PersonForm.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CB0076701AE6E7BC00AD0590 /* PersonForm.storyboard */; };
 		CB0076731AE6EBD200AD0590 /* PersonFormTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB0076721AE6EBD200AD0590 /* PersonFormTableViewController.swift */; };
 		CB03EED71AB8E1B9004CCB47 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB03EED61AB8E1B9004CCB47 /* SettingsViewController.swift */; };
+		CB1F54791AEEB19D00D286F1 /* PhotoList.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CB1F54781AEEB19D00D286F1 /* PhotoList.storyboard */; };
+		CB1F547B1AEEB38C00D286F1 /* PhotosCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB1F547A1AEEB38C00D286F1 /* PhotosCollectionViewController.swift */; };
 		CB3B42BE1AE85F92004E9D60 /* DayDatePicker.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CB3B42BD1AE85F92004E9D60 /* DayDatePicker.storyboard */; };
 		CB3B42C01AE85FE5004E9D60 /* DayDatePickerTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB3B42BF1AE85FE5004E9D60 /* DayDatePickerTableViewController.swift */; };
 		CB81E9301AAA21F70071C2D2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB81E92F1AAA21F70071C2D2 /* AppDelegate.swift */; };
@@ -121,6 +123,8 @@
 		CB0076701AE6E7BC00AD0590 /* PersonForm.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = PersonForm.storyboard; sourceTree = "<group>"; };
 		CB0076721AE6EBD200AD0590 /* PersonFormTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonFormTableViewController.swift; sourceTree = "<group>"; };
 		CB03EED61AB8E1B9004CCB47 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		CB1F54781AEEB19D00D286F1 /* PhotoList.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = PhotoList.storyboard; sourceTree = "<group>"; };
+		CB1F547A1AEEB38C00D286F1 /* PhotosCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotosCollectionViewController.swift; sourceTree = "<group>"; };
 		CB3B42BD1AE85F92004E9D60 /* DayDatePicker.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = DayDatePicker.storyboard; sourceTree = "<group>"; };
 		CB3B42BF1AE85FE5004E9D60 /* DayDatePickerTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DayDatePickerTableViewController.swift; sourceTree = "<group>"; };
 		CB81E92A1AAA21F70071C2D2 /* eFins.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = eFins.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -281,6 +285,8 @@
 				CBCE35A31AC1EB2F005C6CA8 /* ActivityLogTableViewController.swift */,
 				93E701EF1AB0E6C800BD179E /* DataSync.swift */,
 				CBE117FE1ACC8C5400BC229F /* OneToMany.storyboard */,
+				CB1F54781AEEB19D00D286F1 /* PhotoList.storyboard */,
+				CB1F547A1AEEB38C00D286F1 /* PhotosCollectionViewController.swift */,
 				CBE118021ACC8FAC00BC229F /* OneToManyTableViewController.swift */,
 				CBE118071ACDE6A600BC229F /* PickerTableViewController.swift */,
 				9310B50F1ADC3BDD00D45CF3 /* Reachability.swift */,
@@ -406,6 +412,7 @@
 				CBCE35A71AC1F763005C6CA8 /* DatePicker.storyboard in Resources */,
 				CB0076711AE6E7BC00AD0590 /* PersonForm.storyboard in Resources */,
 				CB3B42BE1AE85F92004E9D60 /* DayDatePicker.storyboard in Resources */,
+				CB1F54791AEEB19D00D286F1 /* PhotoList.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -478,6 +485,7 @@
 				CBE77B321AE1A19A00197FF5 /* ItemForm.swift in Sources */,
 				935D24DB1AC2140E00A2854D /* Photo.swift in Sources */,
 				CBF985101AAE010500C4F721 /* LoginViewController.swift in Sources */,
+				CB1F547B1AEEB38C00D286F1 /* PhotosCollectionViewController.swift in Sources */,
 				CBCE35A41AC1EB2F005C6CA8 /* ActivityLogTableViewController.swift in Sources */,
 				9310B5101ADC3BDD00D45CF3 /* Reachability.swift in Sources */,
 				935D24DD1AC2149300A2854D /* ViolationType.swift in Sources */,
