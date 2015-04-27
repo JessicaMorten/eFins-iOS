@@ -31,8 +31,6 @@
 		935D24E31AC3548200A2854D /* EfinsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 935D24E21AC3548200A2854D /* EfinsModel.swift */; };
 		939C2AF91ADC6317008E2748 /* RLMSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 939C2AF81ADC6317008E2748 /* RLMSupport.swift */; };
 		93BE828E1ADED37F002C7EFE /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BE828D1ADED37F002C7EFE /* libc++.dylib */; };
-		93BE82931ADEDCBC002C7EFE /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BE82921ADEDCBC002C7EFE /* Realm.framework */; };
-		93BE82951ADEDCDC002C7EFE /* Realm.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 93BE82921ADEDCBC002C7EFE /* Realm.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		93E701F01AB0E6C800BD179E /* DataSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93E701EF1AB0E6C800BD179E /* DataSync.swift */; };
 		C2D23E5308706D97FF932B04 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D70047102BE3CA65EBCD536 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		CB0076711AE6E7BC00AD0590 /* PersonForm.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CB0076701AE6E7BC00AD0590 /* PersonForm.storyboard */; };
@@ -84,7 +82,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				93BE82951ADEDCDC002C7EFE /* Realm.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -162,7 +159,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				93BE82931ADEDCBC002C7EFE /* Realm.framework in Frameworks */,
 				93BE828E1ADED37F002C7EFE /* libc++.dylib in Frameworks */,
 				C2D23E5308706D97FF932B04 /* Pods.framework in Frameworks */,
 			);
