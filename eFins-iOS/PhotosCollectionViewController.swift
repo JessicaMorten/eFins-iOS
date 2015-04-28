@@ -7,32 +7,77 @@
 //
 
 import UIKit
+import AVFoundation
+import Realm
 
-let reuseIdentifier = "Cell"
-
-class PhotosCollectionViewController: UICollectionViewController, UIImagePickerControllerDelegate {
+class PhotosCollectionViewController: UICollectionViewController, UIImagePickerControllerDelegate, UIActionSheetDelegate, UINavigationControllerDelegate, UICollectionViewDelegateFlowLayout {
 
     @IBOutlet weak var cameraButton: UIBarButtonItem!
+    var activity:Activity!
+    let sectionInsets = UIEdgeInsets(top: 50.0, left: 20.0, bottom: 50.0, right: 20.0)
+    let reuseIdentifier = "PhotoCell"
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
         // Register cell classes
-        self.collectionView!.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
-
+        self.title = "Photos"
         // Do any additional setup after loading the view.
+        if !self.editing {
+            self.navigationItem.rightBarButtonItem = nil
+        }
     }
 
 
-    @IBAction func takePhoto(sender: AnyObject?) {
-        println("take photo")
+    func takePhoto(sender: AnyObject?) {
         let ipc = UIImagePickerController()
-//        ipc.delegate = self
-        ipc.sourceType = UIImagePickerControllerSourceType.Camera
+        ipc.delegate = self
+        if(UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera)) {
+            ipc.sourceType = UIImagePickerControllerSourceType.Camera
+            self.presentViewController(ipc, animated: true, completion: nil)
+        } else {
+            alert("Camera Not Available", "Camera is not available on this device", self)
+        }
+    }
+    
+    @IBAction func chooseFromLibrary(sender: AnyObject?) {
+        let ipc = UIImagePickerController()
+        ipc.delegate = self
+        ipc.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
         self.presentViewController(ipc, animated: true, completion: nil)
+    }
+    
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage!, editingInfo: [NSObject : AnyObject]!) {
+        let realm = RLMRealm.defaultRealm()
+        realm.beginWriteTransaction()
+        let photo = Photo()
+        photo.setImage(image)
+        realm.addObject(photo)
+        activity.photos.addObject(photo)
+        realm.commitWriteTransaction()
+        picker.dismissViewControllerAnimated(true, completion: nil)
+        self.collectionView?.reloadData()
+    }
+    
+    @IBAction func cameraAction(sender: AnyObject) {
+        let alert = getAlert()
+        alert.popoverPresentationController?.barButtonItem = self.cameraButton
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    func getAlert() -> UIAlertController {
+        let alert = UIAlertController(title: "Add Photo", message: nil, preferredStyle: UIAlertControllerStyle.ActionSheet)
+        let cameraAction = UIAlertAction(title: "Take Photo", style: .Default) { (action) in
+            self.takePhoto(nil)
+        }
+        alert.addAction(cameraAction)
+        let pickAction = UIAlertAction(title: "Choose from Library", style: .Default) { (action) in
+            self.chooseFromLibrary(nil)
+        }
+        alert.addAction(pickAction)
+        return alert
     }
     
     /*
@@ -49,18 +94,20 @@ class PhotosCollectionViewController: UICollectionViewController, UIImagePickerC
 
     override func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         //#warning Incomplete method implementation -- Return the number of sections
-        return 0
+        return 1
     }
 
 
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         //#warning Incomplete method implementation -- Return the number of items in the section
-        return 0
+        return Int(self.activity.photos.count)
     }
 
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as! UICollectionViewCell
-    
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as! PhotoCollectionViewCell
+        let photo = self.activity.photos.objectAtIndex(UInt(indexPath.row)) as! Photo
+//        cell.backgroundColor = UIColor.blackColor()
+        cell.imageView.image = photo.thumbnailImage
         // Configure the cell
     
         return cell
@@ -96,5 +143,20 @@ class PhotosCollectionViewController: UICollectionViewController, UIImagePickerC
     
     }
     */
+    
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+        let photo =  self.activity.photos.objectAtIndex(UInt(indexPath.row)) as! Photo
+        var size = photo.thumbnailImage.size
+        size.width = size.width / 2
+        size.height = size.height / 2
+        return size
+    }
+    
+    //3
+    func collectionView(collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        insetForSectionAtIndex section: Int) -> UIEdgeInsets {
+            return sectionInsets
+    }
 
 }

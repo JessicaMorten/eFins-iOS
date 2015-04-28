@@ -677,6 +677,7 @@
                         <outlet property="locationSwitch" destination="E7H-gX-Nl9" id="MZc-VZ-sQw"/>
                         <outlet property="locationTableCell" destination="f9y-GJ-eAN" id="b5t-Cr-4ZO"/>
                         <outlet property="observersTableViewCell" destination="lYO-BX-d5b" id="Sm6-u6-IVX"/>
+                        <outlet property="photosCell" destination="ekL-ji-OTw" id="3Tv-0p-cDq"/>
                         <outlet property="remarksTextView" destination="JaJ-NM-LiS" id="a2i-Sj-4NH"/>
                         <outlet property="saveButton" destination="o0L-fj-lX6" id="9rb-Jb-MsK"/>
                         <outlet property="vesselTableViewCell" destination="LaK-m0-pCa" id="8lq-A6-syY"/>
