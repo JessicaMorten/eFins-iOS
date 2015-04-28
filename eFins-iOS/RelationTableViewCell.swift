@@ -92,9 +92,10 @@ class RelationTableViewCell: UITableViewCell {
         // Initialization code
     }
     
-    func setCustomForm(storyboard:UIStoryboard, identifier: String) {
-        self.modelFormStoryboard = storyboard
+    func setCustomForm(board:UIStoryboard, identifier: String?) {
+        self.modelFormStoryboard = board
         self.modelFormId = identifier
+        updateValues()
     }
     
     func setup(model: RLMObject, allowEditing: Bool, property: String, secondaryProperty: String?) {
@@ -119,11 +120,15 @@ class RelationTableViewCell: UITableViewCell {
             } else {
                 if let object: AnyObject = propertyValue {
                     self.detailTextLabel?.text = "\(object.valueForKey(modelLabelProperty)!)"
-                    if self.modelFormId != nil {
+                    println("\(object.valueForKey(modelLabelProperty)!)")
+                    println(self.modelFormStoryboard)
+                    println(allowEditing)
+                    if self.modelFormStoryboard != nil {
                         if allowEditing {
                             self.accessoryType = UITableViewCellAccessoryType.DetailDisclosureButton
                         } else {
-                            self.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
+                            println("Should be disclosure")
+                            self.accessoryType = UITableViewCellAccessoryType.DetailButton
                         }
                     } else {
                         self.accessoryType = UITableViewCellAccessoryType.None
@@ -184,7 +189,7 @@ class RelationTableViewCell: UITableViewCell {
                     destination.title = self.textLabel?.text
                     destination.model = model
                     destination.modelFormId = modelFormId
-                    destination.modelFormStoryboard = storyboard
+                    destination.modelFormStoryboard = self.modelFormStoryboard
                     destination.modelLabelProperty = modelLabelProperty
                     destination.property = property
                     destination.secondaryProperty = secondaryProperty
@@ -234,5 +239,16 @@ class RelationTableViewCell: UITableViewCell {
         self.updateValues()
     }
 
+    func displayDetails(table: UITableViewController) {
+        if self.modelFormStoryboard != nil {
+            let form = self.modelFormStoryboard!.instantiateViewControllerWithIdentifier(self.modelFormId!) as! UIViewController
+            (form as! ItemForm).label = self.textLabel?.text
+            (form as! ItemForm).model = propertyValue as! RLMObject
+            (form as! ItemForm).allowEditing = false
+            table.navigationController?.pushViewController(form, animated: true)
+        }
+    }
+    
+    
 
 }

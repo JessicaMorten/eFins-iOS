@@ -13,4 +13,5 @@ import Realm
 protocol ItemForm {
     var model: RLMObject? { get set }
     var label: String? { get set }
+    var allowEditing:Bool { get set }
 }

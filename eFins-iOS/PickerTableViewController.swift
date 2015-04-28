@@ -120,12 +120,9 @@ class PickerTableViewController: UITableViewController, UISearchBarDelegate, UIS
     
     @IBAction func unwindCustomForm(sender: UIStoryboardSegue) {
         self.selection = (sender.sourceViewController as! ItemForm).model
-        
         if self.cell != nil {
             self.navigationController?.popToRootViewControllerAnimated(true)
             cell?.unwindOneToOnePicker(self)
-        } else {
-            self.performSegueWithIdentifier("UnwindPicker", sender: self)
         }
     }
 
@@ -284,7 +281,7 @@ class PickerTableViewController: UITableViewController, UISearchBarDelegate, UIS
     }
     
     func getCustomForm() -> UITableViewController? {
-        if self.modelFormStoryboard != nil && self.modelFormId != nil {
+        if self.modelFormStoryboard != nil {
             return self.modelFormStoryboard?.instantiateViewControllerWithIdentifier(self.modelFormId!) as? UITableViewController
         } else {
             return nil

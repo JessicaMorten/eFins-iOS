@@ -31,11 +31,15 @@
 		935D24E31AC3548200A2854D /* EfinsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 935D24E21AC3548200A2854D /* EfinsModel.swift */; };
 		939C2AF91ADC6317008E2748 /* RLMSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 939C2AF81ADC6317008E2748 /* RLMSupport.swift */; };
 		93BE828E1ADED37F002C7EFE /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BE828D1ADED37F002C7EFE /* libc++.dylib */; };
-		93BE82931ADEDCBC002C7EFE /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BE82921ADEDCBC002C7EFE /* Realm.framework */; };
-		93BE82951ADEDCDC002C7EFE /* Realm.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 93BE82921ADEDCBC002C7EFE /* Realm.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		93E701F01AB0E6C800BD179E /* DataSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93E701EF1AB0E6C800BD179E /* DataSync.swift */; };
 		C2D23E5308706D97FF932B04 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D70047102BE3CA65EBCD536 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		CB0076711AE6E7BC00AD0590 /* PersonForm.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CB0076701AE6E7BC00AD0590 /* PersonForm.storyboard */; };
+		CB0076731AE6EBD200AD0590 /* PersonFormTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB0076721AE6EBD200AD0590 /* PersonFormTableViewController.swift */; };
 		CB03EED71AB8E1B9004CCB47 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB03EED61AB8E1B9004CCB47 /* SettingsViewController.swift */; };
+		CB1F54791AEEB19D00D286F1 /* PhotoList.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CB1F54781AEEB19D00D286F1 /* PhotoList.storyboard */; };
+		CB1F547B1AEEB38C00D286F1 /* PhotosCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB1F547A1AEEB38C00D286F1 /* PhotosCollectionViewController.swift */; };
+		CB3B42BE1AE85F92004E9D60 /* DayDatePicker.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CB3B42BD1AE85F92004E9D60 /* DayDatePicker.storyboard */; };
+		CB3B42C01AE85FE5004E9D60 /* DayDatePickerTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB3B42BF1AE85FE5004E9D60 /* DayDatePickerTableViewController.swift */; };
 		CB81E9301AAA21F70071C2D2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB81E92F1AAA21F70071C2D2 /* AppDelegate.swift */; };
 		CB81E9321AAA21F70071C2D2 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB81E9311AAA21F70071C2D2 /* FirstViewController.swift */; };
 		CB81E9341AAA21F70071C2D2 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB81E9331AAA21F70071C2D2 /* SecondViewController.swift */; };
@@ -78,7 +82,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				93BE82951ADEDCDC002C7EFE /* Realm.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -114,7 +117,13 @@
 		93BE828D1ADED37F002C7EFE /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
 		93BE82921ADEDCBC002C7EFE /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Realm.framework; sourceTree = "<group>"; };
 		93E701EF1AB0E6C800BD179E /* DataSync.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataSync.swift; sourceTree = "<group>"; };
+		CB0076701AE6E7BC00AD0590 /* PersonForm.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = PersonForm.storyboard; sourceTree = "<group>"; };
+		CB0076721AE6EBD200AD0590 /* PersonFormTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonFormTableViewController.swift; sourceTree = "<group>"; };
 		CB03EED61AB8E1B9004CCB47 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		CB1F54781AEEB19D00D286F1 /* PhotoList.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = PhotoList.storyboard; sourceTree = "<group>"; };
+		CB1F547A1AEEB38C00D286F1 /* PhotosCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotosCollectionViewController.swift; sourceTree = "<group>"; };
+		CB3B42BD1AE85F92004E9D60 /* DayDatePicker.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = DayDatePicker.storyboard; sourceTree = "<group>"; };
+		CB3B42BF1AE85FE5004E9D60 /* DayDatePickerTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DayDatePickerTableViewController.swift; sourceTree = "<group>"; };
 		CB81E92A1AAA21F70071C2D2 /* eFins.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = eFins.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CB81E92E1AAA21F70071C2D2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CB81E92F1AAA21F70071C2D2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -150,7 +159,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				93BE82931ADEDCBC002C7EFE /* Realm.framework in Frameworks */,
 				93BE828E1ADED37F002C7EFE /* libc++.dylib in Frameworks */,
 				C2D23E5308706D97FF932B04 /* Pods.framework in Frameworks */,
 			);
@@ -246,6 +254,9 @@
 				93BE82911ADEDCBC002C7EFE /* Realm-dynamic-simulator */,
 				CBE117F91ACB2A7800BC229F /* RelationTableViewCell.swift */,
 				CBE77B2D1AE1878B00197FF5 /* VesselForm.storyboard */,
+				CBE77B2F1AE18A1B00197FF5 /* VesselFormTableViewController.swift */,
+				CB0076701AE6E7BC00AD0590 /* PersonForm.storyboard */,
+				CB0076721AE6EBD200AD0590 /* PersonFormTableViewController.swift */,
 				939C2AF81ADC6317008E2748 /* RLMSupport.swift */,
 				CB81E92D1AAA21F70071C2D2 /* Supporting Files */,
 				933454C11AB75C3100E5C65E /* DataModels */,
@@ -253,13 +264,14 @@
 				CB03EED61AB8E1B9004CCB47 /* SettingsViewController.swift */,
 				CBF9850D1AAE010500C4F721 /* Login.storyboard */,
 				CBCE35A61AC1F763005C6CA8 /* DatePicker.storyboard */,
+				CB3B42BD1AE85F92004E9D60 /* DayDatePicker.storyboard */,
+				CB3B42BF1AE85FE5004E9D60 /* DayDatePickerTableViewController.swift */,
 				CBCE35A81AC1F7CD005C6CA8 /* DatePickerTableViewController.swift */,
 				CBD00BAA1AB0E6A300ED784E /* RegistrationIncompleteViewController.swift */,
 				CBF9850E1AAE010500C4F721 /* LoginViewController.swift */,
 				CB81E92F1AAA21F70071C2D2 /* AppDelegate.swift */,
 				CB81E9311AAA21F70071C2D2 /* FirstViewController.swift */,
 				CB81E9331AAA21F70071C2D2 /* SecondViewController.swift */,
-				CBE77B2F1AE18A1B00197FF5 /* VesselFormTableViewController.swift */,
 				CB81E9351AAA21F70071C2D2 /* Main.storyboard */,
 				CBE77B311AE1A19A00197FF5 /* ItemForm.swift */,
 				CBEAFA061AAA234B00C8A85A /* MapViewController.swift */,
@@ -269,6 +281,8 @@
 				CBCE35A31AC1EB2F005C6CA8 /* ActivityLogTableViewController.swift */,
 				93E701EF1AB0E6C800BD179E /* DataSync.swift */,
 				CBE117FE1ACC8C5400BC229F /* OneToMany.storyboard */,
+				CB1F54781AEEB19D00D286F1 /* PhotoList.storyboard */,
+				CB1F547A1AEEB38C00D286F1 /* PhotosCollectionViewController.swift */,
 				CBE118021ACC8FAC00BC229F /* OneToManyTableViewController.swift */,
 				CBE118071ACDE6A600BC229F /* PickerTableViewController.swift */,
 				9310B50F1ADC3BDD00D45CF3 /* Reachability.swift */,
@@ -392,6 +406,9 @@
 				CB81E93C1AAA21F70071C2D2 /* LaunchScreen.xib in Resources */,
 				CB81E9391AAA21F70071C2D2 /* Images.xcassets in Resources */,
 				CBCE35A71AC1F763005C6CA8 /* DatePicker.storyboard in Resources */,
+				CB0076711AE6E7BC00AD0590 /* PersonForm.storyboard in Resources */,
+				CB3B42BE1AE85F92004E9D60 /* DayDatePicker.storyboard in Resources */,
+				CB1F54791AEEB19D00D286F1 /* PhotoList.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -464,6 +481,7 @@
 				CBE77B321AE1A19A00197FF5 /* ItemForm.swift in Sources */,
 				935D24DB1AC2140E00A2854D /* Photo.swift in Sources */,
 				CBF985101AAE010500C4F721 /* LoginViewController.swift in Sources */,
+				CB1F547B1AEEB38C00D286F1 /* PhotosCollectionViewController.swift in Sources */,
 				CBCE35A41AC1EB2F005C6CA8 /* ActivityLogTableViewController.swift in Sources */,
 				9310B5101ADC3BDD00D45CF3 /* Reachability.swift in Sources */,
 				935D24DD1AC2149300A2854D /* ViolationType.swift in Sources */,
@@ -488,8 +506,10 @@
 				935D24D11AC2117200A2854D /* VesselType.swift in Sources */,
 				935D24C31AC1E3C100A2854D /* FreeTextCrew.swift in Sources */,
 				935D24C91AC1E5F200A2854D /* Activity.swift in Sources */,
+				CB0076731AE6EBD200AD0590 /* PersonFormTableViewController.swift in Sources */,
 				CB81E9321AAA21F70071C2D2 /* FirstViewController.swift in Sources */,
 				CBD00BAB1AB0E6A300ED784E /* RegistrationIncompleteViewController.swift in Sources */,
+				CB3B42C01AE85FE5004E9D60 /* DayDatePickerTableViewController.swift in Sources */,
 				933454C41AB75C4A00E5C65E /* Agency.swift in Sources */,
 				935D24CB1AC1E78900A2854D /* Catch.swift in Sources */,
 				935D24CD1AC1E82500A2854D /* RegulatoryCode.swift in Sources */,
