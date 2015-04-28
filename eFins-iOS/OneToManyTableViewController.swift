@@ -99,7 +99,7 @@ class OneToManyTableViewController: UITableViewController {
     */
 
     func removeItem(item:RLMObject) {
-        let primaryItems = model!.valueForKey(property!.getterName) as! RLMArray
+        let primaryItems = model!.valueForKey(property!.name) as! RLMArray
         if primaryItems.count > 0 {
             for i in 1...(primaryItems.count) {
                 if (primaryItems.objectAtIndex(UInt(i - 1)) as! RLMObject).isEqualToObject(item) {
@@ -110,7 +110,7 @@ class OneToManyTableViewController: UITableViewController {
         }
         
         if self.secondaryProperty != nil {
-            let secondaryItems = model!.valueForKey(secondaryProperty!.getterName) as! RLMArray
+            let secondaryItems = model!.valueForKey(secondaryProperty!.name) as! RLMArray
             if secondaryItems.count > 0 {
                 for i in 1...(secondaryItems.count) {
                     if (secondaryItems.objectAtIndex(UInt(i - 1)) as! RLMObject).isEqualToObject(item) {
