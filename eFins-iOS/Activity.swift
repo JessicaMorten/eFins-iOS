@@ -31,8 +31,8 @@ class Activity: EfinsModel{
     
     dynamic var time = NSDate()
     dynamic var remarks = ""
-    dynamic var latitude = 0
-    dynamic var longitude = 0
+    dynamic var latitude = -1.0
+    dynamic var longitude = -1.0
     dynamic var locationManuallyEntered = false
     dynamic var contactType: ContactType?  // this is a NPS field
 
