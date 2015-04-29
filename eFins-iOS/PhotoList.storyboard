@@ -13,20 +13,45 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="AJw-2R-jqP">
-                            <size key="itemSize" width="50" height="50"/>
+                            <size key="itemSize" width="200" height="200"/>
                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         </collectionViewFlowLayout>
                         <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="UmL-R8-rIm">
-                                <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" restorationIdentifier="PhotoCell" reuseIdentifier="PhotoCell" id="znP-a8-DVD" customClass="PhotoCollectionViewCell" customModule="eFins" customModuleProvider="target">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="HeH-tp-NA9">
+                                            <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
+                                        </imageView>
+                                    </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="HeH-tp-NA9" secondAttribute="trailing" constant="5" id="0ud-v4-hhR"/>
+                                    <constraint firstItem="HeH-tp-NA9" firstAttribute="top" secondItem="znP-a8-DVD" secondAttribute="top" constant="5" id="1Xt-1b-fTI"/>
+                                    <constraint firstItem="HeH-tp-NA9" firstAttribute="top" secondItem="znP-a8-DVD" secondAttribute="top" id="WZs-yU-RqY"/>
+                                    <constraint firstAttribute="bottom" secondItem="HeH-tp-NA9" secondAttribute="bottom" id="fWt-d5-eTN"/>
+                                    <constraint firstAttribute="trailing" secondItem="HeH-tp-NA9" secondAttribute="trailing" id="fjd-pB-75F"/>
+                                    <constraint firstAttribute="bottom" secondItem="HeH-tp-NA9" secondAttribute="bottom" constant="5" id="gdr-Tp-Zs5"/>
+                                    <constraint firstItem="HeH-tp-NA9" firstAttribute="leading" secondItem="znP-a8-DVD" secondAttribute="leading" constant="5" id="hag-ok-2zi"/>
+                                    <constraint firstItem="HeH-tp-NA9" firstAttribute="leading" secondItem="znP-a8-DVD" secondAttribute="leading" id="oMe-DM-vIQ"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="0ud-v4-hhR"/>
+                                        <exclude reference="1Xt-1b-fTI"/>
+                                        <exclude reference="gdr-Tp-Zs5"/>
+                                        <exclude reference="hag-ok-2zi"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <outlet property="imageView" destination="HeH-tp-NA9" id="aBV-S5-0V6"/>
+                                </connections>
                             </collectionViewCell>
                         </cells>
                         <connections>
@@ -36,14 +61,15 @@
                     </collectionView>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="3Xu-X3-cE4">
+                        <nil key="title"/>
                         <barButtonItem key="rightBarButtonItem" systemItem="camera" id="oK7-gJ-87Y">
                             <connections>
-                                <action selector="takePhoto:" destination="46m-TM-ZdH" id="vRP-qa-0aV"/>
+                                <action selector="cameraAction:" destination="46m-TM-ZdH" id="08h-Ah-Ll2"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
-                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <nil key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="cameraButton" destination="oK7-gJ-87Y" id="JiD-3V-sfW"/>
                     </connections>

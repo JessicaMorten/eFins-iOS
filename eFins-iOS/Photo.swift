@@ -8,6 +8,10 @@
 
 import Foundation
 import Realm
+import AVFoundation
+import ImageIO
+
+let MAX_THUMBNAIL_SIZE = 640
 
 class Photo: EfinsModel {
     dynamic var originalUrl = ""
@@ -20,5 +24,36 @@ class Photo: EfinsModel {
         return linkingObjectsOfClass("Activity", forProperty: "photos") as! [Activity]
     }
     // TODO: add relationship filters for different kinds of activity
+    
+    var thumbnailImage:UIImage {
+        get {
+            return UIImage(data: self.lowResolution)!
+        }
+    }
+    
+    var image:UIImage {
+        get {
+            return UIImage(data: self.originalBlob)!
+        }
+    }
+
+
+    func setImage(image:UIImage) {
+        // store original
+        self.originalBlob = UIImageJPEGRepresentation(image, 0.8)
+        
+        // make thumbnail
+        if let imageSource = CGImageSourceCreateWithData(self.originalBlob, nil) {
+            let options:[NSObject:AnyObject] = [
+                kCGImageSourceThumbnailMaxPixelSize: MAX_THUMBNAIL_SIZE,
+                kCGImageSourceCreateThumbnailFromImageIfAbsent: true,
+                kCGImageSourceCreateThumbnailWithTransform: true
+            ]
+            
+            let scaledImage = UIImage(CGImage: CGImageSourceCreateThumbnailAtIndex(imageSource, 0, options))
+            // store thumbnail
+            self.lowResolution = UIImageJPEGRepresentation(scaledImage, 0.6)
+        }
+    }
 }
 

@@ -22,6 +22,7 @@ class ActivityLogTableViewController: UITableViewController, UITextViewDelegate 
     @IBOutlet weak var vesselTableViewCell: RelationTableViewCell!
     @IBOutlet weak var crewCell: RelationTableViewCell!
     @IBOutlet weak var cameraButton: UIBarButtonItem!
+    @IBOutlet weak var photosCell: UITableViewCell!
 
     var activity:Activity?
     var isNew = true
@@ -138,6 +139,8 @@ class ActivityLogTableViewController: UITableViewController, UITextViewDelegate 
         } else if indexPath.section == 0 && indexPath.row == 3 {
             let storyboard = UIStoryboard(name: "PhotoList", bundle: nil)
             let controller = storyboard.instantiateInitialViewController() as! PhotosCollectionViewController
+            controller.activity = self.activity
+            controller.editing = self.allowEditing
             self.navigationController?.pushViewController(controller, animated: true)
         }
         self.tableView.deselectRowAtIndexPath(indexPath, animated: false)
@@ -181,8 +184,24 @@ class ActivityLogTableViewController: UITableViewController, UITextViewDelegate 
     @IBAction func takePhoto(sender: AnyObject) {
         let storyboard = UIStoryboard(name: "PhotoList", bundle: nil)
         let controller = storyboard.instantiateInitialViewController() as! PhotosCollectionViewController
-        self.navigationController?.pushViewController(controller, animated: true)
-        controller.takePhoto(sender)
+        controller.activity = self.activity
+        controller.editing = self.allowEditing
+        let alert = controller.getAlert()
+        alert.modalPresentationStyle = UIModalPresentationStyle.FormSheet
+        alert.popoverPresentationController?.barButtonItem = self.cameraButton
+        self.presentViewController(alert, animated: true) {
+            self.navigationController?.pushViewController(controller, animated: true)
+        }
+//
+//        controller.takePhoto(sender)
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        if let model = self.activity {
+            self.photosCell.detailTextLabel?.text = "\(model.photos.count)"
+        } else {
+            self.photosCell.detailTextLabel?.text = "0"
+        }
     }
     
     

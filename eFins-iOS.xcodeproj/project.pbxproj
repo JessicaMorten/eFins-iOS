@@ -47,6 +47,7 @@
 		CB81E9391AAA21F70071C2D2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CB81E9381AAA21F70071C2D2 /* Images.xcassets */; };
 		CB81E93C1AAA21F70071C2D2 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = CB81E93A1AAA21F70071C2D2 /* LaunchScreen.xib */; };
 		CB81E9481AAA21F80071C2D2 /* eFins_iOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB81E9471AAA21F80071C2D2 /* eFins_iOSTests.swift */; };
+		CBA0330D1AF02B2A006838C6 /* PhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBA0330C1AF02B2A006838C6 /* PhotoCollectionViewCell.swift */; };
 		CBCE35A41AC1EB2F005C6CA8 /* ActivityLogTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBCE35A31AC1EB2F005C6CA8 /* ActivityLogTableViewController.swift */; };
 		CBCE35A71AC1F763005C6CA8 /* DatePicker.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CBCE35A61AC1F763005C6CA8 /* DatePicker.storyboard */; };
 		CBCE35A91AC1F7CD005C6CA8 /* DatePickerTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBCE35A81AC1F7CD005C6CA8 /* DatePickerTableViewController.swift */; };
@@ -135,6 +136,7 @@
 		CB81E9411AAA21F80071C2D2 /* eFins-iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "eFins-iOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CB81E9461AAA21F80071C2D2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CB81E9471AAA21F80071C2D2 /* eFins_iOSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = eFins_iOSTests.swift; sourceTree = "<group>"; };
+		CBA0330C1AF02B2A006838C6 /* PhotoCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoCollectionViewCell.swift; sourceTree = "<group>"; };
 		CBCE35A31AC1EB2F005C6CA8 /* ActivityLogTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityLogTableViewController.swift; sourceTree = "<group>"; };
 		CBCE35A61AC1F763005C6CA8 /* DatePicker.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = DatePicker.storyboard; sourceTree = "<group>"; };
 		CBCE35A81AC1F7CD005C6CA8 /* DatePickerTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatePickerTableViewController.swift; sourceTree = "<group>"; };
@@ -282,6 +284,7 @@
 				93E701EF1AB0E6C800BD179E /* DataSync.swift */,
 				CBE117FE1ACC8C5400BC229F /* OneToMany.storyboard */,
 				CB1F54781AEEB19D00D286F1 /* PhotoList.storyboard */,
+				CBA0330C1AF02B2A006838C6 /* PhotoCollectionViewCell.swift */,
 				CB1F547A1AEEB38C00D286F1 /* PhotosCollectionViewController.swift */,
 				CBE118021ACC8FAC00BC229F /* OneToManyTableViewController.swift */,
 				CBE118071ACDE6A600BC229F /* PickerTableViewController.swift */,
@@ -483,6 +486,7 @@
 				CBF985101AAE010500C4F721 /* LoginViewController.swift in Sources */,
 				CB1F547B1AEEB38C00D286F1 /* PhotosCollectionViewController.swift in Sources */,
 				CBCE35A41AC1EB2F005C6CA8 /* ActivityLogTableViewController.swift in Sources */,
+				CBA0330D1AF02B2A006838C6 /* PhotoCollectionViewCell.swift in Sources */,
 				9310B5101ADC3BDD00D45CF3 /* Reachability.swift in Sources */,
 				935D24DD1AC2149300A2854D /* ViolationType.swift in Sources */,
 				935D24E11AC215AB00A2854D /* EnforcementActionTaken.swift in Sources */,
