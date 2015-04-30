@@ -228,7 +228,6 @@ class RelationTableViewCell: UITableViewCell {
         🎵FuckFuckFuck🎵 = false
         let selection = sender.selection!
         // Determine appropriate property (primary or secondary property)
-        var prop:RLMArray
         if property?.objectClassName == selection.objectSchema.className {
             model?.setValue(sender.selection!, forKey: property!.name)
         } else {

@@ -54,14 +54,13 @@ class DataSync {
             let usn = defaults.integerForKey("currentUsn")
             let endOfLastSync = defaults.integerForKey("endOfLastSync")
             
-            //self.pull( usn, endOfLastSync: endOfLastSync, maxCount: 0)
-            self.pull( 0, endOfLastSync: endOfLastSync, maxCount: 0)
+            self.pull( usn, endOfLastSync: endOfLastSync, maxCount: 0)
+            //self.pull( 0, endOfLastSync: endOfLastSync, maxCount: 0)
 
             
             dispatch_async(dispatch_get_main_queue()) {
                 //Emit UI update event here if needed?
                 self.syncInProgress = false
-                self.log("Synchronization complete.")
             }
         }
     }
@@ -132,7 +131,7 @@ class DataSync {
         
         Alamofire.request(mutableURLRequest)
             .responseString { (request, response, data, error) in
-                println(data)
+                //println(data)
                 if (error != nil) {
                     self.log("Connection Error, Problem connecting to server: \(error). \(response)")
                 } else if (response?.statusCode == 404) {
@@ -144,9 +143,10 @@ class DataSync {
                 } else if (response?.statusCode == 204) {
                     self.log("Server reports we are up-to-date")
                 } else if response?.statusCode == 200 {
-                    self.log("Got reply to sync request: \(data)")
+                    self.log("Got reply to sync request")
                     let json = JSON(data: data!.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!)
-                    self.log(json.stringValue)
+                    //self.log(json.stringValue)
+                    self.log("ENETER")
                     if(self.digestResults(json) == true) {
                         let defaults = NSUserDefaults.standardUserDefaults()
                         let newUsn = json["highestUsn"].int
@@ -170,9 +170,11 @@ class DataSync {
     }
     
     func digestResults(json: JSON) -> Bool {
+        self.log("ENETERED")
         let dRealm = self.defaultRealm()
         dRealm.beginWriteTransaction()
         var newEntities: [RLMObject] = []
+        self.log("FUCKKKKKK")
 
         for (key: String, subJson: JSON) in json {
             if(key == "models") {
@@ -263,12 +265,13 @@ class DataSync {
         self.log("Setting many-to-many relations")
         let dRealm = self.defaultRealm()
         
-        for (relationName: String, aJson: JSON) in rJson {
+        for (index: String, aJson : JSON) in rJson {
             let source = aJson["sourceModel"].stringValue
             let target = aJson["targetModel"].stringValue
-            self.log("\(relationName) is a many-to-many between \(source) and \(target) ")
-            var sourceModel = Models[source]
-            var targetModel = Models[target]
+            let thisAs = aJson["as"].stringValue
+            self.log("\(thisAs) is a many-to-many between \(source) and \(target) ")
+            var sourceModel = Models[source]!
+            var targetModel = Models[target]!
             var sourceSchema = dRealm.schema.schemaForClassName(source)
             var targetSchema = dRealm.schema.schemaForClassName(target)
             if (sourceSchema == nil) {
@@ -281,27 +284,40 @@ class DataSync {
             var found = 0
             for p in sourceSchema.properties {
                 let property: RLMProperty = p as! RLMProperty
-                if property.type == RLMPropertyType.Array && property.objectClassName == target {
-                    self.log("Found an array property named \(property.name) on \(source)")
-                    found++
-                }
-            }
-            for p in targetSchema.properties {
-                let property: RLMProperty = p as! RLMProperty
-                if property.type == RLMPropertyType.Array && property.objectClassName == source {
-                    self.log("Found an array property named \(property.name) on \(target)")
+                
+                if property.type == RLMPropertyType.Array && property.objectClassName == target && property.name == thisAs {
+                    self.log("Found an array property named \(property.name) on \(source); this matches JSON property \(thisAs)")
                     found++
                 }
             }
             if(found == 0) {
-                self.log("Oh shit; the JSON expected a relationship but we didn't find one in the local (Realm) schema")
+                self.log("The JSON expected a relationship but we didn't find one in the local (Realm) schema")
+                self.log("CORRECT YOUR SCHEMA!!!!!")
             } else if(found > 1) {
                 self.log("Oops, we have multiple choices for an association")
+                self.log("CORRECT YOUR SCHEMA!!!!!")
+            } else {
+                // Now, we gotta fetch all the models referred to by the association and set their targets.  This has got to be massively inefficient.
+                for (index, idHash : JSON) in aJson["idmap"] {
+                    let idDict = idHash.dictionaryObject!
+                    let sid : String = "\(source)Id"
+                    let tid : String = "\(target)Id"
+                    let sourceId = idDict[sid]!.stringValue
+                    let targetId = idDict[tid]!.stringValue
+                    self.log("Setting source \(source)Id \(sourceId) to refer to target \(target)Id \(targetId)")
+                    let s = sourceModel.objectsInRealm(dRealm, "id == %@", sourceId).firstObject() as! EfinsModel
+                    let t = targetModel.objectsInRealm(dRealm, "id == %@", targetId).firstObject() as! EfinsModel
+                    let currentAssocs : RLMArray = s.valueForKey(thisAs) as! RLMArray
+                    let i = currentAssocs.indexOfObject(t)
+                    if i == UInt(NSNotFound) {
+                        currentAssocs.addObject(t)
+                    }
+                                    }
             }
             
-            // Now, check the two schemas.  We need to make sure that one and only one of them has an array referring to the other.
-            // Note that the array might be named after the referred-to model, or it might be aliased to something else (there might
-            // be several referential arrays in one model to another model).  So we need to distinguish between them via the relation name given by the server.
+            
+            
+            
 
         }
         return(true)

@@ -49,8 +49,10 @@ class LogbookTableViewController: UITableViewController {
         let index = UInt(indexPath.row)
         let activity = activities.objectAtIndex(index) as! Activity
         switch activity.type {
-            case "activityLog":
+            case Activity.Types.LOG:
                 cell.textLabel?.text = "Activity Log"
+            case Activity.Types.CDFW_REC:
+                cell.textLabel?.text = "CDFW Recreational Contact"
             default:
                 cell.textLabel?.text = "Other"
         }
@@ -61,8 +63,10 @@ class LogbookTableViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let activity = activities.objectAtIndex(UInt(indexPath.row)) as! Activity
-        if activity.type == "activityLog" {
+        if activity.type == Activity.Types.LOG {
             self.performSegueWithIdentifier("ShowActivityLog", sender: activity)
+        } else if activity.type == Activity.Types.CDFW_REC {
+            self.performSegueWithIdentifier("ShowCDFWRecContact", sender: activity)
         }
         self.tableView.deselectRowAtIndexPath(indexPath, animated: false)
     }
@@ -76,6 +80,12 @@ class LogbookTableViewController: UITableViewController {
             let activity = sender as! Activity
             let controller = (segue.destinationViewController as! UINavigationController).viewControllers[0]
                 as! ActivityLogTableViewController
+            controller.activity = activity
+            controller.allowEditing = false
+        } else if segue.identifier == "ShowCDFWRecContact" {
+            let activity = sender as! Activity
+            let controller = (segue.destinationViewController as! UINavigationController).viewControllers[0]
+                as! CDFWRecContactTableViewController
             controller.activity = activity
             controller.allowEditing = false
         }
