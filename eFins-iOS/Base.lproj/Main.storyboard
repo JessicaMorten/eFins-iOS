@@ -212,6 +212,7 @@
                     </navigationItem>
                     <connections>
                         <segue destination="Ojb-XN-plA" kind="presentation" identifier="ShowActivityLog" id="nmz-yj-cgL"/>
+                        <segue destination="eiT-yD-dtw" kind="presentation" identifier="ShowCDFWRecContact" id="FBq-JD-g8n"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="q9t-li-hcY" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -428,6 +429,9 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="eiT-yD-dtw" kind="show" id="6kD-Nb-Neq"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="z3v-DT-uiP" style="IBUITableViewCellStyleDefault" id="p02-1Q-3GH">
                                         <autoresizingMask key="autoresizingMask"/>
@@ -708,6 +712,19 @@
             </objects>
             <point key="canvasLocation" x="3173" y="-347"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="yxH-FI-rnY">
+            <objects>
+                <navigationController id="eiT-yD-dtw" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="PYU-T3-nRm">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="flI-94-pkN" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3229" y="-1113"/>
+        </scene>
     </scenes>
     <resources>
         <image name="book" width="32" height="32"/>
@@ -715,6 +732,7 @@
         <image name="map_route" width="32" height="32"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="FBq-JD-g8n"/>
         <segue reference="nmz-yj-cgL"/>
     </inferredMetricsTieBreakers>
 </document>
