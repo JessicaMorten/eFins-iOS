@@ -1,15 +1,15 @@
 //
-//  ActivityLogTableViewController.swift
+//  CDFWRecContactTableViewController.swift
 //  eFins-iOS
 //
-//  Created by CHAD BURT on 3/24/15.
+//  Created by CHAD BURT on 4/30/15.
 //  Copyright (c) 2015 McClintock Lab. All rights reserved.
 //
 
 import UIKit
 import Realm
 
-class ActivityLogTableViewController: UITableViewController, UITextViewDelegate {
+class CDFWRecContactTableViewController: UITableViewController {
 
     @IBOutlet weak var locationTableCell: UITableViewCell!
     // TODO: immediately fetch location in background and spin indicator
@@ -19,35 +19,35 @@ class ActivityLogTableViewController: UITableViewController, UITextViewDelegate 
     @IBOutlet weak var remarksTextView: UITextView!
     @IBOutlet weak var saveButton: UIButton!
     @IBOutlet weak var observersTableViewCell: RelationTableViewCell!
-    @IBOutlet weak var vesselTableViewCell: RelationTableViewCell!
-    @IBOutlet weak var crewCell: RelationTableViewCell!
     @IBOutlet weak var cameraButton: UIBarButtonItem!
     @IBOutlet weak var photosCell: UITableViewCell!
-
+    @IBOutlet weak var numPersonsOnBoardTextField: UITextField!
+    @IBOutlet weak var numberOfPersonsOnBoardCell: UITableViewCell!
+    
     var activity:Activity?
     var isNew = true
     var allowEditing = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         if self.activity != nil {
             self.isNew = false
         }
         
         let realm = RLMRealm.defaultRealm()
+        self.numberOfPersonsOnBoardCell.textLabel?.text = "Number of Persons on Board"
         if self.isNew {
             activity = Activity()
             // TODO: Make an actual type
-            activity?.type = Activity.Types.LOG
-//            let predicate = NSPredicate(format: "color = %@ AND name BEGINSWITH %@", "tan", "B")
-//            let type = ContactType.objectsWithPredicate(predicate).firstObject()
+            activity?.type = Activity.Types.CDFW_REC
             self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Cancel,
                 target: self, action: "cancel")
             self.locationTableCell.textLabel?.text = "Include Location"
             activity?.time = NSDate()
             let formatter = getDateFormatter()
             dateTableCell.detailTextLabel?.text = formatter.stringFromDate(activity!.time)
+            self.numPersonsOnBoardTextField.text = "0"
         } else {
             self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.Plain, target: self, action: "back")
             self.navigationItem.rightBarButtonItem = nil
@@ -58,13 +58,15 @@ class ActivityLogTableViewController: UITableViewController, UITextViewDelegate 
             self.remarksTextView.text = activity?.remarks
             self.locationTableCell.textLabel?.text = "Location"
             self.locationSwitch.hidden = true
+            var numPersons = 0
+            if let n = activity?.numPersonsOnBoard {
+                numPersons = n
+            }
+            self.numPersonsOnBoardTextField.text = "\(numPersons)"
+            self.numPersonsOnBoardTextField.enabled = false
             self.remarksTextView.editable = false
         }
         self.observersTableViewCell.setup(self.activity!, allowEditing: allowEditing, property: "freeTextCrew", secondaryProperty: "users")
-        self.vesselTableViewCell.setup(self.activity!, allowEditing: allowEditing, property: "vessel", secondaryProperty: nil)
-        self.vesselTableViewCell.setCustomForm(UIStoryboard(name: "VesselForm", bundle: nil), identifier: "VesselForm")
-        self.crewCell.setup(self.activity!, allowEditing: allowEditing, property: "crew", secondaryProperty: nil)
-        self.crewCell.setCustomForm(UIStoryboard(name: "PersonForm", bundle: nil), identifier: "PersonForm")
     }
     
     // MARK: Actions
@@ -73,11 +75,11 @@ class ActivityLogTableViewController: UITableViewController, UITextViewDelegate 
     func cancel() {
         self.dismissViewControllerAnimated(true, completion: nil)
     }
-
+    
     func back() {
         self.dismissViewControllerAnimated(true, completion: nil)
     }
-
+    
     
     // TODO: Implement location fetching
     @IBAction func locationSwitchValueChanged(sender: UISwitch) {
@@ -96,22 +98,21 @@ class ActivityLogTableViewController: UITableViewController, UITextViewDelegate 
         realm.addObject(self.activity)
         realm.commitWriteTransaction()
         self.observersTableViewCell.updateRecentValuesCounts()
-        self.vesselTableViewCell.updateRecentValuesCounts()
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
     
     
     // MARK: - Navigation
-
-//    // In a storyboard-based application, you will often want to do a little preparation before navigation
-//    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-//        // Get the new view controller using [segue destinationViewController].
-//        // Pass the selected object to the new view controller.
-//        let controller = segue.destinationViewController
-//    }
-
-
+    
+    //    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    //    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    //        // Get the new view controller using [segue destinationViewController].
+    //        // Pass the selected object to the new view controller.
+    //        let controller = segue.destinationViewController
+    //    }
+    
+    
     @IBAction func unwindDatePicker(sender: UIStoryboardSegue) {
         let sourceViewController = sender.sourceViewController as! DatePickerTableViewController
         activity?.time = sourceViewController.date!
@@ -125,10 +126,8 @@ class ActivityLogTableViewController: UITableViewController, UITextViewDelegate 
     }
     
     @IBAction func unwindCustomForm(sender: UIStoryboardSegue) {
-//        let source = sender.sourceViewController as! OneToManyTableViewController
-//        source.cell?.updateValues()
-        self.vesselTableViewCell.updateValues()
-        self.observersTableViewCell.updateValues()
+        //        let source = sender.sourceViewController as! OneToManyTableViewController
+        //        source.cell?.updateValues()
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
@@ -137,7 +136,7 @@ class ActivityLogTableViewController: UITableViewController, UITextViewDelegate 
             let controller:DatePickerTableViewController = storyboard.instantiateInitialViewController() as! DatePickerTableViewController
             self.navigationController?.pushViewController(controller, animated: true)
             controller.date = activity!.time
-        } else if indexPath.section == 0 && indexPath.row == 3 {
+        } else if indexPath.section == 1 && indexPath.row == 0 {
             let storyboard = UIStoryboard(name: "PhotoList", bundle: nil)
             let controller = storyboard.instantiateInitialViewController() as! PhotosCollectionViewController
             controller.activity = self.activity
@@ -145,6 +144,12 @@ class ActivityLogTableViewController: UITableViewController, UITextViewDelegate 
             self.navigationController?.pushViewController(controller, animated: true)
         }
         self.tableView.deselectRowAtIndexPath(indexPath, animated: false)
+    }
+    
+    @IBAction func numPersonsOnBoardEditingEnded(sender: AnyObject) {
+        if let n = self.numPersonsOnBoardTextField.text.toInt() {
+          self.activity?.numPersonsOnBoard = n
+        }
     }
     
     func textViewDidBeginEditing(textView: UITextView) {
@@ -165,9 +170,10 @@ class ActivityLogTableViewController: UITableViewController, UITextViewDelegate 
         }
         textView.resignFirstResponder()
     }
-
+    
     @IBAction func tapRecognizer(sender:AnyObject) {
         self.hideNotesKeyboard()
+        self.numPersonsOnBoardTextField.endEditing(true)
     }
     
     func hideNotesKeyboard() {
@@ -193,8 +199,8 @@ class ActivityLogTableViewController: UITableViewController, UITextViewDelegate 
         self.presentViewController(alert, animated: true) {
             self.navigationController?.pushViewController(controller, animated: true)
         }
-//
-//        controller.takePhoto(sender)
+        //
+        //        controller.takePhoto(sender)
     }
     
     override func viewWillAppear(animated: Bool) {
