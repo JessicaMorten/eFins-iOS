@@ -37,4 +37,3 @@ class Activity: EfinsModel{
     dynamic var contactType: ContactType?  // this is a NPS field
 
 }
-
