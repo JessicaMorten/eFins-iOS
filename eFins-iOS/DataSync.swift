@@ -217,11 +217,62 @@ class DataSync {
                 }
             }
         }
+        
+        self.setRelationships(json["relations"])
 
 
         dRealm.commitWriteTransaction()
 
         return true
+    }
+    
+    
+    func setRelationships(rJson: JSON) -> Bool {
+        self.log("Setting many-to-many relations")
+        let dRealm = self.defaultRealm()
+        
+        for (relationName: String, aJson: JSON) in rJson {
+            let source = aJson["sourceModel"].stringValue
+            let target = aJson["targetModel"].stringValue
+            self.log("\(relationName) is a many-to-many between \(source) and \(target) ")
+            var sourceModel = Models[source]
+            var targetModel = Models[target]
+            var sourceSchema = dRealm.schema.schemaForClassName(source)
+            var targetSchema = dRealm.schema.schemaForClassName(target)
+            if (sourceSchema == nil) {
+                self.log("Problem: no Realm schema found for JSON object named \(source)")
+            }
+            if (targetSchema == nil) {
+                self.log("Problem: no Realm schema found for JSON object named \(target)")
+            }
+            
+            var found = 0
+            for p in sourceSchema.properties {
+                let property: RLMProperty = p as! RLMProperty
+                if property.type == RLMPropertyType.Array && property.objectClassName == target {
+                    self.log("Found an array property named \(property.name) on \(source)")
+                    found++
+                }
+            }
+            for p in targetSchema.properties {
+                let property: RLMProperty = p as! RLMProperty
+                if property.type == RLMPropertyType.Array && property.objectClassName == source {
+                    self.log("Found an array property named \(property.name) on \(target)")
+                    found++
+                }
+            }
+            if(found == 0) {
+                self.log("Oh shit; the JSON expected a relationship but we didn't find one in the local (Realm) schema")
+            } else if(found > 1) {
+                self.log("Oops, we have multiple choices for an association")
+            }
+            
+            // Now, check the two schemas.  We need to make sure that one and only one of them has an array referring to the other.
+            // Note that the array might be named after the referred-to model, or it might be aliased to something else (there might
+            // be several referential arrays in one model to another model).  So we need to distinguish between them via the relation name given by the server.
+
+        }
+        return(true)
     }
     
 }
