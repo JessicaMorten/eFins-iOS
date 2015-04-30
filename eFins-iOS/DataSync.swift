@@ -54,8 +54,9 @@ class DataSync {
             let usn = defaults.integerForKey("currentUsn")
             let endOfLastSync = defaults.integerForKey("endOfLastSync")
             
-            self.pull( usn, endOfLastSync: endOfLastSync, maxCount: 0)
-            
+            //self.pull( usn, endOfLastSync: endOfLastSync, maxCount: 0)
+            self.pull( 0, endOfLastSync: endOfLastSync, maxCount: 0)
+
             
             dispatch_async(dispatch_get_main_queue()) {
                 //Emit UI update event here if needed?
@@ -187,8 +188,38 @@ class DataSync {
                             Agency.ingest(modelArrayJson)
                         case "AgencyVessel":
                             AgencyVessel.ingest(modelArrayJson)
+                        case "Catch":
+                            Catch.ingest(modelArrayJson)
+                        case "ContactType":
+                            ContactType.ingest(modelArrayJson)
+                        case "EnforcementActionTaken":
+                            EnforcementActionTaken.ingest(modelArrayJson)
+                        case "EnforcementActionType":
+                            EnforcementActionType.ingest(modelArrayJson)
+                        case "Fishery":
+                            Fishery.ingest(modelArrayJson)
+                        case "FreeTextCrew":
+                            FreeTextCrew.ingest(modelArrayJson)
+                        case "PatrolLog":
+                            PatrolLog.ingest(modelArrayJson)
+                        case "Person":
+                            Person.ingest(modelArrayJson)
+                        case "Photo":
+                            Photo.ingest(modelArrayJson)
+                        case "Port":
+                            Port.ingest(modelArrayJson)
+                        case "RegulatoryCode":
+                            RegulatoryCode.ingest(modelArrayJson)
+                        case "Species":
+                            Species.ingest(modelArrayJson)
                         case "User":
                             User.ingest(modelArrayJson)
+                        case "Vessel":
+                            Vessel.ingest(modelArrayJson)
+                        case "VesselType":
+                            VesselType.ingest(modelArrayJson)
+                        case "ViolationType":
+                            ViolationType.ingest(modelArrayJson)
                         default:
                             self.log("Unknown/unimplemented model key \(key) in server json")
                     }
@@ -209,10 +240,11 @@ class DataSync {
                             Agency.setRelationships(modelArrayJson)
                         case "AgencyVessel":
                             AgencyVessel.setRelationships(modelArrayJson)
+                      
                         case "User":
                             User.setRelationships(modelArrayJson)
                         default:
-                            self.log("Unknown/unimplemented model key \(key) in server json")
+                            self.log("SetRelationships: Unknown/unimplemented model key \(key) in server json")
                     }
                 }
             }
