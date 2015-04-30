@@ -146,7 +146,6 @@ class DataSync {
                     self.log("Got reply to sync request")
                     let json = JSON(data: data!.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!)
                     //self.log(json.stringValue)
-                    self.log("ENETER")
                     if(self.digestResults(json) == true) {
                         let defaults = NSUserDefaults.standardUserDefaults()
                         let newUsn = json["highestUsn"].int
@@ -170,11 +169,9 @@ class DataSync {
     }
     
     func digestResults(json: JSON) -> Bool {
-        self.log("ENETERED")
         let dRealm = self.defaultRealm()
         dRealm.beginWriteTransaction()
         var newEntities: [RLMObject] = []
-        self.log("FUCKKKKKK")
 
         for (key: String, subJson: JSON) in json {
             if(key == "models") {
