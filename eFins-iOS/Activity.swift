@@ -23,6 +23,7 @@ class Activity: EfinsModel{
     dynamic var crew = RLMArray(objectClassName: Person.className()) // Crew of the fishing vessel
     dynamic var photos = RLMArray(objectClassName: Photo.className())
     dynamic var enforcementActionsTaken = RLMArray(objectClassName: EnforcementActionTaken.className())
+    dynamic var numPersonsOnBoard:Int = 0
     
     var patrolLog: PatrolLog {
         let logs = linkingObjectsOfClass("PatrolLog", forProperty: "activities")
@@ -36,5 +37,11 @@ class Activity: EfinsModel{
     dynamic var locationManuallyEntered = false
     dynamic var contactType: ContactType?  // this is a NPS field
 
+    struct Types {
+        static let CDFW_REC = "cdfwRecreationalBoardingCard"
+        static let CDFW_COMM = "cdfwCommercialBoardingCard"
+        static let NPS = "npsContactCard"
+        static let LOG = "activityLog"
+    }
 }
 

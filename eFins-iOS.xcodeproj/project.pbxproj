@@ -36,6 +36,7 @@
 		CB0076711AE6E7BC00AD0590 /* PersonForm.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CB0076701AE6E7BC00AD0590 /* PersonForm.storyboard */; };
 		CB0076731AE6EBD200AD0590 /* PersonFormTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB0076721AE6EBD200AD0590 /* PersonFormTableViewController.swift */; };
 		CB03EED71AB8E1B9004CCB47 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB03EED61AB8E1B9004CCB47 /* SettingsViewController.swift */; };
+		CB17869C1AF2A28200D08E73 /* CDFWRecContactTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB17869B1AF2A28200D08E73 /* CDFWRecContactTableViewController.swift */; };
 		CB1F54791AEEB19D00D286F1 /* PhotoList.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CB1F54781AEEB19D00D286F1 /* PhotoList.storyboard */; };
 		CB1F547B1AEEB38C00D286F1 /* PhotosCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB1F547A1AEEB38C00D286F1 /* PhotosCollectionViewController.swift */; };
 		CB3B42BE1AE85F92004E9D60 /* DayDatePicker.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CB3B42BD1AE85F92004E9D60 /* DayDatePicker.storyboard */; };
@@ -121,6 +122,7 @@
 		CB0076701AE6E7BC00AD0590 /* PersonForm.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = PersonForm.storyboard; sourceTree = "<group>"; };
 		CB0076721AE6EBD200AD0590 /* PersonFormTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonFormTableViewController.swift; sourceTree = "<group>"; };
 		CB03EED61AB8E1B9004CCB47 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		CB17869B1AF2A28200D08E73 /* CDFWRecContactTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDFWRecContactTableViewController.swift; sourceTree = "<group>"; };
 		CB1F54781AEEB19D00D286F1 /* PhotoList.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = PhotoList.storyboard; sourceTree = "<group>"; };
 		CB1F547A1AEEB38C00D286F1 /* PhotosCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotosCollectionViewController.swift; sourceTree = "<group>"; };
 		CB3B42BD1AE85F92004E9D60 /* DayDatePicker.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = DayDatePicker.storyboard; sourceTree = "<group>"; };
@@ -275,6 +277,7 @@
 				CB81E9311AAA21F70071C2D2 /* FirstViewController.swift */,
 				CB81E9331AAA21F70071C2D2 /* SecondViewController.swift */,
 				CB81E9351AAA21F70071C2D2 /* Main.storyboard */,
+				CB17869B1AF2A28200D08E73 /* CDFWRecContactTableViewController.swift */,
 				CBE77B311AE1A19A00197FF5 /* ItemForm.swift */,
 				CBEAFA061AAA234B00C8A85A /* MapViewController.swift */,
 				CB81E9381AAA21F70071C2D2 /* Images.xcassets */,
@@ -520,6 +523,7 @@
 				CBD00BAD1AB0F79700ED784E /* Constants.swift in Sources */,
 				933454C51AB75C4A00E5C65E /* User.swift in Sources */,
 				CBE272E01AC3564600A4F236 /* LogbookTableViewController.swift in Sources */,
+				CB17869C1AF2A28200D08E73 /* CDFWRecContactTableViewController.swift in Sources */,
 				935D24C71AC1E57500A2854D /* Port.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
