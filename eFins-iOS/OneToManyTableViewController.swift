@@ -117,7 +117,7 @@ class OneToManyTableViewController: UITableViewController {
             println("allowing editing")
             // append to array
             let index = prop.indexOfObject(selection)
-            if index != UInt(NSNotFound) {
+            if index == UInt(NSNotFound) {
                 prop.addObject(selection)
             }
             // save Model
