@@ -11,11 +11,7 @@ import Realm
 
 class AgencyVessel: EfinsModel {
     dynamic var name = ""
-    
-    var agency: Agency {
-        let agencies = linkingObjectsOfClass("Agency", forProperty: "agencyVessels") as! [Agency]
-        return agencies[0]
-    }
+    dynamic var agency: Agency?
     
     var patrolLogs: [PatrolLog] {
         return linkingObjectsOfClass("PatrolLog", forProperty: "agencyVessel") as! [PatrolLog]

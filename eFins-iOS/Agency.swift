@@ -11,10 +11,13 @@ import Realm
 
 class Agency: EfinsModel {
     dynamic var name = ""
-    dynamic var agencyVessels = RLMArray(objectClassName: AgencyVessel.className())
     
     var users: [User] {
         return linkingObjectsOfClass("User", forProperty: "agency") as! [User]
+    }
+    
+    var agencyVessels: [AgencyVessel] {
+        return linkingObjectsOfClass("AgencyVessel", forProperty: "agency") as! [AgencyVessel]
     }
     
 }

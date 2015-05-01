@@ -19,11 +19,7 @@ class Photo: EfinsModel {
     dynamic var longitude = 0
     dynamic var lowResolution = NSData()
     dynamic var originalBlob = NSData()
-    
-    var activities: [Activity] {
-        return linkingObjectsOfClass("Activity", forProperty: "photos") as! [Activity]
-    }
-    // TODO: add relationship filters for different kinds of activity
+    dynamic var activity : Activity?
     
     var thumbnailImage:UIImage {
         get {

@@ -11,12 +11,10 @@ import Realm
 
 class Port: EfinsModel {
     dynamic var name = ""
+    dynamic var patrolLogs = RLMArray(objectClassName: PatrolLog.className())
     
-    var patrolLogs: [PatrolLog] {
-        return linkingObjectsOfClass("PatrolLog", forProperty: "port") as! [PatrolLog]
-    }
     var activities: [Activity] {
-        return linkingObjectsOfClass("Activity", forProperty: "port") as! [Activity]
+        return linkingObjectsOfClass("Activity", forProperty: "departurePort") as! [Activity]
     }
 }
 
