@@ -11,6 +11,8 @@ import MaterialKit
 import Alamofire
 import SwiftyJSON
 
+let TokenObtainedNotification = "TokenObtainedNotification"
+
 class LoginViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var backgroundImageView: UIImageView!
@@ -125,6 +127,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                             defaults.setValue(token, forKey: "SessionToken")
                             defaults.setValue("Authenticated", forKey: "SessionState")
                             self.alert("Account Approved", message: "You may now access the system")
+                            NSNotificationCenter.defaultCenter().postNotificationName(TokenObtainedNotification, object: self)
                             let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
                             appDelegate.gotoMainStoryboard()
                         }

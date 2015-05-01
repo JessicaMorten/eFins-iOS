@@ -43,8 +43,4 @@ class EfinsModel : RLMObject {
         }
         return newEntities
     }
-    
-    class func setRelationships(json : JSON) -> Bool {
-        return true
-    }
 }
