@@ -12,6 +12,10 @@ import Realm
 class Catch: EfinsModel {
     dynamic var species: Species?
     dynamic var amount = 0
-    dynamic var activity : Activity?
+    
+    var activities: [Activity] {
+        return linkingObjectsOfClass("Activity", forProperty: "catches") as! [Activity]
+    }
+
 }
 

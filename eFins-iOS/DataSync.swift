@@ -56,13 +56,20 @@ class DataSync {
             let endOfLastSync = defaults.integerForKey("endOfLastSync")
             
             //self.pull( usn, endOfLastSync: endOfLastSync, maxCount: 0)
-            self.pull( 0, endOfLastSync: endOfLastSync, maxCount: 0)
+            self.pull( 0, endOfLastSync: endOfLastSync, maxCount: 0, continuation: { (success: Bool) -> () in
+                self.log("Entered continuation")
+                if(success) {
+                    self.log("starting push")
+                    self.push({
+                        self.syncInProgress = false
+                    })
+                } else {
+                    self.log("Pull failed; eschewing a push")
+                    self.syncInProgress = false
+                }
+            })
 
             
-            dispatch_async(dispatch_get_main_queue()) {
-                //Emit UI update event here if needed?
-                self.syncInProgress = false
-            }
         }
     }
     
@@ -122,7 +129,7 @@ class DataSync {
         NSLog("DataSync Manager: " + msg)
     }
     
-    func pull(currentUsn: Int, endOfLastSync: Int, maxCount: Int ) {
+    func pull(currentUsn: Int, endOfLastSync: Int, maxCount: Int, continuation: (Bool) -> () ) {
         let afterUsn = NSURLQueryItem(name: "afterUsn", value: "\(currentUsn)")
         let endOfLastSync = NSURLQueryItem(name: "endOfLastSync", value: "\(endOfLastSync)")
 
@@ -155,21 +162,68 @@ class DataSync {
                         let defaults = NSUserDefaults.standardUserDefaults()
                         defaults.setInteger(newUsn!, forKey: "currentUsn")
                         defaults.setInteger(json["timestamp"].int!, forKey: "endOfLastSync")
-                        self.log("After a successful sync, setting currentUsn to \(newUsn!)")
+                        self.log("After a successful pull, setting currentUsn to \(newUsn!)")
+                        continuation(true)
+                        return
                     } else {
                         self.log("Failed to digest server results; discarding pulled data")
                     }
                 } else {
                     self.log(data?.stringByStandardizingPath ?? "")
                 }
+                continuation(false)
         }
 
         
         
     }
     
-    func push() {
+    func push(continuation: () -> ()) {
+        let dRealm = self.defaultRealm()
+        let dict = [String: AnyObject]()
+        var json = JSON(dict)
+        json["models"] = JSON([String: AnyObject]())
+        for (key, model) in Models {
+            //self.log("\(key)")
+            var tempArray: [JSON] = []
+            let results = model.objectsInRealm(dRealm, "dirty == true")
+            for object in results {
+                let eObject = object as! EfinsModel
+                tempArray.append(eObject.toJSON())
+            }
+            if count(tempArray) > 0 {
+                json["models"][key] = JSON(tempArray)
+            }
+        }
+        self.log(json.rawString()!)
+        var components = NSURLComponents(string: Urls.sync)!
+        let mutableURLRequest = NSMutableURLRequest(URL: components.URL!)
+        mutableURLRequest.HTTPMethod = "POST"
+        mutableURLRequest.setValue("Bearer " + NSUserDefaults.standardUserDefaults().stringForKey("SessionToken")! , forHTTPHeaderField: "Authorization")
+        self.log("Posting to \(Urls.sync)")
+        Alamofire.request(mutableURLRequest)
+            .responseString { (request, response, data, error) in
+                println(data)
+                if (error != nil) {
+                    self.log("Connection Error, Problem connecting to server: \(error). \(response)")
+                } else if (response?.statusCode == 404) {
+                    self.log("404")
+                } else if (response?.statusCode == 401) {
+                    self.log("401")
+                } else if (response?.statusCode == 403) {
+                    self.log("403")
+                } else if (response?.statusCode == 204) {
+                    self.log("Server reports 204, WTF?")
+                } else if response?.statusCode == 200 {
+                    self.log("Successful push to server")
+                    continuation()
+                    return
+                } else {
+                    self.log("Failed to post locally created data to server; will try again later")
+                }
         
+                continuation()
+        }
     }
     
     func digestResults(json: JSON) -> Bool {
@@ -321,7 +375,7 @@ class DataSync {
                 if i == UInt(NSNotFound) {
                     currentAssocs.addObject(t)
                 }
-                                }
+            }
         }
         return(true)
     }

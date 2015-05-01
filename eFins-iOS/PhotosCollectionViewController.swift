@@ -55,7 +55,7 @@ class PhotosCollectionViewController: UICollectionViewController, UIImagePickerC
         let photo = Photo()
         photo.setImage(image)
         realm.addObject(photo)
-        photo.activity = activity
+        activity.photos.addObject(photo)
         realm.commitWriteTransaction()
         picker.dismissViewControllerAnimated(true, completion: nil)
         self.collectionView?.reloadData()
@@ -105,7 +105,7 @@ class PhotosCollectionViewController: UICollectionViewController, UIImagePickerC
 
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as! PhotoCollectionViewCell
-        let photo = self.activity.photos[indexPath.row]
+        let photo = self.activity.photos.objectAtIndex(UInt(indexPath.row)) as! Photo
 //        cell.backgroundColor = UIColor.blackColor()
         cell.imageView.image = photo.thumbnailImage
         // Configure the cell
@@ -145,7 +145,7 @@ class PhotosCollectionViewController: UICollectionViewController, UIImagePickerC
     */
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        let photo = self.activity.photos[indexPath.row]
+        let photo = self.activity.photos.objectAtIndex(UInt(indexPath.row)) as! Photo
         var size = photo.thumbnailImage.size
         size.width = size.width / 2
         size.height = size.height / 2
