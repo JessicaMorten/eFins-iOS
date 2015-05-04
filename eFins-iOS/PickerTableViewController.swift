@@ -23,6 +23,7 @@ class PickerTableViewController: UITableViewController, UISearchBarDelegate, UIS
     var model:RLMObject?
     var modelFormId:String?
     var modelFormStoryboard:UIStoryboard?
+    var skipSearch = false
     @IBOutlet weak var helpLabel: UILabel!
     var searchController = UISearchController(searchResultsController: nil)
     
@@ -92,6 +93,7 @@ class PickerTableViewController: UITableViewController, UISearchBarDelegate, UIS
             }
         }
     }
+    
     func addNewObject() {
         let text = self.searchController.searchBar.text
         var Model = Models[property!.objectClassName]! as RLMObject.Type

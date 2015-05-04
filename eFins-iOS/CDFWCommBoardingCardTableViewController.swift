@@ -71,7 +71,9 @@ class CDFWCommBoardingCardTableViewController: UITableViewController, UITextView
         self.captainCell.setup(self.activity!, allowEditing: allowEditing, property: "captain", secondaryProperty: nil)
         self.captainCell.setCustomForm(UIStoryboard(name: "PersonForm", bundle:nil), identifier: "PersonForm")
         self.catchesCell.setup(self.activity!, allowEditing: allowEditing, property: "catches", secondaryProperty: nil)
-//        self.catchesCell.setCustomForm(UIStoryboard(name: "PersonForm", bundle:nil), identifier: "PersonForm")
+        self.catchesCell.setCustomForm(UIStoryboard(name: "CatchForm", bundle:nil), identifier: "CatchForm")
+        self.catchesCell.label = "Species"
+        self.catchesCell.skipSearch = true
         self.activityCell.setup(self.activity!, allowEditing: allowEditing, property: "action", secondaryProperty: nil)
     }
     

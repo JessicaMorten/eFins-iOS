@@ -17,9 +17,22 @@ class RelationTableViewCell: UITableViewCell {
     var modelFormStoryboard: UIStoryboard?
     var property:RLMProperty?
     var model:RLMObject?
+    var label:String?
+    var skipSearch = false
+    
     var 🎵FuckFuckFuck🎵 = false
     
     var allowEditing = true
+    
+    var entryFieldName:String {
+        get {
+            if let l = self.label {
+                return l
+            } else {
+                return self.textLabel!.text!
+            }
+        }
+    }
     
     var oneToMany:Bool {
         get {
@@ -193,9 +206,10 @@ class RelationTableViewCell: UITableViewCell {
                     destination.modelLabelProperty = modelLabelProperty
                     destination.property = property
                     destination.secondaryProperty = secondaryProperty
-                    destination.entryFieldName = self.textLabel?.text
+                    destination.entryFieldName = self.entryFieldName
                     destination.cell = self
                     destination.allowEditing = allowEditing
+                    destination.skipSearch = skipSearch
                     controller.navigationController?.pushViewController(destination, animated: true)
                 } else {
                     if allowEditing {
@@ -210,8 +224,9 @@ class RelationTableViewCell: UITableViewCell {
                         destination.labelProperty = modelLabelProperty
                         destination.property = property
                         destination.secondaryProperty = secondaryProperty
-                        destination.entryFieldName = self.textLabel?.text
+                        destination.entryFieldName = self.entryFieldName
                         destination.cell = self
+                        destination.skipSearch = skipSearch
                         //                    destination.allowEditing = allowEditing
                         controller.navigationController?.pushViewController(destination, animated: true)
                     }

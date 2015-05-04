@@ -19,6 +19,7 @@ class OneToManyTableViewController: UITableViewController {
     var modelFormId: String?
     var modelFormStoryboard: UIStoryboard?
     var allowEditing = true
+    var skipSearch = false
     weak var cell:RelationTableViewCell?
     @IBOutlet weak var addHelpLabel: UILabel!
     
@@ -196,7 +197,38 @@ class OneToManyTableViewController: UITableViewController {
     // MARK: - Navigation
 
     func add() {
-        self.performSegueWithIdentifier("Pick", sender: self)
+        if skipSearch {
+            var Model = Models[property!.objectClassName]! as RLMObject.Type
+            if let controller = self.getCustomForm() {
+                self.navigationItem.title = "Cancel"
+                self.navigationController?.pushViewController(controller, animated: true)
+            }
+        } else {
+            self.performSegueWithIdentifier("Pick", sender: self)
+        }
+    }
+    
+    func getCustomForm() -> UITableViewController? {
+        if self.modelFormStoryboard != nil {
+            return self.modelFormStoryboard?.instantiateViewControllerWithIdentifier(self.modelFormId!) as? UITableViewController
+        } else {
+            return nil
+        }
+    }
+    
+    @IBAction func unwindCustomFormNoSearch(sender: UIStoryboardSegue) {
+        println("Unwind custom form nosearch")
+        let realm = RLMRealm.defaultRealm()
+        realm.beginWriteTransaction()
+        let selection = (sender.sourceViewController as! ItemForm).model
+        selection?.setValue(self.model, forKeyPath: "activity")
+        realm.commitWriteTransaction()
+        self.tableView.reloadData()
+//
+//        if self.cell != nil {
+//            self.navigationController?.popToRootViewControllerAnimated(true)
+//            cell?.unwindOneToOnePicker(self)
+//        }
     }
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
