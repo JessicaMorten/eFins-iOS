@@ -33,6 +33,10 @@ class PatrolLog: EfinsModel {
     dynamic var outboardHoursBroughtForward: Float = 0.0
     dynamic var outboardLoggedHours : Float = 0.0
     dynamic var freeTextCrew = RLMArray(objectClassName: FreeTextCrew.className())
-    dynamic var activities = RLMArray(objectClassName: Activity.className())
     dynamic var freeTextOthersAboard = ""
+    
+    var activities: [Activity] {
+        return linkingObjectsOfClass("Activity", forProperty: "patrolLog") as! [Activity]
+    }
+
 }

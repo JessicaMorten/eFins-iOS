@@ -20,13 +20,14 @@ class DataSync {
     var timer: NSTimer = NSTimer()
     var syncInProgress = false
     
-    
     init() {
         let uri = NSURL(string: SERVER_ROOT)
         let host = uri?.host ?? ""
         self.reachability = Reachability(hostname: host)
         self.log("Reachability will be measured against " + host)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "reachabilityChanged", name: ReachabilityChangedNotification, object: reachability)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "tokenObtained", name: TokenObtainedNotification, object: nil)
+
         reachability.startNotifier()
     }
     
@@ -54,13 +55,13 @@ class DataSync {
             let usn = defaults.integerForKey("currentUsn")
             let endOfLastSync = defaults.integerForKey("endOfLastSync")
             
-            self.pull( usn, endOfLastSync: endOfLastSync, maxCount: 0)
-            
+            //self.pull( usn, endOfLastSync: endOfLastSync, maxCount: 0)
+            self.pull( 0, endOfLastSync: endOfLastSync, maxCount: 0)
+
             
             dispatch_async(dispatch_get_main_queue()) {
                 //Emit UI update event here if needed?
                 self.syncInProgress = false
-                self.log("Synchronization complete.")
             }
         }
     }
@@ -113,6 +114,10 @@ class DataSync {
         }
     }
     
+    @objc func tokenObtained() {
+        self.sync()
+    }
+    
     func log(msg: String) {
         NSLog("DataSync Manager: " + msg)
     }
@@ -131,7 +136,7 @@ class DataSync {
         
         Alamofire.request(mutableURLRequest)
             .responseString { (request, response, data, error) in
-                println(data)
+                //println(data)
                 if (error != nil) {
                     self.log("Connection Error, Problem connecting to server: \(error). \(response)")
                 } else if (response?.statusCode == 404) {
@@ -143,15 +148,14 @@ class DataSync {
                 } else if (response?.statusCode == 204) {
                     self.log("Server reports we are up-to-date")
                 } else if response?.statusCode == 200 {
-                    self.log("Got reply to sync request: \(data)")
                     let json = JSON(data: data!.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!)
-                    self.log(json.stringValue)
+                    let newUsn = json["highestUsn"].int
+                    self.log("Got reply to sync request; updating local DB from \(currentUsn) to \(newUsn!)")
                     if(self.digestResults(json) == true) {
                         let defaults = NSUserDefaults.standardUserDefaults()
-                        let newUsn = json["highestUsn"].int
                         defaults.setInteger(newUsn!, forKey: "currentUsn")
                         defaults.setInteger(json["timestamp"].int!, forKey: "endOfLastSync")
-                        self.log("After a successful sync, setting currentUsn to \(newUsn)")
+                        self.log("After a successful sync, setting currentUsn to \(newUsn!)")
                     } else {
                         self.log("Failed to digest server results; discarding pulled data")
                     }
@@ -172,13 +176,16 @@ class DataSync {
         let dRealm = self.defaultRealm()
         dRealm.beginWriteTransaction()
         var newEntities: [RLMObject] = []
-
+        
+        let start = NSDate()
         for (key: String, subJson: JSON) in json {
             if(key == "models") {
-                for (key: String, modelArrayJson: JSON) in subJson {
-                    self.log("Handling \(key)")
+                self.log("Setting data for all models")
+                
+                for (nkey: String, modelArrayJson: JSON) in subJson {
+                    //self.log("Handling \(nkey)")
                     // This whole switch statement is only needed because we don't have a good way of turning a string into a Swift class yet
-                    switch(key) {
+                    switch(nkey) {
                         case "Action":
                             Action.ingest(modelArrayJson)
                         case "Activity":
@@ -187,36 +194,47 @@ class DataSync {
                             Agency.ingest(modelArrayJson)
                         case "AgencyVessel":
                             AgencyVessel.ingest(modelArrayJson)
+                        case "Catch":
+                            Catch.ingest(modelArrayJson)
+                        case "ContactType":
+                            ContactType.ingest(modelArrayJson)
+                        case "EnforcementActionTaken":
+                            EnforcementActionTaken.ingest(modelArrayJson)
+                        case "EnforcementActionType":
+                            EnforcementActionType.ingest(modelArrayJson)
+                        case "Fishery":
+                            Fishery.ingest(modelArrayJson)
+                        case "FreeTextCrew":
+                            FreeTextCrew.ingest(modelArrayJson)
+                        case "PatrolLog":
+                            PatrolLog.ingest(modelArrayJson)
+                        case "Person":
+                            Person.ingest(modelArrayJson)
+                        case "Photo":
+                            Photo.ingest(modelArrayJson)
+                        case "Port":
+                            Port.ingest(modelArrayJson)
+                        case "RegulatoryCode":
+                            RegulatoryCode.ingest(modelArrayJson)
+                        case "Species":
+                            Species.ingest(modelArrayJson)
                         case "User":
                             User.ingest(modelArrayJson)
+                        case "Vessel":
+                            Vessel.ingest(modelArrayJson)
+                        case "VesselType":
+                            VesselType.ingest(modelArrayJson)
+                        case "ViolationType":
+                            ViolationType.ingest(modelArrayJson)
                         default:
                             self.log("Unknown/unimplemented model key \(key) in server json")
                     }
                 }
             }
         }
-        for (key: String, subJson: JSON) in json {
-            if(key == "models") {
-                for (key: String, modelArrayJson: JSON) in subJson {
-                    self.log("Associating \(key)")
-                    // This whole switch statement is only needed because we don't have a good way of turning a string into a Swift class yet
-                    switch(key) {
-                        case "Action":
-                            Action.setRelationships(modelArrayJson)
-                        case "Activity":
-                            Activity.setRelationships(modelArrayJson)
-                        case "Agency":
-                            Agency.setRelationships(modelArrayJson)
-                        case "AgencyVessel":
-                            AgencyVessel.setRelationships(modelArrayJson)
-                        case "User":
-                            User.setRelationships(modelArrayJson)
-                        default:
-                            self.log("Unknown/unimplemented model key \(key) in server json")
-                    }
-                }
-            }
-        }
+        let end = NSDate()
+        let timeInterval: Double = end.timeIntervalSinceDate(start)
+        self.log("Populated DB with new models and data: \(timeInterval) s")
         
         self.setRelationships(json["relations"])
 
@@ -226,53 +244,155 @@ class DataSync {
         return true
     }
     
-    
     func setRelationships(rJson: JSON) -> Bool {
-        self.log("Setting many-to-many relations")
+        self.log("Setting relationships/associations on new models")
+        let start = NSDate()
+        for (index: String, aJson : JSON) in rJson {
+            if aJson["type"] == "BelongsTo" {
+                handleBelongsTo(aJson)
+            } else {
+                handleBelongsToMany(aJson)
+            }
+        }
+        let end = NSDate()
+        let timeInterval: Double = end.timeIntervalSinceDate(start)
+        self.log("All relationships set: \(timeInterval) s")
+        return true
+    }
+    
+    
+    func handleBelongsToMany(aJson: JSON) -> Bool {
         let dRealm = self.defaultRealm()
         
-        for (relationName: String, aJson: JSON) in rJson {
-            let source = aJson["sourceModel"].stringValue
-            let target = aJson["targetModel"].stringValue
-            self.log("\(relationName) is a many-to-many between \(source) and \(target) ")
-            var sourceModel = Models[source]
-            var targetModel = Models[target]
-            var sourceSchema = dRealm.schema.schemaForClassName(source)
-            var targetSchema = dRealm.schema.schemaForClassName(target)
-            if (sourceSchema == nil) {
-                self.log("Problem: no Realm schema found for JSON object named \(source)")
-            }
-            if (targetSchema == nil) {
-                self.log("Problem: no Realm schema found for JSON object named \(target)")
-            }
+       
+        let source = aJson["sourceModel"].stringValue
+        let target = aJson["targetModel"].stringValue
+        let thisAs = aJson["as"].stringValue
+        //self.log("\(thisAs) is a many-to-many between \(source) and \(target) ")
+        var sourceModel = Models[source]!
+        var targetModel = Models[target]!
+        var sourceSchema = dRealm.schema.schemaForClassName(source)
+        var targetSchema = dRealm.schema.schemaForClassName(target)
+        if (sourceSchema == nil) {
+            self.log("Problem: no Realm schema found for JSON object named \(source)")
+        }
+        if (targetSchema == nil) {
+            self.log("Problem: no Realm schema found for JSON object named \(target)")
+        }
+        
+        var found = 0
+        var foundOnTarget = false
+        for p in sourceSchema.properties {
+            let property: RLMProperty = p as! RLMProperty
             
-            var found = 0
-            for p in sourceSchema.properties {
-                let property: RLMProperty = p as! RLMProperty
-                if property.type == RLMPropertyType.Array && property.objectClassName == target {
-                    self.log("Found an array property named \(property.name) on \(source)")
-                    found++
-                }
+            if property.type == RLMPropertyType.Array && property.objectClassName == target && property.name == thisAs {
+                //self.log("Found an array property named \(property.name) on \(source); this matches JSON property \(thisAs)")
+                found++
             }
-            for p in targetSchema.properties {
-                let property: RLMProperty = p as! RLMProperty
-                if property.type == RLMPropertyType.Array && property.objectClassName == source {
-                    self.log("Found an array property named \(property.name) on \(target)")
-                    found++
-                }
-            }
-            if(found == 0) {
-                self.log("Oh shit; the JSON expected a relationship but we didn't find one in the local (Realm) schema")
-            } else if(found > 1) {
-                self.log("Oops, we have multiple choices for an association")
-            }
+        }
+        for p in targetSchema.properties {
+            let property: RLMProperty = p as! RLMProperty
             
-            // Now, check the two schemas.  We need to make sure that one and only one of them has an array referring to the other.
-            // Note that the array might be named after the referred-to model, or it might be aliased to something else (there might
-            // be several referential arrays in one model to another model).  So we need to distinguish between them via the relation name given by the server.
-
+            if property.type == RLMPropertyType.Array && property.objectClassName == source {
+                //self.log("Found an array property named \(property.name) on \(target); deferring and will populate in other direction")
+                foundOnTarget = true
+            }
+        }
+        if foundOnTarget {return true}
+        if(found == 0) {
+            self.log("The JSON expected a relationship named \(thisAs) on \(source) but we didn't find one in the local (Realm) schema")
+            self.log("CORRECT YOUR SCHEMA!!!!!")
+        } else if(found > 1) {
+            self.log("Oops, we have multiple choices for an association for \(thisAs) on \(source)")
+            self.log("CORRECT YOUR SCHEMA!!!!!")
+        } else {
+            // Now, we gotta fetch all the models referred to by the association and set their targets.  This has got to be massively inefficient.
+            for (index, idHash : JSON) in aJson["idmap"] {
+                let idDict = idHash.dictionaryObject!
+                let sid : String = "\(source)Id"
+                let tid : String = "\(target)Id"
+                let sourceId = idDict[sid]!.stringValue
+                let targetId = idDict[tid]!.stringValue
+                //self.log("Setting source \(source)Id \(sourceId) to refer to target \(target)Id \(targetId)")
+                let s = sourceModel.objectsInRealm(dRealm, "id == %@", sourceId).firstObject() as! EfinsModel
+                let t = targetModel.objectsInRealm(dRealm, "id == %@", targetId).firstObject() as! EfinsModel
+                let currentAssocs : RLMArray = s.valueForKey(thisAs) as! RLMArray
+                let i = currentAssocs.indexOfObject(t)
+                if i == UInt(NSNotFound) {
+                    currentAssocs.addObject(t)
+                }
+                                }
         }
         return(true)
+    }
+    
+    
+    func handleBelongsTo(aJson: JSON) -> Bool {
+        let dRealm = self.defaultRealm()
+        let source = aJson["sourceModel"].stringValue
+        let target = aJson["targetModel"].stringValue
+        let foreignKey = aJson["foreignKey"].stringValue
+        let assocName = aJson["clientAssociationName"].stringValue
+        //self.log("\(assocName) on \(source) is a one-to-one or one-to-many with \(target) ")
+        var sourceModel = Models[source]!
+        var targetModel = Models[target]!
+        var sourceSchema = dRealm.schema.schemaForClassName(source)
+        var targetSchema = dRealm.schema.schemaForClassName(target)
+        if (sourceSchema == nil) {
+            self.log("Problem: no Realm schema found for JSON object named \(source)")
+        }
+        if (targetSchema == nil) {
+            self.log("Problem: no Realm schema found for JSON object named \(target)")
+        }
+        var found = 0
+        var foundType = RLMPropertyType.Object
+        for p in sourceSchema.properties {
+            let property: RLMProperty = p as! RLMProperty
+            if property.type == RLMPropertyType.Object && property.objectClassName == target && property.name == assocName {
+                //self.log("Found a property named \(property.name) on \(source); this matches JSON property \(assocName)")
+                found++
+            } else if property.type == RLMPropertyType.Array && property.objectClassName == target && property.name == assocName {
+                //self.log("Found an array property named \(property.name) on \(source); this matches JSON property \(assocName)")
+                foundType = RLMPropertyType.Array
+                found++
+            }
+        }
+        if(found == 0) {
+            self.log("The JSON expected a relationship  named \(assocName) on \(source) but we didn't find one in the local (Realm) schema")
+            self.log("CORRECT YOUR SCHEMA!!!!!")
+        } else if(found > 1) {
+            self.log("Oops, we have multiple choices for an association for  \(assocName) on \(source)")
+            self.log("CORRECT YOUR SCHEMA!!!!!")
+        } else {
+            // Now, we gotta fetch all the models referred to by the association and set their targets.  This has got to be massively inefficient.
+            for (index, idHash : JSON) in aJson["idmap"] {
+                let idDict = idHash.dictionaryObject!
+                let sid : String = "id"
+                let tid : String = foreignKey
+                let sourceId = idDict[sid]!.stringValue
+                let targetId = idDict[tid]!.stringValue
+                if targetId == nil {continue}
+                
+                
+                if foundType == RLMPropertyType.Object {
+                    //self.log("Setting foreign key to refer to target as \(targetId)")
+                    let s = sourceModel.objectsInRealm(dRealm, "id == %@", sourceId).firstObject() as! EfinsModel
+                    let t = targetModel.objectsInRealm(dRealm, "id == %@", targetId).firstObject() as! EfinsModel
+                    s.setValue(t, forKey: assocName)
+                } else {
+                    let s = sourceModel.objectsInRealm(dRealm, "id == %@", sourceId).firstObject() as! EfinsModel
+                    let t = targetModel.objectsInRealm(dRealm, "id == %@", targetId).firstObject() as! EfinsModel
+                    let currentAssocs : RLMArray = s.valueForKey(assocName) as! RLMArray
+                    let i = currentAssocs.indexOfObject(t)
+                    if i == UInt(NSNotFound) {
+                        currentAssocs.addObject(t)
+                    }
+
+                    
+                }
+            }
+        }
+        return true;
     }
     
 }
