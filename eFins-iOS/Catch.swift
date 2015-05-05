@@ -13,5 +13,13 @@ class Catch: EfinsModel {
     dynamic var species: Species?
     dynamic var amount = 0
     dynamic var activity : Activity?
+    
+    var name:String {
+        if let s = species {
+            return "\(s.name), \(self.amount) lbs"
+        } else {
+            return "Catch, species not specified"
+        }
+    }
 }
 

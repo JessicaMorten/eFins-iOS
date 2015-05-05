@@ -38,9 +38,10 @@ class CDFWRecContactTableViewController: UITableViewController {
         let realm = RLMRealm.defaultRealm()
         self.numberOfPersonsOnBoardCell.textLabel?.text = "Number of Persons on Board"
         if self.isNew {
-            activity = Activity()
+            realm.beginWriteTransaction()
+            self.activity = Activity()
             // TODO: Make an actual type
-            activity?.type = Activity.Types.CDFW_REC
+            self.activity?.type = Activity.Types.CDFW_REC
             self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Cancel,
                 target: self, action: "cancel")
             self.locationTableCell.textLabel?.text = "Include Location"
@@ -48,6 +49,8 @@ class CDFWRecContactTableViewController: UITableViewController {
             let formatter = getDateFormatter()
             dateTableCell.detailTextLabel?.text = formatter.stringFromDate(activity!.time)
             self.numPersonsOnBoardTextField.text = "0"
+            realm.addObject(self.activity)
+            realm.commitWriteTransaction()
         } else {
             self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.Plain, target: self, action: "back")
             self.navigationItem.rightBarButtonItem = nil
@@ -73,6 +76,10 @@ class CDFWRecContactTableViewController: UITableViewController {
     
     // TODO: delete model on cancel
     func cancel() {
+        let realm = RLMRealm.defaultRealm()
+        realm.beginWriteTransaction()
+        realm.deleteObject(self.activity)
+        realm.commitWriteTransaction()
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
@@ -115,7 +122,10 @@ class CDFWRecContactTableViewController: UITableViewController {
     
     @IBAction func unwindDatePicker(sender: UIStoryboardSegue) {
         let sourceViewController = sender.sourceViewController as! DatePickerTableViewController
+        let realm = RLMRealm.defaultRealm()
+        realm.beginWriteTransaction()
         activity?.time = sourceViewController.date!
+        realm.commitWriteTransaction()
         let formatter = getDateFormatter()
         dateTableCell.detailTextLabel?.text = formatter.stringFromDate(activity!.time)
     }
@@ -148,7 +158,10 @@ class CDFWRecContactTableViewController: UITableViewController {
     
     @IBAction func numPersonsOnBoardEditingEnded(sender: AnyObject) {
         if let n = self.numPersonsOnBoardTextField.text.toInt() {
-          self.activity?.numPersonsOnBoard = n
+            let realm = RLMRealm.defaultRealm()
+            realm.beginWriteTransaction()
+            self.activity?.numPersonsOnBoard = n
+            realm.commitWriteTransaction()
         }
     }
     
@@ -161,6 +174,8 @@ class CDFWRecContactTableViewController: UITableViewController {
     }
     
     func textViewDidEndEditing(textView: UITextView) {
+        let realm = RLMRealm.defaultRealm()
+        realm.beginWriteTransaction()
         if textView.text == "" {
             textView.text = "Add any relevant comments here..."
             textView.textColor = UIColor.lightGrayColor()
@@ -168,6 +183,7 @@ class CDFWRecContactTableViewController: UITableViewController {
         } else {
             self.activity?.remarks = textView.text
         }
+        realm.commitWriteTransaction()
         textView.resignFirstResponder()
     }
     

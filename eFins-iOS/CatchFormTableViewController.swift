@@ -101,6 +101,8 @@ class CatchFormTableViewController: UITableViewController, ItemForm {
                 realm.addObject(self.catch)
             }
             realm.commitWriteTransaction()
+            println("Saving Catch")
+            println("Catch")
             self.performSegueWithIdentifier("UnwindCustomForm", sender: self)
         }
     }

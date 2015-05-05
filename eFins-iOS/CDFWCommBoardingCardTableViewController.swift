@@ -40,6 +40,7 @@ class CDFWCommBoardingCardTableViewController: UITableViewController, UITextView
         
         let realm = RLMRealm.defaultRealm()
         if self.isNew {
+            realm.beginWriteTransaction()
             activity = Activity()
             // TODO: Make an actual type
             activity?.type = Activity.Types.CDFW_COMM
@@ -51,6 +52,8 @@ class CDFWCommBoardingCardTableViewController: UITableViewController, UITextView
             activity?.time = NSDate()
             let formatter = getDateFormatter()
             dateTableCell.detailTextLabel?.text = formatter.stringFromDate(activity!.time)
+            realm.addObject(self.activity)
+            realm.commitWriteTransaction()
         } else {
             self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.Plain, target: self, action: "back")
             self.navigationItem.rightBarButtonItem = nil
@@ -70,10 +73,14 @@ class CDFWCommBoardingCardTableViewController: UITableViewController, UITextView
         self.crewCell.setCustomForm(UIStoryboard(name: "PersonForm", bundle: nil), identifier: "PersonForm")
         self.captainCell.setup(self.activity!, allowEditing: allowEditing, property: "captain", secondaryProperty: nil)
         self.captainCell.setCustomForm(UIStoryboard(name: "PersonForm", bundle:nil), identifier: "PersonForm")
-        self.catchesCell.setup(self.activity!, allowEditing: allowEditing, property: "catches", secondaryProperty: nil)
-        self.catchesCell.setCustomForm(UIStoryboard(name: "CatchForm", bundle:nil), identifier: "CatchForm")
         self.catchesCell.label = "Species"
         self.catchesCell.skipSearch = true
+        self.catchesCell.propertyClassName = "Catch"
+        self.catchesCell.propertyName = "catches"
+        self.catchesCell.propertyType = RLMPropertyType.Array
+        self.catchesCell.reversedRelation = true
+        self.catchesCell.setup(self.activity!, allowEditing: allowEditing, property: nil, secondaryProperty: nil)
+        self.catchesCell.setCustomForm(UIStoryboard(name: "CatchForm", bundle:nil), identifier: "CatchForm")
         self.activityCell.setup(self.activity!, allowEditing: allowEditing, property: "action", secondaryProperty: nil)
     }
     
@@ -81,6 +88,10 @@ class CDFWCommBoardingCardTableViewController: UITableViewController, UITextView
     
     // TODO: delete model on cancel
     func cancel() {
+        let realm = RLMRealm.defaultRealm()
+        realm.beginWriteTransaction()
+        realm.deleteObject(self.activity)
+        realm.commitWriteTransaction()
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
@@ -124,7 +135,10 @@ class CDFWCommBoardingCardTableViewController: UITableViewController, UITextView
     
     @IBAction func unwindDatePicker(sender: UIStoryboardSegue) {
         let sourceViewController = sender.sourceViewController as! DatePickerTableViewController
+        let realm = RLMRealm.defaultRealm()
+        realm.beginWriteTransaction()
         activity?.time = sourceViewController.date!
+        realm.commitWriteTransaction()
         let formatter = getDateFormatter()
         dateTableCell.detailTextLabel?.text = formatter.stringFromDate(activity!.time)
     }
@@ -166,6 +180,8 @@ class CDFWCommBoardingCardTableViewController: UITableViewController, UITextView
     }
     
     func textViewDidEndEditing(textView: UITextView) {
+        let realm = RLMRealm.defaultRealm()
+        realm.beginWriteTransaction()
         if textView.text == "" {
             textView.text = "Add any relevant comments here..."
             textView.textColor = UIColor.lightGrayColor()
@@ -173,6 +189,7 @@ class CDFWCommBoardingCardTableViewController: UITableViewController, UITextView
         } else {
             self.activity?.remarks = textView.text
         }
+        realm.commitWriteTransaction()
         textView.resignFirstResponder()
     }
     

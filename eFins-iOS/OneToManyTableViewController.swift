@@ -13,13 +13,15 @@ class OneToManyTableViewController: UITableViewController {
 
     var entryFieldName:String?
     var model:RLMObject?
-    var property: RLMProperty?
+    var propertyName: String!
+    var propertyClassName: String!
     var secondaryProperty: RLMProperty?
     var modelLabelProperty: String = "name"
     var modelFormId: String?
     var modelFormStoryboard: UIStoryboard?
     var allowEditing = true
     var skipSearch = false
+    var reversed = false
     weak var cell:RelationTableViewCell?
     @IBOutlet weak var addHelpLabel: UILabel!
     
@@ -43,7 +45,8 @@ class OneToManyTableViewController: UITableViewController {
     // MARK: - Table view data source
     
     func items() -> NSArray {
-        var results = rlmArrayToNSArray(model!.valueForKey(property!.name) as! RLMArray)
+        var results:[RLMObject]
+        results = rlmArrayToNSArray(model!.valueForKey(propertyName) as! RLMArray)
         if secondaryProperty != nil {
             results = results + rlmArrayToNSArray(model!.valueForKey(secondaryProperty!.name) as! RLMArray)
         }
@@ -67,7 +70,7 @@ class OneToManyTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCellWithIdentifier("default", forIndexPath: indexPath) as! UITableViewCell
         let item:RLMObject = self.items().objectAtIndex(indexPath.row) as! RLMObject
         cell.textLabel?.text = item.valueForKey(modelLabelProperty) as! String
-        if self.property?.objectClassName == item.objectSchema.className && self.modelFormStoryboard != nil {
+        if self.propertyClassName == item.objectSchema.className && self.modelFormStoryboard != nil {
             cell.accessoryType = UITableViewCellAccessoryType.DetailButton
         } else {
             cell.accessoryType = UITableViewCellAccessoryType.None
@@ -77,7 +80,7 @@ class OneToManyTableViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, accessoryButtonTappedForRowWithIndexPath indexPath: NSIndexPath) {
         let item:RLMObject = self.items().objectAtIndex(indexPath.row) as! RLMObject
-        if self.property?.objectClassName == item.objectSchema.className {
+        if self.propertyClassName == item.objectSchema.className {
             displayDetails(item)
         } else {
             println("this shouldn't happen")
@@ -96,7 +99,8 @@ class OneToManyTableViewController: UITableViewController {
     
 
     @IBAction func unwindPicker(sender: UIStoryboardSegue) {
-        println("unwinding picker")
+        let realm = RLMRealm.defaultRealm()
+        realm.beginWriteTransaction()
         var selection:RLMObject
         if sender.sourceViewController is PickerTableViewController {
             let sourceViewController = sender.sourceViewController as! PickerTableViewController
@@ -107,15 +111,14 @@ class OneToManyTableViewController: UITableViewController {
         }
         // Determine appropriate property (primary or secondary property)
         var prop:RLMArray
-        if property?.objectClassName == selection.objectSchema.className {
-            let getter = property!.name!
+        if propertyClassName == selection.objectSchema.className {
+            let getter = propertyName
             prop = model?.valueForKey(getter) as! RLMArray
         } else {
             let getter = secondaryProperty!.name!
             prop = model?.valueForKey(getter) as! RLMArray
         }
         if self.allowEditing {
-            println("allowing editing")
             // append to array
             let index = prop.indexOfObject(selection)
             if index == UInt(NSNotFound) {
@@ -126,6 +129,7 @@ class OneToManyTableViewController: UITableViewController {
         } else {
             println("Not allowing editing")
         }
+        realm.commitWriteTransaction()
         self.tableView.reloadData()
     }
 
@@ -138,7 +142,9 @@ class OneToManyTableViewController: UITableViewController {
     */
 
     func removeItem(item:RLMObject) {
-        let primaryItems = model!.valueForKey(property!.name) as! RLMArray
+        let realm = RLMRealm.defaultRealm()
+        realm.beginWriteTransaction()
+        let primaryItems = model!.valueForKey(propertyName) as! RLMArray
         if primaryItems.count > 0 {
             for i in 1...(primaryItems.count) {
                 if (primaryItems.objectAtIndex(UInt(i - 1)) as! RLMObject).isEqualToObject(item) {
@@ -159,6 +165,7 @@ class OneToManyTableViewController: UITableViewController {
                 }
             }
         }
+        realm.commitWriteTransaction()
     }
     
     // Override to support editing the table view.
@@ -198,7 +205,7 @@ class OneToManyTableViewController: UITableViewController {
 
     func add() {
         if skipSearch {
-            var Model = Models[property!.objectClassName]! as RLMObject.Type
+            var Model = Models[propertyClassName]! as RLMObject.Type
             if let controller = self.getCustomForm() {
                 self.navigationItem.title = "Cancel"
                 self.navigationController?.pushViewController(controller, animated: true)
@@ -217,18 +224,12 @@ class OneToManyTableViewController: UITableViewController {
     }
     
     @IBAction func unwindCustomFormNoSearch(sender: UIStoryboardSegue) {
-        println("Unwind custom form nosearch")
         let realm = RLMRealm.defaultRealm()
         realm.beginWriteTransaction()
         let selection = (sender.sourceViewController as! ItemForm).model
         selection?.setValue(self.model, forKeyPath: "activity")
         realm.commitWriteTransaction()
         self.tableView.reloadData()
-//
-//        if self.cell != nil {
-//            self.navigationController?.popToRootViewControllerAnimated(true)
-//            cell?.unwindOneToOnePicker(self)
-//        }
     }
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -237,14 +238,16 @@ class OneToManyTableViewController: UITableViewController {
             // Get the new view controller using [segue destinationViewController].
             // Pass the selected object to the new view controller.
             let controller = segue.destinationViewController as! PickerTableViewController
-            controller.property = self.property
+            controller.propertyName = self.propertyName
+            controller.propertyClassName = self.propertyClassName
             controller.secondaryProperty = self.secondaryProperty
             controller.labelProperty = self.modelLabelProperty
             controller.entryFieldName = self.entryFieldName
             controller.model = self.model
             controller.modelFormId = self.modelFormId
             controller.modelFormStoryboard = self.modelFormStoryboard
-            let getter = property!.name!
+            controller.reversed = reversed
+            let getter = propertyName
             controller.alreadySelected = model?.valueForKey(getter) as? RLMArray
             if secondaryProperty != nil {
                 let secgetter = secondaryProperty!.name!

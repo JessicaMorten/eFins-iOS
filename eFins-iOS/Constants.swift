@@ -85,16 +85,16 @@ func getRealmModelProperty(model:String, propertyName:String) -> RLMProperty {
 
 class _RecentValues {
     
-    func increment(item: RLMObject, model: RLMObject, property: RLMProperty) {
-        let key = self.getKey(item, model: model, property: property)
+    func increment(item: RLMObject, model: RLMObject, propertyClassName: String, propertyName: String) {
+        let key = self.getKey(item, model: model, propertyClassName: propertyClassName, propertyName: propertyName)
         let defaults = NSUserDefaults.standardUserDefaults()
         defaults.setInteger(defaults.integerForKey(key) + 1, forKey: key)
         debugValues()
     }
     
-    func getKey(item: RLMObject, model: RLMObject, property: RLMProperty) -> String {
+    func getKey(item: RLMObject, model: RLMObject, propertyClassName: String, propertyName: String) -> String {
         let id = item.valueForKey("id") as! String
-        return "recent-values,\(model.objectSchema.className),\(property.name),\(id)"
+        return "recent-values,\(propertyClassName),\(propertyName),\(id)"
     }
     
     func debugValues() {
@@ -107,7 +107,7 @@ class _RecentValues {
         println("======================================= ")
     }
     
-    func getRecent(model: RLMObject, property: RLMProperty, secondaryProperty: RLMProperty?) -> [RLMObject] {
+    func getRecent(model: RLMObject, propertyClassName: String, propertyName: String, secondaryProperty: RLMProperty?) -> [RLMObject] {
         var recent = [RLMObject]()
         var items = [String:Int]()
         var sortedKeys = [String]()
@@ -115,7 +115,7 @@ class _RecentValues {
             if sortedKeys.count > 9 {
                 break
             }
-            if (key as! NSString).containsString("recent-values") && (key as! NSString).containsString(model.objectSchema.className) && ((key as! NSString).containsString(property.name) || (secondaryProperty != nil && (key as! NSString).containsString(secondaryProperty!.name))) {
+            if (key as! NSString).containsString("recent-values") && (key as! NSString).containsString(model.objectSchema.className) && ((key as! NSString).containsString(propertyName) || (secondaryProperty != nil && (key as! NSString).containsString(secondaryProperty!.name))) {
                 var parts = split(key as! String) { $0 == ","}
                 let id = parts[3]
                 items[id] = value.integerValue
@@ -125,7 +125,7 @@ class _RecentValues {
         sortedKeys.sort {
             items[$0] > items[$1]
         }
-        let Model = Models[property.objectClassName]
+        let Model = Models[propertyClassName]
         var Model2:RLMObject.Type?
         if secondaryProperty != nil {
             Model2 = Models[secondaryProperty!.objectClassName]

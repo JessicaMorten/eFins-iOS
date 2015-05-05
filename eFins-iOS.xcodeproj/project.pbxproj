@@ -144,6 +144,7 @@
 		CB81E9411AAA21F80071C2D2 /* eFins-iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "eFins-iOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CB81E9461AAA21F80071C2D2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CB81E9471AAA21F80071C2D2 /* eFins_iOSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = eFins_iOSTests.swift; sourceTree = "<group>"; };
+		CB8CC7011AF93C2000B91B90 /* eFins-iOS-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "eFins-iOS-Bridging-Header.h"; sourceTree = "<group>"; };
 		CBA0330C1AF02B2A006838C6 /* PhotoCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoCollectionViewCell.swift; sourceTree = "<group>"; };
 		CBCE35A31AC1EB2F005C6CA8 /* ActivityLogTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityLogTableViewController.swift; sourceTree = "<group>"; };
 		CBCE35A61AC1F763005C6CA8 /* DatePicker.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = DatePicker.storyboard; sourceTree = "<group>"; };
@@ -301,6 +302,7 @@
 				CBE118021ACC8FAC00BC229F /* OneToManyTableViewController.swift */,
 				CBE118071ACDE6A600BC229F /* PickerTableViewController.swift */,
 				9310B50F1ADC3BDD00D45CF3 /* Reachability.swift */,
+				CB8CC7011AF93C2000B91B90 /* eFins-iOS-Bridging-Header.h */,
 			);
 			path = "eFins-iOS";
 			sourceTree = "<group>";
@@ -663,6 +665,7 @@
 			baseConfigurationReference = 793C641AC78FACAF6D5F6BBD /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -677,6 +680,8 @@
 				OTHER_SWIFT_FLAGS = "\"-D\" \"COCOAPODS\" \"-D\" \"DEBUG_SERVER\" $(inherited)";
 				PRODUCT_NAME = eFins;
 				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "eFins-iOS/eFins-iOS-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -685,6 +690,7 @@
 			baseConfigurationReference = ECD4EECAA55731D96DE64EE3 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -699,6 +705,7 @@
 				LIBRARY_SEARCH_PATHS = "$(inherited) ";
 				PRODUCT_NAME = eFins;
 				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "eFins-iOS/eFins-iOS-Bridging-Header.h";
 			};
 			name = Release;
 		};
