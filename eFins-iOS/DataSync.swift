@@ -214,8 +214,6 @@ class DataSync {
                             Photo.ingest(modelArrayJson)
                         case "Port":
                             Port.ingest(modelArrayJson)
-                        case "RegulatoryCode":
-                            RegulatoryCode.ingest(modelArrayJson)
                         case "Species":
                             Species.ingest(modelArrayJson)
                         case "User":
