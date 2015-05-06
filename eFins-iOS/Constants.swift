@@ -58,7 +58,6 @@ var Models: [String: RLMObject.Type] = [
     "Port": Port.self,
     "Activity": Activity.self,
     "Catch": Catch.self,
-    "RegulatoryCode": RegulatoryCode.self,
     "ContactType": ContactType.self,
     "VesselType": VesselType.self,
     "Vessel": Vessel.self,
