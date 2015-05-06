@@ -26,6 +26,7 @@ class CDFWCommBoardingCardTableViewController: UITableViewController, UITextView
     @IBOutlet weak var captainCell: RelationTableViewCell!
     @IBOutlet weak var activityCell: RelationTableViewCell!
     @IBOutlet weak var catchesCell: RelationTableViewCell!
+    @IBOutlet weak var citationsCell: RelationTableViewCell!
     
     var activity:Activity?
     var isNew = true
@@ -82,6 +83,9 @@ class CDFWCommBoardingCardTableViewController: UITableViewController, UITextView
         self.catchesCell.setup(self.activity!, allowEditing: allowEditing, property: nil, secondaryProperty: nil)
         self.catchesCell.setCustomForm(UIStoryboard(name: "CatchForm", bundle:nil), identifier: "CatchForm")
         self.activityCell.setup(self.activity!, allowEditing: allowEditing, property: "action", secondaryProperty: nil)
+        self.citationsCell.skipSearch = true
+        self.citationsCell.setCustomForm(UIStoryboard(name: "ViolationForm", bundle: nil), identifier: "ViolationForm")
+        self.citationsCell.setup(self.activity!, allowEditing: allowEditing, property: "enforcementActionsTaken", secondaryProperty: nil)
     }
     
     // MARK: Actions

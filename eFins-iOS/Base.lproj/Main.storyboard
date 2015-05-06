@@ -1298,6 +1298,7 @@
                         <outlet property="cameraButton" destination="5Ju-st-sdN" id="FgL-5Y-eHR"/>
                         <outlet property="captainCell" destination="Vm3-Wa-OZi" id="Bra-74-Acz"/>
                         <outlet property="catchesCell" destination="VUM-na-372" id="0yD-1r-rEb"/>
+                        <outlet property="citationsCell" destination="kwn-8W-Hwo" id="8kH-UL-aHp"/>
                         <outlet property="crewCell" destination="bOA-0g-iaW" id="W2L-yy-BsD"/>
                         <outlet property="dateTableCell" destination="tbL-8V-Cas" id="8jD-LF-BTP"/>
                         <outlet property="locationActivityIndicator" destination="m42-Ka-ros" id="9aE-Gy-vNd"/>

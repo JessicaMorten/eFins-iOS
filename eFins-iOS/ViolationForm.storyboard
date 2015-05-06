@@ -8,7 +8,7 @@
         <!--Enforcement Action-->
         <scene sceneID="WZR-JN-9no">
             <objects>
-                <tableViewController restorationIdentifier="CatchForm" storyboardIdentifier="CatchForm" title="Enforcement Action" id="Eij-Jc-vBO" customClass="ViolationFormTableViewController" customModule="eFins" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController restorationIdentifier="ViolationForm" storyboardIdentifier="ViolationForm" title="Enforcement Action" id="Eij-Jc-vBO" customClass="ViolationFormTableViewController" customModule="eFins" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="O3j-rX-bTn">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -62,52 +62,24 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="XvS-TB-6Eh">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="pwx-4M-VcK" detailTextLabel="2ad-HY-YmX" style="IBUITableViewCellStyleValue1" id="Y5Z-3B-PtL" customClass="RelationTableViewCell" customModule="eFins" customModuleProvider="target">
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="XvS-TB-6Eh" id="xLO-ll-gIM">
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Y5Z-3B-PtL" id="VHx-w1-6Pg">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="E95-fZ-5ff">
-                                                    <rect key="frame" x="343" y="7" width="249" height="30"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="249" id="njN-sm-TAo"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="go"/>
-                                                    <connections>
-                                                        <action selector="amountChanged:" destination="Eij-Jc-vBO" eventType="editingChanged" id="xjE-jA-DfY"/>
-                                                        <outlet property="delegate" destination="Eij-Jc-vBO" id="qnX-dg-LnF"/>
-                                                    </connections>
-                                                </textField>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Violation Type" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="pwx-4M-VcK">
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="  " textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="2ad-HY-YmX">
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <color key="textColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
-                                            <constraints>
-                                                <constraint firstAttribute="trailingMargin" secondItem="E95-fZ-5ff" secondAttribute="trailing" constant="-7" id="M6m-97-1LT"/>
-                                                <constraint firstItem="E95-fZ-5ff" firstAttribute="top" secondItem="xLO-ll-gIM" secondAttribute="topMargin" constant="-1" id="XYc-Mm-MfR"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="CNg-gs-adg">
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="CNg-gs-adg" id="aqm-Am-qCm">
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Rsa-v0-qg1">
-                                                    <rect key="frame" x="343" y="7" width="249" height="30"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="249" id="I5H-rK-YFg"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="go"/>
-                                                    <connections>
-                                                        <action selector="amountChanged:" destination="Eij-Jc-vBO" eventType="editingChanged" id="xNv-dd-fyl"/>
-                                                        <outlet property="delegate" destination="Eij-Jc-vBO" id="sOz-IX-tGF"/>
-                                                    </connections>
-                                                </textField>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="Rsa-v0-qg1" firstAttribute="top" secondItem="aqm-Am-qCm" secondAttribute="topMargin" constant="-1" id="8OV-vj-BuJ"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="Rsa-v0-qg1" secondAttribute="trailing" constant="-7" id="GWx-Q9-kV8"/>
-                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </cells>
@@ -119,23 +91,13 @@
                         </connections>
                     </tableView>
                     <connections>
-                        <outlet property="amountCell" destination="XvS-TB-6Eh" id="6Mn-lk-UuC"/>
-                        <outlet property="amountTextField" destination="E95-fZ-5ff" id="d44-Y6-hAT"/>
-                        <outlet property="codeCell" destination="XvS-TB-6Eh" id="PlL-PR-hvP"/>
-                        <outlet property="codeTextField" destination="E95-fZ-5ff" id="Gca-v5-ucc"/>
+                        <outlet property="enforcementActionTypeCell" destination="zo7-tO-dFK" id="a8p-TP-lfW"/>
                         <outlet property="saveButton" destination="Cqh-oS-DeN" id="4BI-hq-Iet"/>
-                        <outlet property="speciesCell" destination="zo7-tO-dFK" id="YXt-KA-Pf9"/>
-                        <outlet property="violationTypeCell" destination="CNg-gs-adg" id="2YE-gN-zee"/>
-                        <outlet property="violationTypeTextField" destination="Rsa-v0-qg1" id="W4r-hp-bYC"/>
+                        <outlet property="violationTypeCell" destination="Y5Z-3B-PtL" id="OXI-rP-Je0"/>
                         <segue destination="hCh-Dn-07y" kind="unwind" identifier="UnwindCustomForm" unwindAction="unwindCustomFormNoSearch:" id="4b1-Fd-9ey"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5cD-ct-5X2" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer cancelsTouchesInView="NO" id="n3K-Nn-ZVb">
-                    <connections>
-                        <action selector="tap:" destination="Eij-Jc-vBO" id="7Je-zg-jGn"/>
-                    </connections>
-                </tapGestureRecognizer>
                 <exit id="hCh-Dn-07y" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="374" y="453"/>

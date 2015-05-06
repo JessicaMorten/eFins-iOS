@@ -13,10 +13,7 @@ class ViolationFormTableViewController: UITableViewController {
 
     
     @IBOutlet weak var enforcementActionTypeCell: RelationTableViewCell!
-    @IBOutlet weak var codeCell: UITableViewCell!
-    @IBOutlet weak var codeTextField: UITextField!
-    @IBOutlet weak var violationTypeCell: UITableViewCell!
-    @IBOutlet weak var violationTypeTextField: UITextField!
+    @IBOutlet weak var violationTypeCell: RelationTableViewCell!
 
     @IBOutlet weak var saveButton: UIButton!
     
@@ -41,10 +38,8 @@ class ViolationFormTableViewController: UITableViewController {
             }
         }
         self.enforcementActionTypeCell.setup(self.enforcementAction, allowEditing: self.allowEditing, property: "enforcementActionType", secondaryProperty: nil)
+        self.violationTypeCell.setup(self.enforcementAction, allowEditing: allowEditing, property: "violationType", secondaryProperty: nil)
         setEditingState()
-        self.codeCell.textLabel?.text = "Violation Code"
-        self.violationTypeCell.textLabel?.text = "Violation Type"
-        displayValues()
     }
     
     func setEditingState() {
@@ -58,8 +53,6 @@ class ViolationFormTableViewController: UITableViewController {
             self.navigationItem.rightBarButtonItem?.action = "startEditing"
             self.enforcementActionTypeCell.accessoryType = UITableViewCellAccessoryType.None
         }
-        self.violationTypeTextField.enabled = allowEditing
-        self.codeTextField.enabled = allowEditing
         self.enforcementActionTypeCell.allowEditing = allowEditing
     }
     
@@ -71,52 +64,28 @@ class ViolationFormTableViewController: UITableViewController {
         setEditingState()
     }
     
-    override func viewWillAppear(animated: Bool) {
-        displayValues()
-    }
-    
-    func displayValues() {
-        self.violationTypeTextField.text = "\(enforcementAction.violationType?.name)"
-        self.codeTextField.text = "\(enforcementAction.code?.name)"
-    }
-    
-    
     @IBAction func unwindOneToMany(sender: UIStoryboardSegue) {
         println("unwindOneToMany:VesselFormTableViewController")
         let source = sender.sourceViewController as! OneToManyTableViewController
         source.cell?.updateValues()
     }
     
-    @IBAction func amountChanged(sender: UITextField) {
-        if count(sender.text) > 0 {
-            self.catch.amount = sender.text.toInt()!
-        } else {
-            self.catch.amount = 0
-        }
-    }
-    
     @IBAction func save(sender: AnyObject) {
-        if catch.species == nil {
-            alert("Incomplete", "You must choose a species", self)
-        } else if catch.amount == 0 {
-            alert("Incomplete", "Amount (lbs) must be greater than zero", self)
+        if enforcementAction.violationType == nil {
+            alert("Incomplete", "You must choose a violation type", self)
+        } else if enforcementAction.enforcementActionType == nil {
+            alert("Incomplete", "You must choose an action taken", self)
         } else {
             let realm = RLMRealm.defaultRealm()
             if self.openTransaction {
                 
             } else {
                 realm.beginWriteTransaction()
-                realm.addObject(self.catch)
+                realm.addObject(self.enforcementAction)
             }
             realm.commitWriteTransaction()
-            println("Saving Catch")
-            println("Catch")
             self.performSegueWithIdentifier("UnwindCustomForm", sender: self)
         }
-    }
-    
-    @IBAction func tap(sender: AnyObject) {
-        self.amountTextField.endEditing(true)
     }
     /*
     // MARK: - Navigation
