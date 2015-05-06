@@ -13,9 +13,12 @@ class Catch: EfinsModel {
     dynamic var species: Species?
     dynamic var amount = 0
     
-    var activities: [Activity] {
-        return linkingObjectsOfClass("Activity", forProperty: "catches") as! [Activity]
+    var name:String {
+        if let s = species {
+            return "\(s.name), \(self.amount) lbs"
+        } else {
+            return "Catch, species not specified"
+        }
     }
-
 }
 

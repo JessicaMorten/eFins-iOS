@@ -1,16 +1,16 @@
 //
-//  CDFWRecContactTableViewController.swift
+//  CDFWCommBoardingCardTableViewController.swift
 //  eFins-iOS
 //
-//  Created by CHAD BURT on 4/30/15.
+//  Created by CHAD BURT on 5/1/15.
 //  Copyright (c) 2015 McClintock Lab. All rights reserved.
 //
 
 import UIKit
 import Realm
 
-class CDFWRecContactTableViewController: UITableViewController {
-
+class CDFWCommBoardingCardTableViewController: UITableViewController, UITextViewDelegate {
+    
     @IBOutlet weak var locationTableCell: UITableViewCell!
     // TODO: immediately fetch location in background and spin indicator
     @IBOutlet weak var locationActivityIndicator: UIActivityIndicatorView!
@@ -19,10 +19,14 @@ class CDFWRecContactTableViewController: UITableViewController {
     @IBOutlet weak var remarksTextView: UITextView!
     @IBOutlet weak var saveButton: UIButton!
     @IBOutlet weak var observersTableViewCell: RelationTableViewCell!
+    @IBOutlet weak var vesselTableViewCell: RelationTableViewCell!
+    @IBOutlet weak var crewCell: RelationTableViewCell!
     @IBOutlet weak var cameraButton: UIBarButtonItem!
     @IBOutlet weak var photosCell: UITableViewCell!
-    @IBOutlet weak var numPersonsOnBoardTextField: UITextField!
-    @IBOutlet weak var numberOfPersonsOnBoardCell: UITableViewCell!
+    @IBOutlet weak var captainCell: RelationTableViewCell!
+    @IBOutlet weak var activityCell: RelationTableViewCell!
+    @IBOutlet weak var catchesCell: RelationTableViewCell!
+    @IBOutlet weak var citationsCell: RelationTableViewCell!
     
     var activity:Activity?
     var isNew = true
@@ -36,19 +40,19 @@ class CDFWRecContactTableViewController: UITableViewController {
         }
         
         let realm = RLMRealm.defaultRealm()
-        self.numberOfPersonsOnBoardCell.textLabel?.text = "Number of Persons on Board"
         if self.isNew {
             realm.beginWriteTransaction()
-            self.activity = Activity()
+            activity = Activity()
             // TODO: Make an actual type
-            self.activity?.type = Activity.Types.CDFW_REC
+            activity?.type = Activity.Types.CDFW_COMM
+            //            let predicate = NSPredicate(format: "color = %@ AND name BEGINSWITH %@", "tan", "B")
+            //            let type = ContactType.objectsWithPredicate(predicate).firstObject()
             self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Cancel,
                 target: self, action: "cancel")
             self.locationTableCell.textLabel?.text = "Include Location"
             activity?.time = NSDate()
             let formatter = getDateFormatter()
             dateTableCell.detailTextLabel?.text = formatter.stringFromDate(activity!.time)
-            self.numPersonsOnBoardTextField.text = "0"
             realm.addObject(self.activity)
             realm.commitWriteTransaction()
         } else {
@@ -61,15 +65,27 @@ class CDFWRecContactTableViewController: UITableViewController {
             self.remarksTextView.text = activity?.remarks
             self.locationTableCell.textLabel?.text = "Location"
             self.locationSwitch.hidden = true
-            var numPersons = 0
-            if let n = activity?.numPersonsOnBoard {
-                numPersons = n
-            }
-            self.numPersonsOnBoardTextField.text = "\(numPersons)"
-            self.numPersonsOnBoardTextField.enabled = false
             self.remarksTextView.editable = false
         }
         self.observersTableViewCell.setup(self.activity!, allowEditing: allowEditing, property: "freeTextCrew", secondaryProperty: "users")
+        self.vesselTableViewCell.setup(self.activity!, allowEditing: allowEditing, property: "vessel", secondaryProperty: nil)
+        self.vesselTableViewCell.setCustomForm(UIStoryboard(name: "VesselForm", bundle: nil), identifier: "VesselForm")
+        self.crewCell.setup(self.activity!, allowEditing: allowEditing, property: "crew", secondaryProperty: nil)
+        self.crewCell.setCustomForm(UIStoryboard(name: "PersonForm", bundle: nil), identifier: "PersonForm")
+        self.captainCell.setup(self.activity!, allowEditing: allowEditing, property: "captain", secondaryProperty: nil)
+        self.captainCell.setCustomForm(UIStoryboard(name: "PersonForm", bundle:nil), identifier: "PersonForm")
+        self.catchesCell.label = "Species"
+        self.catchesCell.skipSearch = true
+        self.catchesCell.propertyClassName = "Catch"
+        self.catchesCell.propertyName = "catches"
+        self.catchesCell.propertyType = RLMPropertyType.Array
+        self.catchesCell.reversedRelation = true
+        self.catchesCell.setup(self.activity!, allowEditing: allowEditing, property: nil, secondaryProperty: nil)
+        self.catchesCell.setCustomForm(UIStoryboard(name: "CatchForm", bundle:nil), identifier: "CatchForm")
+        self.activityCell.setup(self.activity!, allowEditing: allowEditing, property: "action", secondaryProperty: nil)
+        self.citationsCell.skipSearch = true
+        self.citationsCell.setCustomForm(UIStoryboard(name: "ViolationForm", bundle: nil), identifier: "ViolationForm")
+        self.citationsCell.setup(self.activity!, allowEditing: allowEditing, property: "enforcementActionsTaken", secondaryProperty: nil)
     }
     
     // MARK: Actions
@@ -105,6 +121,7 @@ class CDFWRecContactTableViewController: UITableViewController {
         realm.addObject(self.activity)
         realm.commitWriteTransaction()
         self.observersTableViewCell.updateRecentValuesCounts()
+        self.vesselTableViewCell.updateRecentValuesCounts()
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
@@ -138,6 +155,8 @@ class CDFWRecContactTableViewController: UITableViewController {
     @IBAction func unwindCustomForm(sender: UIStoryboardSegue) {
         //        let source = sender.sourceViewController as! OneToManyTableViewController
         //        source.cell?.updateValues()
+        self.vesselTableViewCell.updateValues()
+        self.observersTableViewCell.updateValues()
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
@@ -146,7 +165,7 @@ class CDFWRecContactTableViewController: UITableViewController {
             let controller:DatePickerTableViewController = storyboard.instantiateInitialViewController() as! DatePickerTableViewController
             self.navigationController?.pushViewController(controller, animated: true)
             controller.date = activity!.time
-        } else if indexPath.section == 1 && indexPath.row == 0 {
+        } else if indexPath.section == 5 && indexPath.row == 0 {
             let storyboard = UIStoryboard(name: "PhotoList", bundle: nil)
             let controller = storyboard.instantiateInitialViewController() as! PhotosCollectionViewController
             controller.activity = self.activity
@@ -154,15 +173,6 @@ class CDFWRecContactTableViewController: UITableViewController {
             self.navigationController?.pushViewController(controller, animated: true)
         }
         self.tableView.deselectRowAtIndexPath(indexPath, animated: false)
-    }
-    
-    @IBAction func numPersonsOnBoardEditingEnded(sender: AnyObject) {
-        if let n = self.numPersonsOnBoardTextField.text.toInt() {
-            let realm = RLMRealm.defaultRealm()
-            realm.beginWriteTransaction()
-            self.activity?.numPersonsOnBoard = n
-            realm.commitWriteTransaction()
-        }
     }
     
     func textViewDidBeginEditing(textView: UITextView) {
@@ -189,7 +199,6 @@ class CDFWRecContactTableViewController: UITableViewController {
     
     @IBAction func tapRecognizer(sender:AnyObject) {
         self.hideNotesKeyboard()
-        self.numPersonsOnBoardTextField.endEditing(true)
     }
     
     func hideNotesKeyboard() {

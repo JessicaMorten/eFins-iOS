@@ -37,6 +37,7 @@ class ActivityLogTableViewController: UITableViewController, UITextViewDelegate 
         
         let realm = RLMRealm.defaultRealm()
         if self.isNew {
+            realm.beginWriteTransaction()
             activity = Activity()
             // TODO: Make an actual type
             activity?.type = Activity.Types.LOG
@@ -48,6 +49,8 @@ class ActivityLogTableViewController: UITableViewController, UITextViewDelegate 
             activity?.time = NSDate()
             let formatter = getDateFormatter()
             dateTableCell.detailTextLabel?.text = formatter.stringFromDate(activity!.time)
+            realm.addObject(self.activity)
+            realm.commitWriteTransaction()
         } else {
             self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.Plain, target: self, action: "back")
             self.navigationItem.rightBarButtonItem = nil
@@ -71,6 +74,10 @@ class ActivityLogTableViewController: UITableViewController, UITextViewDelegate 
     
     // TODO: delete model on cancel
     func cancel() {
+        let realm = RLMRealm.defaultRealm()
+        realm.beginWriteTransaction()
+        realm.deleteObject(self.activity)
+        realm.commitWriteTransaction()
         self.dismissViewControllerAnimated(true, completion: nil)
     }
 
@@ -91,10 +98,6 @@ class ActivityLogTableViewController: UITableViewController, UITextViewDelegate 
     
     @IBAction func saveAction(sender: AnyObject) {
         // TODO: Validation (if any?)
-        let realm = RLMRealm.defaultRealm()
-        realm.beginWriteTransaction()
-        realm.addObject(self.activity)
-        realm.commitWriteTransaction()
         self.observersTableViewCell.updateRecentValuesCounts()
         self.vesselTableViewCell.updateRecentValuesCounts()
         self.dismissViewControllerAnimated(true, completion: nil)
@@ -114,7 +117,10 @@ class ActivityLogTableViewController: UITableViewController, UITextViewDelegate 
 
     @IBAction func unwindDatePicker(sender: UIStoryboardSegue) {
         let sourceViewController = sender.sourceViewController as! DatePickerTableViewController
+        let realm = RLMRealm.defaultRealm()
+        realm.beginWriteTransaction()
         activity?.time = sourceViewController.date!
+        realm.commitWriteTransaction()
         let formatter = getDateFormatter()
         dateTableCell.detailTextLabel?.text = formatter.stringFromDate(activity!.time)
     }
@@ -156,6 +162,8 @@ class ActivityLogTableViewController: UITableViewController, UITextViewDelegate 
     }
     
     func textViewDidEndEditing(textView: UITextView) {
+        let realm = RLMRealm.defaultRealm()
+        realm.beginWriteTransaction()
         if textView.text == "" {
             textView.text = "Add any relevant comments here..."
             textView.textColor = UIColor.lightGrayColor()
@@ -163,6 +171,7 @@ class ActivityLogTableViewController: UITableViewController, UITextViewDelegate 
         } else {
             self.activity?.remarks = textView.text
         }
+        realm.commitWriteTransaction()
         textView.resignFirstResponder()
     }
 
@@ -204,7 +213,4 @@ class ActivityLogTableViewController: UITableViewController, UITextViewDelegate 
             self.photosCell.detailTextLabel?.text = "0"
         }
     }
-    
-    
-    
 }

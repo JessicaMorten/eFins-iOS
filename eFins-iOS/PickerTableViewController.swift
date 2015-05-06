@@ -12,7 +12,8 @@ import Realm
 class PickerTableViewController: UITableViewController, UISearchBarDelegate, UISearchResultsUpdating {
 
     var entryFieldName:String?
-    var property:RLMProperty?
+    var propertyName:String!
+    var propertyClassName:String!
     var secondaryProperty:RLMProperty?
     var labelProperty:String?
     var filteredObjects = [RLMObject]()
@@ -23,6 +24,8 @@ class PickerTableViewController: UITableViewController, UISearchBarDelegate, UIS
     var model:RLMObject?
     var modelFormId:String?
     var modelFormStoryboard:UIStoryboard?
+    var skipSearch = false
+    var reversed = false
     @IBOutlet weak var helpLabel: UILabel!
     var searchController = UISearchController(searchResultsController: nil)
     
@@ -92,9 +95,10 @@ class PickerTableViewController: UITableViewController, UISearchBarDelegate, UIS
             }
         }
     }
+    
     func addNewObject() {
         let text = self.searchController.searchBar.text
-        var Model = Models[property!.objectClassName]! as RLMObject.Type
+        var Model = Models[propertyClassName]! as RLMObject.Type
         let controller = self.getCustomForm()
         if controller != nil {
             let 💩 = controller as! ItemForm
@@ -168,7 +172,7 @@ class PickerTableViewController: UITableViewController, UISearchBarDelegate, UIS
     func items() -> [RLMObject] {
         var items = [RLMObject]()
         let schema = RLMRealm.defaultRealm().schema
-        var Model = Models[property!.objectClassName]! as RLMObject.Type
+        var Model = Models[propertyClassName]! as RLMObject.Type
         var results = Model.allObjects()
         if results.count > 0 {
             for index in 0...(Int(results.count) - 1) {
@@ -239,10 +243,10 @@ class PickerTableViewController: UITableViewController, UISearchBarDelegate, UIS
     
     func filterContentForSearchText(searchText: String) {
         
-        var Model = Models[property!.objectClassName]! as RLMObject.Type
+        var Model = Models[propertyClassName]! as RLMObject.Type
         // That dumb fucking CONTAINS[c] means case insensitive - CB
         if count(searchText) == 0 {
-            self.filteredObjects = RecentValues.getRecent(self.model!, property: self.property!, secondaryProperty: secondaryProperty).filter {
+            self.filteredObjects = RecentValues.getRecent(self.model!, propertyClassName: self.propertyClassName, propertyName: self.propertyName, secondaryProperty: secondaryProperty).filter {
                 return !self.alreadyInList($0, list1: self.alreadySelected, list2: self.alreadySelected)
             }
         } else {

@@ -9,28 +9,45 @@
 import UIKit
 import Realm
 
+
 class RelationTableViewCell: UITableViewCell {
     
     var secondaryProperty: RLMProperty?
     @IBInspectable var modelLabelProperty: String = "name"
     var modelFormId: String?
     var modelFormStoryboard: UIStoryboard?
-    var property:RLMProperty?
+    var propertyName:String?
+    var propertyClassName:String?
+    var propertyType:RLMPropertyType?
     var model:RLMObject?
+    var label:String?
+    var skipSearch = false
+    var reversedRelation = false
+    
     var 🎵FuckFuckFuck🎵 = false
     
     var allowEditing = true
     
+    var entryFieldName:String {
+        get {
+            if let l = self.label {
+                return l
+            } else {
+                return self.textLabel!.text!
+            }
+        }
+    }
+    
     var oneToMany:Bool {
         get {
-            return property?.type == RLMPropertyType.Array
+            return propertyType == RLMPropertyType.Array
         }
     }
     
     var propertyValue:AnyObject? {
         get {
-            if let prop = property {
-                return model?.valueForKey(prop.name)
+            if let propName = propertyName {
+                return model?.valueForKey(propName)
             } else {
                 return nil
             }
@@ -98,10 +115,15 @@ class RelationTableViewCell: UITableViewCell {
         updateValues()
     }
     
-    func setup(model: RLMObject, allowEditing: Bool, property: String, secondaryProperty: String?) {
+    func setup(model: RLMObject, allowEditing: Bool, property: String?, secondaryProperty: String?) {
         self.model = model
         self.allowEditing = allowEditing
-        self.property = getRealmModelProperty(model.objectSchema.className, property)
+        if property != nil {
+            let prop = getRealmModelProperty(model.objectSchema.className, property!)
+            self.propertyName = prop.name
+            self.propertyType = prop.type
+            self.propertyClassName = prop.objectClassName
+        }
         if let prop = secondaryProperty {
             self.secondaryProperty = getRealmModelProperty(model.objectSchema.className, prop)
         }
@@ -120,14 +142,10 @@ class RelationTableViewCell: UITableViewCell {
             } else {
                 if let object: AnyObject = propertyValue {
                     self.detailTextLabel?.text = "\(object.valueForKey(modelLabelProperty)!)"
-                    println("\(object.valueForKey(modelLabelProperty)!)")
-                    println(self.modelFormStoryboard)
-                    println(allowEditing)
                     if self.modelFormStoryboard != nil {
                         if allowEditing {
                             self.accessoryType = UITableViewCellAccessoryType.DetailDisclosureButton
                         } else {
-                            println("Should be disclosure")
                             self.accessoryType = UITableViewCellAccessoryType.DetailButton
                         }
                     } else {
@@ -149,7 +167,7 @@ class RelationTableViewCell: UITableViewCell {
                 var i = 0
                 while i < Int(array.count) {
                     let item = array.objectAtIndex(UInt(i)) as! RLMObject?
-                    RecentValues.increment(item!, model: self.model!, property: self.property!)
+                    RecentValues.increment(item!, model: self.model!, propertyClassName: self.propertyClassName!, propertyName: self.propertyName!)
                     i++
                 }
                 if secondaryProperty != nil {
@@ -157,17 +175,17 @@ class RelationTableViewCell: UITableViewCell {
                     var i = 0
                     while i < Int(array.count) {
                         let item = array.objectAtIndex(UInt(i)) as! RLMObject?
-                        RecentValues.increment(item!, model: self.model!, property: self.secondaryProperty!)
+                        RecentValues.increment(item!, model: self.model!, propertyClassName: self.secondaryProperty!.objectClassName!, propertyName: self.secondaryProperty!.name)
                         i++
                     }
                 }
             } else {
                 if let item = propertyValue as? RLMObject {
-                    RecentValues.increment(item, model: self.model!, property: self.property!)
+                    RecentValues.increment(item, model: self.model!, propertyClassName: self.propertyClassName!, propertyName: self.propertyName!)
                 }
                 if secondaryProperty != nil {
                     if let item = secondaryPropertyValue as? RLMObject {
-                        RecentValues.increment(item, model: self.model!, property: self.secondaryProperty!)
+                        RecentValues.increment(item, model: self.model!, propertyClassName: self.secondaryProperty!.objectClassName, propertyName: self.secondaryProperty!.name)
                     }
                 }
             }
@@ -191,11 +209,14 @@ class RelationTableViewCell: UITableViewCell {
                     destination.modelFormId = modelFormId
                     destination.modelFormStoryboard = self.modelFormStoryboard
                     destination.modelLabelProperty = modelLabelProperty
-                    destination.property = property
+                    destination.propertyName = propertyName
+                    destination.propertyClassName = propertyClassName
                     destination.secondaryProperty = secondaryProperty
-                    destination.entryFieldName = self.textLabel?.text
+                    destination.entryFieldName = self.entryFieldName
                     destination.cell = self
                     destination.allowEditing = allowEditing
+                    destination.skipSearch = skipSearch
+                    destination.reversed = reversedRelation
                     controller.navigationController?.pushViewController(destination, animated: true)
                 } else {
                     if allowEditing {
@@ -208,10 +229,13 @@ class RelationTableViewCell: UITableViewCell {
                         destination.modelFormStoryboard = self.modelFormStoryboard
                         //                    destination.modelFormClass = modelFormClass
                         destination.labelProperty = modelLabelProperty
-                        destination.property = property
+                        destination.propertyName = propertyName
+                        destination.propertyClassName = propertyClassName
                         destination.secondaryProperty = secondaryProperty
-                        destination.entryFieldName = self.textLabel?.text
+                        destination.entryFieldName = self.entryFieldName
                         destination.cell = self
+                        destination.skipSearch = skipSearch
+                        destination.reversed = reversedRelation
                         //                    destination.allowEditing = allowEditing
                         controller.navigationController?.pushViewController(destination, animated: true)
                     }
@@ -225,17 +249,20 @@ class RelationTableViewCell: UITableViewCell {
     }
     
     func unwindOneToOnePicker(sender: PickerTableViewController) {
+        let realm = RLMRealm.defaultRealm()
+        realm.beginWriteTransaction()
         🎵FuckFuckFuck🎵 = false
         let selection = sender.selection!
         // Determine appropriate property (primary or secondary property)
-        if property?.objectClassName == selection.objectSchema.className {
-            model?.setValue(sender.selection!, forKey: property!.name)
+        if propertyClassName == selection.objectSchema.className {
+            model?.setValue(sender.selection!, forKey: propertyName!)
         } else {
             model?.setValue(sender.selection!, forKey: secondaryProperty!.name)
         }
         // save Model
         // reload table data
         self.updateValues()
+        realm.commitWriteTransaction()
     }
 
     func displayDetails(table: UITableViewController) {

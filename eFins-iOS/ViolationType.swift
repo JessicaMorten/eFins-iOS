@@ -11,6 +11,8 @@ import Realm
 
 class ViolationType: EfinsModel {
     dynamic var name = ""
+    dynamic var code = ""
+    
     var actionsTaken: [EnforcementActionTaken] {
         return linkingObjectsOfClass("EnforcementActionTaken", forProperty: "violationType") as! [EnforcementActionTaken]
     }

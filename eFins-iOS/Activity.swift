@@ -11,7 +11,7 @@ import Realm
 
 class Activity: EfinsModel {
     dynamic var type = "cdfwCommercialBoardingCard" //or one of the other 'Types' as defined below.  This "subclasses" the Activity model.
-    dynamic var freeTextCrew = RLMArray(objectClassName: FreeTextCrew.className()) // Crew of the fishing Vessel associated with this Activity
+    dynamic var freeTextCrew = RLMArray(objectClassName: FreeTextCrew.className()) // Crew of the observing vessel associated with this Activity (Basically wardens that aren't iPad users)
     dynamic var users = RLMArray(objectClassName: User.className()) // Agency users associated
     dynamic var photos = RLMArray(objectClassName: Photo.className())
     dynamic var catches = RLMArray(objectClassName: Catch.className())
@@ -32,7 +32,10 @@ class Activity: EfinsModel {
     dynamic var locationManuallyEntered = false
     dynamic var contactType: ContactType?  // this is a NPS field
     
-          
+    override class func ignoredProperties() -> [AnyObject]! {
+        return ["catches", "photos"]
+    }
+    
     struct Types {
         static let CDFW_REC = "cdfwRecreationalBoardingCard"
         static let CDFW_COMM = "cdfwCommercialBoardingCard"
