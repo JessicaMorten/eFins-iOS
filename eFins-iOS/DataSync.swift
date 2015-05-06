@@ -199,6 +199,8 @@ class DataSync {
         var components = NSURLComponents(string: Urls.sync)!
         let mutableURLRequest = NSMutableURLRequest(URL: components.URL!)
         mutableURLRequest.HTTPMethod = "POST"
+        mutableURLRequest.HTTPBody = json.rawData()
+        mutableURLRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
         mutableURLRequest.setValue("Bearer " + NSUserDefaults.standardUserDefaults().stringForKey("SessionToken")! , forHTTPHeaderField: "Authorization")
         self.log("Posting to \(Urls.sync)")
         Alamofire.request(mutableURLRequest)
