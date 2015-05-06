@@ -11,7 +11,6 @@ import Realm
 
 class EnforcementActionTaken: EfinsModel {
     dynamic var violationType: ViolationType?
-    dynamic var code: RegulatoryCode?
     dynamic var enforcementActionType: EnforcementActionType?
     var activities: [Activity] {
         return linkingObjectsOfClass("Activity", forProperty: "enforcementActionsTaken") as! [Activity]
@@ -20,18 +19,10 @@ class EnforcementActionTaken: EfinsModel {
     var name:String {
         // always required
         if let e = enforcementActionType {
-            if let c = code {
-                if let v = violationType {
-                    return "\(e) - \(v)"
-                } else {
-                    return "\(e) - \(c)"
-                }
+            if let v = violationType {
+                return "\(e) - \(v)"
             } else {
-                if let v = violationType {
-                    return "\(e) - \(v)"
-                } else {
-                    return "\(e) - Unspecified violation type"
-                }
+                return "\(e) - Unknown violation type"
             }
         } else {
             return "Invalid"

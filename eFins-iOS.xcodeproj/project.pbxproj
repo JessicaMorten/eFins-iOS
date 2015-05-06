@@ -17,7 +17,6 @@
 		935D24C71AC1E57500A2854D /* Port.swift in Sources */ = {isa = PBXBuildFile; fileRef = 935D24C61AC1E57500A2854D /* Port.swift */; };
 		935D24C91AC1E5F200A2854D /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 935D24C81AC1E5F200A2854D /* Activity.swift */; };
 		935D24CB1AC1E78900A2854D /* Catch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 935D24CA1AC1E78900A2854D /* Catch.swift */; };
-		935D24CD1AC1E82500A2854D /* RegulatoryCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 935D24CC1AC1E82500A2854D /* RegulatoryCode.swift */; };
 		935D24CF1AC1E8C000A2854D /* ContactType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 935D24CE1AC1E8C000A2854D /* ContactType.swift */; };
 		935D24D11AC2117200A2854D /* VesselType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 935D24D01AC2117200A2854D /* VesselType.swift */; };
 		935D24D31AC211DE00A2854D /* Vessel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 935D24D21AC211DE00A2854D /* Vessel.swift */; };
@@ -108,7 +107,6 @@
 		935D24C61AC1E57500A2854D /* Port.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Port.swift; sourceTree = "<group>"; };
 		935D24C81AC1E5F200A2854D /* Activity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Activity.swift; sourceTree = "<group>"; };
 		935D24CA1AC1E78900A2854D /* Catch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Catch.swift; sourceTree = "<group>"; };
-		935D24CC1AC1E82500A2854D /* RegulatoryCode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegulatoryCode.swift; sourceTree = "<group>"; };
 		935D24CE1AC1E8C000A2854D /* ContactType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactType.swift; sourceTree = "<group>"; };
 		935D24D01AC2117200A2854D /* VesselType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VesselType.swift; sourceTree = "<group>"; };
 		935D24D21AC211DE00A2854D /* Vessel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vessel.swift; sourceTree = "<group>"; };
@@ -216,7 +214,6 @@
 				935D24D61AC212EF00A2854D /* Person.swift */,
 				935D24DA1AC2140E00A2854D /* Photo.swift */,
 				935D24C61AC1E57500A2854D /* Port.swift */,
-				935D24CC1AC1E82500A2854D /* RegulatoryCode.swift */,
 				935D24C41AC1E4E800A2854D /* Species.swift */,
 				933454C31AB75C4A00E5C65E /* User.swift */,
 				935D24D21AC211DE00A2854D /* Vessel.swift */,
@@ -542,7 +539,6 @@
 				CB3B42C01AE85FE5004E9D60 /* DayDatePickerTableViewController.swift in Sources */,
 				933454C41AB75C4A00E5C65E /* Agency.swift in Sources */,
 				935D24CB1AC1E78900A2854D /* Catch.swift in Sources */,
-				935D24CD1AC1E82500A2854D /* RegulatoryCode.swift in Sources */,
 				CBD00BAD1AB0F79700ED784E /* Constants.swift in Sources */,
 				933454C51AB75C4A00E5C65E /* User.swift in Sources */,
 				CBE272E01AC3564600A4F236 /* LogbookTableViewController.swift in Sources */,
