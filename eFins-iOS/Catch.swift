@@ -12,7 +12,6 @@ import Realm
 class Catch: EfinsModel {
     dynamic var species: Species?
     dynamic var amount = 0
-    dynamic var activity : Activity?
     
     var name:String {
         if let s = species {
