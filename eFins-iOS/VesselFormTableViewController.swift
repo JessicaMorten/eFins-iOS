@@ -129,6 +129,14 @@ class VesselFormTableViewController: UITableViewController, ItemForm, UITextFiel
             self.performSegueWithIdentifier("UnwindCustomForm", sender: self)
         }
     }
+    
+    override func tableView(tableView: UITableView, accessoryButtonTappedForRowWithIndexPath indexPath: NSIndexPath) {
+        let cell = tableView.cellForRowAtIndexPath(indexPath)
+        if cell is RelationTableViewCell {
+            (cell as! RelationTableViewCell).displayDetails(self)
+        }
+    }
+
     /*
     // MARK: - Navigation
 

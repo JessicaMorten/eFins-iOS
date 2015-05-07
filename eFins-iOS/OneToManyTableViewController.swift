@@ -207,7 +207,7 @@ class OneToManyTableViewController: UITableViewController {
         if skipSearch {
             var Model = Models[propertyClassName]! as RLMObject.Type
             if let controller = self.getCustomForm() {
-                self.navigationItem.title = "Cancel"
+//                self.navigationItem.title = "Cancel"
                 self.navigationController?.pushViewController(controller, animated: true)
             }
         } else {
@@ -226,8 +226,30 @@ class OneToManyTableViewController: UITableViewController {
     @IBAction func unwindCustomFormNoSearch(sender: UIStoryboardSegue) {
         let realm = RLMRealm.defaultRealm()
         realm.beginWriteTransaction()
-        let selection = (sender.sourceViewController as! ItemForm).model
-        selection?.setValue(self.model, forKeyPath: "activity")
+        let selection = (sender.sourceViewController as! ItemForm).model!
+        if reversed {
+            selection.setValue(self.model, forKeyPath: "activity")
+        } else {
+            var prop:RLMArray
+            if propertyClassName == selection.objectSchema.className {
+                let getter = propertyName
+                prop = model?.valueForKey(getter) as! RLMArray
+            } else {
+                let getter = secondaryProperty!.name!
+                prop = model?.valueForKey(getter) as! RLMArray
+            }
+            if self.allowEditing {
+                // append to array
+                let index = prop.indexOfObject(selection)
+                if index == UInt(NSNotFound) {
+                    prop.addObject(selection)
+                }
+                // save Model
+                // reload table data
+            } else {
+                println("Not allowing editing")
+            }
+        }
         realm.commitWriteTransaction()
         self.tableView.reloadData()
     }

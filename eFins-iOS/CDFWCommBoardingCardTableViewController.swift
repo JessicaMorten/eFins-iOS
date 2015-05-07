@@ -27,6 +27,7 @@ class CDFWCommBoardingCardTableViewController: UITableViewController, UITextView
     @IBOutlet weak var activityCell: RelationTableViewCell!
     @IBOutlet weak var catchesCell: RelationTableViewCell!
     @IBOutlet weak var citationsCell: RelationTableViewCell!
+    @IBOutlet weak var categoryOfBoardingCell: UITableViewCell!
     
     var activity:Activity?
     var isNew = true
@@ -66,6 +67,7 @@ class CDFWCommBoardingCardTableViewController: UITableViewController, UITextView
             self.locationTableCell.textLabel?.text = "Location"
             self.locationSwitch.hidden = true
             self.remarksTextView.editable = false
+            self.categoryOfBoardingCell.accessoryType = UITableViewCellAccessoryType.None
         }
         self.observersTableViewCell.setup(self.activity!, allowEditing: allowEditing, property: "freeTextCrew", secondaryProperty: "users")
         self.vesselTableViewCell.setup(self.activity!, allowEditing: allowEditing, property: "vessel", secondaryProperty: nil)
@@ -86,6 +88,7 @@ class CDFWCommBoardingCardTableViewController: UITableViewController, UITextView
         self.citationsCell.skipSearch = true
         self.citationsCell.setCustomForm(UIStoryboard(name: "ViolationForm", bundle: nil), identifier: "ViolationForm")
         self.citationsCell.setup(self.activity!, allowEditing: allowEditing, property: "enforcementActionsTaken", secondaryProperty: nil)
+        self.categoryOfBoardingCell.detailTextLabel?.text = activity!.categoryOfBoarding
     }
     
     // MARK: Actions
@@ -130,12 +133,24 @@ class CDFWCommBoardingCardTableViewController: UITableViewController, UITextView
     // MARK: - Navigation
     
     //    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    //    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-    //        // Get the new view controller using [segue destinationViewController].
-    //        // Pass the selected object to the new view controller.
-    //        let controller = segue.destinationViewController
-    //    }
+//        override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+//            // Get the new view controller using [segue destinationViewController].
+//            // Pass the selected object to the new view controller.
+//            let controller = segue.destinationViewController
+//            if controller is BoardingTypeTableViewController && self.isNew {
+//                
+//            }
+//        }
+//    
     
+    override func shouldPerformSegueWithIdentifier(identifier: String?, sender: AnyObject?) -> Bool {
+        if self.isNew == false {
+            if sender is UITableViewCell && (sender as! UITableViewCell) == self.categoryOfBoardingCell {
+                return false
+            }
+        }
+        return true
+    }
     
     @IBAction func unwindDatePicker(sender: UIStoryboardSegue) {
         let sourceViewController = sender.sourceViewController as! DatePickerTableViewController
@@ -234,6 +249,14 @@ class CDFWCommBoardingCardTableViewController: UITableViewController, UITextView
         } else {
             self.photosCell.detailTextLabel?.text = "0"
         }
+    }
+    
+    @IBAction func unwindBoardingType(sender:UIStoryboardSegue) {
+        let realm = RLMRealm.defaultRealm()
+        realm.beginWriteTransaction()
+        self.activity!.categoryOfBoarding = (sender.sourceViewController as! BoardingTypeTableViewController).selection
+        realm.commitWriteTransaction()
+        self.categoryOfBoardingCell.detailTextLabel?.text = activity!.categoryOfBoarding
     }
     
     

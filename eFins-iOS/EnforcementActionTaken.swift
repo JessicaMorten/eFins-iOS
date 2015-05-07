@@ -20,9 +20,9 @@ class EnforcementActionTaken: EfinsModel {
         // always required
         if let e = enforcementActionType {
             if let v = violationType {
-                return "\(e) - \(v)"
+                return "\(e.name) - \(v.name)"
             } else {
-                return "\(e) - Unknown violation type"
+                return "\(e.name) - Unknown violation type"
             }
         } else {
             return "Invalid"

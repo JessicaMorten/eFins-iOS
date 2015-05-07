@@ -110,6 +110,14 @@ class CatchFormTableViewController: UITableViewController, ItemForm {
     @IBAction func tap(sender: AnyObject) {
         self.amountTextField.endEditing(true)
     }
+    
+    override func tableView(tableView: UITableView, accessoryButtonTappedForRowWithIndexPath indexPath: NSIndexPath) {
+        let cell = tableView.cellForRowAtIndexPath(indexPath)
+        if cell is RelationTableViewCell {
+            (cell as! RelationTableViewCell).displayDetails(self)
+        }
+    }
+
     /*
     // MARK: - Navigation
     

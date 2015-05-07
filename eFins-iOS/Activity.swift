@@ -29,6 +29,7 @@ class Activity: EfinsModel{
     dynamic var longitude = -1.0
     dynamic var locationManuallyEntered = false
     dynamic var contactType: ContactType?  // this is a NPS field
+    dynamic var categoryOfBoarding:String = "Neutral"
     
     override class func ignoredProperties() -> [AnyObject]! {
         return ["catches", "photos"]

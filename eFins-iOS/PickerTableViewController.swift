@@ -103,7 +103,7 @@ class PickerTableViewController: UITableViewController, UISearchBarDelegate, UIS
         if controller != nil {
             let 💩 = controller as! ItemForm
             💩.label = text
-            self.navigationItem.title = "Cancel"
+//            self.navigationItem.title = "Cancel"
             self.navigationController?.pushViewController(controller!, animated: true)
         } else {
             let object = Model()
