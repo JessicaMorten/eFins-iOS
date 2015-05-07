@@ -148,7 +148,7 @@ class PersonFormTableViewController: UITableViewController, ItemForm, UITextFiel
             }
             realm.commitWriteTransaction()
             self.allowEditing = false
-            self.performSegueWithIdentifier("UnwindPicker", sender: self)
+            self.performSegueWithIdentifier("UnwindCustomForm", sender: self)
         }
     }
     

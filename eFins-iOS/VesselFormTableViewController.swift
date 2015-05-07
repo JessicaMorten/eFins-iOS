@@ -23,7 +23,7 @@ class VesselFormTableViewController: UITableViewController, ItemForm, UITextFiel
     var model:RLMObject?
     var label:String?
     var allowEditing = true
-    var openTransaction = false
+//    var openTransaction = false
     var vessel:Vessel {
         get {
             return self.model as! Vessel
@@ -67,9 +67,6 @@ class VesselFormTableViewController: UITableViewController, ItemForm, UITextFiel
     
     func startEditing() {
         self.allowEditing = true
-        let realm = RLMRealm.defaultRealm()
-        realm.beginWriteTransaction()
-        self.openTransaction = true
         setEditingState()
     }
     
@@ -101,17 +98,24 @@ class VesselFormTableViewController: UITableViewController, ItemForm, UITextFiel
     }
     
     @IBAction func nameChanged(sender: UITextField) {
-        println("name changed")
-        println(self.vessel)
+        let realm = RLMRealm.defaultRealm()
+        realm.beginWriteTransaction()
         self.vessel.name = sender.text
+        realm.commitWriteTransaction()
     }
     
     @IBAction func registrationChanged(sender: UITextField) {
+        let realm = RLMRealm.defaultRealm()
+        realm.beginWriteTransaction()
         self.vessel.registration = sender.text
+        realm.commitWriteTransaction()
     }
     
     @IBAction func fgNumberChanged(sender: UITextField) {
+        let realm = RLMRealm.defaultRealm()
+        realm.beginWriteTransaction()
         self.vessel.fgNumber = sender.text
+        realm.commitWriteTransaction()
     }
     
     @IBAction func save(sender: AnyObject) {
@@ -119,12 +123,8 @@ class VesselFormTableViewController: UITableViewController, ItemForm, UITextFiel
             alert("Incomplete", "You must enter a vessel name or registration", self)
         } else {
             let realm = RLMRealm.defaultRealm()
-            if self.openTransaction {
-                
-            } else {
-                realm.beginWriteTransaction()
-                realm.addObject(self.vessel)
-            }
+            realm.beginWriteTransaction()
+            realm.addObject(self.vessel)
             realm.commitWriteTransaction()
             self.performSegueWithIdentifier("UnwindCustomForm", sender: self)
         }

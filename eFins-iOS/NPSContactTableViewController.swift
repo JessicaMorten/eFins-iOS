@@ -1,16 +1,15 @@
 //
-//  CDFWCommBoardingCardTableViewController.swift
+//  NPSContactTableViewController.swift
 //  eFins-iOS
 //
-//  Created by CHAD BURT on 5/1/15.
+//  Created by CHAD BURT on 5/7/15.
 //  Copyright (c) 2015 McClintock Lab. All rights reserved.
 //
 
 import UIKit
 import Realm
 
-class CDFWCommBoardingCardTableViewController: UITableViewController, UITextViewDelegate {
-    
+class NPSContactTableViewController: UITableViewController {
     @IBOutlet weak var locationTableCell: UITableViewCell!
     // TODO: immediately fetch location in background and spin indicator
     @IBOutlet weak var locationActivityIndicator: UIActivityIndicatorView!
@@ -20,15 +19,14 @@ class CDFWCommBoardingCardTableViewController: UITableViewController, UITextView
     @IBOutlet weak var saveButton: UIButton!
     @IBOutlet weak var observersTableViewCell: RelationTableViewCell!
     @IBOutlet weak var vesselTableViewCell: RelationTableViewCell!
-    @IBOutlet weak var crewCell: RelationTableViewCell!
     @IBOutlet weak var cameraButton: UIBarButtonItem!
     @IBOutlet weak var photosCell: UITableViewCell!
     @IBOutlet weak var captainCell: RelationTableViewCell!
-    @IBOutlet weak var activityCell: RelationTableViewCell!
-    @IBOutlet weak var catchesCell: RelationTableViewCell!
     @IBOutlet weak var citationsCell: RelationTableViewCell!
-    @IBOutlet weak var categoryOfBoardingCell: UITableViewCell!
-    
+    @IBOutlet weak var contactTypeCell: RelationTableViewCell!
+    @IBOutlet weak var numPersonsOnBoardTextField: UITextField!
+    @IBOutlet weak var numberOfPersonsOnBoardCell: UITableViewCell!
+
     var activity:Activity?
     var isNew = true
     var allowEditing = true
@@ -45,7 +43,7 @@ class CDFWCommBoardingCardTableViewController: UITableViewController, UITextView
             realm.beginWriteTransaction()
             activity = Activity()
             // TODO: Make an actual type
-            activity?.type = Activity.Types.CDFW_COMM
+            activity?.type = Activity.Types.NPS
             //            let predicate = NSPredicate(format: "color = %@ AND name BEGINSWITH %@", "tan", "B")
             //            let type = ContactType.objectsWithPredicate(predicate).firstObject()
             self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Cancel,
@@ -54,6 +52,7 @@ class CDFWCommBoardingCardTableViewController: UITableViewController, UITextView
             activity?.time = NSDate()
             let formatter = getDateFormatter()
             dateTableCell.detailTextLabel?.text = formatter.stringFromDate(activity!.time)
+            self.numPersonsOnBoardTextField.text = "0"
             realm.addObject(self.activity)
             realm.commitWriteTransaction()
         } else {
@@ -67,24 +66,23 @@ class CDFWCommBoardingCardTableViewController: UITableViewController, UITextView
             self.locationTableCell.textLabel?.text = "Location"
             self.locationSwitch.hidden = true
             self.remarksTextView.editable = false
-            self.categoryOfBoardingCell.accessoryType = UITableViewCellAccessoryType.None
+            var numPersons = 0
+            if let n = activity?.numPersonsOnBoard {
+                numPersons = n
+            }
+            self.numPersonsOnBoardTextField.text = "\(numPersons)"
+            self.numPersonsOnBoardTextField.enabled = false
         }
+        self.numberOfPersonsOnBoardCell.textLabel?.text = "Number of Persons on Board"
         self.observersTableViewCell.setup(self.activity!, allowEditing: allowEditing, property: "freeTextCrew", secondaryProperty: "users")
         self.vesselTableViewCell.setup(self.activity!, allowEditing: allowEditing, property: "vessel", secondaryProperty: nil)
         self.vesselTableViewCell.setCustomForm(UIStoryboard(name: "VesselForm", bundle: nil), identifier: "VesselForm")
-        self.crewCell.setup(self.activity!, allowEditing: allowEditing, property: "crew", secondaryProperty: nil)
-        self.crewCell.setCustomForm(UIStoryboard(name: "PersonForm", bundle: nil), identifier: "PersonForm")
         self.captainCell.setup(self.activity!, allowEditing: allowEditing, property: "captain", secondaryProperty: nil)
         self.captainCell.setCustomForm(UIStoryboard(name: "PersonForm", bundle:nil), identifier: "PersonForm")
-        self.catchesCell.label = "Species"
-        self.catchesCell.skipSearch = true
-        self.catchesCell.setup(self.activity!, allowEditing: allowEditing, property: "catches", secondaryProperty: nil)
-        self.catchesCell.setCustomForm(UIStoryboard(name: "CatchForm", bundle:nil), identifier: "CatchForm")
-        self.activityCell.setup(self.activity!, allowEditing: allowEditing, property: "action", secondaryProperty: nil)
         self.citationsCell.skipSearch = true
         self.citationsCell.setCustomForm(UIStoryboard(name: "ViolationForm", bundle: nil), identifier: "ViolationForm")
         self.citationsCell.setup(self.activity!, allowEditing: allowEditing, property: "enforcementActionsTaken", secondaryProperty: nil)
-        self.categoryOfBoardingCell.detailTextLabel?.text = activity!.categoryOfBoarding
+        self.contactTypeCell.setup(self.activity!, allowEditing: allowEditing, property: "contactType", secondaryProperty: nil)
     }
     
     // MARK: Actions
@@ -129,24 +127,15 @@ class CDFWCommBoardingCardTableViewController: UITableViewController, UITextView
     // MARK: - Navigation
     
     //    // In a storyboard-based application, you will often want to do a little preparation before navigation
-//        override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-//            // Get the new view controller using [segue destinationViewController].
-//            // Pass the selected object to the new view controller.
-//            let controller = segue.destinationViewController
-//            if controller is BoardingTypeTableViewController && self.isNew {
-//                
-//            }
-//        }
-//    
-    
-    override func shouldPerformSegueWithIdentifier(identifier: String?, sender: AnyObject?) -> Bool {
-        if self.isNew == false {
-            if sender is UITableViewCell && (sender as! UITableViewCell) == self.categoryOfBoardingCell {
-                return false
-            }
-        }
-        return true
-    }
+    //        override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    //            // Get the new view controller using [segue destinationViewController].
+    //            // Pass the selected object to the new view controller.
+    //            let controller = segue.destinationViewController
+    //            if controller is BoardingTypeTableViewController && self.isNew {
+    //
+    //            }
+    //        }
+    //
     
     @IBAction func unwindDatePicker(sender: UIStoryboardSegue) {
         let sourceViewController = sender.sourceViewController as! DatePickerTableViewController
@@ -176,7 +165,7 @@ class CDFWCommBoardingCardTableViewController: UITableViewController, UITextView
             let controller:DatePickerTableViewController = storyboard.instantiateInitialViewController() as! DatePickerTableViewController
             self.navigationController?.pushViewController(controller, animated: true)
             controller.date = activity!.time
-        } else if indexPath.section == 5 && indexPath.row == 0 {
+        } else if indexPath.section == 4 && indexPath.row == 0 {
             let storyboard = UIStoryboard(name: "PhotoList", bundle: nil)
             let controller = storyboard.instantiateInitialViewController() as! PhotosCollectionViewController
             controller.activity = self.activity
@@ -210,6 +199,7 @@ class CDFWCommBoardingCardTableViewController: UITableViewController, UITextView
     
     @IBAction func tapRecognizer(sender:AnyObject) {
         self.hideNotesKeyboard()
+        self.numPersonsOnBoardTextField.endEditing(true)
     }
     
     func hideNotesKeyboard() {
@@ -247,14 +237,13 @@ class CDFWCommBoardingCardTableViewController: UITableViewController, UITextView
         }
     }
     
-    @IBAction func unwindBoardingType(sender:UIStoryboardSegue) {
-        let realm = RLMRealm.defaultRealm()
-        realm.beginWriteTransaction()
-        self.activity!.categoryOfBoarding = (sender.sourceViewController as! BoardingTypeTableViewController).selection
-        realm.commitWriteTransaction()
-        self.categoryOfBoardingCell.detailTextLabel?.text = activity!.categoryOfBoarding
+    @IBAction func numPersonsOnBoardEditingEnded(sender: AnyObject) {
+        if let n = self.numPersonsOnBoardTextField.text.toInt() {
+            let realm = RLMRealm.defaultRealm()
+            realm.beginWriteTransaction()
+            self.activity?.numPersonsOnBoard = n
+            realm.commitWriteTransaction()
+        }
     }
-    
-    
-    
+
 }
