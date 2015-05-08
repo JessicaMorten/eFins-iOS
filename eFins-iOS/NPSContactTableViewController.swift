@@ -87,13 +87,16 @@ class NPSContactTableViewController: UITableViewController {
     
     // MARK: Actions
     
-    // TODO: delete model on cancel
     func cancel() {
+        confirm("Cancel Record", "Are you sure you want to delete this record?", self, doCancel)
+    }
+    
+    func doCancel() {
         let realm = RLMRealm.defaultRealm()
         realm.beginWriteTransaction()
         realm.deleteObject(self.activity)
         realm.commitWriteTransaction()
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismissViewControllerAnimated(true, completion: nil)        
     }
     
     func back() {
