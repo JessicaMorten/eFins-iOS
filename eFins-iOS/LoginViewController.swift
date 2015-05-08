@@ -125,6 +125,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                         if let token = json["token"].string{
                             println("Token is \(token)")
                             defaults.setValue(token, forKey: "SessionToken")
+                            defaults.setValue(params["email"], forKey: "UserEmail")
                             defaults.setValue("Authenticated", forKey: "SessionState")
                             self.alert("Account Approved", message: "You may now access the system")
                             NSNotificationCenter.defaultCenter().postNotificationName(TokenObtainedNotification, object: self)

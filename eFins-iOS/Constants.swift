@@ -173,7 +173,7 @@ func confirm(title:String, message:String, view:UIViewController, next:() -> Voi
     alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default, handler:{ (ACTION :UIAlertAction!)in
         println("cancelled")
     }))
-    alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.Destructive, handler:{ (ACTION :UIAlertAction!)in
+    alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.Default, handler:{ (ACTION :UIAlertAction!)in
         next()
     }))
     view.presentViewController(alert, animated: true, completion: nil)

@@ -42,6 +42,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
     }
     
+    func getUser() -> User? {
+        let defaults = NSUserDefaults.standardUserDefaults()
+        if let email = defaults.objectForKey("UserEmail") as? String {
+            let params = NSPredicate(format: "email = %@",  email)
+            let results = User.objectsWithPredicate(params)
+            if results.count > 0 {
+                return results.objectAtIndex(UInt(0)) as? User
+            } else {
+                return nil
+            }
+        } else {
+            return nil
+        }
+    }
+    
     func gotoMainStoryboard() {
         let storyboard:UIStoryboard = UIStoryboard(name: "Main", bundle: NSBundle(identifier: "mainBundle"))
         var viewController = storyboard.instantiateViewControllerWithIdentifier("MainTabs") as! UITabBarController

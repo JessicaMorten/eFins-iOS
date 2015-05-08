@@ -56,6 +56,7 @@
 		CB8CC70E1AFABCAC00B91B90 /* ViolationTypeFormTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB8CC70D1AFABCAC00B91B90 /* ViolationTypeFormTableViewController.swift */; };
 		CB8CC7101AFAF16B00B91B90 /* BoardingTypeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB8CC70F1AFAF16B00B91B90 /* BoardingTypeTableViewController.swift */; };
 		CB8CC7121AFBF9DC00B91B90 /* NPSContactTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB8CC7111AFBF9DC00B91B90 /* NPSContactTableViewController.swift */; };
+		CB8CC7141AFD463200B91B90 /* ActivityFormTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB8CC7131AFD463200B91B90 /* ActivityFormTableViewController.swift */; };
 		CBA0330D1AF02B2A006838C6 /* PhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBA0330C1AF02B2A006838C6 /* PhotoCollectionViewCell.swift */; };
 		CBCE35A41AC1EB2F005C6CA8 /* ActivityLogTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBCE35A31AC1EB2F005C6CA8 /* ActivityLogTableViewController.swift */; };
 		CBCE35A71AC1F763005C6CA8 /* DatePicker.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CBCE35A61AC1F763005C6CA8 /* DatePicker.storyboard */; };
@@ -155,6 +156,7 @@
 		CB8CC70D1AFABCAC00B91B90 /* ViolationTypeFormTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViolationTypeFormTableViewController.swift; sourceTree = "<group>"; };
 		CB8CC70F1AFAF16B00B91B90 /* BoardingTypeTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoardingTypeTableViewController.swift; sourceTree = "<group>"; };
 		CB8CC7111AFBF9DC00B91B90 /* NPSContactTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NPSContactTableViewController.swift; sourceTree = "<group>"; };
+		CB8CC7131AFD463200B91B90 /* ActivityFormTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityFormTableViewController.swift; sourceTree = "<group>"; };
 		CBA0330C1AF02B2A006838C6 /* PhotoCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoCollectionViewCell.swift; sourceTree = "<group>"; };
 		CBCE35A31AC1EB2F005C6CA8 /* ActivityLogTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityLogTableViewController.swift; sourceTree = "<group>"; };
 		CBCE35A61AC1F763005C6CA8 /* DatePicker.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = DatePicker.storyboard; sourceTree = "<group>"; };
@@ -307,6 +309,7 @@
 				CB81E9381AAA21F70071C2D2 /* Images.xcassets */,
 				CB81E93A1AAA21F70071C2D2 /* LaunchScreen.xib */,
 				CBD00BAC1AB0F79700ED784E /* Constants.swift */,
+				CB8CC7131AFD463200B91B90 /* ActivityFormTableViewController.swift */,
 				CB8CC70F1AFAF16B00B91B90 /* BoardingTypeTableViewController.swift */,
 				CBCE35A31AC1EB2F005C6CA8 /* ActivityLogTableViewController.swift */,
 				93E701EF1AB0E6C800BD179E /* DataSync.swift */,
@@ -529,6 +532,7 @@
 				CB81E9341AAA21F70071C2D2 /* SecondViewController.swift in Sources */,
 				935D24C11AC1E1D500A2854D /* PatrolLog.swift in Sources */,
 				CB8CC7121AFBF9DC00B91B90 /* NPSContactTableViewController.swift in Sources */,
+				CB8CC7141AFD463200B91B90 /* ActivityFormTableViewController.swift in Sources */,
 				CBE118081ACDE6A600BC229F /* PickerTableViewController.swift in Sources */,
 				CB8CC70A1AFAA53A00B91B90 /* ViolationFormTableViewController.swift in Sources */,
 				935D24DF1AC2153D00A2854D /* EnforcementActionType.swift in Sources */,
