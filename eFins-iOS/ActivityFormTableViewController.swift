@@ -68,7 +68,7 @@ class ActivityFormTableViewController: UITableViewController {
         } else {
             self.isNew = false
             self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.Plain, target: self, action: "back")
-            self.navigationItem.rightBarButtonItem = nil
+            self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Edit", style: UIBarButtonItemStyle.Plain, target: self, action: "editButtonTapped")
             self.saveButton.hidden = true
             self.dateTableCell.accessoryType = UITableViewCellAccessoryType.None
             self.locationTableCell.textLabel?.text = "Location"
@@ -252,6 +252,9 @@ class ActivityFormTableViewController: UITableViewController {
     override func viewWillAppear(animated: Bool) {
         self.photosCell.detailTextLabel?.text = "\(self.activity.photos.count)"
         updateAccessoryTypes()
+        if let path = self.tableView.indexPathForSelectedRow() {
+            self.tableView.deselectRowAtIndexPath(path, animated: true)
+        }
     }
     
     func updateAccessoryTypes() {
@@ -260,4 +263,29 @@ class ActivityFormTableViewController: UITableViewController {
         }
     }
 
+    func editButtonTapped() {
+        enterEditMode()
+    }
+    
+    func enterEditMode() {
+        self.allowEditing = true
+        self.updateRelationTableViewCellEditMode()
+        for field in self.textFields {
+            field.enabled = true
+        }
+        for field in self.textViews {
+            field.editable = true
+        }
+        self.dateTableCell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
+        self.navigationItem.rightBarButtonItem = nil
+        self.navigationItem.leftBarButtonItem?.title = "Save and Exit"
+    }
+    
+    func updateRelationTableViewCellEditMode() {
+        for cell in self.relationTableViewCells {
+            cell.allowEditing = self.allowEditing
+        }
+        self.updateAccessoryTypes()
+    }
+    
 }

@@ -55,7 +55,7 @@ class CDFWCommBoardingCardTableViewController: ActivityFormTableViewController, 
     
     override func shouldPerformSegueWithIdentifier(identifier: String?, sender: AnyObject?) -> Bool {
         if self.isNew == false {
-            if sender is UITableViewCell && (sender as! UITableViewCell) == self.categoryOfBoardingCell {
+            if sender is UITableViewCell && (sender as! UITableViewCell) == self.categoryOfBoardingCell && allowEditing != true {
                 return false
             }
         }
@@ -68,6 +68,11 @@ class CDFWCommBoardingCardTableViewController: ActivityFormTableViewController, 
         self.activity!.categoryOfBoarding = (sender.sourceViewController as! BoardingTypeTableViewController).selection
         realm.commitWriteTransaction()
         self.categoryOfBoardingCell.detailTextLabel?.text = activity!.categoryOfBoarding
+    }
+    
+    override func enterEditMode() {
+        super.enterEditMode()
+        self.categoryOfBoardingCell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
     }
     
 }
