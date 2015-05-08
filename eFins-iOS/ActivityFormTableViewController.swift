@@ -96,7 +96,7 @@ class ActivityFormTableViewController: UITableViewController {
         }
         
         self.numberOfPersonsOnBoardCell?.textLabel?.text = "Number of Persons on Board"
-
+        updateAccessoryTypes()
     }
     
     // MARK: Actions
@@ -245,6 +245,13 @@ class ActivityFormTableViewController: UITableViewController {
     
     override func viewWillAppear(animated: Bool) {
         self.photosCell.detailTextLabel?.text = "\(self.activity.photos.count)"
+        updateAccessoryTypes()
+    }
+    
+    func updateAccessoryTypes() {
+        for cell in self.relationTableViewCells {
+            cell.updateAccessoryType()
+        }
     }
 
 }

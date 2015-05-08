@@ -134,29 +134,41 @@ class RelationTableViewCell: UITableViewCell {
         if model != nil {
             if oneToMany {
                 self.detailTextLabel?.text = "\(allValues.count)"
-                if allValues.count < 1 && !allowEditing {
-                    self.accessoryType = UITableViewCellAccessoryType.None
-                } else {
-                    self.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
-                }
             } else {
                 if let object: AnyObject = propertyValue {
                     self.detailTextLabel?.text = "\(object.valueForKey(modelLabelProperty)!)"
-                    if self.modelFormStoryboard != nil {
-                        if allowEditing {
-                            self.accessoryType = UITableViewCellAccessoryType.DetailDisclosureButton
-                        } else {
-                            self.accessoryType = UITableViewCellAccessoryType.DetailButton
-                        }
-                    } else {
-                        self.accessoryType = UITableViewCellAccessoryType.None
-                    }
                 } else {
                     self.detailTextLabel?.text = "None"
                 }
             }
         } else {
             self.detailTextLabel?.text = " "
+        }
+        updateAccessoryType()
+    }
+    
+    func updateAccessoryType() {
+        if model != nil {
+            let showDetails = self.modelFormStoryboard != nil
+            if oneToMany {
+                self.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
+            } else {
+                if let val = propertyValue {
+                    if allowEditing {
+                        self.accessoryType = UITableViewCellAccessoryType.DetailDisclosureButton
+                    } else {
+                        self.accessoryType = UITableViewCellAccessoryType.DetailButton
+                    }
+                } else {
+                    if allowEditing {
+                        self.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
+                    } else {
+                        UITableViewCellAccessoryType.None
+                    }
+                }
+            }
+        } else {
+            self.accessoryType = UITableViewCellAccessoryType.None
         }
     }
     
