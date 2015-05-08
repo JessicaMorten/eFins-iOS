@@ -831,6 +831,7 @@
                                                     <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                                     <connections>
                                                         <action selector="numPersonsOnBoardEditingEnded:" destination="4td-b1-0vc" eventType="editingDidEnd" id="R3h-ed-b7q"/>
+                                                        <action selector="personsOnBoardEditingDidBegin:" destination="4td-b1-0vc" eventType="editingDidBegin" id="4Tz-vS-zHt"/>
                                                     </connections>
                                                 </textField>
                                             </subviews>
@@ -1593,6 +1594,7 @@
                                                     <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                                     <connections>
                                                         <action selector="numPersonsOnBoardEditingEnded:" destination="sWf-wR-fiC" eventType="editingDidEnd" id="oZp-N3-IIW"/>
+                                                        <action selector="personsOnBoardEditingDidBegin:" destination="sWf-wR-fiC" eventType="editingDidBegin" id="57K-Eq-hjQ"/>
                                                     </connections>
                                                 </textField>
                                             </subviews>

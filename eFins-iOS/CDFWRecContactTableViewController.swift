@@ -15,4 +15,5 @@ class CDFWRecContactTableViewController: ActivityFormTableViewController {
         self.activityType = Activity.Types.CDFW_REC
         super.viewDidLoad()
     }
+
 }

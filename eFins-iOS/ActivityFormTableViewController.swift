@@ -147,6 +147,12 @@ class ActivityFormTableViewController: UITableViewController {
         }
     }
     
+    @IBAction func personsOnBoardEditingDidBegin(sender: UITextField) {
+        if sender.text == "0" {
+            sender.text = ""
+        }
+    }
+    
     // MARK: - Navigation
     
     @IBAction func unwindDatePicker(sender: UIStoryboardSegue) {
