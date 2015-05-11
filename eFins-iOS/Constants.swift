@@ -92,7 +92,7 @@ class _RecentValues {
     }
     
     func getKey(item: RLMObject, model: RLMObject, propertyClassName: String, propertyName: String) -> String {
-        let id = item.valueForKey("id") as! String
+        let id = item.valueForKey("localid") as! String
         return "recent-values,\(propertyClassName),\(propertyName),\(id)"
     }
     
@@ -130,12 +130,12 @@ class _RecentValues {
             Model2 = Models[secondaryProperty!.objectClassName]
         }
         for id in sortedKeys {
-            let results = Model!.objectsWithPredicate(NSPredicate(format: "id = %@", id))
+            let results = Model!.objectsWithPredicate(NSPredicate(format: "localid = %@", id))
             if results.count > 0 {
                 recent.append(results.objectAtIndex(0) as! RLMObject)
             } else {
                 if Model2 != nil {
-                    let results2 = Model2!.objectsWithPredicate(NSPredicate(format: "id = %@", id))
+                    let results2 = Model2!.objectsWithPredicate(NSPredicate(format: "localid = %@", id))
                     if results2.count > 0 {
                         recent.append(results2.objectAtIndex(0) as! RLMObject)
                     }
