@@ -54,8 +54,10 @@ class EfinsModel : RLMObject {
         var json = JSON([String: AnyObject]())
         let dRealm = RLMRealm.defaultRealm()
         let className = self.description.componentsSeparatedByString(" ")[0]
-        //NSLog("toJSON on \(className)")
         let sourceSchema = dRealm.schema.schemaForClassName(className)
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateStyle = NSDateFormatterStyle.MediumStyle
+        dateFormatter.timeStyle = NSDateFormatterStyle.LongStyle
         for p in sourceSchema.properties {
             let property: RLMProperty = p as! RLMProperty
             
@@ -77,7 +79,9 @@ class EfinsModel : RLMObject {
             } else if property.type == RLMPropertyType.Date {
                 let obj = self[property.name] as? NSDate
                 if obj != nil {
-                    json[property.name] = JSON(obj!.timeIntervalSince1970)
+                    //json[property.name] = JSON(obj!.timeIntervalSince1970)
+                    json[property.name] = JSON(dateFormatter.stringFromDate(obj!))
+
                 }
             } else {
                 if !(contains(["dirty", "localId"], property.name)) {
