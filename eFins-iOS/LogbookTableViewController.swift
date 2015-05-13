@@ -55,6 +55,8 @@ class LogbookTableViewController: UITableViewController {
                 cell.textLabel?.text = "CDFW Recreational Contact"
             case Activity.Types.CDFW_COMM:
                 cell.textLabel?.text = "CDFW Commercial Boarding"
+            case Activity.Types.NPS:
+                cell.textLabel?.text = "NPS Contact Record"
             default:
                 cell.textLabel?.text = "Other"
         }
@@ -71,6 +73,8 @@ class LogbookTableViewController: UITableViewController {
             self.performSegueWithIdentifier("ShowCDFWRecContact", sender: activity)
         } else if activity.type == Activity.Types.CDFW_COMM {
             self.performSegueWithIdentifier("ShowCDFWCommContact", sender: activity)
+        } else if activity.type == Activity.Types.NPS {
+            self.performSegueWithIdentifier("ShowNPSForm", sender: activity)
         }
         self.tableView.deselectRowAtIndexPath(indexPath, animated: false)
     }
@@ -96,6 +100,12 @@ class LogbookTableViewController: UITableViewController {
             let activity = sender as! Activity
             let controller = (segue.destinationViewController as! UINavigationController).viewControllers[0]
                 as! CDFWCommBoardingCardTableViewController
+            controller.activity = activity
+            controller.allowEditing = false
+        } else if segue.identifier == "ShowNPSForm" {
+            let activity = sender as! Activity
+            let controller = (segue.destinationViewController as! UINavigationController).viewControllers[0]
+                as! NPSContactTableViewController
             controller.activity = activity
             controller.allowEditing = false
         }

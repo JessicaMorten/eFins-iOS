@@ -149,6 +149,7 @@ class OneToManyTableViewController: UITableViewController {
             for i in 1...(primaryItems.count) {
                 if (primaryItems.objectAtIndex(UInt(i - 1)) as! RLMObject).isEqualToObject(item) {
                     primaryItems.removeObjectAtIndex(UInt(i-1))
+                    realm.commitWriteTransaction()
                     return
                 }
             }
@@ -160,12 +161,12 @@ class OneToManyTableViewController: UITableViewController {
                 for i in 1...(secondaryItems.count) {
                     if (secondaryItems.objectAtIndex(UInt(i - 1)) as! RLMObject).isEqualToObject(item) {
                         secondaryItems.removeObjectAtIndex(UInt(i-1))
+                        realm.commitWriteTransaction()
                         return
                     }
                 }
             }
         }
-        realm.commitWriteTransaction()
     }
     
     // Override to support editing the table view.

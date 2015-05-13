@@ -19,7 +19,6 @@ class CatchFormTableViewController: UITableViewController, ItemForm {
     var model:RLMObject?
     var label:String?
     var allowEditing = true
-    var openTransaction = false
     var catch:Catch {
         get {
             return self.model as! Catch
@@ -58,9 +57,6 @@ class CatchFormTableViewController: UITableViewController, ItemForm {
     
     func startEditing() {
         self.allowEditing = true
-        let realm = RLMRealm.defaultRealm()
-        realm.beginWriteTransaction()
-        self.openTransaction = true
         setEditingState()
     }
     
@@ -80,11 +76,14 @@ class CatchFormTableViewController: UITableViewController, ItemForm {
     }
     
     @IBAction func amountChanged(sender: UITextField) {
+        let realm = RLMRealm.defaultRealm()
+        realm.beginWriteTransaction()
         if count(sender.text) > 0 {
             self.catch.amount = sender.text.toInt()!
         } else {
             self.catch.amount = 0
         }
+        realm.commitWriteTransaction()
     }
     
     @IBAction func save(sender: AnyObject) {
@@ -94,15 +93,9 @@ class CatchFormTableViewController: UITableViewController, ItemForm {
             alert("Incomplete", "Amount (lbs) must be greater than zero", self)
         } else {
             let realm = RLMRealm.defaultRealm()
-            if self.openTransaction {
-                
-            } else {
-                realm.beginWriteTransaction()
-                realm.addObject(self.catch)
-            }
+            realm.beginWriteTransaction()
+            realm.addObject(self.catch)
             realm.commitWriteTransaction()
-            println("Saving Catch")
-            println("Catch")
             self.performSegueWithIdentifier("UnwindCustomForm", sender: self)
         }
     }

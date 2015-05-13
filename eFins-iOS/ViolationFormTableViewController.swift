@@ -45,17 +45,18 @@ class ViolationFormTableViewController: UITableViewController, ItemForm {
     func setEditingState() {
         if allowEditing {
             self.saveButton.hidden = false
-//            self.enforcementActionTypeCell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
-//            self.violationTypeCell.accessoryType = UITableViewCellAccessoryType.DetailDisclosureButton
+            self.enforcementActionTypeCell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
+            self.violationTypeCell.accessoryType = UITableViewCellAccessoryType.DetailDisclosureButton
             self.navigationItem.rightBarButtonItem = nil
         } else {
             self.saveButton.hidden = true
             self.navigationItem.rightBarButtonItem = self.editButtonItem()
             self.navigationItem.rightBarButtonItem?.action = "startEditing"
-//            self.enforcementActionTypeCell.accessoryType = UITableViewCellAccessoryType.None
-//            self.violationTypeCell.accessoryType = UITableViewCellAccessoryType.None
+            self.enforcementActionTypeCell.accessoryType = UITableViewCellAccessoryType.None
+            self.violationTypeCell.accessoryType = UITableViewCellAccessoryType.None
         }
         self.enforcementActionTypeCell.allowEditing = allowEditing
+        self.violationTypeCell.allowEditing = allowEditing
     }
     
     func startEditing() {
@@ -74,7 +75,10 @@ class ViolationFormTableViewController: UITableViewController, ItemForm {
     }
 
     @IBAction func unwindViolationTypeForm(sender: UIStoryboardSegue) {
+        let realm = RLMRealm.defaultRealm()
+        realm.beginWriteTransaction()
         self.enforcementAction.violationType = (sender.sourceViewController as! ItemForm).model as! ViolationType
+        realm.commitWriteTransaction()
         self.violationTypeCell.updateValues()
     }
     

@@ -33,10 +33,6 @@ class Activity: EfinsModel {
     dynamic var contactType: ContactType?  // this is a NPS field
     dynamic var categoryOfBoarding:String = "Neutral"
     
-    override class func ignoredProperties() -> [AnyObject]! {
-        return ["catches", "photos"]
-    }
-    
     struct Types {
         static let CDFW_REC = "cdfwRecreationalBoardingCard"
         static let CDFW_COMM = "cdfwCommercialBoardingCard"

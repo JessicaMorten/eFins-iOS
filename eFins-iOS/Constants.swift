@@ -168,4 +168,15 @@ func alert(title:String, message:String, view:UIViewController) {
     view.presentViewController(alert, animated: true, completion: nil)
 }
 
+func confirm(title:String, message:String, view:UIViewController, next:() -> Void) {
+    var alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
+    alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default, handler:{ (ACTION :UIAlertAction!)in
+        println("cancelled")
+    }))
+    alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.Default, handler:{ (ACTION :UIAlertAction!)in
+        next()
+    }))
+    view.presentViewController(alert, animated: true, completion: nil)
+}
+
 
