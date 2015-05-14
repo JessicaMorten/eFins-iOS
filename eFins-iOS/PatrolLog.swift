@@ -32,6 +32,7 @@ class PatrolLog: EfinsModel {
     dynamic var generatorLoggedHours: Float = 0.0
     dynamic var outboardHoursBroughtForward: Float = 0.0
     dynamic var outboardLoggedHours : Float = 0.0
+    dynamic var crew = RLMArray(objectClassName: User.className())
     dynamic var freeTextCrew = RLMArray(objectClassName: FreeTextCrew.className())
     dynamic var freeTextOthersAboard = ""
     

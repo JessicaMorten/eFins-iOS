@@ -67,51 +67,52 @@ class LogbookTableViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let activity = activities.objectAtIndex(UInt(indexPath.row)) as! Activity
-        if activity.type == Activity.Types.LOG {
-            self.performSegueWithIdentifier("ShowActivityLog", sender: activity)
-        } else if activity.type == Activity.Types.CDFW_REC {
-            self.performSegueWithIdentifier("ShowCDFWRecContact", sender: activity)
-        } else if activity.type == Activity.Types.CDFW_COMM {
-            self.performSegueWithIdentifier("ShowCDFWCommContact", sender: activity)
-        } else if activity.type == Activity.Types.NPS {
-            self.performSegueWithIdentifier("ShowNPSForm", sender: activity)
+        var controller:UINavigationController
+        switch activity.type {
+            case Activity.Types.CDFW_COMM:
+                controller = UIStoryboard(name: "CDFWCommercialContact", bundle: nil).instantiateInitialViewController() as! UINavigationController
+            case Activity.Types.CDFW_REC:
+                controller = UIStoryboard(name: "CDFWRecContact", bundle: nil).instantiateInitialViewController() as! UINavigationController
+            case Activity.Types.NPS:
+                controller = UIStoryboard(name: "NPSContact", bundle: nil).instantiateInitialViewController() as! UINavigationController
+            default:
+                controller = UIStoryboard(name: "ActivityLog", bundle: nil).instantiateInitialViewController() as! UINavigationController
         }
         self.tableView.deselectRowAtIndexPath(indexPath, animated: false)
+        let form = controller.viewControllers[0] as! ActivityFormTableViewController
+        form.activity = activity
+        form.allowEditing = false
+        self.presentViewController(controller, animated: true, completion: nil)
     }
 
     
     // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "ShowActivityLog" {
-            let activity = sender as! Activity
-            let controller = (segue.destinationViewController as! UINavigationController).viewControllers[0]
-                as! ActivityLogTableViewController
-            controller.activity = activity
-            controller.allowEditing = false
-        } else if segue.identifier == "ShowCDFWRecContact" {
-            let activity = sender as! Activity
-            let controller = (segue.destinationViewController as! UINavigationController).viewControllers[0]
-                as! CDFWRecContactTableViewController
-            controller.activity = activity
-            controller.allowEditing = false
-        } else if segue.identifier == "ShowCDFWCommContact" {
-            let activity = sender as! Activity
-            let controller = (segue.destinationViewController as! UINavigationController).viewControllers[0]
-                as! CDFWCommBoardingCardTableViewController
-            controller.activity = activity
-            controller.allowEditing = false
-        } else if segue.identifier == "ShowNPSForm" {
-            let activity = sender as! Activity
-            let controller = (segue.destinationViewController as! UINavigationController).viewControllers[0]
-                as! NPSContactTableViewController
-            controller.activity = activity
-            controller.allowEditing = false
+    @IBAction func unwindNewContactPopup(sender: UIStoryboardSegue) {
+        println("Unwind")
+        let tvc = sender.sourceViewController as! UITableViewController
+//        let popover = tvc.popoverPresentationController
+        let table = tvc.tableView
+        if let idx = table.indexPathForSelectedRow() {
+            var storyboard:UIStoryboard
+            switch idx.row {
+                case 0:
+                    storyboard = UIStoryboard(name: "PatrolLog", bundle: nil)
+                case 1:
+                    storyboard = UIStoryboard(name: "CDFWCommercialContact", bundle: nil)
+                case 2:
+                    storyboard = UIStoryboard(name: "CDFWRecContact", bundle: nil)
+                case 3:
+                    storyboard = UIStoryboard(name: "ActivityLog", bundle: nil)
+                default:
+                    storyboard = UIStoryboard(name: "NPSContact", bundle: nil)
+            }
+            let controller = storyboard.instantiateInitialViewController()
+            tvc.dismissViewControllerAnimated(false, completion: nil)
+            self.presentViewController(controller as! UIViewController, animated: true, completion: nil)
+        } else {
+            tvc.dismissViewControllerAnimated(true, completion: nil)
         }
-        
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
     }
 
 }

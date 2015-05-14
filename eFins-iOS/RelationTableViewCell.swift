@@ -153,7 +153,7 @@ class RelationTableViewCell: UITableViewCell {
             if oneToMany {
                 self.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
             } else {
-                if let val = propertyValue {
+                if self.modelFormStoryboard != nil && propertyValue != nil {
                     if allowEditing {
                         self.accessoryType = UITableViewCellAccessoryType.DetailDisclosureButton
                     } else {
