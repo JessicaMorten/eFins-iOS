@@ -55,8 +55,7 @@ class DataSync {
             let usn = defaults.integerForKey("currentUsn")
             let endOfLastSync = defaults.integerForKey("endOfLastSync")
             
-            //self.pull( usn, endOfLastSync: endOfLastSync, maxCount: 0)
-            self.pull( 0, endOfLastSync: endOfLastSync, maxCount: 0, continuation: { (success: Bool) -> () in
+            self.pull( usn, endOfLastSync: endOfLastSync, maxCount: 0, continuation: { (success: Bool) -> () in
                 self.log("Entered continuation")
                 if(success) {
                     self.log("starting push")
@@ -218,6 +217,7 @@ class DataSync {
                     self.log("Server reports 204, WTF?")
                 } else if response?.statusCode == 200 {
                     self.log("Successful push to server")
+                    self.deleteLocalObjects(data!)
                     continuation()
                     return
                 } else {
@@ -447,6 +447,39 @@ class DataSync {
             }
         }
         return true;
+    }
+    
+    func deleteLocalObjects(jsonString: String) -> Bool {
+        let json = JSON(data: jsonString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!)
+        let dRealm = self.defaultRealm()
+        dRealm.beginWriteTransaction()
+        
+        let start = NSDate()
+        for (key: String, subJson: JSON) in json {
+            for (nkey: String, modelArrayJson: JSON) in subJson {
+                self.log("Handling \(nkey)")
+                let joker = Models[key]
+                let queryResults = joker?.objectsInRealm(dRealm, "id == '\(nkey)'")
+                if queryResults?.count <= 0 {
+                    self.log("No \(key) object was found for local id \(nkey)")
+                } else {
+                    let modelObject = queryResults?.firstObject() as! EfinsModel
+                    let newModelObject = joker?.createInRealm(dRealm, withObject: modelObject) as! EfinsModel
+                    newModelObject.id = modelArrayJson[nkey].stringValue
+                    self.log("Deleting \(key) \(nkey) to \(modelArrayJson[nkey].stringValue)")
+                    dRealm.addObject(newModelObject)
+                    dRealm.deleteObject(modelObject)
+                }
+            }
+        }
+        
+        
+        dRealm.commitWriteTransaction()
+        let fin = NSDate()
+        let timeInterval: Double = fin.timeIntervalSinceDate(start)
+        self.log("Remove local copies of pushed data: \(timeInterval) s")
+
+        return true
     }
     
 }
