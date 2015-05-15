@@ -75,7 +75,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="U2P-Qr-ZLR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1133" y="-187"/>
+            <point key="canvasLocation" x="1127" y="-187"/>
         </scene>
         <!--Patrol Log-->
         <scene sceneID="ZDN-zW-ak3">
@@ -101,6 +101,9 @@
                                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
+                                    <connections>
+                                        <action selector="delete" destination="iBt-Dg-dkF" eventType="touchUpInside" id="EJx-GT-oGS"/>
+                                    </connections>
                                 </button>
                             </subviews>
                             <constraints>
@@ -542,7 +545,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="1031" y="615"/>
+            <point key="canvasLocation" x="1405" y="615"/>
         </scene>
         <!--Root View Controller-->
         <scene sceneID="oaD-08-ARq">
@@ -585,7 +588,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NlI-D7-i13" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="215" y="1323"/>
+            <point key="canvasLocation" x="279" y="1435"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="7xQ-Rp-l2f">
@@ -601,7 +604,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UwV-Cq-IMu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="211" y="615"/>
+            <point key="canvasLocation" x="215" y="529"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="vUf-dZ-2Re">
@@ -622,7 +625,7 @@
         <!--Patrol Log-->
         <scene sceneID="Aaw-rM-TED">
             <objects>
-                <splitViewController title="Patrol Log" id="2SD-H4-0N7" sceneMemberID="viewController">
+                <splitViewController title="Patrol Log" id="2SD-H4-0N7" customClass="PatrolLogSplitViewController" customModule="eFins" customModuleProvider="target" sceneMemberID="viewController">
                     <connections>
                         <segue destination="BzW-fR-7zp" kind="relationship" relationship="masterViewController" id="gtZ-PB-LDI"/>
                         <segue destination="ciy-km-Ist" kind="relationship" relationship="detailViewController" id="4fr-HF-Xby"/>

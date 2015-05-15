@@ -15,6 +15,7 @@ class PatrolLogGeneralFormTableViewController: UITableViewController, UITextFiel
     var textFields = [UITextField]()
     var relationTableViewCells = [RelationTableViewCell]()
     var allowEditing = true
+    var isNew = false
     
     @IBOutlet weak var portHoursBroughtForwardCell: UITableViewCell!
     @IBOutlet weak var portHoursBroughtForwardField: UITextField!
@@ -88,8 +89,21 @@ class PatrolLogGeneralFormTableViewController: UITableViewController, UITextFiel
         self.relationTableViewCells.append(self.vesselCell)
         self.relationTableViewCells.append(self.portCell)
         self.relationTableViewCells.append(self.crewCell)
-        showWeather()
         showEngineHoursAndFuel()
+        self.tableView.reloadData()
+        showWeather()
+        updateAccessoryTypes()
+        if allowEditing {
+            self.dateTableCell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
+            self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save and Exit", style: UIBarButtonItemStyle.Done, target: self, action: "save")
+            if isNew {
+                self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel Patrol", style: UIBarButtonItemStyle.Plain, target: self, action: "delete")
+            }
+        } else {
+            self.dateTableCell.accessoryType = UITableViewCellAccessoryType.None
+            self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Edit, target: self, action: "edit")
+            self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Done, target: self, action: "done")
+        }
     }
     
     func textFieldDidEndEditing(textField: UITextField) {
@@ -145,6 +159,8 @@ class PatrolLogGeneralFormTableViewController: UITableViewController, UITextFiel
 //        return true
 //    }
     
+    
+    
     func showEngineHoursAndFuel() {
         self.portHoursBroughtForwardField.text = "\(patrolLog.portHoursBroughtForward)"
         self.starboardHoursBroughtForwardField.text = "\(patrolLog.starboardHoursBroughtForward)"
@@ -164,7 +180,24 @@ class PatrolLogGeneralFormTableViewController: UITableViewController, UITextFiel
     }
 
     func startEditing() {
-        
+        self.allowEditing = true
+        if let parent = self.navigationController?.parentViewController as? PatrolLogSplitViewController {
+            for nc in parent.viewControllers {
+                if let navigationController = nc as? UINavigationController {
+                    (navigationController.viewControllers[0] as! UIViewController).setValue(true, forKey: "allowEditing")
+                }
+            }
+        }
+        for cell in relationTableViewCells {
+            cell.allowEditing = true
+        }
+        self.updateAccessoryTypes()
+        for field in textFields {
+            field.enabled = true
+        }
+        self.dateTableCell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save and Exit", style: UIBarButtonItemStyle.Done, target: self, action: "save")
+        self.navigationItem.leftBarButtonItem = nil
     }
     
     @IBAction func unwindDatePicker(sender: UIStoryboardSegue) {
@@ -233,42 +266,17 @@ class PatrolLogGeneralFormTableViewController: UITableViewController, UITextFiel
     }
 
     func showWeather() {
-        let rows = tableView.numberOfRowsInSection(0)
+        let rows = self.tableView.numberOfRowsInSection(2)
         var i = 0
         while i < rows {
-            let cell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: i, inSection: 2))
-            var type = UITableViewCellAccessoryType.None
-            var val = false
-            if let text = cell?.textLabel?.text {
-                switch text {
-                case "Clear":
-                    val = patrolLog.wasClear
-                case "Wind":
-                    val = patrolLog.wasWindy
-                case "Fog":
-                    val = patrolLog.wasFoggy
-                case "Calm":
-                    val = patrolLog.wasCalm
-                case "Rain":
-                    val = patrolLog.wasRainy
-                case "Small Craft Advisory":
-                    val = patrolLog.hadSmallCraftAdvisory
-                case "Gale":
-                    val = patrolLog.hadGale
-                default:
-                    println("Should not get here")
-                }
-                if val == true {
-                    type = UITableViewCellAccessoryType.Checkmark
-                }
+            if let cell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: i, inSection: 2)) {
+                addCheckmarks(cell)
             }
-            cell?.accessoryType = type
             i++
         }
     }
     
     @IBAction func tapRecognizer(sender:AnyObject) {
-        println("tap")
         stopAllEditing()
     }
     
@@ -297,7 +305,42 @@ class PatrolLogGeneralFormTableViewController: UITableViewController, UITextFiel
             cell.updateAccessoryType()
         }
     }
-
+    
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = super.tableView(tableView, cellForRowAtIndexPath: indexPath)
+        addCheckmarks(cell)
+        return cell
+    }
+    
+    func addCheckmarks(cell:UITableViewCell) {
+        var type = UITableViewCellAccessoryType.None
+        var val = false
+        if let text = cell.textLabel?.text {
+            switch text {
+            case "Clear":
+                val = patrolLog.wasClear
+            case "Wind":
+                val = patrolLog.wasWindy
+            case "Fog":
+                val = patrolLog.wasFoggy
+            case "Calm":
+                val = patrolLog.wasCalm
+            case "Rain":
+                val = patrolLog.wasRainy
+            case "Small Craft Advisory":
+                val = patrolLog.hadSmallCraftAdvisory
+            case "Gale":
+                val = patrolLog.hadGale
+            default:
+                // nope
+                let 🎵🎸FuckYouSwift🎸🎵 = true
+            }
+            if val == true {
+                type = UITableViewCellAccessoryType.Checkmark
+            }
+        }
+        cell.accessoryType = type
+    }
     
     // MARK: - Table view data source
 
@@ -356,5 +399,40 @@ class PatrolLogGeneralFormTableViewController: UITableViewController, UITextFiel
         // Pass the selected object to the new view controller.
     }
     */
+    
+    func save() {
+        if let parent = self.splitViewController {
+            if let tabBarController = parent.tabBarController as? EFinsTabBarController {
+                tabBarController.hidePatrol(true)
+            }
+        }
+    }
 
+    
+    func done() {
+        if let parent = self.splitViewController {
+            if let tabBarController = parent.tabBarController as? EFinsTabBarController {
+                tabBarController.hidePatrol(false)
+            }
+        }
+    }
+    
+    func edit() {
+        self.startEditing()
+    }
+    
+    
+    @IBAction func delete() {
+        confirm("Delete Patrol", "Are you sure you want to delete this Patrol Log?", self) { () in
+            let realm = RLMRealm.defaultRealm()
+            realm.beginWriteTransaction()
+            realm.deleteObject(self.patrolLog)
+            realm.commitWriteTransaction()
+            if let parent = self.splitViewController {
+                if let tabBarController = parent.tabBarController as? EFinsTabBarController {
+                    tabBarController.hidePatrol(false)
+                }
+            }
+        }
+    }
 }

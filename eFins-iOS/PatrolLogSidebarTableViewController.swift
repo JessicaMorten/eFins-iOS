@@ -19,12 +19,10 @@ class PatrolLogSidebarTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Save and End Patrol", style: UIBarButtonItemStyle.Done, target: self, action: "saveTapped")
         //        self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Cancel, target: self, action: "cancelTapped")
 
         if patrolLog == nil {
             patrolLog = PatrolLog()
-            self.isNew = true
             self.allowEditing = true
             let realm = RLMRealm.defaultRealm()
             realm.beginWriteTransaction()
@@ -34,11 +32,14 @@ class PatrolLogSidebarTableViewController: UITableViewController {
             }
             realm.addObject(self.patrolLog)
             realm.commitWriteTransaction()
-            let controller:UINavigationController = (self.navigationController?.parentViewController as! UISplitViewController).viewControllers[1] as! UINavigationController
-            controller.viewControllers[0].setValue(self.patrolLog, forKey: "patrolLog")
-            controller.viewControllers[0].setValue(allowEditing, forKey: "allowEditing")
-
+        } else {
+            allowEditing = false
         }
+        let controller:UINavigationController = (self.navigationController?.parentViewController as! UISplitViewController).viewControllers[1] as! UINavigationController
+        controller.viewControllers[0].setValue(self.patrolLog, forKey: "patrolLog")
+        controller.viewControllers[0].setValue(allowEditing, forKey: "allowEditing")
+        controller.viewControllers[0].setValue(isNew, forKey: "isNew")
+
 
         
         // Uncomment the following line to preserve selection between presentations
@@ -110,16 +111,11 @@ class PatrolLogSidebarTableViewController: UITableViewController {
         let controller = segue.destinationViewController as! UINavigationController
         (controller.viewControllers[0]).setValue(self.patrolLog, forKey: "patrolLog")
         (controller.viewControllers[0]).setValue(self.allowEditing, forKey: "allowEditing")
+        if controller.viewControllers[0] is PatrolLogGeneralFormTableViewController {
+            (controller.viewControllers[0]).setValue(self.isNew, forKey: "isNew")
+        }
+
     }
     
     // MARK: - Actions
-    
-    func saveTapped() {
-        println("save")
-    }
-    
-    func cancelTapped() {
-        println("cancel")
-    }
-
 }

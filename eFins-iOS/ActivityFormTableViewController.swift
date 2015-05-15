@@ -186,10 +186,20 @@ class ActivityFormTableViewController: UITableViewController {
             controller.editing = self.allowEditing
             self.navigationController?.pushViewController(controller, animated: true)
         } else if indexPath.section == datePickerIndex.section && indexPath.row == datePickerIndex.row {
-            let storyboard = UIStoryboard(name: "DatePicker", bundle: nil)
-            let controller:DatePickerTableViewController = storyboard.instantiateInitialViewController() as! DatePickerTableViewController
-            self.navigationController?.pushViewController(controller, animated: true)
-            controller.date = activity!.time
+            if allowEditing {
+                let storyboard = UIStoryboard(name: "DatePicker", bundle: nil)
+                let controller:DatePickerTableViewController = storyboard.instantiateInitialViewController() as! DatePickerTableViewController
+                self.navigationController?.pushViewController(controller, animated: true)
+                controller.date = activity!.time
+            } else {
+                if let row = tableView.indexPathForSelectedRow() {
+                    tableView.deselectRowAtIndexPath(row, animated: false)
+                }
+            }
+        } else if allowEditing == false {
+            if let row = tableView.indexPathForSelectedRow() {
+                tableView.deselectRowAtIndexPath(row, animated: false)
+            }            
         }
     }
     

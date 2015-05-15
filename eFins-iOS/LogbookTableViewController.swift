@@ -13,16 +13,49 @@ class LogbookTableViewController: UITableViewController {
 
     var token:RLMNotificationToken?
     
-    var activities: RLMResults {
+    var _activities: RLMResults {
         get {
             return Activity.allObjects().sortedResultsUsingProperty("time", ascending: false)
+        }
+    }
+    
+    var items: [RLMObject] {
+        get {
+            var items: Array = [RLMObject]()
+            var i = 0
+            var activities = _activities
+            while UInt(i) < activities.count {
+                items.append(activities[UInt(i)] as! RLMObject)
+                i++
+            }
+            var patrolLogs = PatrolLog.allObjects().sortedResultsUsingProperty("date", ascending: false)
+            i = 0
+            while UInt(i) < patrolLogs.count {
+                items.append(patrolLogs[UInt(i)] as! RLMObject)
+                i++
+            }
+            items.sort {
+                var date1:NSDate
+                var date2:NSDate
+                if $0 is Activity {
+                    date1 = ($0 as! Activity).time
+                } else {
+                    date1 = ($0 as! PatrolLog).date
+                }
+                if $1 is Activity {
+                    date2 = ($1 as! Activity).time
+                } else {
+                    date2 = ($1 as! PatrolLog).date
+                }
+                return date1.compare(date2) == NSComparisonResult.OrderedDescending
+            }
+            return items
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.token = RLMRealm.defaultRealm().addNotificationBlock { note, realm in
-                println("Got update")
                 self.tableView.reloadData()
         }
 
@@ -40,15 +73,17 @@ class LogbookTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return Int(self.activities.count)
+        return self.items.count
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! UITableViewCell
         
-        let index = UInt(indexPath.row)
-        let activity = activities.objectAtIndex(index) as! Activity
-        switch activity.type {
+        let index = indexPath.row
+        let activity = items[index]
+        let formatter = getDateFormatter()
+        if activity is Activity {
+            switch (activity as! Activity).type {
             case Activity.Types.LOG:
                 cell.textLabel?.text = "Activity Log"
             case Activity.Types.CDFW_REC:
@@ -59,16 +94,20 @@ class LogbookTableViewController: UITableViewController {
                 cell.textLabel?.text = "NPS Contact Record"
             default:
                 cell.textLabel?.text = "Other"
+            }
+            cell.detailTextLabel?.text = formatter.stringFromDate((activity as! Activity).time)
+        } else {
+            cell.textLabel?.text = "Patrol Log"
+            cell.detailTextLabel?.text = formatter.stringFromDate((activity as! PatrolLog).date)
         }
-        let formatter = getDateFormatter()
-        cell.detailTextLabel?.text = formatter.stringFromDate(activity.time)
         return cell
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let activity = activities.objectAtIndex(UInt(indexPath.row)) as! Activity
-        var controller:UINavigationController
-        switch activity.type {
+        let activity = items[indexPath.row]
+        var controller:UIViewController
+        if activity is Activity {
+            switch (activity as! Activity).type {
             case Activity.Types.CDFW_COMM:
                 controller = UIStoryboard(name: "CDFWCommercialContact", bundle: nil).instantiateInitialViewController() as! UINavigationController
             case Activity.Types.CDFW_REC:
@@ -77,26 +116,41 @@ class LogbookTableViewController: UITableViewController {
                 controller = UIStoryboard(name: "NPSContact", bundle: nil).instantiateInitialViewController() as! UINavigationController
             default:
                 controller = UIStoryboard(name: "ActivityLog", bundle: nil).instantiateInitialViewController() as! UINavigationController
+            }
+            let form = (controller as! UINavigationController).viewControllers[0] as! ActivityFormTableViewController
+            form.activity = activity as! Activity
+            form.allowEditing = false
+            self.tableView.deselectRowAtIndexPath(indexPath, animated: false)
+            self.presentViewController(controller, animated: true, completion: nil)
+        } else {
+            if let tabs = self.tabBarController as? EFinsTabBarController {
+                if tabs.isDisplayingEditablePatrol() {
+                    alert("Close Active Patrol", "You are currently editing a patrol in the Patrol tab. Please save and close it before continuing.", self)
+                } else {
+                    self.tableView.deselectRowAtIndexPath(indexPath, animated: false)
+                    tabs.displayPatrol(activity as! PatrolLog)
+                }
+            }
+//            controller = UIStoryboard(name: "PatrolLog", bundle: nil).instantiateInitialViewController() as! UISplitViewController
+//            let sidebar = controller.childViewControllers[0].childViewControllers[0] as! PatrolLogSidebarTableViewController
+//            sidebar.patrolLog = activity as! PatrolLog
+////            sidebar.allowEditing = false
         }
-        self.tableView.deselectRowAtIndexPath(indexPath, animated: false)
-        let form = controller.viewControllers[0] as! ActivityFormTableViewController
-        form.activity = activity
-        form.allowEditing = false
-        self.presentViewController(controller, animated: true, completion: nil)
     }
 
     
     // MARK: - Navigation
 
     @IBAction func unwindNewContactPopup(sender: UIStoryboardSegue) {
-        println("Unwind")
         let tvc = sender.sourceViewController as! UITableViewController
 //        let popover = tvc.popoverPresentationController
         let table = tvc.tableView
         if let idx = table.indexPathForSelectedRow() {
             var storyboard:UIStoryboard
+            var isPatrol = false
             switch idx.row {
                 case 0:
+                    isPatrol = true
                     storyboard = UIStoryboard(name: "PatrolLog", bundle: nil)
                 case 1:
                     storyboard = UIStoryboard(name: "CDFWCommercialContact", bundle: nil)
@@ -107,9 +161,20 @@ class LogbookTableViewController: UITableViewController {
                 default:
                     storyboard = UIStoryboard(name: "NPSContact", bundle: nil)
             }
-            let controller = storyboard.instantiateInitialViewController()
-            tvc.dismissViewControllerAnimated(false, completion: nil)
-            self.presentViewController(controller as! UIViewController, animated: true, completion: nil)
+            if isPatrol {
+                tvc.dismissViewControllerAnimated(false, completion: nil)
+                if let tabs = self.tabBarController as? EFinsTabBarController {
+                    if tabs.isDisplayingEditablePatrol() {
+                        alert("Close Active Patrol", "You are currently editing a patrol in the Patrol tab. Please save and close it before continuing.", self)
+                    } else {
+                        tabs.startNewPatrol()
+                    }
+                }
+            } else {
+                let controller = storyboard.instantiateInitialViewController()
+                tvc.dismissViewControllerAnimated(false, completion: nil)
+                self.presentViewController(controller as! UIViewController, animated: true, completion: nil)
+            }
         } else {
             tvc.dismissViewControllerAnimated(true, completion: nil)
         }

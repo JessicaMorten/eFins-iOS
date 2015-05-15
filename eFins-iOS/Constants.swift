@@ -67,7 +67,8 @@ var Models: [String: RLMObject.Type] = [
     "Photo": Photo.self,
     "ViolationType": ViolationType.self,
     "EnforcementActionType": EnforcementActionType.self,
-    "EnforcementActionTaken": EnforcementActionTaken.self
+    "EnforcementActionTaken": EnforcementActionTaken.self,
+    "AgencyFreetextCrew": AgencyFreetextCrew.self
 ]
 
 func getRealmModelProperty(model:String, propertyName:String) -> RLMProperty {
@@ -168,7 +169,7 @@ func alert(title:String, message:String, view:UIViewController) {
     view.presentViewController(alert, animated: true, completion: nil)
 }
 
-func confirm(title:String, message:String, view:UIViewController, next:() -> Void) {
+func confirm(title:String, message:String, view:UIViewController, next:() -> ()) {
     var alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
     alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default, handler:{ (ACTION :UIAlertAction!)in
         println("cancelled")
