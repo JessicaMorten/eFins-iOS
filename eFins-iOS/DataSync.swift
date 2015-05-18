@@ -19,6 +19,7 @@ class DataSync {
     let reachability: Reachability
     var timer: NSTimer = NSTimer()
     var syncInProgress = false
+    var syncEnabled = true
     
     init() {
         let uri = NSURL(string: SERVER_ROOT)
@@ -36,6 +37,9 @@ class DataSync {
     }
     
     func sync() {
+        if !self.syncEnabled {
+            return
+        }
         self.log("Begin Synchronization")
         if ( self.syncInProgress ) {
             self.log("Synchronization already in progress; yielding.")
@@ -56,7 +60,6 @@ class DataSync {
             let endOfLastSync = defaults.integerForKey("endOfLastSync")
             
             self.pull( usn, endOfLastSync: endOfLastSync, maxCount: 0, continuation: { (success: Bool) -> () in
-                self.log("Entered continuation")
                 if(success) {
                     self.log("starting push")
                     self.push({
@@ -78,6 +81,18 @@ class DataSync {
     
     func defaultRealm() -> RLMRealm {
         return RLMRealm.defaultRealm()
+    }
+    
+    func enableSync() -> Bool {
+        self.log("Enabling sync")
+        self.syncEnabled = true
+        return true
+    }
+    
+    func disableSync() -> Bool {
+        self.log("Disabling sync")
+        self.syncEnabled = false
+        return true
     }
     
     func start() {
@@ -250,6 +265,8 @@ class DataSync {
                             Activity.ingest(modelArrayJson)
                         case "Agency":
                             Agency.ingest(modelArrayJson)
+                        case "AgencyFreetextCrew":
+                            AgencyFreetextCrew.ingest(modelArrayJson)
                         case "AgencyVessel":
                             AgencyVessel.ingest(modelArrayJson)
                         case "Catch":
@@ -458,8 +475,9 @@ class DataSync {
         
         let start = NSDate()
         for (key: String, subJson: JSON) in json {
-            for (nkey: String, newId: JSON) in subJson {
-                self.log("Handling \(nkey) remapping to \(newId.stringValue)")
+            for (nkey: String, newInfo: JSON) in subJson {
+                let newId = newInfo.stringValue
+                self.log("Handling \(nkey) remapping to \(newId)")
                 let joker = Models[key]
                 let queryResults = joker?.objectsInRealm(dRealm, "id == '\(nkey)'")
                 if queryResults?.count <= 0 {
@@ -467,9 +485,11 @@ class DataSync {
                 } else {
                     let modelObject = queryResults?.firstObject() as! EfinsModel
                     let newModelObject = joker?(object: modelObject) as! EfinsModel
-                    newModelObject.id = newId.stringValue
+                    newModelObject.id = newId
+                    //Don't actually set the USN here.  By definition, this model has a USN of -1, and the USN will get set to the correct number on the next pull.
+                    //Since it's no longer dirty it won't ever get pushed again.
                     newModelObject.dirty = false
-                    self.log("Deleting \(key) \(nkey) to \(newId.stringValue)")
+                    self.log("Deleting \(key) \(nkey) to \(newId)")
                     dRealm.addObject(newModelObject)
                     dRealm.deleteObject(modelObject)
                 }

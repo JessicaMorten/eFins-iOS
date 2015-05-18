@@ -68,6 +68,7 @@ class LogbookTableViewController: UITableViewController {
     
     override func viewWillAppear(animated: Bool) {
         self.tableView.reloadData()
+        DataSync.manager.enableSync()
     }
     
     // MARK: - Table view data source
@@ -121,6 +122,7 @@ class LogbookTableViewController: UITableViewController {
             form.activity = activity as! Activity
             form.allowEditing = false
             self.tableView.deselectRowAtIndexPath(indexPath, animated: false)
+            DataSync.manager.disableSync()
             self.presentViewController(controller, animated: true, completion: nil)
         } else {
             if let tabs = self.tabBarController as? EFinsTabBarController {
@@ -174,6 +176,7 @@ class LogbookTableViewController: UITableViewController {
             } else {
                 let controller = storyboard.instantiateInitialViewController()
                 tvc.dismissViewControllerAnimated(false, completion: nil)
+                DataSync.manager.disableSync()
                 self.presentViewController(controller as! UIViewController, animated: true, completion: nil)
             }
         } else {
