@@ -153,6 +153,8 @@ class DataSync {
                     self.log("403")
                 } else if (response?.statusCode == 204) {
                     self.log("Server reports we are up-to-date")
+                    continuation(true)
+                    return
                 } else if response?.statusCode == 200 {
                     let json = JSON(data: data!.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!)
                     let newUsn = json["highestUsn"].int
@@ -456,17 +458,18 @@ class DataSync {
         
         let start = NSDate()
         for (key: String, subJson: JSON) in json {
-            for (nkey: String, modelArrayJson: JSON) in subJson {
-                self.log("Handling \(nkey)")
+            for (nkey: String, newId: JSON) in subJson {
+                self.log("Handling \(nkey) remapping to \(newId.stringValue)")
                 let joker = Models[key]
                 let queryResults = joker?.objectsInRealm(dRealm, "id == '\(nkey)'")
                 if queryResults?.count <= 0 {
                     self.log("No \(key) object was found for local id \(nkey)")
                 } else {
                     let modelObject = queryResults?.firstObject() as! EfinsModel
-                    let newModelObject = joker?.createInRealm(dRealm, withObject: modelObject) as! EfinsModel
-                    newModelObject.id = modelArrayJson[nkey].stringValue
-                    self.log("Deleting \(key) \(nkey) to \(modelArrayJson[nkey].stringValue)")
+                    let newModelObject = joker?(object: modelObject) as! EfinsModel
+                    newModelObject.id = newId.stringValue
+                    newModelObject.dirty = false
+                    self.log("Deleting \(key) \(nkey) to \(newId.stringValue)")
                     dRealm.addObject(newModelObject)
                     dRealm.deleteObject(modelObject)
                 }
