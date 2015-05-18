@@ -33,6 +33,7 @@ class ActivityFormTableViewController: UITableViewController {
     @IBOutlet weak var saveButton: UIButton!
     
     var activity:Activity!
+    var patrolLog:PatrolLog?
 
     // should be set by subclasses
     var activityType:String!
@@ -63,6 +64,13 @@ class ActivityFormTableViewController: UITableViewController {
             if let user = (UIApplication.sharedApplication().delegate as! AppDelegate).getUser() {
                 activity.users.addObject(user)
             }
+            if let log = self.patrolLog {
+                activity.patrolLog = log
+                // the scemas for activities vs patrols don't match exactly so it's not that useful to set this
+                activity.users = log.crew
+                activity.freeTextCrew = log.freeTextCrew
+            }
+            
             realm.addObject(self.activity)
             realm.commitWriteTransaction()
         } else {
@@ -186,10 +194,20 @@ class ActivityFormTableViewController: UITableViewController {
             controller.editing = self.allowEditing
             self.navigationController?.pushViewController(controller, animated: true)
         } else if indexPath.section == datePickerIndex.section && indexPath.row == datePickerIndex.row {
-            let storyboard = UIStoryboard(name: "DatePicker", bundle: nil)
-            let controller:DatePickerTableViewController = storyboard.instantiateInitialViewController() as! DatePickerTableViewController
-            self.navigationController?.pushViewController(controller, animated: true)
-            controller.date = activity!.time
+            if allowEditing {
+                let storyboard = UIStoryboard(name: "DatePicker", bundle: nil)
+                let controller:DatePickerTableViewController = storyboard.instantiateInitialViewController() as! DatePickerTableViewController
+                self.navigationController?.pushViewController(controller, animated: true)
+                controller.date = activity!.time
+            } else {
+                if let row = tableView.indexPathForSelectedRow() {
+                    tableView.deselectRowAtIndexPath(row, animated: false)
+                }
+            }
+        } else if allowEditing == false {
+            if let row = tableView.indexPathForSelectedRow() {
+                tableView.deselectRowAtIndexPath(row, animated: false)
+            }            
         }
     }
     

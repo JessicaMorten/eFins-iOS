@@ -67,7 +67,8 @@ var Models: [String: RLMObject.Type] = [
     "Photo": Photo.self,
     "ViolationType": ViolationType.self,
     "EnforcementActionType": EnforcementActionType.self,
-    "EnforcementActionTaken": EnforcementActionTaken.self
+    "EnforcementActionTaken": EnforcementActionTaken.self,
+    "AgencyFreetextCrew": AgencyFreetextCrew.self
 ]
 
 func getRealmModelProperty(model:String, propertyName:String) -> RLMProperty {
@@ -92,7 +93,7 @@ class _RecentValues {
     }
     
     func getKey(item: RLMObject, model: RLMObject, propertyClassName: String, propertyName: String) -> String {
-        let id = item.valueForKey("id") as! String
+        let id = item.valueForKey("localid") as! String
         return "recent-values,\(propertyClassName),\(propertyName),\(id)"
     }
     
@@ -130,12 +131,12 @@ class _RecentValues {
             Model2 = Models[secondaryProperty!.objectClassName]
         }
         for id in sortedKeys {
-            let results = Model!.objectsWithPredicate(NSPredicate(format: "id = %@", id))
+            let results = Model!.objectsWithPredicate(NSPredicate(format: "localid = %@", id))
             if results.count > 0 {
                 recent.append(results.objectAtIndex(0) as! RLMObject)
             } else {
                 if Model2 != nil {
-                    let results2 = Model2!.objectsWithPredicate(NSPredicate(format: "id = %@", id))
+                    let results2 = Model2!.objectsWithPredicate(NSPredicate(format: "localid = %@", id))
                     if results2.count > 0 {
                         recent.append(results2.objectAtIndex(0) as! RLMObject)
                     }
@@ -168,7 +169,7 @@ func alert(title:String, message:String, view:UIViewController) {
     view.presentViewController(alert, animated: true, completion: nil)
 }
 
-func confirm(title:String, message:String, view:UIViewController, next:() -> Void) {
+func confirm(title:String, message:String, view:UIViewController, next:() -> ()) {
     var alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
     alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default, handler:{ (ACTION :UIAlertAction!)in
         println("cancelled")

@@ -151,9 +151,13 @@ class RelationTableViewCell: UITableViewCell {
         if model != nil {
             let showDetails = self.modelFormStoryboard != nil
             if oneToMany {
-                self.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
+                if (propertyValue as! RLMArray).count > 0 {
+                    self.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
+                } else {
+                    self.accessoryType = UITableViewCellAccessoryType.None
+                }
             } else {
-                if let val = propertyValue {
+                if self.modelFormStoryboard != nil && propertyValue != nil {
                     if allowEditing {
                         self.accessoryType = UITableViewCellAccessoryType.DetailDisclosureButton
                     } else {
@@ -163,7 +167,7 @@ class RelationTableViewCell: UITableViewCell {
                     if allowEditing {
                         self.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
                     } else {
-                        UITableViewCellAccessoryType.None
+                        self.accessoryType = UITableViewCellAccessoryType.None
                     }
                 }
             }

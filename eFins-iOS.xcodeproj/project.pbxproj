@@ -41,6 +41,8 @@
 		CB1786AA1AF439FE00D08E73 /* CatchFormTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB1786A91AF439FE00D08E73 /* CatchFormTableViewController.swift */; };
 		CB1F54791AEEB19D00D286F1 /* PhotoList.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CB1F54781AEEB19D00D286F1 /* PhotoList.storyboard */; };
 		CB1F547B1AEEB38C00D286F1 /* PhotosCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB1F547A1AEEB38C00D286F1 /* PhotosCollectionViewController.swift */; };
+		CB34A8E31B0678EC00EE328A /* CurrentPatrolViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB34A8E21B0678EC00EE328A /* CurrentPatrolViewController.swift */; };
+		CB34A8E51B06882000EE328A /* EFinsTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB34A8E41B06882000EE328A /* EFinsTabBarController.swift */; };
 		CB3B42BE1AE85F92004E9D60 /* DayDatePicker.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CB3B42BD1AE85F92004E9D60 /* DayDatePicker.storyboard */; };
 		CB3B42C01AE85FE5004E9D60 /* DayDatePickerTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB3B42BF1AE85FE5004E9D60 /* DayDatePickerTableViewController.swift */; };
 		CB81E9301AAA21F70071C2D2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB81E92F1AAA21F70071C2D2 /* AppDelegate.swift */; };
@@ -57,6 +59,16 @@
 		CB8CC7101AFAF16B00B91B90 /* BoardingTypeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB8CC70F1AFAF16B00B91B90 /* BoardingTypeTableViewController.swift */; };
 		CB8CC7121AFBF9DC00B91B90 /* NPSContactTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB8CC7111AFBF9DC00B91B90 /* NPSContactTableViewController.swift */; };
 		CB8CC7141AFD463200B91B90 /* ActivityFormTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB8CC7131AFD463200B91B90 /* ActivityFormTableViewController.swift */; };
+		CB8CC7161B013D9D00B91B90 /* NPSContact.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CB8CC7151B013D9D00B91B90 /* NPSContact.storyboard */; };
+		CB8CC7181B013E0300B91B90 /* ActivityLog.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CB8CC7171B013E0300B91B90 /* ActivityLog.storyboard */; };
+		CB8CC71A1B013E3C00B91B90 /* CDFWRecContact.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CB8CC7191B013E3C00B91B90 /* CDFWRecContact.storyboard */; };
+		CB8CC71C1B013E8100B91B90 /* CDFWCommercialContact.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CB8CC71B1B013E8100B91B90 /* CDFWCommercialContact.storyboard */; };
+		CB8CC71E1B014CDA00B91B90 /* NewContactPopupTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB8CC71D1B014CDA00B91B90 /* NewContactPopupTableViewController.swift */; };
+		CB8CC7201B0166D200B91B90 /* PatrolLog.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CB8CC71F1B0166D200B91B90 /* PatrolLog.storyboard */; };
+		CB8CC7221B0292ED00B91B90 /* PatrolLogSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB8CC7211B0292ED00B91B90 /* PatrolLogSplitViewController.swift */; };
+		CB8CC7241B02932100B91B90 /* PatrolLogSidebarTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB8CC7231B02932100B91B90 /* PatrolLogSidebarTableViewController.swift */; };
+		CB8CC7261B02976E00B91B90 /* PatrolLogGeneralFormTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB8CC7251B02976E00B91B90 /* PatrolLogGeneralFormTableViewController.swift */; };
+		CB8CC7281B02A91B00B91B90 /* PatrolLogContactListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB8CC7271B02A91B00B91B90 /* PatrolLogContactListTableViewController.swift */; };
 		CBA0330D1AF02B2A006838C6 /* PhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBA0330C1AF02B2A006838C6 /* PhotoCollectionViewCell.swift */; };
 		CBCE35A41AC1EB2F005C6CA8 /* ActivityLogTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBCE35A31AC1EB2F005C6CA8 /* ActivityLogTableViewController.swift */; };
 		CBCE35A71AC1F763005C6CA8 /* DatePicker.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CBCE35A61AC1F763005C6CA8 /* DatePicker.storyboard */; };
@@ -72,6 +84,7 @@
 		CBE77B301AE18A1B00197FF5 /* VesselFormTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE77B2F1AE18A1B00197FF5 /* VesselFormTableViewController.swift */; };
 		CBE77B321AE1A19A00197FF5 /* ItemForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE77B311AE1A19A00197FF5 /* ItemForm.swift */; };
 		CBEAFA071AAA234B00C8A85A /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBEAFA061AAA234B00C8A85A /* MapViewController.swift */; };
+		CBEF503A1B051E21005BC144 /* AgencyFreetextCrew.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBEF50391B051E21005BC144 /* AgencyFreetextCrew.swift */; };
 		CBF9850F1AAE010500C4F721 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CBF9850D1AAE010500C4F721 /* Login.storyboard */; };
 		CBF985101AAE010500C4F721 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF9850E1AAE010500C4F721 /* LoginViewController.swift */; };
 /* End PBXBuildFile section */
@@ -136,6 +149,8 @@
 		CB1786A91AF439FE00D08E73 /* CatchFormTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CatchFormTableViewController.swift; sourceTree = "<group>"; };
 		CB1F54781AEEB19D00D286F1 /* PhotoList.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = PhotoList.storyboard; sourceTree = "<group>"; };
 		CB1F547A1AEEB38C00D286F1 /* PhotosCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotosCollectionViewController.swift; sourceTree = "<group>"; };
+		CB34A8E21B0678EC00EE328A /* CurrentPatrolViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrentPatrolViewController.swift; sourceTree = "<group>"; };
+		CB34A8E41B06882000EE328A /* EFinsTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EFinsTabBarController.swift; sourceTree = "<group>"; };
 		CB3B42BD1AE85F92004E9D60 /* DayDatePicker.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = DayDatePicker.storyboard; sourceTree = "<group>"; };
 		CB3B42BF1AE85FE5004E9D60 /* DayDatePickerTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DayDatePickerTableViewController.swift; sourceTree = "<group>"; };
 		CB81E92A1AAA21F70071C2D2 /* eFins.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = eFins.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -157,6 +172,16 @@
 		CB8CC70F1AFAF16B00B91B90 /* BoardingTypeTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoardingTypeTableViewController.swift; sourceTree = "<group>"; };
 		CB8CC7111AFBF9DC00B91B90 /* NPSContactTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NPSContactTableViewController.swift; sourceTree = "<group>"; };
 		CB8CC7131AFD463200B91B90 /* ActivityFormTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityFormTableViewController.swift; sourceTree = "<group>"; };
+		CB8CC7151B013D9D00B91B90 /* NPSContact.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = NPSContact.storyboard; sourceTree = "<group>"; };
+		CB8CC7171B013E0300B91B90 /* ActivityLog.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ActivityLog.storyboard; sourceTree = "<group>"; };
+		CB8CC7191B013E3C00B91B90 /* CDFWRecContact.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = CDFWRecContact.storyboard; sourceTree = "<group>"; };
+		CB8CC71B1B013E8100B91B90 /* CDFWCommercialContact.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = CDFWCommercialContact.storyboard; sourceTree = "<group>"; };
+		CB8CC71D1B014CDA00B91B90 /* NewContactPopupTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewContactPopupTableViewController.swift; sourceTree = "<group>"; };
+		CB8CC71F1B0166D200B91B90 /* PatrolLog.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = PatrolLog.storyboard; sourceTree = "<group>"; };
+		CB8CC7211B0292ED00B91B90 /* PatrolLogSplitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatrolLogSplitViewController.swift; sourceTree = "<group>"; };
+		CB8CC7231B02932100B91B90 /* PatrolLogSidebarTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatrolLogSidebarTableViewController.swift; sourceTree = "<group>"; };
+		CB8CC7251B02976E00B91B90 /* PatrolLogGeneralFormTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatrolLogGeneralFormTableViewController.swift; sourceTree = "<group>"; };
+		CB8CC7271B02A91B00B91B90 /* PatrolLogContactListTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatrolLogContactListTableViewController.swift; sourceTree = "<group>"; };
 		CBA0330C1AF02B2A006838C6 /* PhotoCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoCollectionViewCell.swift; sourceTree = "<group>"; };
 		CBCE35A31AC1EB2F005C6CA8 /* ActivityLogTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityLogTableViewController.swift; sourceTree = "<group>"; };
 		CBCE35A61AC1F763005C6CA8 /* DatePicker.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = DatePicker.storyboard; sourceTree = "<group>"; };
@@ -172,6 +197,7 @@
 		CBE77B2F1AE18A1B00197FF5 /* VesselFormTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VesselFormTableViewController.swift; sourceTree = "<group>"; };
 		CBE77B311AE1A19A00197FF5 /* ItemForm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemForm.swift; sourceTree = "<group>"; };
 		CBEAFA061AAA234B00C8A85A /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		CBEF50391B051E21005BC144 /* AgencyFreetextCrew.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AgencyFreetextCrew.swift; sourceTree = "<group>"; };
 		CBF9850D1AAE010500C4F721 /* Login.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
 		CBF9850E1AAE010500C4F721 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		ECD4EECAA55731D96DE64EE3 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
@@ -224,6 +250,7 @@
 				935D24D61AC212EF00A2854D /* Person.swift */,
 				935D24DA1AC2140E00A2854D /* Photo.swift */,
 				935D24C61AC1E57500A2854D /* Port.swift */,
+				CBEF50391B051E21005BC144 /* AgencyFreetextCrew.swift */,
 				935D24C41AC1E4E800A2854D /* Species.swift */,
 				933454C31AB75C4A00E5C65E /* User.swift */,
 				935D24D21AC211DE00A2854D /* Vessel.swift */,
@@ -253,6 +280,8 @@
 		CB81E9211AAA21F70071C2D2 = {
 			isa = PBXGroup;
 			children = (
+				CB8CC7271B02A91B00B91B90 /* PatrolLogContactListTableViewController.swift */,
+				CB8CC7251B02976E00B91B90 /* PatrolLogGeneralFormTableViewController.swift */,
 				CB81E92C1AAA21F70071C2D2 /* eFins-iOS */,
 				CB81E9441AAA21F80071C2D2 /* eFins-iOSTests */,
 				CB81E92B1AAA21F70071C2D2 /* Products */,
@@ -273,6 +302,7 @@
 		CB81E92C1AAA21F70071C2D2 /* eFins-iOS */ = {
 			isa = PBXGroup;
 			children = (
+				CB34A8E41B06882000EE328A /* EFinsTabBarController.swift */,
 				93BE82911ADEDCBC002C7EFE /* Realm-dynamic-simulator */,
 				CBE117F91ACB2A7800BC229F /* RelationTableViewCell.swift */,
 				CBE77B2D1AE1878B00197FF5 /* VesselForm.storyboard */,
@@ -301,6 +331,15 @@
 				CB81E9311AAA21F70071C2D2 /* FirstViewController.swift */,
 				CB81E9331AAA21F70071C2D2 /* SecondViewController.swift */,
 				CB81E9351AAA21F70071C2D2 /* Main.storyboard */,
+				CB34A8E21B0678EC00EE328A /* CurrentPatrolViewController.swift */,
+				CB8CC71D1B014CDA00B91B90 /* NewContactPopupTableViewController.swift */,
+				CB8CC71B1B013E8100B91B90 /* CDFWCommercialContact.storyboard */,
+				CB8CC71F1B0166D200B91B90 /* PatrolLog.storyboard */,
+				CB8CC7231B02932100B91B90 /* PatrolLogSidebarTableViewController.swift */,
+				CB8CC7211B0292ED00B91B90 /* PatrolLogSplitViewController.swift */,
+				CB8CC7191B013E3C00B91B90 /* CDFWRecContact.storyboard */,
+				CB8CC7171B013E0300B91B90 /* ActivityLog.storyboard */,
+				CB8CC7151B013D9D00B91B90 /* NPSContact.storyboard */,
 				CB8CC7111AFBF9DC00B91B90 /* NPSContactTableViewController.swift */,
 				CB17869D1AF3F76C00D08E73 /* CDFWCommBoardingCardTableViewController.swift */,
 				CB17869B1AF2A28200D08E73 /* CDFWRecContactTableViewController.swift */,
@@ -438,16 +477,21 @@
 				CB8CC70C1AFABC8F00B91B90 /* ViolationTypeForm.storyboard in Resources */,
 				CB8CC7081AFAA49500B91B90 /* ViolationForm.storyboard in Resources */,
 				CBF9850F1AAE010500C4F721 /* Login.storyboard in Resources */,
+				CB8CC7201B0166D200B91B90 /* PatrolLog.storyboard in Resources */,
 				CBE117FF1ACC8C5400BC229F /* OneToMany.storyboard in Resources */,
 				CB81E9371AAA21F70071C2D2 /* Main.storyboard in Resources */,
 				CBE77B2E1AE1878B00197FF5 /* VesselForm.storyboard in Resources */,
+				CB8CC7181B013E0300B91B90 /* ActivityLog.storyboard in Resources */,
 				CB81E93C1AAA21F70071C2D2 /* LaunchScreen.xib in Resources */,
 				CB81E9391AAA21F70071C2D2 /* Images.xcassets in Resources */,
 				CBCE35A71AC1F763005C6CA8 /* DatePicker.storyboard in Resources */,
+				CB8CC71A1B013E3C00B91B90 /* CDFWRecContact.storyboard in Resources */,
 				CB0076711AE6E7BC00AD0590 /* PersonForm.storyboard in Resources */,
 				CB1786A81AF4397300D08E73 /* CatchForm.storyboard in Resources */,
 				CB3B42BE1AE85F92004E9D60 /* DayDatePicker.storyboard in Resources */,
+				CB8CC71C1B013E8100B91B90 /* CDFWCommercialContact.storyboard in Resources */,
 				CB1F54791AEEB19D00D286F1 /* PhotoList.storyboard in Resources */,
+				CB8CC7161B013D9D00B91B90 /* NPSContact.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -513,14 +557,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CB8CC71E1B014CDA00B91B90 /* NewContactPopupTableViewController.swift in Sources */,
 				935D24D71AC212EF00A2854D /* Person.swift in Sources */,
 				CB8CC7101AFAF16B00B91B90 /* BoardingTypeTableViewController.swift in Sources */,
 				935D24D91AC213D500A2854D /* Action.swift in Sources */,
 				939C2AF91ADC6317008E2748 /* RLMSupport.swift in Sources */,
 				935D24D31AC211DE00A2854D /* Vessel.swift in Sources */,
+				CB34A8E31B0678EC00EE328A /* CurrentPatrolViewController.swift in Sources */,
 				CBE77B321AE1A19A00197FF5 /* ItemForm.swift in Sources */,
 				935D24DB1AC2140E00A2854D /* Photo.swift in Sources */,
 				CBF985101AAE010500C4F721 /* LoginViewController.swift in Sources */,
+				CB8CC7261B02976E00B91B90 /* PatrolLogGeneralFormTableViewController.swift in Sources */,
 				CB8CC70E1AFABCAC00B91B90 /* ViolationTypeFormTableViewController.swift in Sources */,
 				CB1F547B1AEEB38C00D286F1 /* PhotosCollectionViewController.swift in Sources */,
 				CBCE35A41AC1EB2F005C6CA8 /* ActivityLogTableViewController.swift in Sources */,
@@ -528,6 +575,7 @@
 				9310B5101ADC3BDD00D45CF3 /* Reachability.swift in Sources */,
 				935D24DD1AC2149300A2854D /* ViolationType.swift in Sources */,
 				935D24E11AC215AB00A2854D /* EnforcementActionTaken.swift in Sources */,
+				CB8CC7221B0292ED00B91B90 /* PatrolLogSplitViewController.swift in Sources */,
 				935D24D51AC212C200A2854D /* Fishery.swift in Sources */,
 				CB81E9341AAA21F70071C2D2 /* SecondViewController.swift in Sources */,
 				935D24C11AC1E1D500A2854D /* PatrolLog.swift in Sources */,
@@ -537,13 +585,16 @@
 				CB8CC70A1AFAA53A00B91B90 /* ViolationFormTableViewController.swift in Sources */,
 				935D24DF1AC2153D00A2854D /* EnforcementActionType.swift in Sources */,
 				CB81E9301AAA21F70071C2D2 /* AppDelegate.swift in Sources */,
+				CB8CC7281B02A91B00B91B90 /* PatrolLogContactListTableViewController.swift in Sources */,
 				CBE77B301AE18A1B00197FF5 /* VesselFormTableViewController.swift in Sources */,
 				935D24C51AC1E4E800A2854D /* Species.swift in Sources */,
 				CB03EED71AB8E1B9004CCB47 /* SettingsViewController.swift in Sources */,
+				CBEF503A1B051E21005BC144 /* AgencyFreetextCrew.swift in Sources */,
 				CB1786AA1AF439FE00D08E73 /* CatchFormTableViewController.swift in Sources */,
 				93E701F01AB0E6C800BD179E /* DataSync.swift in Sources */,
 				CBCE35A91AC1F7CD005C6CA8 /* DatePickerTableViewController.swift in Sources */,
 				CBE118031ACC8FAC00BC229F /* OneToManyTableViewController.swift in Sources */,
+				CB8CC7241B02932100B91B90 /* PatrolLogSidebarTableViewController.swift in Sources */,
 				935D24BF1AC1DCBB00A2854D /* AgencyVessel.swift in Sources */,
 				935D24E31AC3548200A2854D /* EfinsModel.swift in Sources */,
 				935D24CF1AC1E8C000A2854D /* ContactType.swift in Sources */,
@@ -564,6 +615,7 @@
 				CBE272E01AC3564600A4F236 /* LogbookTableViewController.swift in Sources */,
 				CB17869C1AF2A28200D08E73 /* CDFWRecContactTableViewController.swift in Sources */,
 				935D24C71AC1E57500A2854D /* Port.swift in Sources */,
+				CB34A8E51B06882000EE328A /* EFinsTabBarController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
