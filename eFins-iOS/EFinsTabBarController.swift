@@ -15,9 +15,17 @@ class EFinsTabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        if let viewControllers = self.viewControllers {
+        if var viewControllers = self.viewControllers {
             if let controller = viewControllers[1] as? CurrentPatrolViewController {
                 self.currentPatrolPrompt = controller
+            }
+            println("map")
+            if let mapController = UIStoryboard(name: "Map", bundle: nil).instantiateInitialViewController() as? UISplitViewController {
+                println(mapController)
+                let icon = UITabBarItem(title: "Map", image:UIImage(named: "map_route"), selectedImage: nil)
+                mapController.tabBarItem = icon
+                viewControllers.insert(mapController, atIndex: 2)
+                self.viewControllers = viewControllers
             }
         }
         
