@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Realm
 
 class PatrolLogContactListTableViewController: UITableViewController {
 
@@ -15,7 +16,9 @@ class PatrolLogContactListTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        if self.allowEditing == false {
+            self.navigationItem.rightBarButtonItem = nil
+        }
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -30,27 +33,119 @@ class PatrolLogContactListTableViewController: UITableViewController {
 
     // MARK: - Table view data source
 
+    func activities() -> RLMResults {
+        return Activity.objectsWhere("patrolLog = %@", self.patrolLog).sortedResultsUsingProperty("time", ascending: false)
+    }
+    
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Potentially incomplete method implementation.
         // Return the number of sections.
-        return 0
+        return 1
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
-        return 0
+        return Int(activities().count)
     }
 
-    /*
+    
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath) as! UITableViewCell
-
-        // Configure the cell...
-
+        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! UITableViewCell
+        let index = UInt(indexPath.row)
+        let activity = self.activities().objectAtIndex(index)
+        let formatter = getDateFormatter()
+        if activity is Activity {
+            switch (activity as! Activity).type {
+            case Activity.Types.LOG:
+                cell.textLabel?.text = "Activity Log"
+            case Activity.Types.CDFW_REC:
+                cell.textLabel?.text = "CDFW Recreational Contact"
+            case Activity.Types.CDFW_COMM:
+                cell.textLabel?.text = "CDFW Commercial Boarding"
+            case Activity.Types.NPS:
+                cell.textLabel?.text = "NPS Contact Record"
+            default:
+                cell.textLabel?.text = "Other"
+            }
+            cell.detailTextLabel?.text = formatter.stringFromDate((activity as! Activity).time)
+        } else {
+            cell.textLabel?.text = "Patrol Log"
+            cell.detailTextLabel?.text = formatter.stringFromDate((activity as! PatrolLog).date)
+        }
         return cell
     }
-    */
+    
+    @IBAction func unwindNewContactPopup(sender: UIStoryboardSegue) {
+        let tvc = sender.sourceViewController as! UITableViewController
+        let table = tvc.tableView
+        if let idx = table.indexPathForSelectedRow() {
+            var storyboard:UIStoryboard
+            switch idx.row {
+            case 0:
+                storyboard = UIStoryboard(name: "ActivityLog", bundle: nil)
+            case 1:
+                storyboard = UIStoryboard(name: "CDFWCommercialContact", bundle: nil)
+            case 2:
+                storyboard = UIStoryboard(name: "CDFWRecContact", bundle: nil)
+            default:
+                storyboard = UIStoryboard(name: "ActivityLog", bundle: nil)
+            }
+            let controller = storyboard.instantiateInitialViewController()
+            tvc.dismissViewControllerAnimated(false, completion: nil)
+            if let nc = controller as? UINavigationController {
+                if let activityForm = nc.viewControllers[0] as? ActivityFormTableViewController {
+                    activityForm.patrolLog = self.patrolLog
+                }
+            }
+            
+            self.presentViewController(controller as! UIViewController, animated: true, completion: nil)
+        } else {
+            tvc.dismissViewControllerAnimated(true, completion: nil)
+        }
+    }
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let activity = activities().objectAtIndex(UInt(indexPath.row))
+        var controller:UIViewController
+        if activity is Activity {
+            switch (activity as! Activity).type {
+            case Activity.Types.CDFW_COMM:
+                controller = UIStoryboard(name: "CDFWCommercialContact", bundle: nil).instantiateInitialViewController() as! UINavigationController
+            case Activity.Types.CDFW_REC:
+                controller = UIStoryboard(name: "CDFWRecContact", bundle: nil).instantiateInitialViewController() as! UINavigationController
+            case Activity.Types.NPS:
+                controller = UIStoryboard(name: "NPSContact", bundle: nil).instantiateInitialViewController() as! UINavigationController
+            default:
+                controller = UIStoryboard(name: "ActivityLog", bundle: nil).instantiateInitialViewController() as! UINavigationController
+            }
+            let form = (controller as! UINavigationController).viewControllers[0] as! ActivityFormTableViewController
+            form.activity = activity as! Activity
+            form.allowEditing = false
+            self.tableView.deselectRowAtIndexPath(indexPath, animated: false)
+            self.presentViewController(controller, animated: true, completion: nil)
+        } else {
+            if let tabs = self.tabBarController as? EFinsTabBarController {
+                if tabs.isDisplayingEditablePatrol() {
+                    alert("Close Active Patrol", "You are currently editing a patrol in the Patrol tab. Please save and close it before continuing.", self)
+                } else {
+                    self.tableView.deselectRowAtIndexPath(indexPath, animated: false)
+                    tabs.displayPatrol(activity as! PatrolLog)
+                }
+            }
+            //            controller = UIStoryboard(name: "PatrolLog", bundle: nil).instantiateInitialViewController() as! UISplitViewController
+            //            let sidebar = controller.childViewControllers[0].childViewControllers[0] as! PatrolLogSidebarTableViewController
+            //            sidebar.patrolLog = activity as! PatrolLog
+            ////            sidebar.allowEditing = false
+        }
+    }
+
+    
+    override func viewWillAppear(animated: Bool) {
+        self.tableView.reloadData()
+    }
+
+    
 
     /*
     // Override to support conditional editing of the table view.

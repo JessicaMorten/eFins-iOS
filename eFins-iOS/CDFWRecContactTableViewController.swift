@@ -16,4 +16,16 @@ class CDFWRecContactTableViewController: ActivityFormTableViewController {
         super.viewDidLoad()
     }
 
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if section == 0 {
+            if self.activity.patrolLog != nil {
+                return 3
+            } else {
+                return super.tableView(tableView, numberOfRowsInSection: section)
+            }
+        } else {
+            return super.tableView(tableView, numberOfRowsInSection: section)
+        }
+    }
+
 }

@@ -142,6 +142,7 @@ class LogbookTableViewController: UITableViewController {
     // MARK: - Navigation
 
     @IBAction func unwindNewContactPopup(sender: UIStoryboardSegue) {
+        println("unwindNew from main")
         let tvc = sender.sourceViewController as! UITableViewController
 //        let popover = tvc.popoverPresentationController
         let table = tvc.tableView

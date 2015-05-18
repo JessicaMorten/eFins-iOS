@@ -51,6 +51,19 @@ class CDFWCommBoardingCardTableViewController: ActivityFormTableViewController, 
         self.relationTableViewCells.append(self.citationsCell)
     }
     
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if section == 0 {
+            if self.activity.patrolLog != nil {
+                return 2
+            } else {
+                return super.tableView(tableView, numberOfRowsInSection: section)
+            }
+        } else {
+            return super.tableView(tableView, numberOfRowsInSection: section)
+        }
+    }
+
+    
     // MARK: Actions
     
     override func shouldPerformSegueWithIdentifier(identifier: String?, sender: AnyObject?) -> Bool {

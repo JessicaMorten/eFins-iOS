@@ -33,6 +33,7 @@ class ActivityFormTableViewController: UITableViewController {
     @IBOutlet weak var saveButton: UIButton!
     
     var activity:Activity!
+    var patrolLog:PatrolLog?
 
     // should be set by subclasses
     var activityType:String!
@@ -63,6 +64,13 @@ class ActivityFormTableViewController: UITableViewController {
             if let user = (UIApplication.sharedApplication().delegate as! AppDelegate).getUser() {
                 activity.users.addObject(user)
             }
+            if let log = self.patrolLog {
+                activity.patrolLog = log
+                // the scemas for activities vs patrols don't match exactly so it's not that useful to set this
+                activity.users = log.crew
+                activity.freeTextCrew = log.freeTextCrew
+            }
+            
             realm.addObject(self.activity)
             realm.commitWriteTransaction()
         } else {
