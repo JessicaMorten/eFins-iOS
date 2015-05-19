@@ -83,6 +83,13 @@ class EfinsModel : RLMObject {
                     json[property.name] = JSON(dateFormatter.stringFromDate(obj!))
 
                 }
+            } else if property.type == RLMPropertyType.Data {
+                let obj = self[property.name] as? NSData
+                if obj != nil {
+                    //json[property.name] = JSON(obj!.timeIntervalSince1970)
+                    json[property.name] = JSON(obj!.base64EncodedStringWithOptions(nil))
+                }
+
             } else {
                 if !(contains(["dirty", "localId"], property.name)) {
                     json[property.name] = JSON(self.valueForKey(property.name)!)
