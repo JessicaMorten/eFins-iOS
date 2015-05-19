@@ -130,6 +130,7 @@ class LogbookTableViewController: UITableViewController {
                     alert("Close Active Patrol", "You are currently editing a patrol in the Patrol tab. Please save and close it before continuing.", self)
                 } else {
                     self.tableView.deselectRowAtIndexPath(indexPath, animated: false)
+                    DataSync.manager.disableSync()
                     tabs.displayPatrol(activity as! PatrolLog)
                 }
             }
@@ -170,6 +171,7 @@ class LogbookTableViewController: UITableViewController {
                     if tabs.isDisplayingEditablePatrol() {
                         alert("Close Active Patrol", "You are currently editing a patrol in the Patrol tab. Please save and close it before continuing.", self)
                     } else {
+                        DataSync.manager.disableSync()
                         tabs.startNewPatrol()
                     }
                 }
