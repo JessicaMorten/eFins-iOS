@@ -21,7 +21,7 @@ class DataSync {
     var syncInProgress = false
     var syncEnabled = true
     var syncRealm: RLMRealm? = nil
-    let syncQueue = NSMutableArray()
+    var syncQueue:Array<() -> ()> = []
     let syncCondition = NSCondition()
     var syncThread: NSThread? = nil
     
@@ -55,13 +55,17 @@ class DataSync {
             return
         }
         self.syncInProgress = true
-        dispatch_async(self.syncQueue) {
-            //self.log("Sync executing on background queue \(DISPATCH_CURRENT_QUEUE_LABEL)")
+
+        
+        self.queueThreadTask { () -> () in
+            self.log("Sync starting on background thread")
             let defaults = NSUserDefaults.standardUserDefaults()
             let usn = defaults.integerForKey("currentUsn")
             let endOfLastSync = defaults.integerForKey("endOfLastSync")
+            self.syncRealm = RLMRealm.defaultRealm()
             self.syncRealm!.beginWriteTransaction()
             
+            self.log("About to pull")
             self.pull( usn, endOfLastSync: endOfLastSync, maxCount: 0, continuation: { (success: Bool) -> () in
                 if(success) {
                     self.log("starting push")
@@ -75,9 +79,8 @@ class DataSync {
                     self.syncRealm!.cancelWriteTransaction()
                 }
             })
-
-            
         }
+        self.syncCondition.signal()
     }
     
     @objc func syncFire(ti: NSTimer) {
@@ -101,13 +104,15 @@ class DataSync {
         return true
     }
     
+    func queueThreadTask( task : () -> () ) {
+        self.syncQueue.append(task)
+        self.syncCondition.signal()
+    }
+    
     func start() {
         self.log("DataSync Manager Starting");
         let dRealm = self.defaultRealm()
         self.log("Default Realm file is: " + dRealm.path)
-        dispatch_sync(self.syncQueue) {
-            self.syncRealm = RLMRealm()
-        }
         self.log("Checking reachability against " + SERVER_ROOT);
         if (self.reachability.isReachable()) {
             self.log("Server " + SERVER_ROOT + " is currently reachable")
@@ -128,7 +133,7 @@ class DataSync {
     }
     
     
-    func syncThreadLoop() {
+    @objc func syncThreadLoop() {
         let currentThread = NSThread.currentThread()
         
         while true {
@@ -138,11 +143,10 @@ class DataSync {
                 self.syncCondition.wait()
             }
             
-            let block = self.syncQueue.objectAtIndex(0) as? () -> ()
-            self.syncQueue.removeObjectAtIndex(0)
+            let block = self.syncQueue.removeAtIndex(0)
             self.syncCondition.unlock()
-        
-            block!()
+            self.log("Found a thread task; running")
+            block()
         }
     }
     
@@ -176,6 +180,7 @@ class DataSync {
     }
     
     func pull(currentUsn: Int, endOfLastSync: Int, maxCount: Int, continuation: (Bool) -> () ) {
+        self.log("Pull")
         let afterUsn = NSURLQueryItem(name: "afterUsn", value: "\(currentUsn)")
         let endOfLastSync = NSURLQueryItem(name: "endOfLastSync", value: "\(endOfLastSync)")
 
@@ -188,38 +193,40 @@ class DataSync {
         self.log("Getting \(Urls.sync)")
         
         Alamofire.request(mutableURLRequest)
-            .response(queue: self.syncQueue, serializer: Alamofire.Request.stringResponseSerializer(encoding: NSUTF8StringEncoding)) { (request, response, data, error) in
-                //println(data)
-                if (error != nil) {
-                    self.log("Connection Error, Problem connecting to server: \(error). \(response)")
-                } else if (response?.statusCode == 404) {
-                    self.log("404")
-                } else if (response?.statusCode == 401) {
-                    self.log("401")
-                } else if (response?.statusCode == 403) {
-                    self.log("403")
-                } else if (response?.statusCode == 204) {
-                    self.log("Server reports we are up-to-date")
-                    continuation(true)
-                    return
-                } else if response?.statusCode == 200 {
-                    let json = JSON(data: data!.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!)
-                    let newUsn = json["highestUsn"].int
-                    self.log("Got reply to sync request; updating local DB from \(currentUsn) to \(newUsn!)")
-                    if(self.digestResults(json) == true) {
-                        let defaults = NSUserDefaults.standardUserDefaults()
-                        defaults.setInteger(newUsn!, forKey: "currentUsn")
-                        defaults.setInteger(json["timestamp"].int!, forKey: "endOfLastSync")
-                        self.log("After a successful pull, setting currentUsn to \(newUsn!)")
+            .responseString{ (request, response, data, error) in
+                self.queueThreadTask { () -> () in
+                    //println(data)
+                    if (error != nil) {
+                        self.log("Connection Error, Problem connecting to server: \(error). \(response)")
+                    } else if (response?.statusCode == 404) {
+                        self.log("404")
+                    } else if (response?.statusCode == 401) {
+                        self.log("401")
+                    } else if (response?.statusCode == 403) {
+                        self.log("403")
+                    } else if (response?.statusCode == 204) {
+                        self.log("Server reports we are up-to-date")
                         continuation(true)
                         return
+                    } else if response?.statusCode == 200 {
+                        let json = JSON(data: data!.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!)
+                        let newUsn = json["highestUsn"].int
+                        self.log("Got reply to sync request; updating local DB from \(currentUsn) to \(newUsn!)")
+                        if(self.digestResults(json) == true) {
+                            let defaults = NSUserDefaults.standardUserDefaults()
+                            defaults.setInteger(newUsn!, forKey: "currentUsn")
+                            defaults.setInteger(json["timestamp"].int!, forKey: "endOfLastSync")
+                            self.log("After a successful pull, setting currentUsn to \(newUsn!)")
+                            continuation(true)
+                            return
+                        } else {
+                            self.log("Failed to digest server results; discarding pulled data")
+                        }
                     } else {
-                        self.log("Failed to digest server results; discarding pulled data")
+                        self.log(data?.stringByStandardizingPath ?? "")
                     }
-                } else {
-                    self.log(data?.stringByStandardizingPath ?? "")
+                    continuation(false)
                 }
-                continuation(false)
         }
 
         
@@ -252,28 +259,30 @@ class DataSync {
         mutableURLRequest.setValue("Bearer " + NSUserDefaults.standardUserDefaults().stringForKey("SessionToken")! , forHTTPHeaderField: "Authorization")
         self.log("Posting to \(Urls.sync)")
         Alamofire.request(mutableURLRequest)
-            .response(queue: self.syncQueue, serializer: Alamofire.Request.stringResponseSerializer(encoding: NSUTF8StringEncoding)) { (request, response, data, error) in
+            .responseString{ (request, response, data, error) in
                 println(data)
-                if (error != nil) {
-                    self.log("Connection Error, Problem connecting to server: \(error). \(response)")
-                } else if (response?.statusCode == 404) {
-                    self.log("404")
-                } else if (response?.statusCode == 401) {
-                    self.log("401")
-                } else if (response?.statusCode == 403) {
-                    self.log("403")
-                } else if (response?.statusCode == 204) {
-                    self.log("Server reports 204, WTF?")
-                } else if response?.statusCode == 200 {
-                    self.log("Successful push to server")
-                    self.deleteLocalObjects(data as! String)
+                self.queueThreadTask { () -> () in
+                    if (error != nil) {
+                        self.log("Connection Error, Problem connecting to server: \(error). \(response)")
+                    } else if (response?.statusCode == 404) {
+                        self.log("404")
+                    } else if (response?.statusCode == 401) {
+                        self.log("401")
+                    } else if (response?.statusCode == 403) {
+                        self.log("403")
+                    } else if (response?.statusCode == 204) {
+                        self.log("Server reports 204, WTF?")
+                    } else if response?.statusCode == 200 {
+                        self.log("Successful push to server")
+                        self.deleteLocalObjects(data!)
+                        continuation()
+                        return
+                    } else {
+                        self.log("Failed to post locally created data to server; will try again later")
+                    }
+            
                     continuation()
-                    return
-                } else {
-                    self.log("Failed to post locally created data to server; will try again later")
                 }
-        
-                continuation()
         }
     }
     
