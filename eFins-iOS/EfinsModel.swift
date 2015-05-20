@@ -68,6 +68,7 @@ class EfinsModel : RLMObject {
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateStyle = NSDateFormatterStyle.MediumStyle
         dateFormatter.timeStyle = NSDateFormatterStyle.LongStyle
+        dateFormatter.timeZone = NSTimeZone(forSecondsFromGMT: 0)
         let excludedArray = self.doNotPush()
 
         for p in sourceSchema.properties {
