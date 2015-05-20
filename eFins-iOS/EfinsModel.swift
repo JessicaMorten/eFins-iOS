@@ -22,7 +22,7 @@ class EfinsModel : RLMObject {
         return "id"
     }
     
-    class func ingest(json: JSON) -> [RLMObject] {
+    class func ingest(json: JSON, syncRealm: RLMRealm) -> [RLMObject] {
         var newEntities : [RLMObject] = []
         let classType = self.self
         for (index: String, model: JSON) in json {
@@ -42,7 +42,7 @@ class EfinsModel : RLMObject {
                 }
             }
             
-            newEntities.append( classType.createOrUpdateInDefaultRealmWithObject(dictionary!) )
+            newEntities.append( classType.createOrUpdateInRealm(syncRealm, withObject:dictionary!))
         }
         for ne in newEntities as! [EfinsModel] {
             ne.dirty = false
