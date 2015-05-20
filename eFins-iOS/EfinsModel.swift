@@ -42,6 +42,16 @@ class EfinsModel : RLMObject {
                 }
             }
             
+            for (key, var value) in dictionary! {
+                let handler = self.getSpecialDataPropertyHandler(key)
+                if handler != nil {
+                    if value as! NSObject == NSNull() {
+                        value = "nothing"
+                    }
+                    dictionary?.updateValue(handler!(value as! String), forKey: key)
+                }
+            }
+            
             newEntities.append( classType.createOrUpdateInRealm(syncRealm, withObject:dictionary!))
         }
         for ne in newEntities as! [EfinsModel] {
@@ -58,8 +68,13 @@ class EfinsModel : RLMObject {
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateStyle = NSDateFormatterStyle.MediumStyle
         dateFormatter.timeStyle = NSDateFormatterStyle.LongStyle
+        let excludedArray = self.doNotPush()
+
         for p in sourceSchema.properties {
             let property: RLMProperty = p as! RLMProperty
+            if contains(excludedArray, property.name) {
+                continue
+            }
             
             if property.type == RLMPropertyType.Array {
                 var idArray = [String]()
@@ -86,7 +101,6 @@ class EfinsModel : RLMObject {
             } else if property.type == RLMPropertyType.Data {
                 let obj = self[property.name] as? NSData
                 if obj != nil {
-                    //json[property.name] = JSON(obj!.timeIntervalSince1970)
                     json[property.name] = JSON(obj!.base64EncodedStringWithOptions(nil))
                 }
 
@@ -98,6 +112,15 @@ class EfinsModel : RLMObject {
         }
         return json
         
+    }
+    
+    
+    func doNotPush() -> [String] {
+        return []
+    }
+    
+    class func getSpecialDataPropertyHandler(property: String) -> ((String) -> NSData)? {
+        return nil
     }
     
     
