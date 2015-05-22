@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import MBProgressHUD
 import Foundation
 
 class MapViewController: UIViewController, RMMapViewDelegate, UIAlertViewDelegate, RMTileCacheBackgroundDelegate {
@@ -18,8 +17,6 @@ class MapViewController: UIViewController, RMMapViewDelegate, UIAlertViewDelegat
     var reachability: Reachability!
     let southWestConstraints = CLLocationCoordinate2DMake(32, -123)
     let northEastConstraints = CLLocationCoordinate2DMake(35.42, -116.5)
-    // should be 12, but setting to 10 for testing
-//    let maxOfflineZoom = UInt(10)
     @IBOutlet var backgroundView: UIView!
     @IBOutlet weak var popupLabel: UILabel!
     var didLoadTiles = false
@@ -37,13 +34,6 @@ class MapViewController: UIViewController, RMMapViewDelegate, UIAlertViewDelegat
 
         RMConfiguration.sharedInstance().accessToken = "pk.eyJ1IjoidW5kZXJibHVld2F0ZXJzIiwiYSI6IjMzZ215RTQifQ.u6Gb_-kNfvaxiHdd9eJEEA"
 
-        // configure map tile source based on previous metadata if available
-//        if let tileJSON = cachedJSON() {
-//            self.thematicLayer = RMMapboxSource(tileJSON: tileJSON)
-//        } else {
-//            self.thematicLayer = RMMapboxSource(mapID: "underbluewaters.i9hjn51p")
-//        }
-        
         if loadTiles() {
             initMap()
         } else {
@@ -181,31 +171,6 @@ class MapViewController: UIViewController, RMMapViewDelegate, UIAlertViewDelegat
     
     // MARK: - Alert Delegate
     
-//    func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
-//        if (buttonIndex == 1 && self.reachability.isReachable()) {
-//            map.removeAllCachedImages()
-//            
-//            // update cached TileJSON metadata for tile source
-//            let tileJSON = self.thematicLayer?.tileJSON
-//            NSUserDefaults.standardUserDefaults().setObject(tileJSON, forKey: "thematicJSON")
-//            
-//            let hud = MBProgressHUD(view: self.navigationController!.view)
-//            hud.labelText = "Downloading..."
-//            hud.mode = .DeterminateHorizontalBar
-//            hud.minShowTime = 1
-//            self.navigationController!.view.addSubview(hud)
-//            hud.show(true)
-//            
-//            map.tileCache.backgroundCacheDelegate = self
-//            map.tileCache.beginBackgroundCacheForTileSource(map.tileSource,
-//                southWest: southWestConstraints,
-//                northEast: northEastConstraints,
-//                minZoom: UInt(map.minZoom),
-//                maxZoom: maxOfflineZoom)
-//        } else {
-//            self.mapSegmentControl.selectedSegmentIndex = 1
-//        }
-//    }
 
 
     override func didReceiveMemoryWarning() {
@@ -229,15 +194,5 @@ class MapViewController: UIViewController, RMMapViewDelegate, UIAlertViewDelegat
     }
     
     // MARK: - Cache Delegate
-    
-    func tileCache(tileCache: RMTileCache!, didBackgroundCacheTile tile: RMTile, withIndex tileIndex: UInt, ofTotalTileCount totalTileCount: UInt) {
-        MBProgressHUD(forView: self.navigationController!.view).progress = Float(tileIndex) / Float(totalTileCount)
-    }
-    
-    func tileCacheDidFinishBackgroundCache(tileCache: RMTileCache!) {
-        MBProgressHUD(forView: self.navigationController!.view).hide(true)
-        MBProgressHUD(forView: self.navigationController!.view).removeFromSuperview()
-        
-    }
 
 }
