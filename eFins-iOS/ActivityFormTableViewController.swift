@@ -9,7 +9,7 @@
 import UIKit
 import Realm
 
-class ActivityFormTableViewController: UITableViewController {
+class ActivityFormTableViewController: UITableViewController, LocationManagerDelegate {
 
     // location field
     @IBOutlet weak var locationTableCell: UITableViewCell!
@@ -28,6 +28,7 @@ class ActivityFormTableViewController: UITableViewController {
     // number of persons on board
     @IBOutlet weak var numPersonsOnBoardTextField: UITextField?
     @IBOutlet weak var numberOfPersonsOnBoardCell: UITableViewCell?
+    @IBOutlet weak var locationDisplay: UITextField!
 
     
     @IBOutlet weak var saveButton: UIButton!
@@ -73,6 +74,7 @@ class ActivityFormTableViewController: UITableViewController {
             
             realm.addObject(self.activity)
             realm.commitWriteTransaction()
+            LocationManager.sharedInstance.startPreheat()
         } else {
             self.isNew = false
             self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.Plain, target: self, action: "back")
@@ -105,6 +107,11 @@ class ActivityFormTableViewController: UITableViewController {
         
         self.numberOfPersonsOnBoardCell?.textLabel?.text = "Number of Persons on Board"
         updateAccessoryTypes()
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        LocationManager.sharedInstance.stopPreheat()
     }
     
     // MARK: Actions
@@ -141,8 +148,11 @@ class ActivityFormTableViewController: UITableViewController {
         if sender.on {
             self.locationActivityIndicator.hidden = false
             self.locationActivityIndicator.startAnimating()
+            LocationManager.sharedInstance.addLocationManagerDelegate(self, accuracy: 30, timeout: 30)
+            LocationManager.sharedInstance.stopPreheat()
         } else {
             self.locationActivityIndicator.hidden = true
+            LocationManager.sharedInstance.removeLocationManagerDelegate(self)
         }
     }
     
@@ -304,6 +314,22 @@ class ActivityFormTableViewController: UITableViewController {
             cell.allowEditing = self.allowEditing
         }
         self.updateAccessoryTypes()
+    }
+    
+    
+    // LocationManagerDelegate
+    func locationManagerDidUpdateLocation(location: CLLocation) {
+        RLMRealm.defaultRealm().beginWriteTransaction()
+        self.activity.latitude = location.coordinate.latitude
+        self.activity.longitude = location.coordinate.longitude
+        RLMRealm.defaultRealm().commitWriteTransaction()
+        LocationManager.sharedInstance.removeLocationManagerDelegate(self)
+        locationActivityIndicator.stopAnimating()
+    }
+    
+    func locationManagerDidFailToObtainLocation() {
+        println("We tried to get a location and couldn't.  Retry?")
+        LocationManager.sharedInstance.removeLocationManagerDelegate(self)
     }
     
 }

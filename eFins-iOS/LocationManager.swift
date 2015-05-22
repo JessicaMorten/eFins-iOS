@@ -9,32 +9,65 @@
 import Foundation
 import CoreLocation
 
-protocol LocationManagerDelegate {
+protocol LocationManagerDelegate : AnyObject {
     func locationManagerDidUpdateLocation(location: CLLocation)
-    func locationManagerDidFailToObtainLocation(location: CLLocation)
+    func locationManagerDidFailToObtainLocation()
+}
+
+struct DelegateRecord : Equatable {
+    let accuracy : CLLocationAccuracy
+    let timeout: NSDate
+    let delegate: LocationManagerDelegate
+    let eventDelivered: Bool
+    
+}
+func ==(lhs: DelegateRecord, rhs: DelegateRecord) -> Bool {
+    return lhs.delegate === rhs.delegate
+}
+
+func ===(lhs: DelegateRecord, rhs: DelegateRecord) -> Bool {
+    return lhs.delegate === rhs.delegate
+}
+
+extension NSDate {
+    func isAfter(dateToCompare: NSDate) -> Bool {
+        return self.compare(dateToCompare) == NSComparisonResult.OrderedDescending
+    }
+    
+    func isBefore(dateToCompare: NSDate) -> Bool {
+        return self.compare(dateToCompare) == NSComparisonResult.OrderedAscending
+    }
+    
+    func isBeforeNow() -> Bool {
+        return self.isBefore(NSDate(timeIntervalSinceNow: 0))
+    }
+    
+    func isAfterNow() -> Bool {
+        return self.isAfter(NSDate(timeIntervalSinceNow: 0))
+    }
+    
+    func areStandardSwiftDateComparisonsAnyGood() -> Bool { return false }
+    
 }
 
 
-class LocationManager : CLLocationManagerDelegate {
+
+class LocationManager : NSObject, CLLocationManagerDelegate {
     var currentLocation = CLLocation()
     var currentLocationAccuracy = CLLocationAccuracy()
     let coreLocationManager = CLLocationManager()
-    var observers: [DelegateRecord]
+    var observers: [DelegateRecord] = []
     var accuracyHistory: [CLLocationAccuracy] = []
     var timer : NSTimer? = nil
     var isPreheating = false
+    var errorCount = 0
     static let sharedInstance = LocationManager()
     static let ACCURACY_BUFFER_LENGTH = 3
-    static let MAX_LOCATION_ERROR = 10
+    static let MAX_LOCATION_ERROR = 3
     
-    struct DelegateRecord {
-        let accuracy : CLLocationAccuracy
-        let timeout: NSDate
-        let delegate: LocationManagerDelegate
-        let eventDelivered: Bool
-    }
     
-    init() {
+    override init() {
+        super.init()
         let status = CLLocationManager.authorizationStatus()
         if status == CLAuthorizationStatus.Restricted || status == CLAuthorizationStatus.Denied {
             println("Raise an alert or something - location services not available")
@@ -48,6 +81,7 @@ class LocationManager : CLLocationManagerDelegate {
     }
     
     func addLocationManagerDelegate(delegate: LocationManagerDelegate, accuracy: CLLocationAccuracy?, timeout: NSTimeInterval?) {
+        println("Adding a delegate listener")
         var trueAccuracy : CLLocationAccuracy = -1
         var timeoutDatetime : NSDate
         if timeout == nil {
@@ -74,6 +108,7 @@ class LocationManager : CLLocationManagerDelegate {
     }
     
     func removeLocationManagerDelegate(delegate: LocationManagerDelegate) {
+        println("Removing a delegate")
         observers = observers.filter { if $0.delegate === delegate {return true } else {return false} }
         if count(observers) == 0 && (!isPreheating) {
             accuracyHistory.removeAll()
@@ -82,20 +117,18 @@ class LocationManager : CLLocationManagerDelegate {
     }
     
     func startPreheat() {
+        println("Start preheat")
         isPreheating = true
         coreLocationManager.startUpdatingLocation()
         
     }
     
     func stopPreheat() {
+        println("Stop preheat")
         isPreheating = false
         if count(observers) == 0 {
             coreLocationManager.stopUpdatingLocation()
         }
-    }
-    
-    private func observersWithTimeouts() -> [DelegateRecord] {
-        return observers.filter {$0.timeout > NSDate(timeIntervalSince1970: -1)}
     }
     
     private func isObservingFor(delegate: LocationManagerDelegate) -> Bool {
@@ -103,34 +136,26 @@ class LocationManager : CLLocationManagerDelegate {
     }
     
     @objc private func checkForTimeouts() {
-        var delegatesToTimeout = []
-        for record in observersWithTimeouts() {
-            let timeoutDate : NSDate = record.timeout
-            if timeoutDate.timeIntervalSinceReferenceDate < NSDate(timeIntervalSinceNow: 0) {
-                delegatesToTimeout.add(record)
-            }
-        }
-        
-        for record in delegatesToTimeout {
-            record.delegate.locationManagerDidFailtoObtainLocation()
-            observers = observers.filter {$0.delegate != record.delegate}
+        for record in observers {
+            record.delegate.locationManagerDidFailToObtainLocation()
+            observers = observers.filter {$0 != record}
             stopTimerIfNecessary()
             if count(observers) == 0 && (!isPreheating) {
                 coreLocationManager.stopUpdatingLocation()
                 accuracyHistory.removeAll()
             }
         }
-        
     }
     
     private func stopTimerIfNecessary() {
-        if count(observersWithTimeouts()) == 0 {
+        if count(observers) == 0 {
             timer?.invalidate()
             timer = nil
         }
     }
     
     private func recordAccuracyMeasurement(accuracy : CLLocationAccuracy) {
+        println("Record \(accuracy)")
         accuracyHistory.append(accuracy)
         if count(accuracyHistory) > LocationManager.ACCURACY_BUFFER_LENGTH {
             accuracyHistory.removeAtIndex(0)
@@ -150,9 +175,36 @@ class LocationManager : CLLocationManagerDelegate {
     }
     
     func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
-        var satisfiedObservers : [Dictionary] = []
-        let mostRecentLocation : CLLocation = locations.last
+        var satisfiedObservers : [DelegateRecord] = []
+        let mostRecentLocation : CLLocation = locations.last as! CLLocation
         recordAccuracyMeasurement(mostRecentLocation.horizontalAccuracy)
+        println("Most recent location: \(mostRecentLocation). \(count(observers)) observers")
+        for observer in observers {
+            let desiredAccuracy : CLLocationAccuracy = observer.accuracy
+            if accuracyHasConverged(desiredAccuracy) {
+                observer.delegate.locationManagerDidUpdateLocation(mostRecentLocation)
+                satisfiedObservers.append(observer)
+            }
+        }
+        observers = observers.filter {
+            let o = $0
+            if satisfiedObservers.filter({$0 == o}).count > 0 {return false}
+            return true
+        }
+        stopTimerIfNecessary()
+        if count(observers) == 0 && (!isPreheating) {
+            coreLocationManager.stopUpdatingLocation()
+            accuracyHistory.removeAll()
+        }
+    }
+    
+    func locationManager(manager: CLLocationManager!, didFailWithError error: NSError!) {
+        errorCount += 1
+        if errorCount >= LocationManager.MAX_LOCATION_ERROR {
+            coreLocationManager.stopUpdatingLocation()
+            accuracyHistory.removeAll()
+            errorCount = 0
+        }
     }
     
     
