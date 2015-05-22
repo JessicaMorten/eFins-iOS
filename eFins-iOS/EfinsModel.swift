@@ -22,7 +22,7 @@ class EfinsModel : RLMObject {
         return "id"
     }
     
-    class func ingest(json: JSON) -> [RLMObject] {
+    class func ingest(json: JSON, syncRealm: RLMRealm) -> [RLMObject] {
         var newEntities : [RLMObject] = []
         let classType = self.self
         for (index: String, model: JSON) in json {
@@ -42,7 +42,17 @@ class EfinsModel : RLMObject {
                 }
             }
             
-            newEntities.append( classType.createOrUpdateInDefaultRealmWithObject(dictionary!) )
+            for (key, var value) in dictionary! {
+                let handler = self.getSpecialDataPropertyHandler(key)
+                if handler != nil {
+                    if value as! NSObject == NSNull() {
+                        value = "nothing"
+                    }
+                    dictionary?.updateValue(handler!(value as! String), forKey: key)
+                }
+            }
+            
+            newEntities.append( classType.createOrUpdateInRealm(syncRealm, withObject:dictionary!))
         }
         for ne in newEntities as! [EfinsModel] {
             ne.dirty = false
@@ -58,8 +68,14 @@ class EfinsModel : RLMObject {
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateStyle = NSDateFormatterStyle.MediumStyle
         dateFormatter.timeStyle = NSDateFormatterStyle.LongStyle
+        dateFormatter.timeZone = NSTimeZone(forSecondsFromGMT: 0)
+        let excludedArray = self.doNotPush()
+
         for p in sourceSchema.properties {
             let property: RLMProperty = p as! RLMProperty
+            if contains(excludedArray, property.name) {
+                continue
+            }
             
             if property.type == RLMPropertyType.Array {
                 var idArray = [String]()
@@ -83,6 +99,12 @@ class EfinsModel : RLMObject {
                     json[property.name] = JSON(dateFormatter.stringFromDate(obj!))
 
                 }
+            } else if property.type == RLMPropertyType.Data {
+                let obj = self[property.name] as? NSData
+                if obj != nil {
+                    json[property.name] = JSON(obj!.base64EncodedStringWithOptions(nil))
+                }
+
             } else {
                 if !(contains(["dirty", "localId"], property.name)) {
                     json[property.name] = JSON(self.valueForKey(property.name)!)
@@ -91,6 +113,15 @@ class EfinsModel : RLMObject {
         }
         return json
         
+    }
+    
+    
+    func doNotPush() -> [String] {
+        return []
+    }
+    
+    class func getSpecialDataPropertyHandler(property: String) -> ((String) -> NSData)? {
+        return nil
     }
     
     

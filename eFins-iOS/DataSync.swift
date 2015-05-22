@@ -20,6 +20,10 @@ class DataSync {
     var timer: NSTimer = NSTimer()
     var syncInProgress = false
     var syncEnabled = true
+    var syncRealm: RLMRealm? = nil
+    var syncQueue:Array<() -> ()> = []
+    let syncCondition = NSCondition()
+    var syncThread: NSThread? = nil
     
     init() {
         let uri = NSURL(string: SERVER_ROOT)
@@ -50,29 +54,33 @@ class DataSync {
             self.log("Synchronization not yet possible; no session token; yielding.");
             return
         }
-        let prio = DISPATCH_QUEUE_PRIORITY_DEFAULT
-        let queue = dispatch_get_global_queue(prio, 0)
         self.syncInProgress = true
-        dispatch_async(queue) {
-            //self.log("Sync executing on background queue")
+
+        
+        self.queueThreadTask { () -> () in
+            self.log("Sync starting on background thread")
             let defaults = NSUserDefaults.standardUserDefaults()
             let usn = defaults.integerForKey("currentUsn")
             let endOfLastSync = defaults.integerForKey("endOfLastSync")
+            self.syncRealm = RLMRealm.defaultRealm()
+            self.syncRealm!.beginWriteTransaction()
             
+            self.log("About to pull")
             self.pull( usn, endOfLastSync: endOfLastSync, maxCount: 0, continuation: { (success: Bool) -> () in
                 if(success) {
                     self.log("starting push")
                     self.push({
                         self.syncInProgress = false
+                        self.syncRealm!.commitWriteTransaction()
                     })
                 } else {
                     self.log("Pull failed; eschewing a push")
                     self.syncInProgress = false
+                    self.syncRealm!.cancelWriteTransaction()
                 }
             })
-
-            
         }
+        self.syncCondition.signal()
     }
     
     @objc func syncFire(ti: NSTimer) {
@@ -82,6 +90,7 @@ class DataSync {
     func defaultRealm() -> RLMRealm {
         return RLMRealm.defaultRealm()
     }
+    
     
     func enableSync() -> Bool {
         self.log("Enabling sync")
@@ -93,6 +102,11 @@ class DataSync {
         self.log("Disabling sync")
         self.syncEnabled = false
         return true
+    }
+    
+    func queueThreadTask( task : () -> () ) {
+        self.syncQueue.append(task)
+        self.syncCondition.signal()
     }
     
     func start() {
@@ -111,6 +125,28 @@ class DataSync {
             self.startPeriodicSyncs()
         } else {
             self.log("Server " + SERVER_ROOT + " is NOT currently reachable")
+        }
+        // Start up our friendly little worker, "Buttersmack".
+        self.syncThread = NSThread(target: self, selector: "syncThreadLoop", object: nil)
+        self.syncThread?.start()
+        self.log("sync thread started.")
+    }
+    
+    
+    @objc func syncThreadLoop() {
+        let currentThread = NSThread.currentThread()
+        
+        while true {
+            
+            self.syncCondition.lock()
+            while self.syncQueue.count == 0 {
+                self.syncCondition.wait()
+            }
+            
+            let block = self.syncQueue.removeAtIndex(0)
+            self.syncCondition.unlock()
+            self.log("Found a thread task; running")
+            block()
         }
     }
     
@@ -144,6 +180,7 @@ class DataSync {
     }
     
     func pull(currentUsn: Int, endOfLastSync: Int, maxCount: Int, continuation: (Bool) -> () ) {
+        self.log("Pull")
         let afterUsn = NSURLQueryItem(name: "afterUsn", value: "\(currentUsn)")
         let endOfLastSync = NSURLQueryItem(name: "endOfLastSync", value: "\(endOfLastSync)")
 
@@ -156,38 +193,40 @@ class DataSync {
         self.log("Getting \(Urls.sync)")
         
         Alamofire.request(mutableURLRequest)
-            .responseString { (request, response, data, error) in
-                //println(data)
-                if (error != nil) {
-                    self.log("Connection Error, Problem connecting to server: \(error). \(response)")
-                } else if (response?.statusCode == 404) {
-                    self.log("404")
-                } else if (response?.statusCode == 401) {
-                    self.log("401")
-                } else if (response?.statusCode == 403) {
-                    self.log("403")
-                } else if (response?.statusCode == 204) {
-                    self.log("Server reports we are up-to-date")
-                    continuation(true)
-                    return
-                } else if response?.statusCode == 200 {
-                    let json = JSON(data: data!.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!)
-                    let newUsn = json["highestUsn"].int
-                    self.log("Got reply to sync request; updating local DB from \(currentUsn) to \(newUsn!)")
-                    if(self.digestResults(json) == true) {
-                        let defaults = NSUserDefaults.standardUserDefaults()
-                        defaults.setInteger(newUsn!, forKey: "currentUsn")
-                        defaults.setInteger(json["timestamp"].int!, forKey: "endOfLastSync")
-                        self.log("After a successful pull, setting currentUsn to \(newUsn!)")
+            .responseString{ (request, response, data, error) in
+                self.queueThreadTask { () -> () in
+                    //println(data)
+                    if (error != nil) {
+                        self.log("Connection Error, Problem connecting to server: \(error). \(response)")
+                    } else if (response?.statusCode == 404) {
+                        self.log("404")
+                    } else if (response?.statusCode == 401) {
+                        self.log("401")
+                    } else if (response?.statusCode == 403) {
+                        self.log("403")
+                    } else if (response?.statusCode == 204) {
+                        self.log("Server reports we are up-to-date")
                         continuation(true)
                         return
+                    } else if response?.statusCode == 200 {
+                        let json = JSON(data: data!.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!)
+                        let newUsn = json["highestUsn"].int
+                        self.log("Got reply to sync request; updating local DB from \(currentUsn) to \(newUsn!)")
+                        if(self.digestResults(json) == true) {
+                            let defaults = NSUserDefaults.standardUserDefaults()
+                            defaults.setInteger(newUsn!, forKey: "currentUsn")
+                            defaults.setInteger(json["timestamp"].int!, forKey: "endOfLastSync")
+                            self.log("After a successful pull, setting currentUsn to \(newUsn!)")
+                            continuation(true)
+                            return
+                        } else {
+                            self.log("Failed to digest server results; discarding pulled data")
+                        }
                     } else {
-                        self.log("Failed to digest server results; discarding pulled data")
+                        self.log(data?.stringByStandardizingPath ?? "")
                     }
-                } else {
-                    self.log(data?.stringByStandardizingPath ?? "")
+                    continuation(false)
                 }
-                continuation(false)
         }
 
         
@@ -195,7 +234,7 @@ class DataSync {
     }
     
     func push(continuation: () -> ()) {
-        let dRealm = self.defaultRealm()
+        let dRealm = self.syncRealm!
         let dict = [String: AnyObject]()
         var json = JSON(dict)
         json["models"] = JSON([String: AnyObject]())
@@ -220,36 +259,35 @@ class DataSync {
         mutableURLRequest.setValue("Bearer " + NSUserDefaults.standardUserDefaults().stringForKey("SessionToken")! , forHTTPHeaderField: "Authorization")
         self.log("Posting to \(Urls.sync)")
         Alamofire.request(mutableURLRequest)
-            .responseString { (request, response, data, error) in
+            .responseString{ (request, response, data, error) in
                 println(data)
-                if (error != nil) {
-                    self.log("Connection Error, Problem connecting to server: \(error). \(response)")
-                } else if (response?.statusCode == 404) {
-                    self.log("404")
-                } else if (response?.statusCode == 401) {
-                    self.log("401")
-                } else if (response?.statusCode == 403) {
-                    self.log("403")
-                } else if (response?.statusCode == 204) {
-                    self.log("Server reports 204, WTF?")
-                } else if response?.statusCode == 200 {
-                    self.log("Successful push to server")
-                    self.deleteLocalObjects(data!)
+                self.queueThreadTask { () -> () in
+                    if (error != nil) {
+                        self.log("Connection Error, Problem connecting to server: \(error). \(response)")
+                    } else if (response?.statusCode == 404) {
+                        self.log("404")
+                    } else if (response?.statusCode == 401) {
+                        self.log("401")
+                    } else if (response?.statusCode == 403) {
+                        self.log("403")
+                    } else if (response?.statusCode == 204) {
+                        self.log("Server reports 204, WTF?")
+                    } else if response?.statusCode == 200 {
+                        self.log("Successful push to server")
+                        self.deleteLocalObjects(data!)
+                        continuation()
+                        return
+                    } else {
+                        self.log("Failed to post locally created data to server; will try again later")
+                    }
+            
                     continuation()
-                    return
-                } else {
-                    self.log("Failed to post locally created data to server; will try again later")
                 }
-        
-                continuation()
         }
     }
     
     func digestResults(json: JSON) -> Bool {
-        let dRealm = self.defaultRealm()
-        dRealm.beginWriteTransaction()
         var newEntities: [RLMObject] = []
-        
         let start = NSDate()
         for (key: String, subJson: JSON) in json {
             if(key == "models") {
@@ -260,45 +298,45 @@ class DataSync {
                     // This whole switch statement is only needed because we don't have a good way of turning a string into a Swift class yet
                     switch(nkey) {
                         case "Action":
-                            Action.ingest(modelArrayJson)
+                            Action.ingest(modelArrayJson, syncRealm: self.syncRealm!)
                         case "Activity":
-                            Activity.ingest(modelArrayJson)
+                            Activity.ingest(modelArrayJson, syncRealm: self.syncRealm!)
                         case "Agency":
-                            Agency.ingest(modelArrayJson)
+                            Agency.ingest(modelArrayJson, syncRealm: self.syncRealm!)
                         case "AgencyFreetextCrew":
-                            AgencyFreetextCrew.ingest(modelArrayJson)
+                            AgencyFreetextCrew.ingest(modelArrayJson, syncRealm: self.syncRealm!)
                         case "AgencyVessel":
-                            AgencyVessel.ingest(modelArrayJson)
+                            AgencyVessel.ingest(modelArrayJson, syncRealm: self.syncRealm!)
                         case "Catch":
-                            Catch.ingest(modelArrayJson)
+                            Catch.ingest(modelArrayJson, syncRealm: self.syncRealm!)
                         case "ContactType":
-                            ContactType.ingest(modelArrayJson)
+                            ContactType.ingest(modelArrayJson, syncRealm: self.syncRealm!)
                         case "EnforcementActionTaken":
-                            EnforcementActionTaken.ingest(modelArrayJson)
+                            EnforcementActionTaken.ingest(modelArrayJson, syncRealm: self.syncRealm!)
                         case "EnforcementActionType":
-                            EnforcementActionType.ingest(modelArrayJson)
+                            EnforcementActionType.ingest(modelArrayJson, syncRealm: self.syncRealm!)
                         case "Fishery":
-                            Fishery.ingest(modelArrayJson)
+                            Fishery.ingest(modelArrayJson, syncRealm: self.syncRealm!)
                         case "FreeTextCrew":
-                            FreeTextCrew.ingest(modelArrayJson)
+                            FreeTextCrew.ingest(modelArrayJson, syncRealm: self.syncRealm!)
                         case "PatrolLog":
-                            PatrolLog.ingest(modelArrayJson)
+                            PatrolLog.ingest(modelArrayJson, syncRealm: self.syncRealm!)
                         case "Person":
-                            Person.ingest(modelArrayJson)
+                            Person.ingest(modelArrayJson, syncRealm: self.syncRealm!)
                         case "Photo":
-                            Photo.ingest(modelArrayJson)
+                            Photo.ingest(modelArrayJson, syncRealm: self.syncRealm!)
                         case "Port":
-                            Port.ingest(modelArrayJson)
+                            Port.ingest(modelArrayJson, syncRealm: self.syncRealm!)
                         case "Species":
-                            Species.ingest(modelArrayJson)
+                            Species.ingest(modelArrayJson, syncRealm: self.syncRealm!)
                         case "User":
-                            User.ingest(modelArrayJson)
+                            User.ingest(modelArrayJson, syncRealm: self.syncRealm!)
                         case "Vessel":
-                            Vessel.ingest(modelArrayJson)
+                            Vessel.ingest(modelArrayJson, syncRealm: self.syncRealm!)
                         case "VesselType":
-                            VesselType.ingest(modelArrayJson)
+                            VesselType.ingest(modelArrayJson, syncRealm: self.syncRealm!)
                         case "ViolationType":
-                            ViolationType.ingest(modelArrayJson)
+                            ViolationType.ingest(modelArrayJson, syncRealm: self.syncRealm!)
                         default:
                             self.log("Unknown/unimplemented model key \(key) in server json")
                     }
@@ -308,12 +346,7 @@ class DataSync {
         let end = NSDate()
         let timeInterval: Double = end.timeIntervalSinceDate(start)
         self.log("Populated DB with new models and data: \(timeInterval) s")
-        
         self.setRelationships(json["relations"])
-
-
-        dRealm.commitWriteTransaction()
-
         return true
     }
     
@@ -335,7 +368,7 @@ class DataSync {
     
     
     func handleBelongsToMany(aJson: JSON) -> Bool {
-        let dRealm = self.defaultRealm()
+        let dRealm = self.syncRealm!
         
        
         let source = aJson["sourceModel"].stringValue
@@ -401,7 +434,7 @@ class DataSync {
     
     
     func handleBelongsTo(aJson: JSON) -> Bool {
-        let dRealm = self.defaultRealm()
+        let dRealm = self.syncRealm!
         let source = aJson["sourceModel"].stringValue
         let target = aJson["targetModel"].stringValue
         let foreignKey = aJson["foreignKey"].stringValue
@@ -470,8 +503,7 @@ class DataSync {
     
     func deleteLocalObjects(jsonString: String) -> Bool {
         let json = JSON(data: jsonString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!)
-        let dRealm = self.defaultRealm()
-        dRealm.beginWriteTransaction()
+        let dRealm = self.syncRealm!
         
         let start = NSDate()
         for (key: String, subJson: JSON) in json {
@@ -497,7 +529,6 @@ class DataSync {
         }
         
         
-        dRealm.commitWriteTransaction()
         let fin = NSDate()
         let timeInterval: Double = fin.timeIntervalSinceDate(start)
         self.log("Remove local copies of pushed data: \(timeInterval) s")
