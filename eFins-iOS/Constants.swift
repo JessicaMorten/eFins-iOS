@@ -24,7 +24,6 @@ func chartPath() -> String? {
     let fileManager = NSFileManager.defaultManager()
     if let cachePath = NSSearchPathForDirectoriesInDomains(.CachesDirectory, .UserDomainMask, true)[0] as? String {
         return cachePath.stringByAppendingString("charts.mbtiles")
-        let BASEMAP_LOCAL_PATH = cachePath.stringByAppendingString("efins-basemap.mbtiles")
     } else {
         return nil
     }

@@ -17,6 +17,8 @@ class MapViewController: UIViewController, RMMapViewDelegate, UIAlertViewDelegat
     var reachability: Reachability!
     let southWestConstraints = CLLocationCoordinate2DMake(32, -123)
     let northEastConstraints = CLLocationCoordinate2DMake(35.42, -116.5)
+    // should be 12, but setting to 10 for testing
+    //    let maxOfflineZoom = UInt(10)
     @IBOutlet var backgroundView: UIView!
     @IBOutlet weak var popupLabel: UILabel!
     var didLoadTiles = false
@@ -29,11 +31,18 @@ class MapViewController: UIViewController, RMMapViewDelegate, UIAlertViewDelegat
         let uri = NSURL(string: SERVER_ROOT)
         let host = uri?.host ?? ""
         self.reachability = Reachability(hostname: host)
-
+        
         self.splitViewController?.preferredDisplayMode = UISplitViewControllerDisplayMode.PrimaryHidden
-
+        
         RMConfiguration.sharedInstance().accessToken = "pk.eyJ1IjoidW5kZXJibHVld2F0ZXJzIiwiYSI6IjMzZ215RTQifQ.u6Gb_-kNfvaxiHdd9eJEEA"
-
+        
+        // configure map tile source based on previous metadata if available
+        //        if let tileJSON = cachedJSON() {
+        //            self.thematicLayer = RMMapboxSource(tileJSON: tileJSON)
+        //        } else {
+        //            self.thematicLayer = RMMapboxSource(mapID: "underbluewaters.i9hjn51p")
+        //        }
+        
         if loadTiles() {
             initMap()
         } else {
@@ -43,8 +52,8 @@ class MapViewController: UIViewController, RMMapViewDelegate, UIAlertViewDelegat
     
     func loadTiles() -> Bool {
         if tilesExist() {
-            self.charts = RMMBTilesSource(tileSetResource: "charts", ofType: "mbtiles")
-            self.thematicLayer = RMMBTilesSource(tileSetResource: "efins-basemap", ofType: "mbtiles")
+            self.charts = RMMBTilesSource(tileSetURL: NSURL(fileURLWithPath: chartPath()!, isDirectory: false))
+            self.thematicLayer = RMMBTilesSource(tileSetURL: NSURL(fileURLWithPath: basemapPath()!, isDirectory: false))
             return true
         } else {
             return false
@@ -171,13 +180,6 @@ class MapViewController: UIViewController, RMMapViewDelegate, UIAlertViewDelegat
     
     // MARK: - Alert Delegate
     
-
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
     @IBAction func layerChange(sender: AnyObject) {
         if self.didLoadTiles {
             switch self.mapSegmentControl.selectedSegmentIndex {
@@ -193,6 +195,4 @@ class MapViewController: UIViewController, RMMapViewDelegate, UIAlertViewDelegat
         }
     }
     
-    // MARK: - Cache Delegate
-
 }
