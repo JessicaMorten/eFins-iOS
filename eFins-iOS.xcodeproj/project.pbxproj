@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		930371491B0D3A3100F0166E /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930371481B0D3A3100F0166E /* LocationManager.swift */; };
 		9310B5101ADC3BDD00D45CF3 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9310B50F1ADC3BDD00D45CF3 /* Reachability.swift */; };
 		933454C41AB75C4A00E5C65E /* Agency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933454C21AB75C4A00E5C65E /* Agency.swift */; };
 		933454C51AB75C4A00E5C65E /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933454C31AB75C4A00E5C65E /* User.swift */; };
@@ -125,6 +126,7 @@
 /* Begin PBXFileReference section */
 		5D70047102BE3CA65EBCD536 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		793C641AC78FACAF6D5F6BBD /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		930371481B0D3A3100F0166E /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		9310B50F1ADC3BDD00D45CF3 /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		933454C21AB75C4A00E5C65E /* Agency.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Agency.swift; sourceTree = "<group>"; };
 		933454C31AB75C4A00E5C65E /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -399,6 +401,7 @@
 				CBE118071ACDE6A600BC229F /* PickerTableViewController.swift */,
 				9310B50F1ADC3BDD00D45CF3 /* Reachability.swift */,
 				CB8CC7011AF93C2000B91B90 /* eFins-iOS-Bridging-Header.h */,
+				930371481B0D3A3100F0166E /* LocationManager.swift */,
 			);
 			path = "eFins-iOS";
 			sourceTree = "<group>";
@@ -632,6 +635,7 @@
 				CB8CC7121AFBF9DC00B91B90 /* NPSContactTableViewController.swift in Sources */,
 				CB8CC7141AFD463200B91B90 /* ActivityFormTableViewController.swift in Sources */,
 				CBE118081ACDE6A600BC229F /* PickerTableViewController.swift in Sources */,
+				930371491B0D3A3100F0166E /* LocationManager.swift in Sources */,
 				CB8CC70A1AFAA53A00B91B90 /* ViolationFormTableViewController.swift in Sources */,
 				935D24DF1AC2153D00A2854D /* EnforcementActionType.swift in Sources */,
 				CB81E9301AAA21F70071C2D2 /* AppDelegate.swift in Sources */,
