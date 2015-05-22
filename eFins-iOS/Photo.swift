@@ -56,16 +56,21 @@ class Photo: EfinsModel {
     }
     
     override func doNotPush() -> [String] {
-        return ["originalBlob"]
+        return ["originalBlob", "lowResolution"]
     }
     
     override class func getSpecialDataPropertyHandler(property: String) -> ((String) -> NSData)? {
         if property == "lowResolution" {
-            return { (data: String) -> NSData in
-                let base64data = NSData(base64EncodedString: data, options: NSDataBase64DecodingOptions() )
-                let image = UIImage(data: base64data!)
-                return UIImageJPEGRepresentation(image, 1.0)
+//            return { (data: String) -> NSData in
+//                let base64data = NSData(base64EncodedString: data, options: NSDataBase64DecodingOptions() )
+//                let image = UIImage(data: base64data!)
+//                return UIImageJPEGRepresentation(image, 1.0)
+//            }
+            // Just fill this one in with empty data for now
+            return {(data: String) -> NSData in
+                return NSData()
             }
+
         } else if property == "originalBlob" {
             // Just fill this one in with empty data for now
             return {(data: String) -> NSData in
