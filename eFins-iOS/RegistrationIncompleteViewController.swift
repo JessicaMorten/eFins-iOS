@@ -79,7 +79,6 @@ class RegistrationIncompleteViewController: UIViewController {
             var time = dispatch_time(DISPATCH_TIME_NOW, delta)
             
             dispatch_after(time, dispatch_get_main_queue(), {
-                println("running")
                 self.checkStatus()
             });
         }
@@ -171,6 +170,7 @@ class RegistrationIncompleteViewController: UIViewController {
     }
     
     func checkStatus() {
+        println("CHeck status")
         let params = [
             "email": self.email!,
             "password": self.password!
