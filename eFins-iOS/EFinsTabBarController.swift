@@ -20,7 +20,7 @@ class EFinsTabBarController: UITabBarController {
                 self.currentPatrolPrompt = controller
             }
             println("map")
-            if let mapController = UIStoryboard(name: "Map", bundle: nil).instantiateInitialViewController() as? UISplitViewController {
+            if let mapController = UIStoryboard(name: "Map", bundle: nil).instantiateInitialViewController() as? UINavigationController {
                 println(mapController)
                 let icon = UITabBarItem(title: "Map", image:UIImage(named: "map_route"), selectedImage: nil)
                 mapController.tabBarItem = icon

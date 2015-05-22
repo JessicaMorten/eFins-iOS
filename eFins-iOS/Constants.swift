@@ -17,6 +17,41 @@ let SERVER_ROOT = "http://localhost:3002/"
 let SERVER_ROOT = "https://efins.org/"
 #endif
 
+let CHART_MBTILES = "http://d22rw30n9mffwa.cloudfront.net/charts.mbtiles"
+let BASEMAP_MBTILES = "http://d22rw30n9mffwa.cloudfront.net/efins-basemap.mbtiles"
+
+func chartPath() -> String? {
+    let fileManager = NSFileManager.defaultManager()
+    if let cachePath = NSSearchPathForDirectoriesInDomains(.CachesDirectory, .UserDomainMask, true)[0] as? String {
+        return cachePath.stringByAppendingString("charts.mbtiles")
+        let BASEMAP_LOCAL_PATH = cachePath.stringByAppendingString("efins-basemap.mbtiles")
+    } else {
+        return nil
+    }
+}
+
+func basemapPath() -> String? {
+    let fileManager = NSFileManager.defaultManager()
+    if let cachePath = NSSearchPathForDirectoriesInDomains(.CachesDirectory, .UserDomainMask, true)[0] as? String {
+        return cachePath.stringByAppendingString("efins-basemap.mbtiles")
+    } else {
+        return nil
+    }
+}
+
+func tilesExist() -> Bool {
+    let filemgr = NSFileManager.defaultManager()
+    if filemgr.fileExistsAtPath(chartPath()!) {
+        if filemgr.fileExistsAtPath(basemapPath()!) {
+            return true
+        } else {
+            return false
+        }
+    } else {
+        return false
+    }
+}
+
 struct Urls {
     static let root = SERVER_ROOT
 
