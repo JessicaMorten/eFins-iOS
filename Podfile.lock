@@ -1,14 +1,16 @@
 PODS:
-  - Alamofire (1.2.0)
+  - Alamofire (1.2.2)
   - MaterialKit (0.3.2)
+  - MBProgressHUD (0.9.1)
   - Realm (0.91.3):
     - Realm/Headers (= 0.91.3)
   - Realm/Headers (0.91.3)
   - SwiftyJSON (2.2.0)
 
 DEPENDENCIES:
-  - Alamofire (~> 1.2)
+  - Alamofire (~> 1.2.2)
   - MaterialKit (~> 0.3.1)
+  - MBProgressHUD (~> 0.9.1)
   - Realm (~> 0.91.3)
   - SwiftyJSON (from `https://github.com/SwiftyJSON/SwiftyJSON.git`, commit `87fa9e2432187629aae80cf89027f2a615af2c31`)
 
@@ -23,9 +25,10 @@ CHECKOUT OPTIONS:
     :git: https://github.com/SwiftyJSON/SwiftyJSON.git
 
 SPEC CHECKSUMS:
-  Alamofire: d765c5c1713aa64106b0228aaa600a1e6851f68d
+  Alamofire: 11a6022f5089887d92ffb5a3014c97a0a915ab98
   MaterialKit: dba786a24f5e5cdeb638000b899b05042dafa41c
+  MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad
   Realm: 4bfdac6f0f3170a3947c7196e2e9a2e49c943719
   SwiftyJSON: 0b3e6c07af17ff745e77e8e9984097b55c956e5c
 
-COCOAPODS: 0.36.3
+COCOAPODS: 0.37.1
