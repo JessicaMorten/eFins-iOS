@@ -40,6 +40,18 @@ class ViolationFormTableViewController: UITableViewController, ItemForm {
         self.violationTypeCell.setup(self.enforcementAction, allowEditing: allowEditing, property: "violationType", secondaryProperty: nil)
         self.violationTypeCell.setCustomForm(UIStoryboard(name: "ViolationTypeForm", bundle: nil), identifier: "ViolationTypeForm")
         setEditingState()
+        
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Cancel, target: self, action: "cancel")
+    }
+    
+    func cancel() {
+        confirm("Cancel", "Are you sure you want to cancel without saving this new Violation?", self) { () in
+            self.navigationController?.popViewControllerAnimated(true)
+        }
+    }
+
+    override func viewWillAppear(animated: Bool) {
+        self.violationTypeCell.updateAccessoryType()
     }
     
     func setEditingState() {

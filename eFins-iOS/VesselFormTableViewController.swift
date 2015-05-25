@@ -45,6 +45,14 @@ class VesselFormTableViewController: UITableViewController, ItemForm, UITextFiel
         self.vesselTypeCell.setup(self.vessel, allowEditing: self.allowEditing, property: "vesselType", secondaryProperty: nil)
         
         setEditingState()
+        
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Cancel, target: self, action: "cancel")
+    }
+    
+    func cancel() {
+        confirm("Cancel", "Are you sure you want to cancel without saving this new Vessel?", self) { () in
+            self.navigationController?.popViewControllerAnimated(true)
+        }
     }
     
     func setEditingState() {

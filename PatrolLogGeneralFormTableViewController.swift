@@ -16,6 +16,7 @@ class PatrolLogGeneralFormTableViewController: UITableViewController, UITextFiel
     var relationTableViewCells = [RelationTableViewCell]()
     var allowEditing = true
     var isNew = false
+    var returnToLogbook = false
     
     @IBOutlet weak var portHoursBroughtForwardCell: UITableViewCell!
     @IBOutlet weak var portHoursBroughtForwardField: UITextField!
@@ -86,6 +87,7 @@ class PatrolLogGeneralFormTableViewController: UITableViewController, UITextFiel
         self.vesselCell.setup(patrolLog, allowEditing: allowEditing, property: "agencyVessel", secondaryProperty: nil)
         self.portCell.setup(patrolLog, allowEditing: allowEditing, property: "departurePort", secondaryProperty: nil)
         self.crewCell.setup(patrolLog, allowEditing: allowEditing, property: "crew", secondaryProperty: "freeTextCrew")
+        self.crewCell.label = "Crew"
         self.relationTableViewCells.append(self.vesselCell)
         self.relationTableViewCells.append(self.portCell)
         self.relationTableViewCells.append(self.crewCell)
@@ -222,46 +224,50 @@ class PatrolLogGeneralFormTableViewController: UITableViewController, UITextFiel
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let datePickerIndex = tableView.indexPathForCell(self.dateTableCell)
-        if datePickerIndex != nil && indexPath.section == datePickerIndex?.section && indexPath.row == datePickerIndex?.row {
-            let storyboard = UIStoryboard(name: "DatePicker", bundle: nil)
-            let controller:DatePickerTableViewController = storyboard.instantiateInitialViewController() as! DatePickerTableViewController
-            self.navigationController?.pushViewController(controller, animated: true)
-            controller.date = patrolLog.date
-        } else if indexPath.section == 2 {
-            let realm = RLMRealm.defaultRealm()
-            realm.beginWriteTransaction()
+        if self.allowEditing {
+            let datePickerIndex = tableView.indexPathForCell(self.dateTableCell)
+            if datePickerIndex != nil && indexPath.section == datePickerIndex?.section && indexPath.row == datePickerIndex?.row {
+                let storyboard = UIStoryboard(name: "DatePicker", bundle: nil)
+                let controller:DatePickerTableViewController = storyboard.instantiateInitialViewController() as! DatePickerTableViewController
+                self.navigationController?.pushViewController(controller, animated: true)
+                controller.date = patrolLog.date
+            } else if indexPath.section == 2 {
+                let realm = RLMRealm.defaultRealm()
+                realm.beginWriteTransaction()
 
-            if let cell = tableView.cellForRowAtIndexPath(indexPath) {
-                var on:Bool
-                if cell.accessoryType == UITableViewCellAccessoryType.Checkmark {
-                    cell.accessoryType = UITableViewCellAccessoryType.None
-                    on = false
-                } else {
-                    cell.accessoryType = UITableViewCellAccessoryType.Checkmark
-                    on = true
+                if let cell = tableView.cellForRowAtIndexPath(indexPath) {
+                    var on:Bool
+                    if cell.accessoryType == UITableViewCellAccessoryType.Checkmark {
+                        cell.accessoryType = UITableViewCellAccessoryType.None
+                        on = false
+                    } else {
+                        cell.accessoryType = UITableViewCellAccessoryType.Checkmark
+                        on = true
+                    }
+                    switch cell.textLabel!.text! {
+                        case "Clear":
+                            patrolLog.wasClear = on
+                        case "Wind":
+                            patrolLog.wasWindy = on
+                        case "Fog":
+                            patrolLog.wasFoggy = on
+                        case "Calm":
+                            patrolLog.wasCalm = on
+                        case "Rain":
+                            patrolLog.wasRainy = on
+                        case "Small Craft Advisory":
+                            patrolLog.hadSmallCraftAdvisory = on
+                        case "Gale":
+                            patrolLog.hadGale = on
+                        default:
+                            println("Should not get here")
+                    }
                 }
-                switch cell.textLabel!.text! {
-                    case "Clear":
-                        patrolLog.wasClear = on
-                    case "Wind":
-                        patrolLog.wasWindy = on
-                    case "Fog":
-                        patrolLog.wasFoggy = on
-                    case "Calm":
-                        patrolLog.wasCalm = on
-                    case "Rain":
-                        patrolLog.wasRainy = on
-                    case "Small Craft Advisory":
-                        patrolLog.hadSmallCraftAdvisory = on
-                    case "Gale":
-                        patrolLog.hadGale = on
-                    default:
-                        println("Should not get here")
-                }
+                realm.commitWriteTransaction()
+                self.tableView.deselectRowAtIndexPath(indexPath, animated: true)
             }
-            realm.commitWriteTransaction()
-            self.tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        } else {
+            self.tableView.deselectRowAtIndexPath(indexPath, animated: false)
         }
     }
 
@@ -298,6 +304,28 @@ class PatrolLogGeneralFormTableViewController: UITableViewController, UITextFiel
         if let path = self.tableView.indexPathForSelectedRow() {
             self.tableView.deselectRowAtIndexPath(path, animated: true)
         }
+        if let nav = self.splitViewController?.viewControllers[0] as? UINavigationController {
+            if let sidebar = nav.viewControllers[0] as? PatrolLogSidebarTableViewController {
+                sidebar.updateTitle(UIApplication.sharedApplication().statusBarOrientation)
+            }
+        }
+        self.updateTitle(UIApplication.sharedApplication().statusBarOrientation)
+    }
+    
+    func updateTitle(orientation:UIInterfaceOrientation) {
+        if orientation == UIInterfaceOrientation.Portrait || orientation == UIInterfaceOrientation.PortraitUpsideDown {
+            var t = "Patrol Log"
+            if let vessel = patrolLog.agencyVessel {
+                t += " - \(vessel.name)"
+            }
+            self.title = t
+        } else {
+            self.title = ""
+        }
+    }
+    
+    override func didRotateFromInterfaceOrientation(fromInterfaceOrientation: UIInterfaceOrientation) {
+        updateTitle(UIApplication.sharedApplication().statusBarOrientation)
     }
     
     func updateAccessoryTypes() {
@@ -413,6 +441,9 @@ class PatrolLogGeneralFormTableViewController: UITableViewController, UITextFiel
         if let parent = self.splitViewController {
             if let tabBarController = parent.tabBarController as? EFinsTabBarController {
                 tabBarController.hidePatrol(false)
+                if self.returnToLogbook {
+                    tabBarController.selectedIndex = 0
+                }
             }
         }
     }
@@ -431,6 +462,9 @@ class PatrolLogGeneralFormTableViewController: UITableViewController, UITextFiel
             if let parent = self.splitViewController {
                 if let tabBarController = parent.tabBarController as? EFinsTabBarController {
                     tabBarController.hidePatrol(false)
+                    if self.returnToLogbook {
+                        tabBarController.selectedIndex = 0
+                    }
                 }
             }
         }

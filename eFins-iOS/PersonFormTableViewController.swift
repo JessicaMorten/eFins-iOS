@@ -44,8 +44,15 @@ class PersonFormTableViewController: UITableViewController, ItemForm, UITextFiel
         self.licenseCell.detailTextLabel?.text = " "
         displayValues()
         setEditingState()
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Cancel, target: self, action: "cancel")
     }
     
+    func cancel() {
+        confirm("Cancel", "Are you sure you want to cancel without saving this new Person?", self) { () in
+            self.navigationController?.popViewControllerAnimated(true)
+        }
+    }
+
     func setEditingState() {
         if allowEditing {
             self.saveButton.hidden = false

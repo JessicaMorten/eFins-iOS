@@ -82,7 +82,7 @@ class EFinsTabBarController: UITabBarController {
         }
     }
     
-    func displayPatrol(patrol:PatrolLog) {
+    func displayPatrol(patrol:PatrolLog, returnToLogbook:Bool=false) {
         self.selectedIndex = 0
         if var controllers = self.viewControllers {
             controllers.removeAtIndex(1)
@@ -95,8 +95,18 @@ class EFinsTabBarController: UITabBarController {
                     controller.patrolLog = patrol
                     controller.isNew = false
                     controller.allowEditing = false
+                    controller.returnToLogbook = returnToLogbook
                 }
-                self.selectedIndex = 1
+                if self.selectedIndex == 0 {
+                    // animate
+                    let fromView = self.viewControllers![0] as! UIViewController
+                    let toView = self.viewControllers![1] as! UIViewController
+                    UIView.transitionFromView(fromView.view, toView: toView.view, duration: NSTimeInterval(0.3), options: UIViewAnimationOptions.TransitionCurlUp, completion: { (done) in
+                        self.selectedIndex = 1
+                    })
+                } else {
+                    self.selectedIndex = 1
+                }
             }
         }
     }

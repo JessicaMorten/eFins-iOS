@@ -53,25 +53,32 @@ class PatrolLogContactListTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! UITableViewCell
         let index = UInt(indexPath.row)
-        let activity = self.activities().objectAtIndex(index)
+        let model:AnyObject = self.activities().objectAtIndex(index)
         let formatter = getDateFormatter()
-        if activity is Activity {
-            switch (activity as! Activity).type {
+        var label = ""
+        if let activity = model as? Activity {
+            switch activity.type {
             case Activity.Types.LOG:
-                cell.textLabel?.text = "Activity Log"
+                label += "Activity Log"
             case Activity.Types.CDFW_REC:
-                cell.textLabel?.text = "CDFW Recreational Contact"
+                label += "Recreational Contact"
             case Activity.Types.CDFW_COMM:
-                cell.textLabel?.text = "CDFW Commercial Boarding"
+                label += "Commercial Boarding"
             case Activity.Types.NPS:
-                cell.textLabel?.text = "NPS Contact Record"
+                label += "NPS Contact Record"
             default:
-                cell.textLabel?.text = "Other"
+                label += "Other"
             }
-            cell.detailTextLabel?.text = formatter.stringFromDate((activity as! Activity).time)
-        } else {
-            cell.textLabel?.text = "Patrol Log"
-            cell.detailTextLabel?.text = formatter.stringFromDate((activity as! PatrolLog).date)
+            
+            if let observedVessel = activity.vessel {
+                if count(observedVessel.name) > 0 {
+                    label += " (\(observedVessel.name))"
+                } else if count(observedVessel.registration) > 0 {
+                    label += " (\(observedVessel.registration))"
+                }
+            }
+            cell.detailTextLabel?.text = formatter.stringFromDate(activity.time)
+            cell.textLabel?.text = label
         }
         return cell
     }

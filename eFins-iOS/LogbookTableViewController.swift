@@ -79,27 +79,43 @@ class LogbookTableViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! UITableViewCell
-        
         let index = indexPath.row
-        let activity = items[index]
+        let model = items[index]
         let formatter = getDateFormatter()
-        if activity is Activity {
-            switch (activity as! Activity).type {
-            case Activity.Types.LOG:
-                cell.textLabel?.text = "Activity Log"
-            case Activity.Types.CDFW_REC:
-                cell.textLabel?.text = "CDFW Recreational Contact"
-            case Activity.Types.CDFW_COMM:
-                cell.textLabel?.text = "CDFW Commercial Boarding"
-            case Activity.Types.NPS:
-                cell.textLabel?.text = "NPS Contact Record"
-            default:
-                cell.textLabel?.text = "Other"
+        var label = ""
+        if let activity = model as? Activity {
+            if let vessel = activity.patrolLog?.agencyVessel {
+                label += vessel.name + " "
             }
-            cell.detailTextLabel?.text = formatter.stringFromDate((activity as! Activity).time)
-        } else {
-            cell.textLabel?.text = "Patrol Log"
-            cell.detailTextLabel?.text = formatter.stringFromDate((activity as! PatrolLog).date)
+            switch activity.type {
+            case Activity.Types.LOG:
+                label += "Activity Log"
+            case Activity.Types.CDFW_REC:
+                label += "Recreational Contact"
+            case Activity.Types.CDFW_COMM:
+                label += "Commercial Boarding"
+            case Activity.Types.NPS:
+                label += "NPS Contact Record"
+            default:
+                label += "Other"
+            }
+            
+            if let observedVessel = activity.vessel {
+                if count(observedVessel.name) > 0 {
+                    label += " (\(observedVessel.name))"
+                } else if count(observedVessel.registration) > 0 {
+                    label += " (\(observedVessel.registration))"
+                }
+            }
+            cell.detailTextLabel?.text = formatter.stringFromDate(activity.time)
+            cell.textLabel?.text = label
+        } else if let patrolLog = model as? PatrolLog {
+            if let vessel = patrolLog.agencyVessel {
+                label += vessel.name + " "
+            }
+            label += "Patrol Log"
+            cell.textLabel?.text = label
+            cell.detailTextLabel?.text = formatter.stringFromDate(patrolLog.date)
         }
         return cell
     }
@@ -131,7 +147,7 @@ class LogbookTableViewController: UITableViewController {
                 } else {
                     self.tableView.deselectRowAtIndexPath(indexPath, animated: false)
                     DataSync.manager.disableSync()
-                    tabs.displayPatrol(activity as! PatrolLog)
+                    tabs.displayPatrol(activity as! PatrolLog, returnToLogbook: true)
                 }
             }
 //            controller = UIStoryboard(name: "PatrolLog", bundle: nil).instantiateInitialViewController() as! UISplitViewController
@@ -176,10 +192,20 @@ class LogbookTableViewController: UITableViewController {
                     }
                 }
             } else {
-                let controller = storyboard.instantiateInitialViewController()
-                tvc.dismissViewControllerAnimated(false, completion: nil)
-                DataSync.manager.disableSync()
-                self.presentViewController(controller as! UIViewController, animated: true, completion: nil)
+                if let tabBar = self.splitViewController?.tabBarController as? EFinsTabBarController {
+                    tvc.dismissViewControllerAnimated(false, completion: nil)
+                    if tabBar.isDisplayingEditablePatrol() {
+                        alert("Close Active Patrol", "You are currently editing a patrol in the Patrol tab. Please save and close it before continuing, or log activity as part of the patrol.", self)
+                    } else {
+                        let controller = storyboard.instantiateInitialViewController()
+                        tvc.dismissViewControllerAnimated(false, completion: nil)
+                        DataSync.manager.disableSync()
+                        self.presentViewController(controller as! UIViewController, animated: true, completion: nil)
+                    }
+                } else {
+                    println("Could not find eFinsTabBarController")
+                    println(self.splitViewController?.tabBarController)
+                }
             }
         } else {
             tvc.dismissViewControllerAnimated(true, completion: nil)

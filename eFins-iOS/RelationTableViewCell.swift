@@ -284,7 +284,11 @@ class RelationTableViewCell: UITableViewCell {
     func displayDetails(table: UITableViewController) {
         if self.modelFormStoryboard != nil {
             let form = self.modelFormStoryboard!.instantiateViewControllerWithIdentifier(self.modelFormId!) as! UIViewController
-            (form as! ItemForm).label = self.textLabel?.text
+            if let l = self.label {
+                (form as! ItemForm).label = l
+            } else {
+                (form as! ItemForm).label = self.textLabel?.text
+            }
             (form as! ItemForm).model = propertyValue as! RLMObject
             (form as! ItemForm).allowEditing = false
             table.navigationController?.pushViewController(form, animated: true)

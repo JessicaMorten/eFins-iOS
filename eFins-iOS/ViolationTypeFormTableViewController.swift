@@ -40,8 +40,15 @@ class ViolationTypeFormTableViewController: UITableViewController, ItemForm {
         setEditingState()
         self.nameCell.textLabel?.text = "Violation Type"
         self.codeCell.textLabel?.text = "Code"
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Cancel, target: self, action: "cancel")
     }
     
+    func cancel() {
+        confirm("Cancel", "Are you sure you want to cancel without saving this new Violation Type?", self) { () in
+            self.navigationController?.popViewControllerAnimated(true)
+        }
+    }
+
     func setEditingState() {
         if allowEditing {
             self.saveButton.hidden = false

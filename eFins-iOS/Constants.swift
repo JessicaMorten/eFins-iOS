@@ -82,6 +82,13 @@ func getDayDateFormatter() -> NSDateFormatter {
     return formatter
 }
 
+func getShorthandDayFormatter() -> NSDateFormatter {
+    let formatter = NSDateFormatter()
+    formatter.dateFormat = NSDateFormatter.dateFormatFromTemplate("MM-dd", options: 0, locale: locale)
+    formatter.locale = locale
+    return formatter
+}
+
 var Models: [String: RLMObject.Type] = [
     "Agency": Agency.self,
     "User": User.self,
@@ -205,10 +212,10 @@ func alert(title:String, message:String, view:UIViewController) {
 
 func confirm(title:String, message:String, view:UIViewController, next:() -> ()) {
     var alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
-    alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default, handler:{ (ACTION :UIAlertAction!)in
+    alert.addAction(UIAlertAction(title: "No", style: UIAlertActionStyle.Default, handler:{ (ACTION :UIAlertAction!)in
         println("cancelled")
     }))
-    alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.Default, handler:{ (ACTION :UIAlertAction!)in
+    alert.addAction(UIAlertAction(title: "Yes", style: UIAlertActionStyle.Default, handler:{ (ACTION :UIAlertAction!)in
         next()
     }))
     view.presentViewController(alert, animated: true, completion: nil)

@@ -195,26 +195,40 @@ class ActivityFormTableViewController: UITableViewController, LocationManagerDel
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let photosIndex = tableView.indexPathForCell(self.photosCell)!
-        let datePickerIndex = tableView.indexPathForCell(self.dateTableCell)!
-        if indexPath.section == photosIndex.section && indexPath.row == photosIndex.row {
-            let storyboard = UIStoryboard(name: "PhotoList", bundle: nil)
-            let controller = storyboard.instantiateInitialViewController() as! PhotosCollectionViewController
-            controller.activity = self.activity
-            controller.editing = self.allowEditing
-            self.navigationController?.pushViewController(controller, animated: true)
-        } else if indexPath.section == datePickerIndex.section && indexPath.row == datePickerIndex.row {
-            if allowEditing {
-                let storyboard = UIStoryboard(name: "DatePicker", bundle: nil)
-                let controller:DatePickerTableViewController = storyboard.instantiateInitialViewController() as! DatePickerTableViewController
-                self.navigationController?.pushViewController(controller, animated: true)
-                controller.date = activity!.time
-            } else {
-                if let row = tableView.indexPathForSelectedRow() {
-                    tableView.deselectRowAtIndexPath(row, animated: false)
+        
+        if let pCell = self.photosCell {
+            if let photosIndex = tableView.indexPathForCell(pCell) {
+                if indexPath.section == photosIndex.section && indexPath.row == photosIndex.row {
+                    let storyboard = UIStoryboard(name: "PhotoList", bundle: nil)
+                    let controller = storyboard.instantiateInitialViewController() as! PhotosCollectionViewController
+                    controller.activity = self.activity
+                    controller.editing = self.allowEditing
+                    self.navigationController?.pushViewController(controller, animated: true)
+                    return
                 }
             }
-        } else if allowEditing == false {
+        }
+        
+        if let dCell = self.dateTableCell {
+            if let datePickerIndex = tableView.indexPathForCell(dCell) {
+                if indexPath.section == datePickerIndex.section && indexPath.row == datePickerIndex.row {
+                    if allowEditing {
+                        let storyboard = UIStoryboard(name: "DatePicker", bundle: nil)
+                        let controller:DatePickerTableViewController = storyboard.instantiateInitialViewController() as! DatePickerTableViewController
+                        self.navigationController?.pushViewController(controller, animated: true)
+                        controller.date = activity!.time
+                        return
+                    } else {
+                        if let row = tableView.indexPathForSelectedRow() {
+                            tableView.deselectRowAtIndexPath(row, animated: false)
+                            return
+                        }
+                    }
+                }
+            }
+        }
+        
+        if allowEditing == false {
             if let row = tableView.indexPathForSelectedRow() {
                 tableView.deselectRowAtIndexPath(row, animated: false)
             }            
@@ -283,7 +297,31 @@ class ActivityFormTableViewController: UITableViewController, LocationManagerDel
         if let path = self.tableView.indexPathForSelectedRow() {
             self.tableView.deselectRowAtIndexPath(path, animated: true)
         }
+        updateTitle()
     }
+    
+    func updateTitle() {
+        var title = ""
+        switch self.activity.type {
+        case Activity.Types.CDFW_COMM:
+            title += "Commercial Boarding"
+        case Activity.Types.CDFW_REC:
+            title += "Recreational Contact"
+        case Activity.Types.LOG:
+            title += "Activity Log"
+        case Activity.Types.NPS:
+            title += "NPS Contact"
+        default:
+            title += ""
+        }
+        if let vessel = activity.patrolLog?.agencyVessel {
+            title += " - \(vessel.name)"
+        }
+        let formatter = getShorthandDayFormatter()
+        title += " \(formatter.stringFromDate(activity.time))"
+        self.title = title
+    }
+
     
     func updateAccessoryTypes() {
         for cell in self.relationTableViewCells {

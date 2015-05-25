@@ -12,6 +12,7 @@ import Realm
 class PatrolLogSidebarTableViewController: UITableViewController {
 
     var patrolLog:PatrolLog!
+    var returnToLogbook = false
     var isNew = true
     var allowEditing = true
     var initialSelectionSet = false
@@ -39,6 +40,7 @@ class PatrolLogSidebarTableViewController: UITableViewController {
         controller.viewControllers[0].setValue(self.patrolLog, forKey: "patrolLog")
         controller.viewControllers[0].setValue(allowEditing, forKey: "allowEditing")
         controller.viewControllers[0].setValue(isNew, forKey: "isNew")
+        controller.viewControllers[0].setValue(returnToLogbook, forKey: "returnToLogbook")
 
 
         
@@ -47,12 +49,32 @@ class PatrolLogSidebarTableViewController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        
+        
+    }
+    
+    override func didRotateFromInterfaceOrientation(fromInterfaceOrientation: UIInterfaceOrientation) {
+        updateTitle(UIApplication.sharedApplication().statusBarOrientation)
     }
     
     override func viewDidAppear(animated: Bool) {
+        let orientation = UIApplication.sharedApplication().statusBarOrientation
+        updateTitle(orientation)
         if initialSelectionSet == false {
             initialSelectionSet = true
             self.tableView.selectRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), animated: false, scrollPosition: UITableViewScrollPosition.Top)
+        }
+    }
+    
+    func updateTitle(orientation:UIInterfaceOrientation) {
+        if orientation == UIInterfaceOrientation.Portrait || orientation == UIInterfaceOrientation.PortraitUpsideDown {
+            self.title = ""
+        } else {
+            var t = "Patrol Log"
+            if let vessel = patrolLog.agencyVessel {
+                t += " - \(vessel.name)"
+            }
+            self.title = t
         }
     }
 
