@@ -10,7 +10,6 @@ import UIKit
 import semver
 import Alamofire
 import SwiftyJSON
-import Raven
  
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
