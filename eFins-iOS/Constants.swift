@@ -12,9 +12,11 @@ import Realm
 #if CONFIGURATION_ADHOC
     var SERVER_ROOT = "http://efins.org/"
 #else
-    var SERVER_ROOT = "http://localhost:3002/"
+//    var SERVER_ROOT = "http://localhost:3002/"
     //var SERVER_ROOT = "http://10.0.1.10:3002/"
     //var SERVER_ROOT = "http://efins.org/"
+    var SERVER_ROOT = "http://efins.org/"
+
 #endif
 
 let CHART_MBTILES = "http://d22rw30n9mffwa.cloudfront.net/charts.mbtiles"
