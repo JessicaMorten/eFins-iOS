@@ -10,6 +10,7 @@ import UIKit
 import semver
 import Alamofire
 import SwiftyJSON
+import Raven
  
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -18,7 +19,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var lastCheckedForUpdates:NSDate?
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        // Override point for customization after application launch.
+        RavenClient.clientWithDSN(SENTRY_DSN)
+        RavenClient.sharedClient?.setupExceptionHandler()
+        RavenClient.sharedClient?.captureMessage("Launched app")
+
         let defaults = NSUserDefaults.standardUserDefaults()
         if ((defaults.objectForKey("SessionToken")) != nil)
         {

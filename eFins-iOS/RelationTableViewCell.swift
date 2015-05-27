@@ -24,7 +24,7 @@ class RelationTableViewCell: UITableViewCell {
     var skipSearch = false
     var reversedRelation = false
     
-    var 🎵FuckFuckFuck🎵 = false
+    var FuckFuckFuck = false
     
     var allowEditing = true
     
@@ -209,11 +209,11 @@ class RelationTableViewCell: UITableViewCell {
     }
     
     override func setSelected(selected: Bool, animated: Bool) {
-        // Oh boy. 🎵FuckFuckFuck🎵 keeps track of whether the picker for this tablecell has been "opened".
+        // Oh boy. FuckFuckFuck keeps track of whether the picker for this tablecell has been "opened".
         // Before keeping track of this, nested RelationTableViewCells would trigger setSelected, so the segue
         // to open a new picker would occur twice. I chose this name because I'm angry, and future maintainers
         // should treat it like radioactive waste
-        if selected && 🎵FuckFuckFuck🎵 == false {
+        if selected && FuckFuckFuck == false {
             if allowEditing || hasValue {
                 let storyboard = UIStoryboard(name: "OneToMany", bundle: nil)
                 if oneToMany {
@@ -256,10 +256,10 @@ class RelationTableViewCell: UITableViewCell {
                         controller.navigationController?.pushViewController(destination, animated: true)
                     }
                 }
-                🎵FuckFuckFuck🎵 = true
+                FuckFuckFuck = true
             }
         } else {
-            🎵FuckFuckFuck🎵 = false
+            FuckFuckFuck = false
         }
         super.setSelected(selected, animated: animated)
     }
@@ -267,7 +267,7 @@ class RelationTableViewCell: UITableViewCell {
     func unwindOneToOnePicker(sender: PickerTableViewController) {
         let realm = RLMRealm.defaultRealm()
         realm.beginWriteTransaction()
-        🎵FuckFuckFuck🎵 = false
+        FuckFuckFuck = false
         let selection = sender.selection!
         // Determine appropriate property (primary or secondary property)
         if propertyClassName == selection.objectSchema.className {

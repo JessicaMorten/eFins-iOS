@@ -3,3 +3,4 @@
 //
 #import <UIKit/UIKit.h>
 #import "Mapbox.h"
+#import "UncaughtExceptionHandler.h"

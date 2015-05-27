@@ -9,4 +9,3 @@ pod "SwiftyJSON", :git => 'https://github.com/SwiftyJSON/SwiftyJSON.git', :commi
 pod "Realm", "~>0.91.3"
 pod 'MBProgressHUD', '~>0.9.1'
 pod 'semver', :git => 'https://github.com/weekwood/Semver.Swift.git'
-

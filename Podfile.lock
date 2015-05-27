@@ -2,6 +2,8 @@ PODS:
   - Alamofire (1.2.2)
   - MaterialKit (0.3.2)
   - MBProgressHUD (0.9.1)
+  - Raven (1.0.1)
+  - raven-swift (0.1.0)
   - Realm (0.91.3):
     - Realm/Headers (= 0.91.3)
   - Realm/Headers (0.91.3)
@@ -12,11 +14,16 @@ DEPENDENCIES:
   - Alamofire (~> 1.2.2)
   - MaterialKit (~> 0.3.1)
   - MBProgressHUD (~> 0.9.1)
+  - Raven
+  - raven-swift (from `https://github.com/getsentry/raven-swift.git`, tag `0.1.0`)
   - Realm (~> 0.91.3)
   - semver (from `https://github.com/weekwood/Semver.Swift.git`)
   - SwiftyJSON (from `https://github.com/SwiftyJSON/SwiftyJSON.git`, commit `87fa9e2432187629aae80cf89027f2a615af2c31`)
 
 EXTERNAL SOURCES:
+  raven-swift:
+    :git: https://github.com/getsentry/raven-swift.git
+    :tag: 0.1.0
   semver:
     :git: https://github.com/weekwood/Semver.Swift.git
   SwiftyJSON:
@@ -24,6 +31,9 @@ EXTERNAL SOURCES:
     :git: https://github.com/SwiftyJSON/SwiftyJSON.git
 
 CHECKOUT OPTIONS:
+  raven-swift:
+    :git: https://github.com/getsentry/raven-swift.git
+    :tag: 0.1.0
   semver:
     :commit: 492d7b625bd5498f514e7b42c64d2f4fe8dedef1
     :git: https://github.com/weekwood/Semver.Swift.git
@@ -35,6 +45,8 @@ SPEC CHECKSUMS:
   Alamofire: 11a6022f5089887d92ffb5a3014c97a0a915ab98
   MaterialKit: dba786a24f5e5cdeb638000b899b05042dafa41c
   MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad
+  Raven: 0c868f0b221c936ae352095d4af3d418e3db1242
+  raven-swift: 118777f2c5429a897aab85a9d1a64c7af6796f3b
   Realm: 4bfdac6f0f3170a3947c7196e2e9a2e49c943719
   semver: ef035203253bcae77221cff1a0244d47a58786d9
   SwiftyJSON: 0b3e6c07af17ff745e77e8e9984097b55c956e5c
