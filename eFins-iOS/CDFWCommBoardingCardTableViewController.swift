@@ -54,7 +54,7 @@ class CDFWCommBoardingCardTableViewController: ActivityFormTableViewController, 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
             if self.activity.patrolLog != nil {
-                return 2
+                return 3
             } else {
                 return super.tableView(tableView, numberOfRowsInSection: section)
             }

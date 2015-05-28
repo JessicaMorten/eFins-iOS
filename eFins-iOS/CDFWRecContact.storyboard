@@ -175,8 +175,14 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="zO1-wl-6hV" id="OAX-Ez-ec7">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Remarks" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sIv-DH-oPZ">
+                                                    <rect key="frame" x="8" y="8" width="68" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" text="Add any relevant comments here..." translatesAutoresizingMaskIntoConstraints="NO" id="g3B-MU-XW8">
-                                                    <rect key="frame" x="16" y="33" width="576" height="88"/>
+                                                    <rect key="frame" x="8" y="32" width="584" height="88"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" type="italicSystem" pointSize="14"/>
@@ -185,15 +191,10 @@
                                                         <outlet property="delegate" destination="Jbr-in-MXP" id="5Eb-GD-Hf5"/>
                                                     </connections>
                                                 </textView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Remarks" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sIv-DH-oPZ">
-                                                    <rect key="frame" x="8" y="8" width="68" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="g3B-MU-XW8" firstAttribute="top" secondItem="sIv-DH-oPZ" secondAttribute="bottom" constant="4" id="5dd-CO-fpW"/>
+                                                <constraint firstItem="g3B-MU-XW8" firstAttribute="trailing" secondItem="OAX-Ez-ec7" secondAttribute="trailingMargin" id="86l-gB-uSM"/>
                                                 <constraint firstItem="sIv-DH-oPZ" firstAttribute="leading" secondItem="OAX-Ez-ec7" secondAttribute="leadingMargin" id="LYv-nO-oqJ"/>
                                                 <constraint firstItem="sIv-DH-oPZ" firstAttribute="leading" secondItem="g3B-MU-XW8" secondAttribute="leading" id="UG6-24-ffW"/>
                                                 <constraint firstItem="sIv-DH-oPZ" firstAttribute="top" secondItem="OAX-Ez-ec7" secondAttribute="topMargin" id="uWY-Xb-t3M"/>
