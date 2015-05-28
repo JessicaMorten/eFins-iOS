@@ -11,7 +11,7 @@ import MaterialKit
 import Alamofire
 import SwiftyJSON
 
-class RegistrationIncompleteViewController: UIViewController {
+class RegistrationIncompleteViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var backgroundImageView: UIImageView!
     @IBOutlet weak var headerLabel: UILabel!
     @IBOutlet weak var registerButton: MKButton!
@@ -113,7 +113,12 @@ class RegistrationIncompleteViewController: UIViewController {
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
-    @IBAction func registerAction(sender: AnyObject) {
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return false
+    }
+    
+    @IBAction func registerAction(sender: AnyObject?) {
         println("Register Action")
         if (self.nameField.text == nil || self.nameField.text.isEmpty) {
             alert("Form Error", message: "You must provide your full name to register", completion: nil)
@@ -180,14 +185,19 @@ class RegistrationIncompleteViewController: UIViewController {
         self.networkActivityLabel.text = "Checking Account Status"
         self.networkActivityLabel.hidden = false
         self.networkActivityIndicator.hidden = false
+        var oldState = defaults.stringForKey("SessionState")
+        if oldState == nil {
+            oldState = "NotApproved"
+        }
         Alamofire.request(.POST, Urls.getToken, parameters: params)
             .responseString { (request, response, data, error) in
                 self.networkActivityLabel.hidden = true
                 self.networkActivityIndicator.hidden = true
                 if (error != nil) {
-                    self.alert("Error", message: "Problem connecting to server", completion: nil)
+                    self.prepareState(oldState!)
                 } else if (response?.statusCode == 404) {
                     self.alert("Error", message: "Users \(self.email) is not registered", completion: {self.dismissViewControllerAnimated(true, completion: nil)})
+                    self.prepareState(oldState!)
                 } else if (response?.statusCode == 401) {
                     self.alert("Error", message: "Password for \(self.email) was incorrect", completion: {self.dismissViewControllerAnimated(true, completion: nil)})
                 } else if (response?.statusCode == 403) {
@@ -208,10 +218,12 @@ class RegistrationIncompleteViewController: UIViewController {
                         appDelegate.gotoMainStoryboard()
                     } else {
                         self.alert("Login Error", message: "Problem reading response from server", completion: nil)
+                        self.prepareState(oldState!)
                     }
                 } else {
                     println(data)
                     self.alert("Login Error", message: "Unknown error attempting login", completion: nil)
+                    self.prepareState(oldState!)
                 }
         }
 

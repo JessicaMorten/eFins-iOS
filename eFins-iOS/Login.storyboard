@@ -332,7 +332,7 @@
                                             <constraint firstAttribute="height" constant="50" id="RD6-bA-a9b"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="21"/>
-                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="go"/>
+                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="go"/>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="boolean" keyPath="floatingPlaceholderEnabled" value="YES"/>
                                             <userDefinedRuntimeAttribute type="color" keyPath="floatingLabelTextColor">
@@ -361,7 +361,7 @@
                                         <connections>
                                             <action selector="registerAction:" destination="n9e-fv-TJX" eventType="editingDidEnd" id="bo7-FQ-drw"/>
                                             <action selector="usernameEditingChanged:" destination="jBV-sV-j7m" eventType="editingChanged" id="grT-ID-Sqr"/>
-                                            <outlet property="delegate" destination="jBV-sV-j7m" id="0dF-fw-hab"/>
+                                            <outlet property="delegate" destination="n9e-fv-TJX" id="boR-FM-p4c"/>
                                         </connections>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8qg-ab-1se" customClass="MKButton" customModule="MaterialKit">
