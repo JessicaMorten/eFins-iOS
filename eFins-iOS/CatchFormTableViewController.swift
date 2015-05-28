@@ -40,6 +40,12 @@ class CatchFormTableViewController: UITableViewController, ItemForm {
         setEditingState()
     }
     
+    func cancel() {
+        confirm("Cancel", "Are you sure you want to cancel without saving this new Catch?", self) { () in
+            self.navigationController?.popViewControllerAnimated(true)
+        }
+    }
+    
     func setEditingState() {
         if allowEditing {
             self.saveButton.hidden = false
