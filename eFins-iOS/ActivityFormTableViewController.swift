@@ -228,6 +228,16 @@ class ActivityFormTableViewController: UITableViewController, LocationManagerDel
             }
         }
         
+        if let lCell = self.locationTableCell {
+            let storyboard = UIStoryboard(name: "LocationSetting", bundle: nil)
+            let controller = storyboard.instantiateInitialViewController() as! LocationSettingController
+            let location = CLLocation(latitude: activity.latitude, longitude: activity.longitude)
+            controller.setupWithLocation(location, wasManuallyEntered: false, withEditingAbility: allowEditing)
+            navigationController?.pushViewController(controller, animated: true)
+            return
+        }
+
+        
         if allowEditing == false {
             if let row = tableView.indexPathForSelectedRow() {
                 tableView.deselectRowAtIndexPath(row, animated: false)
