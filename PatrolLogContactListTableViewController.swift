@@ -13,11 +13,15 @@ class PatrolLogContactListTableViewController: UITableViewController {
 
     var patrolLog:PatrolLog!
     var allowEditing = true
+    @IBOutlet weak var plusButton: UIBarButtonItem!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         if self.allowEditing == false {
-            self.navigationItem.rightBarButtonItem = nil
+            self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Edit, target: self, action: "edit")
+        } else {
+            self.navigationItem.rightBarButtonItem = self.plusButton
         }
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -29,6 +33,18 @@ class PatrolLogContactListTableViewController: UITableViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func edit() {
+        if let svc = self.splitViewController {
+            if let n = svc.viewControllers[0] as? UINavigationController {
+                if let sidebar = n.viewControllers[0] as? PatrolLogSidebarTableViewController {
+                    sidebar.toggleEditing(true)
+                }
+            }
+        }
+        self.allowEditing = true
+        self.navigationItem.rightBarButtonItem = self.plusButton
     }
 
     // MARK: - Table view data source

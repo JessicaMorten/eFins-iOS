@@ -587,6 +587,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="plusButton" destination="i0P-8A-AVO" id="JDZ-vE-ZQu"/>
                         <segue destination="3La-4Y-r90" kind="show" identifier="showFormSegue" id="fPZ-sG-qLq"/>
                     </connections>
                 </tableViewController>

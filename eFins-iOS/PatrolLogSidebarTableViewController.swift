@@ -53,6 +53,10 @@ class PatrolLogSidebarTableViewController: UITableViewController {
         
     }
     
+    func toggleEditing(allow:Bool) {
+        self.allowEditing = allow
+    }
+    
     override func didRotateFromInterfaceOrientation(fromInterfaceOrientation: UIInterfaceOrientation) {
         updateTitle(UIApplication.sharedApplication().statusBarOrientation)
     }

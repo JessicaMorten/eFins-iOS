@@ -44,6 +44,7 @@ class PatrolLogGeneralFormTableViewController: UITableViewController, UITextFiel
     @IBOutlet weak var crewCell: RelationTableViewCell!
     
     override func viewDidLoad() {
+        println("view did load")
         super.viewDidLoad()
         textFields.append(self.portHoursBroughtForwardField)
         textFields.append(self.starboardHoursBroughtForwardField)
