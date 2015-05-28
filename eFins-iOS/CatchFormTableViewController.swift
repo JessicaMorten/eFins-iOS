@@ -30,6 +30,7 @@ class CatchFormTableViewController: UITableViewController, ItemForm {
         if self.model == nil {
             self.model = Catch()
             self.catch.amount = 0
+            self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Cancel, target: self, action: "cancel")
         } else {
             self.title = "Catch Details"
         }

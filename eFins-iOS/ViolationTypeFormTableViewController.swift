@@ -33,6 +33,7 @@ class ViolationTypeFormTableViewController: UITableViewController, ItemForm {
             if let name = self.label {
                 violationType.name = name
             }
+            self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Cancel, target: self, action: "cancel")
         } else {
             self.title = "Violation Type Details"
         }
@@ -40,7 +41,6 @@ class ViolationTypeFormTableViewController: UITableViewController, ItemForm {
         setEditingState()
         self.nameCell.textLabel?.text = "Violation Type"
         self.codeCell.textLabel?.text = "Code"
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Cancel, target: self, action: "cancel")
     }
     
     func cancel() {

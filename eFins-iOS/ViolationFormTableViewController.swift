@@ -35,13 +35,12 @@ class ViolationFormTableViewController: UITableViewController, ItemForm {
             if results.count > 0 {
                 self.enforcementAction.enforcementActionType = results.objectAtIndex(UInt(0)) as? EnforcementActionType
             }
+            self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Cancel, target: self, action: "cancel")
         }
         self.enforcementActionTypeCell.setup(self.enforcementAction, allowEditing: self.allowEditing, property: "enforcementActionType", secondaryProperty: nil)
         self.violationTypeCell.setup(self.enforcementAction, allowEditing: allowEditing, property: "violationType", secondaryProperty: nil)
         self.violationTypeCell.setCustomForm(UIStoryboard(name: "ViolationTypeForm", bundle: nil), identifier: "ViolationTypeForm")
         setEditingState()
-        
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Cancel, target: self, action: "cancel")
     }
     
     func cancel() {

@@ -35,6 +35,7 @@ class VesselFormTableViewController: UITableViewController, ItemForm, UITextFiel
         if self.model == nil {
             self.model = Vessel()
             self.vessel.name = self.label!
+            self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Cancel, target: self, action: "cancel")
         } else {
             self.title = "Vessel Details"
         }
@@ -45,8 +46,6 @@ class VesselFormTableViewController: UITableViewController, ItemForm, UITextFiel
         self.vesselTypeCell.setup(self.vessel, allowEditing: self.allowEditing, property: "vesselType", secondaryProperty: nil)
         
         setEditingState()
-        
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Cancel, target: self, action: "cancel")
     }
     
     func cancel() {

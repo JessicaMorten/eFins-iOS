@@ -35,6 +35,7 @@ class PersonFormTableViewController: UITableViewController, ItemForm, UITextFiel
         if self.model == nil {
             self.model = Person()
             self.person.name = self.label!
+            self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Cancel, target: self, action: "cancel")
         } else {
             self.title = "Details"
         }
@@ -44,7 +45,6 @@ class PersonFormTableViewController: UITableViewController, ItemForm, UITextFiel
         self.licenseCell.detailTextLabel?.text = " "
         displayValues()
         setEditingState()
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Cancel, target: self, action: "cancel")
     }
     
     func cancel() {
