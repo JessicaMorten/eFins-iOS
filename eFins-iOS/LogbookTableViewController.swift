@@ -9,10 +9,12 @@
 import UIKit
 import Realm
 
-class LogbookTableViewController: UITableViewController {
+class LogbookTableViewController: UITableViewController, UISearchBarDelegate, UISearchResultsUpdating {
 
     var token:RLMNotificationToken?
-    
+    var searchController = UISearchController(searchResultsController: nil)
+    var filteredObjects = [RLMObject]()
+
     var _activities: RLMResults {
         get {
             return Activity.allObjects().sortedResultsUsingProperty("time", ascending: false)
@@ -59,6 +61,18 @@ class LogbookTableViewController: UITableViewController {
                 self.tableView.reloadData()
         }
 
+        self.searchController.searchResultsUpdater = self
+        self.searchController.dimsBackgroundDuringPresentation = false
+        self.searchController.hidesNavigationBarDuringPresentation = false
+        self.searchController.searchBar.delegate = self
+        self.tableView.tableHeaderView = self.searchController.searchBar
+        self.definesPresentationContext = true
+        self.searchController.searchBar.sizeToFit()
+        
+        
+        // self.searchDisplayController?.searchResultsTableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "default")
+        self.searchController.searchBar.placeholder = "Search by vessel name & registration, or for people"
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -66,21 +80,169 @@ class LogbookTableViewController: UITableViewController {
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
     
+    func updateSearchResultsForSearchController(searchController: UISearchController) {
+        self.filterContentForSearchText(self.searchController.searchBar.text)
+        self.tableView.reloadData()
+    }
+    
+    func filterContentForSearchText(text:String) {
+        self.filteredObjects = self.items.filter { (item) -> Bool in
+            if let patrolLog = item as? PatrolLog {
+                return self.patrolMatches(patrolLog, text: text)
+            } else if let activity = item as? Activity {
+                if let patrolLog = activity.patrolLog {
+                    if self.patrolMatches(patrolLog, text: text) {
+                        return true
+                    }
+                }
+                return self.activityMatches(activity, text: text);
+            } else {
+                return false
+            }
+        }
+    }
+    
+    func patrolMatches(patrolLog:PatrolLog, text:String) -> Bool {
+        // see if patrol.user name matches
+        if patrolLog.user?.name.rangeOfString(text, options: NSStringCompareOptions.CaseInsensitiveSearch, range: nil, locale: nil) != nil {
+            return true
+        }
+        // look for crew member matches
+        if let crew = patrolLog.freeTextCrew {
+            if crew.count > 0 {
+                var i = 0
+                while UInt(i) < crew.count {
+                    if let member = crew.objectAtIndex(UInt(i)) as? AgencyFreetextCrew {
+                        if member.name.rangeOfString(text, options: NSStringCompareOptions.CaseInsensitiveSearch, range: nil, locale: nil) != nil {
+                            return true
+                        }
+                    }
+                    i++
+                }
+            }
+        }
+        // look for agency vessel matches
+        if let vessel = patrolLog.agencyVessel {
+            if vessel.name.rangeOfString(text, options: NSStringCompareOptions.CaseInsensitiveSearch, range: nil, locale: nil) != nil {
+                return true
+            }
+        }
+        return false
+    }
+    
+    func activityMatches(activity:Activity, text:String) -> Bool {
+        // check vessel name, fgNumber, & registration
+        if let vessel = activity.vessel {
+            if vessel.name.rangeOfString(text, options: NSStringCompareOptions.CaseInsensitiveSearch, range: nil, locale: nil) != nil {
+                return true
+            }
+            if vessel.registration.rangeOfString(text, options: NSStringCompareOptions.CaseInsensitiveSearch, range: nil, locale: nil) != nil {
+                return true
+            }
+            if vessel.fgNumber.rangeOfString(text, options: NSStringCompareOptions.CaseInsensitiveSearch, range: nil, locale: nil) != nil {
+                return true
+            }
+        }
+        // check captain name
+        if let captain = activity.captain {
+            if captain.name.rangeOfString(text, options: NSStringCompareOptions.CaseInsensitiveSearch, range: nil, locale: nil) != nil {
+                return true
+            }
+        }
+        // check crew names
+        if let crew = activity.crew {
+            if crew.count > 0 {
+                var i = 0
+                while UInt(i) < crew.count {
+                    if let member = crew.objectAtIndex(UInt(i)) as? Person {
+                        if member.name.rangeOfString(text, options: NSStringCompareOptions.CaseInsensitiveSearch, range: nil, locale: nil) != nil {
+                            return true
+                        }
+                    }
+                    i++
+                }
+            }
+        }
+        // check person
+        if let person = activity.person {
+            if person.name.rangeOfString(text, options: NSStringCompareOptions.CaseInsensitiveSearch, range: nil, locale: nil) != nil {
+                return true
+            }
+        }
+        
+        // check users
+        if let users = activity.users {
+            if users.count > 0 {
+                var i = 0
+                while UInt(i) < users.count {
+                    if let user = users.objectAtIndex(UInt(i)) as? User {
+                        if user.name.rangeOfString(text, options: NSStringCompareOptions.CaseInsensitiveSearch, range: nil, locale: nil) != nil {
+                            return true
+                        }
+                    }
+                    i++
+                }
+            }
+        }
+        return false
+    }
+    
+//    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+//        println("text did change")
+//        self.tableView.reloadData()
+////        for view in self.tableView.subviews {
+////            if view is UIButton {
+////                view.removeFromSuperview()
+////            }
+////        }
+////        dispatch_async(dispatch_get_main_queue()) {
+////            if self.filteredObjects.count < 1 && count(searchText) > 0 {
+////                let button = UIButton()
+////                // x, y, width, height
+////                button.frame = CGRectMake((self.view.frame.width / 2) - 200, 120, 400, 40)
+////                button.addTarget(self, action: "addNewObject", forControlEvents: UIControlEvents.TouchUpInside)
+////                button.layer.cornerRadius = 4.0
+////                button.backgroundColor = UIColor(hex: 0x112244, alpha: 1.0)
+////                if self.labelAlreadyInList(searchText, list1: self.alreadySelected, list2: self.secondaryAlreadySelected) {
+////                    button.enabled = false
+////                    button.setTitle("\"\(searchText)\" already selected", forState: UIControlState.Normal)
+////                    button.backgroundColor = UIColor(hex: 0x112244, alpha: 0.5)
+////                } else {
+////                    button.setTitle("Add \"\(searchText)\" to list", forState: UIControlState.Normal)
+////                }
+////                //            self.tableView.insertSubview(button, belowSubview: label)
+////                self.tableView.insertSubview(button, atIndex: 0)
+////            }
+////        }
+//    }
+
+    
     override func viewWillAppear(animated: Bool) {
         self.tableView.reloadData()
         DataSync.manager.enableSync()
+        self.searchController.searchBar.sizeToFit()
+        self.tableView.tableHeaderView = self.searchController.searchBar
     }
     
     // MARK: - Table view data source
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.items.count
+        if self.searchController.active {
+            return self.filteredObjects.count
+        } else {
+            return self.items.count
+        }
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! UITableViewCell
         let index = indexPath.row
-        let model = items[index]
+        var model:RLMObject
+        if self.searchController.active {
+            model = self.filteredObjects[index]
+        } else {
+            model = items[index]
+        }
         let formatter = getDateFormatter()
         var label = ""
         if let activity = model as? Activity {
@@ -161,7 +323,6 @@ class LogbookTableViewController: UITableViewController {
     // MARK: - Navigation
 
     @IBAction func unwindNewContactPopup(sender: UIStoryboardSegue) {
-        println("unwindNew from main")
         let tvc = sender.sourceViewController as! UITableViewController
 //        let popover = tvc.popoverPresentationController
         let table = tvc.tableView

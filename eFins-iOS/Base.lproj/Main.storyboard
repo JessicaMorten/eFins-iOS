@@ -14,27 +14,9 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
                         <sections>
-                            <tableViewSection id="d63-GM-tDd">
-                                <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="qfi-eR-FWf" style="IBUITableViewCellStyleDefault" id="Svw-BF-Juj">
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Svw-BF-Juj" id="RC6-cH-2mL">
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Search" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="qfi-eR-FWf">
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </cells>
-                            </tableViewSection>
                             <tableViewSection headerTitle="Filters" id="Slk-jC-irH">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="checkmark" indentationWidth="10" textLabel="796-Qc-8D1" style="IBUITableViewCellStyleDefault" id="Fs6-Ss-2zv">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="796-Qc-8D1" style="IBUITableViewCellStyleDefault" id="Fs6-Ss-2zv">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Fs6-Ss-2zv" id="NzP-92-qj4">
                                             <autoresizingMask key="autoresizingMask"/>
@@ -155,10 +137,11 @@
             </objects>
             <point key="canvasLocation" x="1574" y="-390"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Logbook-->
         <scene sceneID="U9Q-PJ-7CA">
             <objects>
                 <navigationController id="6xN-QB-DDn" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Logbook" image="book" id="aYe-eP-bxO"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="NLJ-mr-YC3">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -194,7 +177,6 @@
                     <tabBarItem key="tabBarItem" title="Logbook" image="book" id="g5Z-8Q-C3I"/>
                     <connections>
                         <segue destination="xST-Qa-1aV" kind="relationship" relationship="masterViewController" id="uyD-jN-LEk"/>
-                        <segue destination="6xN-QB-DDn" kind="relationship" relationship="detailViewController" id="RW8-eC-Ak0"/>
                     </connections>
                 </splitViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="a8m-3d-7am" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -212,7 +194,7 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </tabBar>
                     <connections>
-                        <segue destination="4Oc-he-iz1" kind="relationship" relationship="viewControllers" id="fap-sk-Jay"/>
+                        <segue destination="6xN-QB-DDn" kind="relationship" relationship="viewControllers" id="ok4-vF-doa"/>
                         <segue destination="CM8-Ln-sRe" kind="relationship" relationship="viewControllers" id="pIy-wq-wAH"/>
                         <segue destination="Ia4-nd-oXm" kind="relationship" relationship="viewControllers" id="b6v-Pz-H5S"/>
                     </connections>
