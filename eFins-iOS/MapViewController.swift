@@ -15,6 +15,7 @@ class MapViewController: UIViewController, RMMapViewDelegate, UIAlertViewDelegat
     var thematicLayer:RMMBTilesSource?
     var charts:RMMBTilesSource!
     var reachability: Reachability!
+    var useSplitView : Bool = true
     let southWestConstraints = CLLocationCoordinate2DMake(32, -123)
     let northEastConstraints = CLLocationCoordinate2DMake(35.42, -116.5)
     // should be 12, but setting to 10 for testing
@@ -25,6 +26,17 @@ class MapViewController: UIViewController, RMMapViewDelegate, UIAlertViewDelegat
     
     @IBOutlet weak var mapSegmentControl: UISegmentedControl!
     
+    
+    init(splitViewMode: Bool = true) {
+        super.init(nibName: nil, bundle: nil)
+        useSplitView = splitViewMode
+    }
+    
+    required init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        return
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.popupLabel.alpha = 0
@@ -32,7 +44,9 @@ class MapViewController: UIViewController, RMMapViewDelegate, UIAlertViewDelegat
         let host = uri?.host ?? ""
         self.reachability = Reachability(hostname: host)
         
-        self.splitViewController?.preferredDisplayMode = UISplitViewControllerDisplayMode.PrimaryHidden
+        if useSplitView {
+            self.splitViewController?.preferredDisplayMode = UISplitViewControllerDisplayMode.PrimaryHidden
+        }
         
         RMConfiguration.sharedInstance().accessToken = "pk.eyJ1IjoidW5kZXJibHVld2F0ZXJzIiwiYSI6IjMzZ215RTQifQ.u6Gb_-kNfvaxiHdd9eJEEA"
         
@@ -64,7 +78,9 @@ class MapViewController: UIViewController, RMMapViewDelegate, UIAlertViewDelegat
         self.map = RMMapView(frame: view.bounds, andTilesource: self.thematicLayer)
         self.backgroundView.insertSubview(map, atIndex: 0)
         
-        self.map.delegate = self
+        if useSplitView {
+            self.map.delegate = self
+        }
         map.zoom = 9
         map.maxZoom = 15
         map.minZoom = 8
@@ -91,6 +107,8 @@ class MapViewController: UIViewController, RMMapViewDelegate, UIAlertViewDelegat
         }
     }
     
+    
+    // We only register as delegate of the map if we are in split view mode, so this won't be triggered there (in location setting view, the parent table view controller acts as delegate)
     func singleTapOnMap(map: RMMapView!, at point: CGPoint) {
         if let source = self.map.tileSource as? RMInteractiveSource {
             if source.supportsInteractivity() {

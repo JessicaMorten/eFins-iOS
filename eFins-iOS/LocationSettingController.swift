@@ -22,7 +22,7 @@ class LocationSettingController : UITableViewController, RMMapViewDelegate {
     var originalManuallyEntered = false
     var originalLatitude = Double(0)
     var originalLongitude = Double(0)
-    let mapView = MapViewController()
+    let mapView = MapViewController(splitViewMode: false)
     var delegate : GeoPickerConsumer? = nil
     
     override func viewDidLoad() {
