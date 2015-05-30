@@ -11,6 +11,7 @@
 		9310B5101ADC3BDD00D45CF3 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9310B50F1ADC3BDD00D45CF3 /* Reachability.swift */; };
 		933454C41AB75C4A00E5C65E /* Agency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933454C21AB75C4A00E5C65E /* Agency.swift */; };
 		933454C51AB75C4A00E5C65E /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933454C31AB75C4A00E5C65E /* User.swift */; };
+		935B553A1B18E7DA006B9434 /* LocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 935B55391B18E7DA006B9434 /* LocationViewController.swift */; };
 		935D24BF1AC1DCBB00A2854D /* AgencyVessel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 935D24BE1AC1DCBB00A2854D /* AgencyVessel.swift */; };
 		935D24C11AC1E1D500A2854D /* PatrolLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 935D24C01AC1E1D500A2854D /* PatrolLog.swift */; };
 		935D24C31AC1E3C100A2854D /* FreeTextCrew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 935D24C21AC1E3C100A2854D /* FreeTextCrew.swift */; };
@@ -32,6 +33,8 @@
 		939C2AF91ADC6317008E2748 /* RLMSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 939C2AF81ADC6317008E2748 /* RLMSupport.swift */; };
 		93BE828E1ADED37F002C7EFE /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BE828D1ADED37F002C7EFE /* libc++.dylib */; };
 		93E701F01AB0E6C800BD179E /* DataSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93E701EF1AB0E6C800BD179E /* DataSync.swift */; };
+		93F1FF621B13DA1300CEBDBF /* LocationSetting.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 93F1FF611B13DA1300CEBDBF /* LocationSetting.storyboard */; };
+		93F1FF661B13DBDA00CEBDBF /* LocationSettingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F1FF651B13DBDA00CEBDBF /* LocationSettingController.swift */; };
 		C2D23E5308706D97FF932B04 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D70047102BE3CA65EBCD536 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		CB0076711AE6E7BC00AD0590 /* PersonForm.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CB0076701AE6E7BC00AD0590 /* PersonForm.storyboard */; };
 		CB0076731AE6EBD200AD0590 /* PersonFormTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB0076721AE6EBD200AD0590 /* PersonFormTableViewController.swift */; };
@@ -134,6 +137,7 @@
 		9310B50F1ADC3BDD00D45CF3 /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		933454C21AB75C4A00E5C65E /* Agency.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Agency.swift; sourceTree = "<group>"; };
 		933454C31AB75C4A00E5C65E /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		935B55391B18E7DA006B9434 /* LocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationViewController.swift; sourceTree = "<group>"; };
 		935D24BE1AC1DCBB00A2854D /* AgencyVessel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AgencyVessel.swift; sourceTree = "<group>"; };
 		935D24C01AC1E1D500A2854D /* PatrolLog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatrolLog.swift; sourceTree = "<group>"; };
 		935D24C21AC1E3C100A2854D /* FreeTextCrew.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FreeTextCrew.swift; sourceTree = "<group>"; };
@@ -156,6 +160,8 @@
 		93BE828D1ADED37F002C7EFE /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
 		93BE82921ADEDCBC002C7EFE /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Realm.framework; sourceTree = "<group>"; };
 		93E701EF1AB0E6C800BD179E /* DataSync.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataSync.swift; sourceTree = "<group>"; };
+		93F1FF611B13DA1300CEBDBF /* LocationSetting.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LocationSetting.storyboard; sourceTree = "<group>"; };
+		93F1FF651B13DBDA00CEBDBF /* LocationSettingController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationSettingController.swift; sourceTree = "<group>"; };
 		CB0076701AE6E7BC00AD0590 /* PersonForm.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = PersonForm.storyboard; sourceTree = "<group>"; };
 		CB0076721AE6EBD200AD0590 /* PersonFormTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonFormTableViewController.swift; sourceTree = "<group>"; };
 		CB03EED61AB8E1B9004CCB47 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
@@ -416,6 +422,9 @@
 				CB8CC7011AF93C2000B91B90 /* eFins-iOS-Bridging-Header.h */,
 				930371481B0D3A3100F0166E /* LocationManager.swift */,
 				CB71D5531B1635D100C69858 /* NSBundle+Extension.swift */,
+				93F1FF611B13DA1300CEBDBF /* LocationSetting.storyboard */,
+				93F1FF651B13DBDA00CEBDBF /* LocationSettingController.swift */,
+				935B55391B18E7DA006B9434 /* LocationViewController.swift */,
 			);
 			path = "eFins-iOS";
 			sourceTree = "<group>";
@@ -542,6 +551,7 @@
 				CB8CC70C1AFABC8F00B91B90 /* ViolationTypeForm.storyboard in Resources */,
 				CB8CC7081AFAA49500B91B90 /* ViolationForm.storyboard in Resources */,
 				CBF9850F1AAE010500C4F721 /* Login.storyboard in Resources */,
+				93F1FF621B13DA1300CEBDBF /* LocationSetting.storyboard in Resources */,
 				CB8CC7201B0166D200B91B90 /* PatrolLog.storyboard in Resources */,
 				CBE117FF1ACC8C5400BC229F /* OneToMany.storyboard in Resources */,
 				CB4C00C71B0A62D300878902 /* Map.storyboard in Resources */,
@@ -638,10 +648,12 @@
 				CB1F547B1AEEB38C00D286F1 /* PhotosCollectionViewController.swift in Sources */,
 				CBCE35A41AC1EB2F005C6CA8 /* ActivityLogTableViewController.swift in Sources */,
 				CBA0330D1AF02B2A006838C6 /* PhotoCollectionViewCell.swift in Sources */,
+				93F1FF661B13DBDA00CEBDBF /* LocationSettingController.swift in Sources */,
 				9310B5101ADC3BDD00D45CF3 /* Reachability.swift in Sources */,
 				935D24DD1AC2149300A2854D /* ViolationType.swift in Sources */,
 				935D24E11AC215AB00A2854D /* EnforcementActionTaken.swift in Sources */,
 				CB8CC7221B0292ED00B91B90 /* PatrolLogSplitViewController.swift in Sources */,
+				935B553A1B18E7DA006B9434 /* LocationViewController.swift in Sources */,
 				935D24D51AC212C200A2854D /* Fishery.swift in Sources */,
 				CB504BE21B0A84C400941E70 /* MapSplitViewController.swift in Sources */,
 				CB81E9341AAA21F70071C2D2 /* SecondViewController.swift in Sources */,
