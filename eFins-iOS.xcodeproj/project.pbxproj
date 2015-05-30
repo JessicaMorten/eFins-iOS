@@ -11,6 +11,7 @@
 		9310B5101ADC3BDD00D45CF3 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9310B50F1ADC3BDD00D45CF3 /* Reachability.swift */; };
 		933454C41AB75C4A00E5C65E /* Agency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933454C21AB75C4A00E5C65E /* Agency.swift */; };
 		933454C51AB75C4A00E5C65E /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933454C31AB75C4A00E5C65E /* User.swift */; };
+		935B553A1B18E7DA006B9434 /* LocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 935B55391B18E7DA006B9434 /* LocationViewController.swift */; };
 		935D24BF1AC1DCBB00A2854D /* AgencyVessel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 935D24BE1AC1DCBB00A2854D /* AgencyVessel.swift */; };
 		935D24C11AC1E1D500A2854D /* PatrolLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 935D24C01AC1E1D500A2854D /* PatrolLog.swift */; };
 		935D24C31AC1E3C100A2854D /* FreeTextCrew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 935D24C21AC1E3C100A2854D /* FreeTextCrew.swift */; };
@@ -132,6 +133,7 @@
 		9310B50F1ADC3BDD00D45CF3 /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		933454C21AB75C4A00E5C65E /* Agency.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Agency.swift; sourceTree = "<group>"; };
 		933454C31AB75C4A00E5C65E /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		935B55391B18E7DA006B9434 /* LocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationViewController.swift; sourceTree = "<group>"; };
 		935D24BE1AC1DCBB00A2854D /* AgencyVessel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AgencyVessel.swift; sourceTree = "<group>"; };
 		935D24C01AC1E1D500A2854D /* PatrolLog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatrolLog.swift; sourceTree = "<group>"; };
 		935D24C21AC1E3C100A2854D /* FreeTextCrew.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FreeTextCrew.swift; sourceTree = "<group>"; };
@@ -408,6 +410,7 @@
 				930371481B0D3A3100F0166E /* LocationManager.swift */,
 				93F1FF611B13DA1300CEBDBF /* LocationSetting.storyboard */,
 				93F1FF651B13DBDA00CEBDBF /* LocationSettingController.swift */,
+				935B55391B18E7DA006B9434 /* LocationViewController.swift */,
 			);
 			path = "eFins-iOS";
 			sourceTree = "<group>";
@@ -636,6 +639,7 @@
 				935D24DD1AC2149300A2854D /* ViolationType.swift in Sources */,
 				935D24E11AC215AB00A2854D /* EnforcementActionTaken.swift in Sources */,
 				CB8CC7221B0292ED00B91B90 /* PatrolLogSplitViewController.swift in Sources */,
+				935B553A1B18E7DA006B9434 /* LocationViewController.swift in Sources */,
 				935D24D51AC212C200A2854D /* Fishery.swift in Sources */,
 				CB504BE21B0A84C400941E70 /* MapSplitViewController.swift in Sources */,
 				CB81E9341AAA21F70071C2D2 /* SecondViewController.swift in Sources */,

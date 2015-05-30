@@ -59,33 +59,6 @@
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="WRq-qm-jzI" id="cRJ-cX-MmX">
                                             <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="npi-Aa-grx">
-                                                    <rect key="frame" x="0.0" y="-278" width="600" height="782"/>
-                                                    <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Feature Details" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q4p-3U-PzH">
-                                                            <rect key="frame" x="198" y="72" width="205" height="28"/>
-                                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                            <constraints>
-                                                                <constraint firstAttribute="width" constant="205" id="FFq-ij-w7b"/>
-                                                                <constraint firstAttribute="height" constant="28" id="Hot-m7-s8n"/>
-                                                            </constraints>
-                                                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="18"/>
-                                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                            <nil key="highlightedColor"/>
-                                                            <variation key="default">
-                                                                <mask key="constraints">
-                                                                    <exclude reference="FFq-ij-w7b"/>
-                                                                </mask>
-                                                            </variation>
-                                                        </label>
-                                                    </subviews>
-                                                    <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <constraints>
-                                                        <constraint firstItem="Q4p-3U-PzH" firstAttribute="centerX" secondItem="npi-Aa-grx" secondAttribute="centerX" id="9c7-dP-BrD"/>
-                                                    </constraints>
-                                                </view>
-                                            </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </cells>
@@ -100,6 +73,7 @@
                         <outlet property="cancelButton" destination="1Ny-dY-tQe" id="Axe-6N-k7i"/>
                         <outlet property="latitudeCell" destination="g8O-Ug-ddj" id="e3o-VX-aPJ"/>
                         <outlet property="longitudeCell" destination="PKY-2D-IZy" id="Cqk-LL-sDl"/>
+                        <outlet property="mapBackgroundView" destination="cRJ-cX-MmX" id="U7h-NJ-Dce"/>
                         <outlet property="mapViewContainer" destination="WRq-qm-jzI" id="hoM-zT-Yzj"/>
                     </connections>
                 </tableViewController>

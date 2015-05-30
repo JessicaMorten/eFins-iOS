@@ -143,7 +143,6 @@ class ActivityFormTableViewController: UITableViewController, LocationManagerDel
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
-    // TODO: Implement location fetching
     @IBAction func locationSwitchValueChanged(sender: UISwitch) {
         if sender.on {
             self.locationActivityIndicator.hidden = false
@@ -232,8 +231,8 @@ class ActivityFormTableViewController: UITableViewController, LocationManagerDel
             let storyboard = UIStoryboard(name: "LocationSetting", bundle: nil)
             let controller = storyboard.instantiateInitialViewController() as! LocationSettingController
             let location = CLLocation(latitude: activity.latitude, longitude: activity.longitude)
-            controller.setupWithLocation(location, wasManuallyEntered: false, withEditingAbility: allowEditing)
             navigationController?.pushViewController(controller, animated: true)
+            controller.setupWithLocation(location, wasManuallyEntered: false, withEditingAbility: allowEditing)
             return
         }
 

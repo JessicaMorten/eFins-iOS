@@ -22,13 +22,17 @@ class LocationSettingController : UITableViewController, RMMapViewDelegate {
     var originalManuallyEntered = false
     var originalLatitude = Double(0)
     var originalLongitude = Double(0)
-    let mapView = MapViewController(splitViewMode: false)
+    let mapView = LocationViewController()
     var delegate : GeoPickerConsumer? = nil
+    
+    @IBOutlet var mapBackgroundView: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.delegate = self
+        mapView.configureBackgroundView(mapBackgroundView)
         mapView.initMap()
+        mapView.map.delegate = self
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -43,7 +47,7 @@ class LocationSettingController : UITableViewController, RMMapViewDelegate {
         originalLongitude = location.coordinate.longitude
         originalManuallyEntered = wasManuallyEntered
         manuallyEntered = originalManuallyEntered
-        
+        canEdit = withEditingAbility
     }
     
     func registerListener(listener: GeoPickerConsumer, withImmediateCallback: Bool = false) {
@@ -74,6 +78,7 @@ class LocationSettingController : UITableViewController, RMMapViewDelegate {
         mapView.map.removeAllAnnotations()
         let annotation = RMPointAnnotation(mapView: mapView.map, coordinate: location.coordinate, andTitle: label)
         mapView.map.addAnnotation(annotation)
+        mapView.map.selectAnnotation(annotation, animated: true)
     }
     
     private func zoomToLocation(location: CLLocation, zoomLevel: Float) {
@@ -114,12 +119,14 @@ class LocationSettingController : UITableViewController, RMMapViewDelegate {
         location = CLLocation(latitude: location!.coordinate.latitude, longitude: lon)
     }
     
-    private func singleTapOnMap(map: RMMapView!, at point: CGPoint) {
+    func singleTapOnMap(map: RMMapView!, at point: CGPoint) {
+        println("Tappity tap, tappity tap")
         if !canEdit { return }
         let tappedOn = map.pixelToCoordinate(point)
         location = CLLocation(latitude: tappedOn.latitude, longitude: tappedOn.longitude)
         manualEntryHappened()
         displayValues()
+        drawLocation(location!, label: "location")
         delegate?.didSetLocation(location!, wasManuallyEntered: true)
     }
     
