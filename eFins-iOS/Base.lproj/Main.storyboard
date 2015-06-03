@@ -388,6 +388,98 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
+                            <tableViewSection headerTitle="Sync" id="gV9-Pt-zia">
+                                <cells>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="g7K-M7-6ck">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="g7K-M7-6ck" id="Pck-k2-Kb1">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="A6A-QA-JsL">
+                                                    <rect key="frame" x="522" y="7" width="70" height="30"/>
+                                                    <state key="normal" title="Sync Now">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="syncNow:" destination="Ia4-nd-oXm" eventType="touchUpInside" id="ovS-UO-pSA"/>
+                                                    </connections>
+                                                </button>
+                                                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="gZs-8k-LfE">
+                                                    <rect key="frame" x="494" y="12" width="20" height="20"/>
+                                                </activityIndicatorView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="last synced 1 hour ago" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KWf-dl-iFb">
+                                                    <rect key="frame" x="339" y="11" width="175" height="21"/>
+                                                    <fontDescription key="fontDescription" type="italicSystem" pointSize="17"/>
+                                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Logbook Data" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lME-oW-hdj">
+                                                    <rect key="frame" x="8" y="11" width="109" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="A6A-QA-JsL" firstAttribute="trailing" secondItem="Pck-k2-Kb1" secondAttribute="trailingMargin" id="0aS-Wl-JlX"/>
+                                                <constraint firstItem="lME-oW-hdj" firstAttribute="centerY" secondItem="Pck-k2-Kb1" secondAttribute="centerY" id="380-9V-mGa"/>
+                                                <constraint firstAttribute="centerY" secondItem="KWf-dl-iFb" secondAttribute="centerY" id="5Fn-Qf-ziv"/>
+                                                <constraint firstItem="A6A-QA-JsL" firstAttribute="leading" secondItem="KWf-dl-iFb" secondAttribute="trailing" constant="8" symbolic="YES" id="68D-PK-4es"/>
+                                                <constraint firstAttribute="centerY" secondItem="A6A-QA-JsL" secondAttribute="centerY" id="DFW-nH-gQQ"/>
+                                                <constraint firstItem="lME-oW-hdj" firstAttribute="leading" secondItem="Pck-k2-Kb1" secondAttribute="leadingMargin" constant="-7" id="DuU-yK-Bdo"/>
+                                                <constraint firstItem="A6A-QA-JsL" firstAttribute="leading" secondItem="gZs-8k-LfE" secondAttribute="trailing" constant="8" symbolic="YES" id="J7L-tj-WJT"/>
+                                                <constraint firstAttribute="centerY" secondItem="gZs-8k-LfE" secondAttribute="centerY" id="xDR-EY-bqH"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="3j8-O6-7ff">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3j8-O6-7ff" id="r5d-oW-i0C">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Photos" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="utM-Mw-3ly">
+                                                    <rect key="frame" x="8" y="11" width="55" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="112 photos, 896 MB" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YaY-0l-Wdw">
+                                                    <rect key="frame" x="327" y="11" width="265" height="21"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="265" id="HPX-Md-DDT"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="italicSystem" pointSize="17"/>
+                                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="IKT-VM-rsU">
+                                                    <rect key="frame" x="572" y="12" width="20" height="20"/>
+                                                </activityIndicatorView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="uploading 4/12 photos" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fC0-Lp-14s">
+                                                    <rect key="frame" x="299" y="11" width="265" height="21"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="265" id="DRd-oJ-7ZZ"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="italicSystem" pointSize="17"/>
+                                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="YaY-0l-Wdw" firstAttribute="bottom" secondItem="IKT-VM-rsU" secondAttribute="bottom" id="6hC-iA-Z4s"/>
+                                                <constraint firstItem="fC0-Lp-14s" firstAttribute="leading" secondItem="r5d-oW-i0C" secondAttribute="leading" constant="299" id="R1h-PS-hAy"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="YaY-0l-Wdw" secondAttribute="trailing" constant="-7" id="SbK-m6-Qp6"/>
+                                                <constraint firstItem="utM-Mw-3ly" firstAttribute="centerY" secondItem="r5d-oW-i0C" secondAttribute="centerY" id="UwN-Zx-0bb"/>
+                                                <constraint firstItem="YaY-0l-Wdw" firstAttribute="trailing" secondItem="IKT-VM-rsU" secondAttribute="trailing" id="VkR-00-hjZ"/>
+                                                <constraint firstItem="utM-Mw-3ly" firstAttribute="leading" secondItem="r5d-oW-i0C" secondAttribute="leadingMargin" constant="-7" id="YVt-ze-QaQ"/>
+                                                <constraint firstItem="IKT-VM-rsU" firstAttribute="leading" secondItem="fC0-Lp-14s" secondAttribute="trailing" constant="8" symbolic="YES" id="hYc-bS-Y1m"/>
+                                                <constraint firstItem="fC0-Lp-14s" firstAttribute="baseline" secondItem="utM-Mw-3ly" secondAttribute="baseline" id="o3m-47-NwA"/>
+                                                <constraint firstItem="fC0-Lp-14s" firstAttribute="baseline" secondItem="YaY-0l-Wdw" secondAttribute="baseline" id="pfa-MA-SeO"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
                             <tableViewSection headerTitle="Map data" id="5HR-V3-iQS">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="68" id="m3y-BR-pRY">
@@ -442,12 +534,18 @@
                     </tableView>
                     <tabBarItem key="tabBarItem" title="Settings" image="cog" id="xot-Ft-GrN"/>
                     <connections>
+                        <outlet property="logbookSyncActivityIndicator" destination="gZs-8k-LfE" id="FTr-u3-lmM"/>
+                        <outlet property="logbookSyncLabel" destination="KWf-dl-iFb" id="TSB-rs-KqZ"/>
                         <outlet property="loginCell" destination="nCA-fC-xks" id="f3g-kU-Fy4"/>
                         <outlet property="mapDataCell" destination="m3y-BR-pRY" id="UNm-CM-LoE"/>
                         <outlet property="mapDownloadButton" destination="Q6V-VT-mZW" id="ozo-sD-Qau"/>
                         <outlet property="mapLabel" destination="xlj-GJ-kWH" id="GOg-vs-31S"/>
+                        <outlet property="photosSyncActivityIndicator" destination="IKT-VM-rsU" id="rx5-Sq-K0Z"/>
+                        <outlet property="photosSyncProgressLabel" destination="fC0-Lp-14s" id="ol7-0f-xRN"/>
+                        <outlet property="photosSyncStatusLabel" destination="YaY-0l-Wdw" id="L50-fZ-WSQ"/>
                         <outlet property="progress" destination="5lr-63-8kN" id="aZS-yn-kby"/>
                         <outlet property="signOutButton" destination="vO9-XB-l5Y" id="1qt-UO-nU0"/>
+                        <outlet property="syncButton" destination="A6A-QA-JsL" id="aa5-0Q-oS5"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ep8-ja-7Pp" userLabel="First Responder" sceneMemberID="firstResponder"/>

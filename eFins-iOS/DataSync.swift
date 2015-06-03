@@ -13,6 +13,14 @@ import SwiftyJSON
 
 private let _mgr = DataSync()
 
+
+@objc protocol DataSyncDelegate {
+    optional func dataSyncDidStart()
+    optional func dataSyncDidComplete(success: Bool)
+    optional func dataSyncDidStartPull()
+    optional func dataSyncDidStartPush()
+}
+
 class DataSync {
     
     let periodicSynchronizationInterval : NSTimeInterval = 30.0 //Seconds
@@ -24,6 +32,7 @@ class DataSync {
     var syncQueue:Array<() -> ()> = []
     let syncCondition = NSCondition()
     var syncThread: NSThread? = nil
+    var delegate:DataSyncDelegate?
     
     init() {
         let uri = NSURL(string: SERVER_ROOT)
@@ -55,6 +64,7 @@ class DataSync {
             return
         }
         self.syncInProgress = true
+        self.delegate?.dataSyncDidStart?()
 
         
         self.queueThreadTask { () -> () in
@@ -66,17 +76,25 @@ class DataSync {
             self.syncRealm!.beginWriteTransaction()
             
             self.log("About to pull")
+            self.delegate?.dataSyncDidStartPull?()
             self.pull( usn, endOfLastSync: endOfLastSync, maxCount: 0, continuation: { (success: Bool) -> () in
                 if(success) {
                     self.log("starting push")
+                    self.delegate?.dataSyncDidStartPush?()
                     self.push({
                         self.syncInProgress = false
                         self.syncRealm!.commitWriteTransaction()
+                        dispatch_async(dispatch_get_main_queue(),{
+                            self.delegate?.dataSyncDidComplete?(true)
+                        })
                     })
                 } else {
                     self.log("Pull failed; eschewing a push")
                     self.syncInProgress = false
                     self.syncRealm!.cancelWriteTransaction()
+                    dispatch_async(dispatch_get_main_queue(),{
+                        self.delegate?.dataSyncDidComplete?(false)
+                    })
                 }
             })
         }

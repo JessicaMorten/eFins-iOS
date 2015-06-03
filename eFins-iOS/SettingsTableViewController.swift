@@ -9,7 +9,7 @@
 import UIKit
 import Alamofire
 
-class SettingsTableViewController: UITableViewController {
+class SettingsTableViewController: UITableViewController, DataSyncDelegate {
 
     @IBOutlet weak var loginCell: UITableViewCell!
     @IBOutlet weak var progress: UIProgressView!
@@ -17,6 +17,13 @@ class SettingsTableViewController: UITableViewController {
     @IBOutlet weak var signOutButton: UIButton!
     @IBOutlet weak var mapDataCell: UITableViewCell!
     @IBOutlet weak var mapLabel: UILabel!
+    @IBOutlet weak var syncButton: UIButton!
+    @IBOutlet weak var logbookSyncLabel: UILabel!
+    @IBOutlet weak var logbookSyncActivityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var photosSyncProgressLabel: UILabel!
+    @IBOutlet weak var photosSyncActivityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var photosSyncStatusLabel: UILabel!
+    
     let chartbackgroundSession = NSURLSessionConfiguration.backgroundSessionConfigurationWithIdentifier("org.efins.eFins.chart-background")
     let basemapBackgroundSession = NSURLSessionConfiguration.backgroundSessionConfigurationWithIdentifier("org.efins.eFins.basemap-background")
     var chartManager:Alamofire.Manager!
@@ -35,7 +42,7 @@ class SettingsTableViewController: UITableViewController {
             self.loginCell.textLabel?.text = "Signed in as \(user.name)"
         }
         updateDisplay()
-        
+        DataSync.manager.delegate = self
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -52,6 +59,36 @@ class SettingsTableViewController: UITableViewController {
     
     override func viewWillAppear(animated: Bool) {
         updateDisplay()
+    }
+    
+    func renderPhotosStatus() {
+    }
+    
+    func renderLogbookSyncStatus() {
+                self.logbookSyncLabel.text = " "
+    }
+    
+    func dataSyncDidStart() {
+        self.syncButton.enabled = false
+        self.logbookSyncActivityIndicator.startAnimating()
+        self.logbookSyncLabel.hidden = true
+    }
+    
+    func dataSyncDidComplete(success: Bool) {
+        println("did complete")
+        if !success {
+            
+        }
+        self.syncButton.enabled = true
+        self.logbookSyncActivityIndicator.stopAnimating()
+        self.logbookSyncLabel.text = "last synced..."
+        self.logbookSyncLabel.hidden = false
+    }
+    
+    @IBAction func syncNow(sender: AnyObject) {
+        DataSync.manager.sync()
+        self.renderLogbookSyncStatus()
+        self.renderPhotosStatus()
     }
     
     func updateDisplay() {
@@ -76,6 +113,8 @@ class SettingsTableViewController: UITableViewController {
                 self.mapLabel.text = "Map Data not yet loaded"
             }
         }
+        self.renderPhotosStatus()
+        self.renderLogbookSyncStatus()
         self.mapDownloadButton.sizeToFit()
     }
 
