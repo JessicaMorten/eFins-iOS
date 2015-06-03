@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14D131" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="yxg-kC-tAy">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="yxg-kC-tAy">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -57,11 +57,33 @@
                                                         <action selector="locationSwitchValueChanged:" destination="OT2-m6-a98" eventType="valueChanged" id="hFr-7q-f23"/>
                                                     </connections>
                                                 </switch>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Location label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QJg-P4-xdT">
+                                                    <rect key="frame" x="292" y="11" width="210" height="21"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="210" id="vba-jK-0sp"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="italicSystem" pointSize="17"/>
+                                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Location label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bu7-iU-MLK">
+                                                    <rect key="frame" x="357" y="12" width="210" height="21"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="210" id="niW-ix-onA"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="italicSystem" pointSize="17"/>
+                                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="L9Q-ak-NJM" firstAttribute="leading" secondItem="a3c-r2-Wsx" secondAttribute="trailing" constant="8" symbolic="YES" id="8e1-3f-3i8"/>
+                                                <constraint firstItem="QJg-P4-xdT" firstAttribute="bottom" secondItem="a3c-r2-Wsx" secondAttribute="bottom" id="JFY-5B-Hsq"/>
+                                                <constraint firstItem="L9Q-ak-NJM" firstAttribute="leading" secondItem="QJg-P4-xdT" secondAttribute="trailing" constant="8" symbolic="YES" id="Run-Ea-UoE"/>
                                                 <constraint firstItem="a3c-r2-Wsx" firstAttribute="top" secondItem="wQN-va-Hri" secondAttribute="topMargin" constant="4" id="W8d-sP-8hr"/>
+                                                <constraint firstAttribute="trailing" secondItem="bu7-iU-MLK" secondAttribute="trailing" id="l95-4Y-spQ"/>
                                                 <constraint firstItem="L9Q-ak-NJM" firstAttribute="trailing" secondItem="wQN-va-Hri" secondAttribute="trailingMargin" id="rWP-M1-Frx"/>
+                                                <constraint firstItem="bu7-iU-MLK" firstAttribute="top" secondItem="a3c-r2-Wsx" secondAttribute="top" id="vxl-l9-Ac5"/>
                                                 <constraint firstItem="L9Q-ak-NJM" firstAttribute="centerY" secondItem="wQN-va-Hri" secondAttribute="centerY" id="zwf-9u-XPv"/>
                                             </constraints>
                                         </tableViewCellContentView>
@@ -224,8 +246,10 @@
                         <outlet property="crewCell" destination="ljV-m9-z0U" id="Dzh-Mb-UtG"/>
                         <outlet property="dateTableCell" destination="gq2-Ka-LAv" id="dtE-o4-hoI"/>
                         <outlet property="locationActivityIndicator" destination="a3c-r2-Wsx" id="acV-r5-hjx"/>
+                        <outlet property="locationLabel" destination="QJg-P4-xdT" id="ziO-sM-ENi"/>
                         <outlet property="locationSwitch" destination="L9Q-ak-NJM" id="Nb6-m6-wjg"/>
                         <outlet property="locationTableCell" destination="WRi-nZ-ay4" id="1i7-d7-3cJ"/>
+                        <outlet property="locationViewingLabel" destination="bu7-iU-MLK" id="nMc-Dt-Wql"/>
                         <outlet property="observersTableViewCell" destination="y6o-ET-2AE" id="Mh0-S5-HXw"/>
                         <outlet property="photosCell" destination="PkD-Yw-iGu" id="hBY-BO-5Qi"/>
                         <outlet property="remarksTextView" destination="UIo-Cj-F8g" id="UUi-7n-X1a"/>

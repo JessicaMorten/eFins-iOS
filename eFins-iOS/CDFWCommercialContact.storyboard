@@ -73,10 +73,32 @@
                                                         <action selector="locationSwitchValueChanged:" destination="xd9-lq-Y0j" eventType="valueChanged" id="AZ2-wR-fFS"/>
                                                     </connections>
                                                 </switch>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Location label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6YY-gj-sv8">
+                                                    <rect key="frame" x="292" y="11" width="210" height="21"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="210" id="fTD-Uy-SZf"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="italicSystem" pointSize="17"/>
+                                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Location label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vWz-ec-n5f">
+                                                    <rect key="frame" x="349" y="11" width="210" height="21"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="210" id="FGz-bY-zg1"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="italicSystem" pointSize="17"/>
+                                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="QoS-PP-fdu" firstAttribute="trailing" secondItem="3xO-d4-UW0" secondAttribute="trailingMargin" id="9tG-fh-POa"/>
+                                                <constraint firstItem="vWz-ec-n5f" firstAttribute="baseline" secondItem="6YY-gj-sv8" secondAttribute="baseline" id="DVJ-nP-ISR"/>
+                                                <constraint firstItem="QoS-PP-fdu" firstAttribute="leading" secondItem="6YY-gj-sv8" secondAttribute="trailing" constant="8" symbolic="YES" id="L67-dL-Lsp"/>
+                                                <constraint firstItem="vWz-ec-n5f" firstAttribute="trailing" secondItem="QoS-PP-fdu" secondAttribute="trailing" id="UfW-Hf-FRm"/>
                                                 <constraint firstItem="gZ4-gb-dKV" firstAttribute="top" secondItem="3xO-d4-UW0" secondAttribute="topMargin" constant="4" id="fLX-AY-6z2"/>
+                                                <constraint firstItem="6YY-gj-sv8" firstAttribute="bottom" secondItem="gZ4-gb-dKV" secondAttribute="bottom" id="rzB-mQ-A82"/>
                                                 <constraint firstItem="QoS-PP-fdu" firstAttribute="centerY" secondItem="3xO-d4-UW0" secondAttribute="centerY" id="zem-hM-E7g"/>
                                                 <constraint firstItem="QoS-PP-fdu" firstAttribute="leading" secondItem="gZ4-gb-dKV" secondAttribute="trailing" constant="8" symbolic="YES" id="zyT-52-QiG"/>
                                             </constraints>
@@ -369,8 +391,10 @@
                         <outlet property="crewCell" destination="WL7-Fn-arS" id="2Xl-Ys-P32"/>
                         <outlet property="dateTableCell" destination="V4e-6W-BUP" id="eAx-Cd-xaZ"/>
                         <outlet property="locationActivityIndicator" destination="gZ4-gb-dKV" id="WJQ-Id-BKd"/>
+                        <outlet property="locationLabel" destination="6YY-gj-sv8" id="nDH-1X-6Oo"/>
                         <outlet property="locationSwitch" destination="QoS-PP-fdu" id="SHt-ZL-8dM"/>
                         <outlet property="locationTableCell" destination="GIx-lz-thk" id="JC7-gn-Jyj"/>
+                        <outlet property="locationViewingLabel" destination="vWz-ec-n5f" id="CCG-nt-1G4"/>
                         <outlet property="observersTableViewCell" destination="btX-rG-AOj" id="HPM-BA-WhO"/>
                         <outlet property="photosCell" destination="Wk6-A1-wCI" id="cM9-Df-hRC"/>
                         <outlet property="remarksTextView" destination="b9d-0p-e38" id="AFN-df-gV6"/>

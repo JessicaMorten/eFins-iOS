@@ -73,12 +73,34 @@
                                                         <action selector="locationSwitchValueChanged:" destination="aRA-js-QlH" eventType="valueChanged" id="BPW-xs-U9E"/>
                                                     </connections>
                                                 </switch>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Location label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OMJ-Xn-u97">
+                                                    <rect key="frame" x="292" y="11" width="210" height="21"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="210" id="0ly-F2-xD8"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="italicSystem" pointSize="17"/>
+                                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Location label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kG6-1D-yNp">
+                                                    <rect key="frame" x="349" y="11" width="210" height="21"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="210" id="IbL-bn-RHh"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="italicSystem" pointSize="17"/>
+                                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="2Rp-gU-fHh" firstAttribute="centerY" secondItem="PUL-hz-loM" secondAttribute="centerY" id="CfI-mT-aE7"/>
                                                 <constraint firstItem="2Rp-gU-fHh" firstAttribute="leading" secondItem="8Kr-uK-0Sb" secondAttribute="trailing" constant="8" symbolic="YES" id="GVG-hD-1ky"/>
                                                 <constraint firstItem="8Kr-uK-0Sb" firstAttribute="top" secondItem="PUL-hz-loM" secondAttribute="topMargin" constant="4" id="HKc-Hp-bBK"/>
                                                 <constraint firstItem="2Rp-gU-fHh" firstAttribute="trailing" secondItem="PUL-hz-loM" secondAttribute="trailingMargin" id="frq-bL-56C"/>
+                                                <constraint firstItem="2Rp-gU-fHh" firstAttribute="leading" secondItem="OMJ-Xn-u97" secondAttribute="trailing" constant="8" symbolic="YES" id="jpR-jo-cRG"/>
+                                                <constraint firstItem="kG6-1D-yNp" firstAttribute="trailing" secondItem="2Rp-gU-fHh" secondAttribute="trailing" id="kHr-fI-gpc"/>
+                                                <constraint firstItem="OMJ-Xn-u97" firstAttribute="bottom" secondItem="8Kr-uK-0Sb" secondAttribute="bottom" id="nNg-li-5fN"/>
+                                                <constraint firstItem="kG6-1D-yNp" firstAttribute="baseline" secondItem="OMJ-Xn-u97" secondAttribute="baseline" id="rYb-5l-HO3"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -318,8 +340,10 @@
                         <outlet property="contactTypeCell" destination="xvO-0W-biP" id="9A7-gE-9fh"/>
                         <outlet property="dateTableCell" destination="GvQ-Oz-Gd0" id="Qrr-rP-wIQ"/>
                         <outlet property="locationActivityIndicator" destination="8Kr-uK-0Sb" id="TDS-iI-r91"/>
+                        <outlet property="locationLabel" destination="OMJ-Xn-u97" id="gBX-oD-hoM"/>
                         <outlet property="locationSwitch" destination="2Rp-gU-fHh" id="zRJ-m3-g1T"/>
                         <outlet property="locationTableCell" destination="Hsj-lH-2lD" id="s0T-rO-6Gq"/>
+                        <outlet property="locationViewingLabel" destination="kG6-1D-yNp" id="5uN-ui-U91"/>
                         <outlet property="numPersonsOnBoardTextField" destination="y7K-r0-5t7" id="28x-OE-Zfu"/>
                         <outlet property="numberOfPersonsOnBoardCell" destination="hTA-le-Ghd" id="gZf-vY-afQ"/>
                         <outlet property="observersTableViewCell" destination="f5O-3C-d4M" id="FHp-kP-ahk"/>

@@ -73,9 +73,31 @@
                                                         <action selector="locationSwitchValueChanged:" destination="Jbr-in-MXP" eventType="valueChanged" id="bYX-4v-KIp"/>
                                                     </connections>
                                                 </switch>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Location label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lOi-dT-fnk">
+                                                    <rect key="frame" x="292" y="11" width="210" height="21"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="210" id="lsJ-tg-TMS"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="italicSystem" pointSize="17"/>
+                                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Location label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pvd-ri-VcA">
+                                                    <rect key="frame" x="357" y="11" width="210" height="21"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="210" id="5Iq-Ps-36W"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="italicSystem" pointSize="17"/>
+                                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="21S-Xg-oe0" firstAttribute="top" secondItem="5xx-td-UHE" secondAttribute="topMargin" constant="4" id="KZz-0z-OcS"/>
+                                                <constraint firstItem="pvd-ri-VcA" firstAttribute="baseline" secondItem="lOi-dT-fnk" secondAttribute="baseline" id="LPw-KB-Msc"/>
+                                                <constraint firstAttribute="trailing" secondItem="pvd-ri-VcA" secondAttribute="trailing" id="M08-Am-FNR"/>
+                                                <constraint firstItem="b2w-kL-3yu" firstAttribute="leading" secondItem="lOi-dT-fnk" secondAttribute="trailing" constant="8" symbolic="YES" id="Pcw-9H-qle"/>
+                                                <constraint firstItem="lOi-dT-fnk" firstAttribute="bottom" secondItem="21S-Xg-oe0" secondAttribute="bottom" id="jT8-5O-LX1"/>
                                                 <constraint firstItem="b2w-kL-3yu" firstAttribute="centerY" secondItem="5xx-td-UHE" secondAttribute="centerY" id="pXq-Vv-cjx"/>
                                                 <constraint firstItem="b2w-kL-3yu" firstAttribute="trailing" secondItem="5xx-td-UHE" secondAttribute="trailingMargin" id="tae-kL-KTC"/>
                                                 <constraint firstItem="b2w-kL-3yu" firstAttribute="leading" secondItem="21S-Xg-oe0" secondAttribute="trailing" constant="8" symbolic="YES" id="wuA-zy-Pfc"/>
@@ -222,8 +244,10 @@
                         <outlet property="cameraButton" destination="rzj-ne-RAq" id="OJu-Ru-w4a"/>
                         <outlet property="dateTableCell" destination="MHQ-GP-4s5" id="Cwv-88-HdI"/>
                         <outlet property="locationActivityIndicator" destination="21S-Xg-oe0" id="8mK-B7-uZG"/>
+                        <outlet property="locationLabel" destination="lOi-dT-fnk" id="yNG-pd-m35"/>
                         <outlet property="locationSwitch" destination="b2w-kL-3yu" id="6iw-R6-kdp"/>
                         <outlet property="locationTableCell" destination="Mn1-Rw-MBq" id="WFX-2P-F7g"/>
+                        <outlet property="locationViewingLabel" destination="pvd-ri-VcA" id="4cI-gY-7ld"/>
                         <outlet property="numPersonsOnBoardTextField" destination="ooI-jm-5H8" id="Q4u-DC-Akh"/>
                         <outlet property="numberOfPersonsOnBoardCell" destination="gxm-CJ-pcw" id="cng-zK-enI"/>
                         <outlet property="observersTableViewCell" destination="vGD-gS-Doz" id="4cv-Wp-2Tz"/>

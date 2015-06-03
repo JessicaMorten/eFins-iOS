@@ -109,7 +109,9 @@ class LocationManager : NSObject, CLLocationManagerDelegate {
     
     func removeLocationManagerDelegate(delegate: LocationManagerDelegate) {
         println("Removing a delegate")
+        println(count(observers))
         observers = observers.filter { if $0.delegate === delegate {return true } else {return false} }
+        println(count(observers))
         if count(observers) == 0 && (!isPreheating) {
             accuracyHistory.removeAll()
             coreLocationManager.stopUpdatingLocation()

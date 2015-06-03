@@ -13,6 +13,8 @@ class ActivityFormTableViewController: UITableViewController, LocationManagerDel
 
     // location field
     @IBOutlet weak var locationTableCell: UITableViewCell!
+    @IBOutlet weak var locationLabel: UILabel!
+    @IBOutlet weak var locationViewingLabel: UILabel!
     // TODO: immediately fetch location in background and spin indicator
     @IBOutlet weak var locationActivityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var locationSwitch: UISwitch!
@@ -48,6 +50,9 @@ class ActivityFormTableViewController: UITableViewController, LocationManagerDel
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.locationLabel.text = " "
+        self.locationViewingLabel.text = " "
+        
         if self.activityType == nil {
             NSException.raise("ActivityFormMisconfigured", format: "ActivityForm activityType var is not set", arguments: getVaList([]))
         }
@@ -74,7 +79,8 @@ class ActivityFormTableViewController: UITableViewController, LocationManagerDel
             
             realm.addObject(self.activity)
             realm.commitWriteTransaction()
-            LocationManager.sharedInstance.startPreheat()
+            self.locationSwitch.setOn(true, animated: false)
+            self.toggleLocationRecording(true)
         } else {
             self.isNew = false
             self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.Plain, target: self, action: "back")
@@ -84,6 +90,12 @@ class ActivityFormTableViewController: UITableViewController, LocationManagerDel
             self.locationTableCell.textLabel?.text = "Location"
             self.locationSwitch.hidden = true
             self.remarksTextView?.editable = false
+            if self.activity.latitude == -1.0 {
+                self.locationTableCell.accessoryType = UITableViewCellAccessoryType.None
+                self.locationViewingLabel.text = "None recorded"
+            } else {
+                self.locationViewingLabel.text = "\(self.activity.latitude), \(self.activity.longitude)"
+            }
         }
 
         let formatter = getDateFormatter()
@@ -136,22 +148,37 @@ class ActivityFormTableViewController: UITableViewController, LocationManagerDel
     
     @IBAction func saveAction(sender: AnyObject) {
         // TODO: Validation (if any?)
-        let realm = RLMRealm.defaultRealm()
-        realm.beginWriteTransaction()
-        realm.addObject(self.activity)
-        realm.commitWriteTransaction()
-        self.dismissViewControllerAnimated(true, completion: nil)
+        if (self.activity.latitude == -1.0 && self.locationSwitch.on == true) {
+            alert("Waiting for GPS Lock", "Your location has not yet been obtained. Please wait or turn of the Include Location switch.", self)
+        } else {
+            let realm = RLMRealm.defaultRealm()
+            realm.beginWriteTransaction()
+            realm.addObject(self.activity)
+            realm.commitWriteTransaction()
+            self.dismissViewControllerAnimated(true, completion: nil)
+        }
     }
     
     @IBAction func locationSwitchValueChanged(sender: UISwitch) {
-        if sender.on {
+        toggleLocationRecording(sender.on)
+    }
+    
+    func toggleLocationRecording(on:Bool) {
+        if on {
             self.locationActivityIndicator.hidden = false
             self.locationActivityIndicator.startAnimating()
             LocationManager.sharedInstance.addLocationManagerDelegate(self, accuracy: 30, timeout: 30)
             LocationManager.sharedInstance.stopPreheat()
         } else {
+            self.locationLabel.text = " "
+            let realm = RLMRealm.defaultRealm()
+            realm.beginWriteTransaction()
+            self.activity.latitude = -1.0
+            self.activity.longitude = -1.0
+            realm.commitWriteTransaction()
             self.locationActivityIndicator.hidden = true
             LocationManager.sharedInstance.removeLocationManagerDelegate(self)
+            self.locationSwitch.setOn(false, animated: false)
         }
     }
     
@@ -228,11 +255,23 @@ class ActivityFormTableViewController: UITableViewController, LocationManagerDel
         }
         
         if let lCell = self.locationTableCell {
-            let storyboard = UIStoryboard(name: "LocationSetting", bundle: nil)
-            let controller = storyboard.instantiateInitialViewController() as! LocationSettingController
-            let location = CLLocation(latitude: activity.latitude, longitude: activity.longitude)
-            navigationController?.pushViewController(controller, animated: true)
-            controller.setupWithLocation(location, wasManuallyEntered: false, withEditingAbility: allowEditing)
+            if lCell.accessoryType != .None {
+                if tilesExist() {
+                    let storyboard = UIStoryboard(name: "LocationSetting", bundle: nil)
+                    let controller = storyboard.instantiateInitialViewController() as! LocationSettingController
+                    controller.location = CLLocationCoordinate2D(latitude: activity.latitude, longitude: activity.longitude)
+                    controller.manuallyEntered = false
+                    controller.canEdit = allowEditing
+                    
+                    navigationController?.pushViewController(controller, animated: true)
+//                    controller.setupWithLocation(location, wasManuallyEntered: false, withEditingAbility: allowEditing)
+                } else {
+                    alert("Map Data not available", "Download maps from the settings tab while connected to the internet for offline use.", self)
+                }
+            }
+            if let row = tableView.indexPathForSelectedRow() {
+                tableView.deselectRowAtIndexPath(row, animated: false)
+            }
             return
         }
 
@@ -310,6 +349,7 @@ class ActivityFormTableViewController: UITableViewController, LocationManagerDel
     }
     
     func updateTitle() {
+        
         var title = ""
         switch self.activity.type {
         case Activity.Types.CDFW_COMM:
@@ -372,11 +412,14 @@ class ActivityFormTableViewController: UITableViewController, LocationManagerDel
         RLMRealm.defaultRealm().commitWriteTransaction()
         LocationManager.sharedInstance.removeLocationManagerDelegate(self)
         locationActivityIndicator.stopAnimating()
+        self.locationLabel.text = "\(self.activity.latitude), \(self.activity.longitude)"
     }
     
     func locationManagerDidFailToObtainLocation() {
         println("We tried to get a location and couldn't.  Retry?")
         LocationManager.sharedInstance.removeLocationManagerDelegate(self)
+        alert("Failed to set Location", "Could not acheive GPS lock. To try again, toggle the location switch.", self)
+        self.toggleLocationRecording(false)
     }
     
 }

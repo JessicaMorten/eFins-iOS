@@ -353,7 +353,7 @@ class LogbookTableViewController: UITableViewController, UISearchBarDelegate, UI
                     }
                 }
             } else {
-                if let tabBar = self.splitViewController?.tabBarController as? EFinsTabBarController {
+                if let tabBar = self.tabBarController as? EFinsTabBarController {
                     tvc.dismissViewControllerAnimated(false, completion: nil)
                     if tabBar.isDisplayingEditablePatrol() {
                         alert("Close Active Patrol", "You are currently editing a patrol in the Patrol tab. Please save and close it before continuing, or log activity as part of the patrol.", self)

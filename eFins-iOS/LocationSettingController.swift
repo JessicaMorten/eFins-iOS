@@ -16,7 +16,7 @@ class LocationSettingController : UITableViewController, RMMapViewDelegate {
     @IBOutlet weak var longitudeCell: UITableViewCell!
     @IBOutlet weak var latitudeCell: UITableViewCell!
     @IBOutlet weak var cancelButton: UIBarButtonItem!
-    var location : CLLocation?
+    var location : CLLocationCoordinate2D!
     var canEdit  = true
     var manuallyEntered = false
     var originalManuallyEntered = false
@@ -29,9 +29,12 @@ class LocationSettingController : UITableViewController, RMMapViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.originalLatitude = self.location.latitude
+        self.originalLongitude = self.location.longitude
+        self.originalManuallyEntered = self.manuallyEntered
         self.tableView.delegate = self
         mapView.configureBackgroundView(mapBackgroundView)
-        mapView.initMap()
+        mapView.initMap(self.location)
         mapView.map.delegate = self
     }
     
@@ -41,68 +44,73 @@ class LocationSettingController : UITableViewController, RMMapViewDelegate {
     }
     
     
-    func setupWithLocation(location: CLLocation, wasManuallyEntered: Bool, withEditingAbility: Bool) {
-        self.location = location
-        originalLatitude = location.coordinate.latitude
-        originalLongitude = location.coordinate.longitude
-        originalManuallyEntered = wasManuallyEntered
-        manuallyEntered = originalManuallyEntered
-        canEdit = withEditingAbility
-    }
+//    func setupWithLocation(location: CLLocation, wasManuallyEntered: Bool, withEditingAbility: Bool) {
+//        self.location = location
+//        println("\(location.coordinate.latitude), \(location.coordinate.longitude)")
+//        originalLatitude = location.coordinate.latitude
+//        originalLongitude = location.coordinate.longitude
+//        originalManuallyEntered = wasManuallyEntered
+//        manuallyEntered = originalManuallyEntered
+//        canEdit = withEditingAbility
+//    }
     
-    func registerListener(listener: GeoPickerConsumer, withImmediateCallback: Bool = false) {
-        delegate = listener
-        if withImmediateCallback {
-            listener.didSetLocation(location!, wasManuallyEntered: manuallyEntered)
-        }
-        
-    }
+//    func registerListener(listener: GeoPickerConsumer, withImmediateCallback: Bool = false) {
+//        delegate = listener
+//        if withImmediateCallback {
+//            listener.didSetLocation(location, wasManuallyEntered: manuallyEntered)
+//        }
+//        
+//    }
     
     func unregisterListener(listener: GeoPickerConsumer) {
         delegate = nil
     }
     
     private func displayValues() {
-        let (latDeg, latMin) = CoordinateConverter.decimalDegrees2degreesMinutes(degrees: location!.coordinate.latitude)
-        let (longDeg, longMin) = CoordinateConverter.decimalDegrees2degreesMinutes(degrees: location!.coordinate.longitude)
-        let latText = String(format: "%3.0f\u{00b0} %.3f\u{2032}", latDeg, latMin)
-        let longText = String(format: "%3.0f\u{00b0} %.3f\u{2032}", longDeg, longMin)
-        latitudeCell.detailTextLabel?.text = latText
-        longitudeCell.detailTextLabel?.text = longText
-        zoomToLocation(location!, zoomLevel: mapView.map.zoom)
-        drawLocation(location!, label: "location")
+//        let (latDeg, latMin) = CoordinateConverter.decimalDegrees2degreesMinutes(degrees: location!.coordinate.latitude)
+//        let (longDeg, longMin) = CoordinateConverter.decimalDegrees2degreesMinutes(degrees: location!.coordinate.longitude)
+//        let latText = String(format: "%3.0f\u{00b0} %.3f\u{2032}", latDeg, latMin)
+//        let longText = String(format: "%3.0f\u{00b0} %.3f\u{2032}", longDeg, longMin)
+        latitudeCell.detailTextLabel?.text = "\(location.latitude)"
+        longitudeCell.detailTextLabel?.text = "\(location.longitude)"
+//        zoomToLocation(location, zoomLevel: mapView.map.zoom)
+        drawLocation(location, label: "location")
         if manuallyEntered {manualEntryHappened()}
     }
     
-    private func drawLocation(location : CLLocation, label : String) {
+    private func drawLocation(location : CLLocationCoordinate2D, label : String) {
         mapView.map.removeAllAnnotations()
-        let annotation = RMPointAnnotation(mapView: mapView.map, coordinate: location.coordinate, andTitle: label)
+        let annotation = RMPointAnnotation(mapView: mapView.map, coordinate: location, andTitle: label)
         mapView.map.addAnnotation(annotation)
         mapView.map.selectAnnotation(annotation, animated: true)
     }
     
-    private func zoomToLocation(location: CLLocation, zoomLevel: Float) {
-        mapView.map.setZoom(zoomLevel, animated: true)
+    private func zoomToLocation(location: CLLocationCoordinate2D, zoomLevel: Float) {
+        mapView.map.setCenterCoordinate(location, animated: false)
+        mapView.map.setZoom(zoomLevel, animated: false)
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if !canEdit {
-            return
-        }
-        let cell = tableView.cellForRowAtIndexPath(indexPath)
-        if indexPath.item == 0 {
-            let delegate = LatPickerDelegate()
-            delegate.toCall = latChanged
-            let (latDeg, latMin, latSec) = CoordinateConverter.decimalDegrees2degreesMinutesSeconds(location!.coordinate.latitude)
-            ActionSheetCustomPicker.showPickerWithTitle(nil, delegate: delegate, showCancelButton: true, origin: tableView, initialSelections: [latDeg, latMin, latSec])
-        } else if indexPath.item == 1 {
-            let delegate = LonPickerDelegate()
-            delegate.toCall = lonChanged
-            let (lonDeg, lonMin, lonSec) = CoordinateConverter.decimalDegrees2degreesMinutesSeconds(location!.coordinate.latitude)
-            ActionSheetCustomPicker.showPickerWithTitle(nil, delegate: delegate, showCancelButton: true, origin: tableView, initialSelections: [lonDeg, lonMin, lonSec])
-            
-        }
+        return
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
+//        if !canEdit {
+//            return
+//        }
+//        let cell = tableView.cellForRowAtIndexPath(indexPath)
+//        if indexPath.item == 0 {
+//            let delegate = LatPickerDelegate()
+//            delegate.toCall = latChanged
+//            let (latDeg, latMin, latSec) = CoordinateConverter.decimalDegrees2degreesMinutesSeconds(location.latitude)
+//            println(latDeg, latMin, latSec)
+//            ActionSheetCustomPicker.showPickerWithTitle(nil, delegate: delegate, showCancelButton: true, origin: tableView, initialSelections: [latDeg, latMin, latSec])
+//        } else if indexPath.item == 1 {
+//            let delegate = LonPickerDelegate()
+//            delegate.toCall = lonChanged
+//            let (lonDeg, lonMin, lonSec) = CoordinateConverter.decimalDegrees2degreesMinutesSeconds(location.latitude)
+//            println(lonDeg, lonMin, lonSec)
+//            ActionSheetCustomPicker.showPickerWithTitle(nil, delegate: delegate, showCancelButton: true, origin: tableView, initialSelections: [lonDeg, lonMin, lonSec])
+//            
+//        }
     }
     
     private func manualEntryHappened() {
@@ -112,31 +120,31 @@ class LocationSettingController : UITableViewController, RMMapViewDelegate {
     }
     
     private func latChanged(lat : Double) {
-        location = CLLocation(latitude: lat, longitude: location!.coordinate.longitude)
+        location = CLLocationCoordinate2D(latitude: lat, longitude: location.longitude)
     }
     
     private func lonChanged(lon : Double) {
-        location = CLLocation(latitude: location!.coordinate.latitude, longitude: lon)
+        location = CLLocationCoordinate2D(latitude: location.latitude, longitude: lon)
     }
     
-    func singleTapOnMap(map: RMMapView!, at point: CGPoint) {
-        println("Tappity tap, tappity tap")
-        if !canEdit { return }
-        let tappedOn = map.pixelToCoordinate(point)
-        location = CLLocation(latitude: tappedOn.latitude, longitude: tappedOn.longitude)
-        manualEntryHappened()
-        displayValues()
-        drawLocation(location!, label: "location")
-        delegate?.didSetLocation(location!, wasManuallyEntered: true)
-    }
+//    func singleTapOnMap(map: RMMapView!, at point: CGPoint) {
+//        println("Tappity tap, tappity tap")
+//        if !canEdit { return }
+//        let tappedOn = map.pixelToCoordinate(point)
+//        location = CLLocationCoordinate2D(latitude: tappedOn.latitude, longitude: tappedOn.longitude)
+//        manualEntryHappened()
+//        displayValues()
+//        drawLocation(location, label: "location")
+//        delegate?.didSetLocation(location, wasManuallyEntered: true)
+//    }
     
-    private func resetToOriginalLocation()  {
-        location = CLLocation(latitude: originalLatitude, longitude: originalLongitude)
-        manuallyEntered = originalManuallyEntered
-        navigationItem.setRightBarButtonItem(nil, animated: true)
-        displayValues()
-        delegate?.didSetLocation(location!, wasManuallyEntered: manuallyEntered)
-    }
+//    private func resetToOriginalLocation()  {
+//        location = CLLocationCoordinate2D(latitude: originalLatitude, longitude: originalLongitude)
+//        manuallyEntered = originalManuallyEntered
+//        navigationItem.setRightBarButtonItem(nil, animated: true)
+//        displayValues()
+//        delegate?.didSetLocation(location, wasManuallyEntered: manuallyEntered)
+//    }
 
 }
 

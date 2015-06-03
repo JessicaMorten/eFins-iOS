@@ -17,6 +17,7 @@ class LocationViewController: UIViewController {
     
     let southWestConstraints = CLLocationCoordinate2DMake(32, -123)
     let northEastConstraints = CLLocationCoordinate2DMake(35.42, -116.5)
+    
     // should be 12, but setting to 10 for testing
     //    let maxOfflineZoom = UInt(10)
     var backgroundView: UIView!
@@ -31,40 +32,25 @@ class LocationViewController: UIViewController {
         let uri = NSURL(string: SERVER_ROOT)
         let host = uri?.host ?? ""
         RMConfiguration.sharedInstance().accessToken = "pk.eyJ1IjoidW5kZXJibHVld2F0ZXJzIiwiYSI6IjMzZ215RTQifQ.u6Gb_-kNfvaxiHdd9eJEEA"
-        
     }
     
     
-    func initMap() {
-        if loadTiles() {
-            self.map = RMMapView(frame: view.bounds, andTilesource: self.thematicLayer)
-        } else {
-            self.map = RMMapView(frame: view.bounds)
-        }
+    func initMap(center:CLLocationCoordinate2D) {
+        var tilesLoaded = false
+        self.thematicLayer = RMMBTilesSource(tileSetURL: NSURL(fileURLWithPath: basemapPath()!, isDirectory: false))
+        self.map = RMMapView(frame: view.bounds, andTilesource: self.thematicLayer)
+        map.zoom = 13
+        map.maxZoom = 15
+        map.minZoom = 9
+        map.centerCoordinate = center
         self.backgroundView.insertSubview(map, atIndex: 0)
         
-        map.zoom = 9
-        map.maxZoom = 15
-        map.minZoom = 8
-        map.centerCoordinate = CLLocationCoordinate2D(latitude: 34.007, longitude: -119.829)
         map.autoresizingMask = UIViewAutoresizing.FlexibleHeight | UIViewAutoresizing.FlexibleWidth
         map.setConstraintsSouthWest(southWestConstraints, northEast: northEastConstraints)
         
         map.userTrackingMode = RMUserTrackingModeNone
         self.navigationItem.rightBarButtonItem = RMUserTrackingBarButtonItem(mapView: map)
-        
     }
-    
-    func loadTiles() -> Bool {
-        if tilesExist() {
-            self.charts = RMMBTilesSource(tileSetURL: NSURL(fileURLWithPath: chartPath()!, isDirectory: false))
-            self.thematicLayer = RMMBTilesSource(tileSetURL: NSURL(fileURLWithPath: basemapPath()!, isDirectory: false))
-            return true
-        } else {
-            return false
-        }
-    }
-
     
     
 }
