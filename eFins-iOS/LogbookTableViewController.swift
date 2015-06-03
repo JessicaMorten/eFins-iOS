@@ -219,7 +219,12 @@ class LogbookTableViewController: UITableViewController, UISearchBarDelegate, UI
     
     override func viewWillAppear(animated: Bool) {
         self.tableView.reloadData()
-        DataSync.manager.enableSync()
+        if let tb = self.tabBarController as? EFinsTabBarController {
+            println(tb)
+            if !tb.isDisplayingEditablePatrol() {
+                DataSync.manager.enableSync()
+            }
+        }
         self.searchController.searchBar.sizeToFit()
         self.tableView.tableHeaderView = self.searchController.searchBar
     }

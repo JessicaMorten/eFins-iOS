@@ -42,6 +42,7 @@ class EFinsTabBarController: UITabBarController {
         if var controllers = self.viewControllers {
             controllers.removeAtIndex(1)
             if let controller = UIStoryboard(name: "PatrolLog", bundle: nil).instantiateInitialViewController() as? UISplitViewController {
+                DataSync.manager.disableSync()
                 let icon1 = UITabBarItem(title: "Patrol", image:UIImage(named: "shield"), selectedImage: nil)
                 controller.tabBarItem = icon1
                 controllers.insert(controller, atIndex: 1)
