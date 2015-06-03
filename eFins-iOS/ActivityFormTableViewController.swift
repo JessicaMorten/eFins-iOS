@@ -255,24 +255,28 @@ class ActivityFormTableViewController: UITableViewController, LocationManagerDel
         }
         
         if let lCell = self.locationTableCell {
-            if lCell.accessoryType != .None {
-                if tilesExist() {
-                    let storyboard = UIStoryboard(name: "LocationSetting", bundle: nil)
-                    let controller = storyboard.instantiateInitialViewController() as! LocationSettingController
-                    controller.location = CLLocationCoordinate2D(latitude: activity.latitude, longitude: activity.longitude)
-                    controller.manuallyEntered = false
-                    controller.canEdit = allowEditing
-                    
-                    navigationController?.pushViewController(controller, animated: true)
-//                    controller.setupWithLocation(location, wasManuallyEntered: false, withEditingAbility: allowEditing)
-                } else {
-                    alert("Map Data not available", "Download maps from the settings tab while connected to the internet for offline use.", self)
+            if let lCellIndex = tableView.indexPathForCell(lCell) {
+                if indexPath.section == lCellIndex.section && indexPath.row == lCellIndex.row {
+                    if lCell.accessoryType != .None {
+                        if tilesExist() {
+                            let storyboard = UIStoryboard(name: "LocationSetting", bundle: nil)
+                            let controller = storyboard.instantiateInitialViewController() as! LocationSettingController
+                            controller.location = CLLocationCoordinate2D(latitude: activity.latitude, longitude: activity.longitude)
+                            controller.manuallyEntered = false
+                            controller.canEdit = allowEditing
+                            
+                            navigationController?.pushViewController(controller, animated: true)
+                            //                    controller.setupWithLocation(location, wasManuallyEntered: false, withEditingAbility: allowEditing)
+                        } else {
+                            alert("Map Data not available", "Download maps from the settings tab while connected to the internet for offline use.", self)
+                        }
+                    }
+                    if let row = tableView.indexPathForSelectedRow() {
+                        tableView.deselectRowAtIndexPath(row, animated: false)
+                    }
+                    return                    
                 }
             }
-            if let row = tableView.indexPathForSelectedRow() {
-                tableView.deselectRowAtIndexPath(row, animated: false)
-            }
-            return
         }
 
         
