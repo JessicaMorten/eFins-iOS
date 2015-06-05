@@ -49,6 +49,7 @@ class SettingsTableViewController: UITableViewController, DataSyncDelegate {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
         updateDisplay()
+        println(DataSync.manager.lastSync)
     }
     
     
@@ -65,24 +66,48 @@ class SettingsTableViewController: UITableViewController, DataSyncDelegate {
     }
     
     func renderLogbookSyncStatus() {
+        if DataSync.manager.syncInProgress {
+            self.logbookSyncLabel.text = "syncing"
+            self.logbookSyncActivityIndicator.startAnimating()
+        } else {
+            self.logbookSyncActivityIndicator.stopAnimating()
+            if let lastSync = DataSync.manager.lastSync {
+                self.logbookSyncLabel.text = "Synced \(timeAgoSinceDate(lastSync, true).lowercaseString)"
+            } else {
                 self.logbookSyncLabel.text = " "
+            }
+        }
     }
     
     func dataSyncDidStart() {
         self.syncButton.enabled = false
         self.logbookSyncActivityIndicator.startAnimating()
-        self.logbookSyncLabel.hidden = true
+        self.logbookSyncLabel.text = "syncing"
+    }
+    
+    func dataSyncDidStartPull() {
+        self.logbookSyncLabel.text = "fetching data"
+    }
+    
+    func dataSyncDidStartPush() {
+        self.logbookSyncLabel.text = "publishing your data"
     }
     
     func dataSyncDidComplete(success: Bool) {
         println("did complete")
-        if !success {
-            
+        if success {
+            if let lastSync = DataSync.manager.lastSync {
+                self.logbookSyncLabel.text = "Synced \(timeAgoSinceDate(lastSync, true).lowercaseString)"
+            }
+        } else {
+            if DataSync.manager.reachability.isReachable() {
+                self.logbookSyncLabel.text = "error occured"
+            } else {
+                self.logbookSyncLabel.text = "must be connected to the internet"
+            }
         }
         self.syncButton.enabled = true
         self.logbookSyncActivityIndicator.stopAnimating()
-        self.logbookSyncLabel.text = "last synced..."
-        self.logbookSyncLabel.hidden = false
     }
     
     @IBAction func syncNow(sender: AnyObject) {

@@ -22,10 +22,33 @@ class PersonFormTableViewController: UITableViewController, ItemForm, UITextFiel
     var model:RLMObject?
     var label:String?
     var allowEditing = true
-    var openTransaction = false
     var person:Person {
         get {
             return self.model as! Person
+        }
+    }
+    
+    var inWriteTransaction = false
+    
+    
+    
+    func beginWriteTransaction() {
+        if self.inWriteTransaction {
+            NSException.raise("Realm Transaction Error", format: "Tried to begin transaction, but one is open", arguments: getVaList([]))
+        }
+        self.inWriteTransaction = true
+        RLMRealm.defaultRealm().beginWriteTransaction()
+    }
+    
+    func commitWriteTransaction() {
+        if self.inWriteTransaction {
+            self.person.updatedAt = NSDate()
+            RLMRealm.defaultRealm().commitWriteTransaction()
+            self.inWriteTransaction = false
+        } else {
+            if self.inWriteTransaction {
+                NSException.raise("Realm Transaction Error", format: "Tried to commit transaction, but none open", arguments: getVaList([]))
+            }
         }
     }
 
@@ -72,8 +95,7 @@ class PersonFormTableViewController: UITableViewController, ItemForm, UITextFiel
         self.navigationItem.rightBarButtonItem = nil
         self.allowEditing = true
         let realm = RLMRealm.defaultRealm()
-        realm.beginWriteTransaction()
-        self.openTransaction = true
+        self.beginWriteTransaction()
         setEditingState()
     }
 
@@ -147,13 +169,13 @@ class PersonFormTableViewController: UITableViewController, ItemForm, UITextFiel
             alert("Incomplete", "You must enter a name or license", self)
         } else {
             let realm = RLMRealm.defaultRealm()
-            if self.openTransaction {
+            if self.inWriteTransaction{
                 println("open transaction")
             } else {
-                realm.beginWriteTransaction()
+                self.beginWriteTransaction()
                 realm.addObject(person)
             }
-            realm.commitWriteTransaction()
+            self.commitWriteTransaction()
             self.allowEditing = false
             self.performSegueWithIdentifier("UnwindCustomForm", sender: self)
         }

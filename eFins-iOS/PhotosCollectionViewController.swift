@@ -52,13 +52,14 @@ class PhotosCollectionViewController: UICollectionViewController, UIImagePickerC
     func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage!, editingInfo: [NSObject : AnyObject]!) {
         let realm = RLMRealm.defaultRealm()
         realm.beginWriteTransaction()
-        let photo = Photo()
-        photo.setImage(image)
-        realm.addObject(photo)
-        activity.photos.addObject(photo)
-        realm.commitWriteTransaction()
-        picker.dismissViewControllerAnimated(true, completion: nil)
-        self.collectionView?.reloadData()
+        Photo.create(image) { (photo: Photo) in
+            realm.addObject(photo)
+            self.activity.photos.addObject(photo)
+            self.activity.updatedAt = NSDate()
+            realm.commitWriteTransaction()
+            picker.dismissViewControllerAnimated(true, completion: nil)
+            self.collectionView?.reloadData()
+        }
     }
     
     @IBAction func cameraAction(sender: AnyObject) {

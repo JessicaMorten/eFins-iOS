@@ -24,6 +24,30 @@ class VesselFormTableViewController: UITableViewController, ItemForm, UITextFiel
     var label:String?
     var allowEditing = true
 //    var openTransaction = false
+    var inWriteTransaction = false
+
+    
+    
+    func beginWriteTransaction() {
+        if self.inWriteTransaction {
+            NSException.raise("Realm Transaction Error", format: "Tried to begin transaction, but one is open", arguments: getVaList([]))
+        }
+        self.inWriteTransaction = true
+        RLMRealm.defaultRealm().beginWriteTransaction()
+    }
+    
+    func commitWriteTransaction() {
+        if self.inWriteTransaction {
+            self.vessel.updatedAt = NSDate()
+            RLMRealm.defaultRealm().commitWriteTransaction()
+            self.inWriteTransaction = false
+        } else {
+            if self.inWriteTransaction {
+                NSException.raise("Realm Transaction Error", format: "Tried to commit transaction, but none open", arguments: getVaList([]))
+            }
+        }
+    }
+
     var vessel:Vessel {
         get {
             return self.model as! Vessel
@@ -106,23 +130,23 @@ class VesselFormTableViewController: UITableViewController, ItemForm, UITextFiel
     
     @IBAction func nameChanged(sender: UITextField) {
         let realm = RLMRealm.defaultRealm()
-        realm.beginWriteTransaction()
+        self.beginWriteTransaction()
         self.vessel.name = sender.text
-        realm.commitWriteTransaction()
+        self.commitWriteTransaction()
     }
     
     @IBAction func registrationChanged(sender: UITextField) {
         let realm = RLMRealm.defaultRealm()
-        realm.beginWriteTransaction()
+        self.beginWriteTransaction()
         self.vessel.registration = sender.text
-        realm.commitWriteTransaction()
+        self.commitWriteTransaction()
     }
     
     @IBAction func fgNumberChanged(sender: UITextField) {
         let realm = RLMRealm.defaultRealm()
-        realm.beginWriteTransaction()
+        self.beginWriteTransaction()
         self.vessel.fgNumber = sender.text
-        realm.commitWriteTransaction()
+        self.commitWriteTransaction()
     }
     
     @IBAction func save(sender: AnyObject) {

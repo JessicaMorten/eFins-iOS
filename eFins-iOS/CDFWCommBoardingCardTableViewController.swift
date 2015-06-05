@@ -77,9 +77,9 @@ class CDFWCommBoardingCardTableViewController: ActivityFormTableViewController, 
     
     @IBAction func unwindBoardingType(sender:UIStoryboardSegue) {
         let realm = RLMRealm.defaultRealm()
-        realm.beginWriteTransaction()
+        self.beginWriteTransaction()
         self.activity!.categoryOfBoarding = (sender.sourceViewController as! BoardingTypeTableViewController).selection
-        realm.commitWriteTransaction()
+        self.commitWriteTransaction()
         self.categoryOfBoardingCell.detailTextLabel?.text = activity!.categoryOfBoarding
     }
     
