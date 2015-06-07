@@ -129,6 +129,10 @@ class OneToManyTableViewController: UITableViewController {
         } else {
             println("Not allowing editing")
         }
+        if let eFinsModel = self.model as? EfinsModel {
+            eFinsModel.dirty = true
+            eFinsModel.updatedAt = NSDate()
+        }
         realm.commitWriteTransaction()
         self.tableView.reloadData()
     }
@@ -230,6 +234,10 @@ class OneToManyTableViewController: UITableViewController {
         let selection = (sender.sourceViewController as! ItemForm).model!
         if reversed {
             selection.setValue(self.model, forKeyPath: "activity")
+            if let eFinsModel = selection as? EfinsModel {
+                eFinsModel.dirty = true
+                eFinsModel.updatedAt = NSDate()
+            }
         } else {
             var prop:RLMArray
             if propertyClassName == selection.objectSchema.className {
@@ -250,6 +258,10 @@ class OneToManyTableViewController: UITableViewController {
             } else {
                 println("Not allowing editing")
             }
+        }
+        if let eFinsModel = self.model as? EfinsModel {
+            eFinsModel.dirty = true
+            eFinsModel.updatedAt = NSDate()
         }
         realm.commitWriteTransaction()
         self.tableView.reloadData()

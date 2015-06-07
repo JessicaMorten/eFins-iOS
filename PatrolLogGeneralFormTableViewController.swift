@@ -56,6 +56,7 @@ class PatrolLogGeneralFormTableViewController: UITableViewController, UITextFiel
     func commitWriteTransaction() {
         if self.inWriteTransaction {
             self.patrolLog.updatedAt = NSDate()
+            self.patrolLog.dirty = true
             RLMRealm.defaultRealm().commitWriteTransaction()
             self.inWriteTransaction = false
         } else {

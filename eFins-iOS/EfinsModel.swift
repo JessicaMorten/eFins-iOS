@@ -25,6 +25,9 @@ class EfinsModel : RLMObject {
     class func ingest(json: JSON, syncRealm: RLMRealm) -> [RLMObject] {
         var newEntities : [RLMObject] = []
         let classType = self.self
+        let defaults = NSUserDefaults.standardUserDefaults()
+        let currentUsn = defaults.integerForKey("currentUsn")
+        println("currentUsn \(currentUsn)")
         for (index: String, model: JSON) in json {
             var dictionary = model.dictionaryObject
             let idAsString = model["id"].stringValue
@@ -51,9 +54,13 @@ class EfinsModel : RLMObject {
                     dictionary?.updateValue(handler!(value as! String), forKey: key)
                 }
             }
-            
-            newEntities.append( classType.createOrUpdateInRealm(syncRealm, withObject:dictionary!))
+            if model["usn"].intValue > currentUsn {
+                let val = model["usn"].intValue
+                println("including \(val)")
+                newEntities.append( classType.createOrUpdateInRealm(syncRealm, withObject:dictionary!))
+            }
         }
+        println("New Entity Count \(newEntities.count)")
         for ne in newEntities as! [EfinsModel] {
             ne.dirty = false
         }

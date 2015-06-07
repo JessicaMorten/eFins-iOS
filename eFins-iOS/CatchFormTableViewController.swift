@@ -40,6 +40,7 @@ class CatchFormTableViewController: UITableViewController, ItemForm {
     func commitWriteTransaction() {
         if self.inWriteTransaction {
             self.catch.updatedAt = NSDate()
+            self.catch.dirty = true
             RLMRealm.defaultRealm().commitWriteTransaction()
             self.inWriteTransaction = false
         } else {

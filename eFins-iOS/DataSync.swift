@@ -116,13 +116,20 @@ class DataSync : NSObject, NSURLSessionDelegate {
                         self.delegate?.dataSyncDidStartPush?()
                     })
                     self.push({
-                        self.syncInProgress = false
-                        self.syncRealm!.commitWriteTransaction()
-                        dispatch_async(dispatch_get_main_queue(),{
-                            self.lastSync = NSDate()
-                            self.delegate?.dataSyncDidComplete?(true)
-                            DataSync.manager.pushPhotos()
+                        // one last pull to set usns so that editing an object with an out of data usn doesn't result in lost changes
+                        self.pull( defaults.integerForKey("currentUsn"), endOfLastSync: defaults.integerForKey("endOfLastSync"), maxCount: 0, continuation: { (success: Bool) -> () in
+                            if (!success) {
+                                println("problem with second pull")
+                            }
+                            self.syncInProgress = false
+                            self.syncRealm!.commitWriteTransaction()
+                            dispatch_async(dispatch_get_main_queue(),{
+                                self.lastSync = NSDate()
+                                self.delegate?.dataSyncDidComplete?(true)
+                                DataSync.manager.pushPhotos()
+                            })
                         })
+
                     })
                 } else {
                     self.log("Pull failed; eschewing a push")
@@ -405,6 +412,7 @@ class DataSync : NSObject, NSURLSessionDelegate {
                 let eObject = object as! EfinsModel
                 tempArray.append(eObject.toJSON())
             }
+            println("tmp array size \(count(tempArray))")
             if count(tempArray) > 0 {
                 json["models"][key] = JSON(tempArray)
             }
@@ -433,7 +441,7 @@ class DataSync : NSObject, NSURLSessionDelegate {
                         self.log("Server reports 204, WTF?")
                     } else if response?.statusCode == 200 {
                         self.log("Successful push to server")
-                        self.deleteLocalObjects(data!)
+                        self.deleteOrUpdateLocalObjects(data!)
                         continuation()
                         return
                     } else {
@@ -660,10 +668,10 @@ class DataSync : NSObject, NSURLSessionDelegate {
         return true;
     }
     
-    func deleteLocalObjects(jsonString: String) -> Bool {
+    func deleteOrUpdateLocalObjects(jsonString: String) -> Bool {
         let json = JSON(data: jsonString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!)
         let dRealm = self.syncRealm!
-        
+        let defaults = NSUserDefaults.standardUserDefaults()
         let start = NSDate()
         for (key: String, subJson: JSON) in json {
             for (nkey: String, newInfo: JSON) in subJson {
@@ -675,14 +683,27 @@ class DataSync : NSObject, NSURLSessionDelegate {
                     self.log("No \(key) object was found for local id \(nkey)")
                 } else {
                     let modelObject = queryResults?.firstObject() as! EfinsModel
-                    let newModelObject = joker?(object: modelObject) as! EfinsModel
-                    newModelObject.id = newId
-                    //Don't actually set the USN here.  By definition, this model has a USN of -1, and the USN will get set to the correct number on the next pull.
-                    //Since it's no longer dirty it won't ever get pushed again.
-                    newModelObject.dirty = false
-                    self.log("Deleting \(key) \(nkey) to \(newId)")
-                    dRealm.addObject(newModelObject)
-                    dRealm.deleteObject(modelObject)
+                    if nkey == newId { // if equal then it's an update
+                        println("is update")
+                        println(newInfo)
+                        modelObject.usn = newInfo["usn"].intValue
+                        println(newInfo["usn"].intValue)
+                        println(defaults.integerForKey("currentUsn"))
+                        if modelObject.usn > defaults.integerForKey("currentUsn") {
+                            println("setting currentUsn to \(modelObject.usn)")
+                            defaults.setInteger(modelObject.usn, forKey: "currentUsn")
+                        }
+                    } else {
+                        println("is not update, deleting")
+                        let newModelObject = joker?(object: modelObject) as! EfinsModel
+                        newModelObject.id = newId
+                        //Don't actually set the USN here.  By definition, this model has a USN of -1, and the USN will get set to the correct number on the next pull.
+                        //Since it's no longer dirty it won't ever get pushed again.
+                        newModelObject.dirty = false
+                        self.log("Deleting \(key) \(nkey) to \(newId)")
+                        dRealm.addObject(newModelObject)
+                        dRealm.deleteObject(modelObject)
+                    }
                 }
             }
         }

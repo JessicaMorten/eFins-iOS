@@ -43,6 +43,7 @@ class PersonFormTableViewController: UITableViewController, ItemForm, UITextFiel
     func commitWriteTransaction() {
         if self.inWriteTransaction {
             self.person.updatedAt = NSDate()
+            self.person.dirty = true
             RLMRealm.defaultRealm().commitWriteTransaction()
             self.inWriteTransaction = false
         } else {

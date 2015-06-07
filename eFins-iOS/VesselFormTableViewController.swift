@@ -39,6 +39,7 @@ class VesselFormTableViewController: UITableViewController, ItemForm, UITextFiel
     func commitWriteTransaction() {
         if self.inWriteTransaction {
             self.vessel.updatedAt = NSDate()
+            self.vessel.dirty = true
             RLMRealm.defaultRealm().commitWriteTransaction()
             self.inWriteTransaction = false
         } else {

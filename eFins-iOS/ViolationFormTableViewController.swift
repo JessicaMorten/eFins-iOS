@@ -39,6 +39,7 @@ class ViolationFormTableViewController: UITableViewController, ItemForm {
     func commitWriteTransaction() {
         if self.inWriteTransaction {
             self.enforcementAction.updatedAt = NSDate()
+            self.enforcementAction.dirty = true
             RLMRealm.defaultRealm().commitWriteTransaction()
             self.inWriteTransaction = false
         } else {

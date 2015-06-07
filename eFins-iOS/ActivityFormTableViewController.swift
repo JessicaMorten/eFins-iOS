@@ -441,6 +441,9 @@ class ActivityFormTableViewController: UITableViewController, LocationManagerDel
     func commitWriteTransaction() {
         if self.inWriteTransaction {
             self.activity.updatedAt = NSDate()
+            if !isNew {
+                self.activity.dirty = true
+            }
             RLMRealm.defaultRealm().commitWriteTransaction()
             self.inWriteTransaction = false
         } else {
