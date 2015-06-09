@@ -10,3 +10,4 @@ pod "Realm", "~>0.91.3"
 pod 'MBProgressHUD', '~>0.9.1'
 pod 'semver', :git => 'https://github.com/weekwood/Semver.Swift.git'
 pod 'ActionSheetPicker-3.0', '~> 1.6.2'
+pod 'AWSiOSSDKv2'

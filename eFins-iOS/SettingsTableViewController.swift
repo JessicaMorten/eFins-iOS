@@ -10,7 +10,7 @@ import UIKit
 import Alamofire
 
 class SettingsTableViewController: UITableViewController, DataSyncDelegate {
-
+    
     @IBOutlet weak var loginCell: UITableViewCell!
     @IBOutlet weak var progress: UIProgressView!
     @IBOutlet weak var mapDownloadButton: UIButton!
@@ -37,7 +37,7 @@ class SettingsTableViewController: UITableViewController, DataSyncDelegate {
         super.viewDidLoad()
         self.chartManager = Alamofire.Manager(configuration: chartbackgroundSession)
         self.basemapManager = Alamofire.Manager(configuration: basemapBackgroundSession)
-
+        println("manager \(self.chartManager)")
         if let user = (UIApplication.sharedApplication().delegate as! AppDelegate).getUser() {
             self.loginCell.textLabel?.text = "Signed in as \(user.name)"
         }
@@ -45,10 +45,11 @@ class SettingsTableViewController: UITableViewController, DataSyncDelegate {
         DataSync.manager.delegate = self
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
-
+        
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
         updateDisplay()
+        println(DataSync.manager.lastSync)
     }
     
     
@@ -65,24 +66,48 @@ class SettingsTableViewController: UITableViewController, DataSyncDelegate {
     }
     
     func renderLogbookSyncStatus() {
+        if DataSync.manager.syncInProgress {
+            self.logbookSyncLabel.text = "syncing"
+            self.logbookSyncActivityIndicator.startAnimating()
+        } else {
+            self.logbookSyncActivityIndicator.stopAnimating()
+            if let lastSync = DataSync.manager.lastSync {
+                self.logbookSyncLabel.text = "Synced \(timeAgoSinceDate(lastSync, true).lowercaseString)"
+            } else {
                 self.logbookSyncLabel.text = " "
+            }
+        }
     }
     
     func dataSyncDidStart() {
         self.syncButton.enabled = false
         self.logbookSyncActivityIndicator.startAnimating()
-        self.logbookSyncLabel.hidden = true
+        self.logbookSyncLabel.text = "syncing"
+    }
+    
+    func dataSyncDidStartPull() {
+        self.logbookSyncLabel.text = "fetching data"
+    }
+    
+    func dataSyncDidStartPush() {
+        self.logbookSyncLabel.text = "publishing your data"
     }
     
     func dataSyncDidComplete(success: Bool) {
         println("did complete")
-        if !success {
-            
+        if success {
+            if let lastSync = DataSync.manager.lastSync {
+                self.logbookSyncLabel.text = "Synced \(timeAgoSinceDate(lastSync, true).lowercaseString)"
+            }
+        } else {
+            if DataSync.manager.reachability.isReachable() {
+                self.logbookSyncLabel.text = "error occured"
+            } else {
+                self.logbookSyncLabel.text = "must be connected to the internet"
+            }
         }
         self.syncButton.enabled = true
         self.logbookSyncActivityIndicator.stopAnimating()
-        self.logbookSyncLabel.text = "last synced..."
-        self.logbookSyncLabel.hidden = false
     }
     
     @IBAction func syncNow(sender: AnyObject) {
@@ -117,9 +142,37 @@ class SettingsTableViewController: UITableViewController, DataSyncDelegate {
         self.renderLogbookSyncStatus()
         self.mapDownloadButton.sizeToFit()
     }
-
+    
     @IBAction func downloadMaps(sender: AnyObject) {
         if !tilesExist() && !downloading {
+            println("going to download")
+            let fileManager = NSFileManager.defaultManager()
+            if fileManager.fileExistsAtPath(chartPath()!) {
+                println("removing charts")
+                fileManager.removeItemAtPath(chartPath()!, error: nil)
+            }
+            if fileManager.fileExistsAtPath(basemapPath()!) {
+                println("removing basemaps")
+                fileManager.removeItemAtPath(basemapPath()!, error: nil)
+            }
+            self.chartManager.session.getTasksWithCompletionHandler { (tasks, _, _) in
+                for item in tasks {
+                    println("item \(item)")
+                    if let task = item as? NSURLSessionDownloadTask {
+                        println("cancelling")
+                        task.cancel()
+                    }
+                }
+            }
+            self.basemapManager.session.getTasksWithCompletionHandler { (tasks, _, _) in
+                for item in tasks {
+                    println("item \(item)")
+                    if let task = item as? NSURLSessionDownloadTask {
+                        println("cancelling")
+                        task.cancel()
+                    }
+                }
+            }
             self.mapDownloadButton.enabled = false
             self.downloading = true
             self.totalBytes = 0
@@ -129,10 +182,12 @@ class SettingsTableViewController: UITableViewController, DataSyncDelegate {
             var basemapSizeFiguredOut = false
             var chartsDone = false
             var basemapDone = false
+            println("doing chartManager")
             self.chartManager.download(.GET, CHART_MBTILES, destination: { (temporaryURL, response) in
                 return NSURL(fileURLWithPath: chartPath()!, isDirectory: false)!
-                })
+            })
                 .progress { (bytesRead, totalBytesRead, totalBytesExpectedToRead) in
+                    println("progress, charts")
                     if self.chartBytesRead == 0 {
                         self.totalBytes += Int(totalBytesExpectedToRead)
                     }
@@ -150,6 +205,8 @@ class SettingsTableViewController: UITableViewController, DataSyncDelegate {
                             self.updateDisplay()
                         })
                     } else {
+                        println("charts error")
+                        println(error)
                         chartsDone = true
                         if chartsDone && basemapDone {
                             self.downloading = false
@@ -159,11 +216,12 @@ class SettingsTableViewController: UITableViewController, DataSyncDelegate {
                         }
                     }
             }
-            
+            println("doing basemapManager")
             self.basemapManager.download(.GET, BASEMAP_MBTILES, destination: { (temporaryURL, response) in
                 return NSURL(fileURLWithPath: basemapPath()!, isDirectory: false)!
             })
                 .progress { (bytesRead, totalBytesRead, totalBytesExpectedToRead) in
+                    println("progress, basemap")
                     if self.basemapBytesRead == 0 {
                         self.totalBytes += Int(totalBytesExpectedToRead)
                     }
@@ -181,6 +239,8 @@ class SettingsTableViewController: UITableViewController, DataSyncDelegate {
                             self.updateDisplay()
                         })
                     } else {
+                        println("error, basemaps")
+                        println(error)
                         basemapDone = true
                         if chartsDone && basemapDone {
                             self.downloading = false
@@ -191,6 +251,7 @@ class SettingsTableViewController: UITableViewController, DataSyncDelegate {
                     }
             }
         } else if tilesExist() {
+            println("tiles exist, delete?")
             confirm("Delete Map Data", "Are you sure you want to clear map data? You will not be able to view maps until you download the data again.", self) { () in
                 let fileManager = NSFileManager.defaultManager()
                 fileManager.removeItemAtPath(chartPath()!, error: nil)

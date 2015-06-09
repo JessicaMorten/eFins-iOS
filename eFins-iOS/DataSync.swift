@@ -10,6 +10,7 @@ import Foundation
 import Alamofire
 import Realm
 import SwiftyJSON
+import AWSS3
 
 private let _mgr = DataSync()
 
@@ -19,11 +20,16 @@ private let _mgr = DataSync()
     optional func dataSyncDidComplete(success: Bool)
     optional func dataSyncDidStartPull()
     optional func dataSyncDidStartPush()
+    optional func dataSyncDidStartPhotos()
+    optional func dataSyncUploadedPhotos(completed:Int, left:Int)
+    optional func dataSyncPhotoUploadStarted(numPhotos:Int)
+    optional func dataSyncPhotoUploadProgress(numPhotos:Int, numCompleted:Int)
+    optional func dataSyncPhotoUploadCompleted(error:String?)
 }
 
-class DataSync {
+class DataSync: NSObject, NSURLSessionDelegate {
     
-    let periodicSynchronizationInterval : NSTimeInterval = 30.0 //Seconds
+    let periodicSynchronizationInterval : NSTimeInterval = 300.0 // 5 minutes
     let reachability: Reachability
     var timer: NSTimer = NSTimer()
     var syncInProgress = false
@@ -33,16 +39,36 @@ class DataSync {
     let syncCondition = NSCondition()
     var syncThread: NSThread? = nil
     var delegate:DataSyncDelegate?
+    var uploadSession:NSURLSession?
+    var numPhotosUploading = 0
+    var numPhotosCompletedUploading = 0
+    var numPhotosDownloading = 0
+    var numPhotosCompletedDownloading = 0
+    var downloadSession:NSURLSession?
+
+    var lastSync:NSDate? {
+        get {
+            return NSUserDefaults.standardUserDefaults().objectForKey("lastSyncDate") as? NSDate
+        }
+        
+        set {
+            NSUserDefaults.standardUserDefaults().setObject(newValue, forKey: "lastSyncDate")
+        }
+    }
     
-    init() {
+    override init() {
         let uri = NSURL(string: SERVER_ROOT)
         let host = uri?.host ?? ""
         self.reachability = Reachability(hostname: host)
+        super.init()
         self.log("Reachability will be measured against " + host)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "reachabilityChanged", name: ReachabilityChangedNotification, object: reachability)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "tokenObtained", name: TokenObtainedNotification, object: nil)
 
         reachability.startNotifier()
+        
+        let sessionConfig = NSURLSessionConfiguration.backgroundSessionConfiguration("org.efins.eFins-iOS-Uploader")
+            self.uploadSession = NSURLSession(configuration: sessionConfig, delegate: self, delegateQueue: nil)
     }
     
     class var manager: DataSync {
@@ -76,16 +102,23 @@ class DataSync {
             self.syncRealm!.beginWriteTransaction()
             
             self.log("About to pull")
-            self.delegate?.dataSyncDidStartPull?()
+            dispatch_async(dispatch_get_main_queue(),{
+                self.delegate?.dataSyncDidStartPull?()
+            })
             self.pull( usn, endOfLastSync: endOfLastSync, maxCount: 0, continuation: { (success: Bool) -> () in
                 if(success) {
                     self.log("starting push")
-                    self.delegate?.dataSyncDidStartPush?()
+                    dispatch_async(dispatch_get_main_queue(),{
+                        self.delegate?.dataSyncDidStartPush?()
+                    })
                     self.push({
                         self.syncInProgress = false
                         self.syncRealm!.commitWriteTransaction()
                         dispatch_async(dispatch_get_main_queue(),{
+                            self.lastSync = NSDate()
                             self.delegate?.dataSyncDidComplete?(true)
+                            self.delegate?.dataSyncDidStartPhotos?()
+                            DataSync.manager.pushPhotos()
                         })
                     })
                 } else {
@@ -196,6 +229,112 @@ class DataSync {
     func log(msg: String) {
         NSLog("DataSync Manager: " + msg)
     }
+    
+    func downloadPhotos() {
+        
+    }
+    
+    func pushPhotos() {
+        self.numPhotosUploading = 0
+        self.numPhotosCompletedUploading = 0
+        self.uploadSession!.getTasksWithCompletionHandler { (_, uploadTasks:[AnyObject]!, _) in
+            for item in uploadTasks {
+                if let task = item as? NSURLSessionUploadTask {
+                    task.cancel()
+                }
+            }
+        }
+        let photos = Photo.objectsWhere("uploaded = false OR uploadedThumbnail = false", [])
+        if photos.count > UInt(0) {
+            var i = UInt(0)
+            while i < photos.count {
+                if let photo = photos.objectAtIndex(i) as? Photo {
+                    if photo.uploaded != true {
+                        if let url = NSURL(string: photo.signedOriginalUploadUrl) {
+                            let request = NSMutableURLRequest(URL: url)
+                            request.cachePolicy = NSURLRequestCachePolicy.ReloadIgnoringLocalCacheData
+                            request.HTTPMethod = "PUT"
+                            request.setValue("image/jpg", forHTTPHeaderField: "Content-Type")
+                            if let data = photo.originalImageData {
+                                let uploadTask = self.uploadSession!.uploadTaskWithRequest(request, fromFile: photo.getOriginalFilePath()!)
+                                self.numPhotosUploading++
+                                uploadTask.resume()
+                            } else {
+                                println("could not get photo data")
+                            }
+                        }
+                    }
+                    if photo.uploadedThumbnail != true {
+                        if let url = NSURL(string: photo.signedThumbnailUploadUrl) {
+                            let request = NSMutableURLRequest(URL: url)
+                            request.cachePolicy = NSURLRequestCachePolicy.ReloadIgnoringLocalCacheData
+                            request.HTTPMethod = "PUT"
+                            request.setValue("image/jpg", forHTTPHeaderField: "Content-Type")
+                            if let data = photo.thumbnailImageData {
+                                let uploadTask = self.uploadSession!.uploadTaskWithRequest(request, fromFile: photo.getThumbnailFilePath()!)
+                                self.numPhotosUploading++
+                                uploadTask.resume()
+                            } else {
+                                println("could not get photo thumbnail data")
+                            }
+                        }
+                    }
+                    
+                }
+                i++
+            }
+            self.delegate?.dataSyncPhotoUploadStarted?(self.numPhotosUploading)
+            println("Uploading \(self.numPhotosUploading) photos")
+        } else {
+            self.delegate?.dataSyncPhotoUploadStarted?(0)
+            self.delegate?.dataSyncPhotoUploadCompleted?(nil)
+            println("completed photo uploading")
+        }
+    }
+    
+    func URLSession(session: NSURLSession, task: NSURLSessionTask, didCompleteWithError error: NSError?) {
+        if let uploadTask = task as? NSURLSessionUploadTask {
+            if error != nil {
+                println(error)
+            } else {
+                if var path = uploadTask.response?.URL?.path {
+                    path = path.substringWithRange(Range<String.Index>(start: advance(path.startIndex, 1), end: path.endIndex)) // get rid of "/"
+                    var thumb = false
+                    var id = path
+                    if count(path) > 36 {
+                        thumb = true
+                        id = path.substringWithRange(Range<String.Index>(start: path.startIndex, end: advance(path.endIndex, -6))) // get rid of "/"
+                    }
+                    //                    dispatch_async(dispatch_get_main_queue(),{
+                    let photos = Photo.objectsWhere("localId = %@", id)
+                    if photos.count > UInt(0) {
+                        if let photo = photos.objectAtIndex(UInt(0)) as? Photo {
+                            RLMRealm.defaultRealm().beginWriteTransaction()
+                            if thumb {
+                                photo.uploadedThumbnail = true
+                            } else {
+                                photo.uploaded = true
+                            }
+                            RLMRealm.defaultRealm().commitWriteTransaction()
+                            println("photo uploaded")
+                            println(photo)
+                        }
+                    } else {
+                        println("couldnt find photo with matching localid")
+                    }
+                    //                    })
+                }
+            }
+            self.numPhotosCompletedUploading++
+            self.delegate?.dataSyncPhotoUploadProgress?(self.numPhotosUploading, numCompleted: self.numPhotosCompletedUploading)
+            println("Completed \(self.numPhotosCompletedUploading)/\(self.numPhotosUploading) uploads")
+            if self.numPhotosCompletedUploading >= self.numPhotosUploading {
+                self.delegate?.dataSyncPhotoUploadCompleted?(nil)
+                println("Photo uploads complete")
+            }
+        }
+    }
+    
     
     func pull(currentUsn: Int, endOfLastSync: Int, maxCount: Int, continuation: (Bool) -> () ) {
         self.log("Pull")

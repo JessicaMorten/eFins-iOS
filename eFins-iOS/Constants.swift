@@ -16,6 +16,7 @@ var SERVER_ROOT = "http://efins.org/"
 let CHART_MBTILES = "http://d22rw30n9mffwa.cloudfront.net/charts.mbtiles"
 let BASEMAP_MBTILES = "http://d22rw30n9mffwa.cloudfront.net/efins-basemap.mbtiles"
 let SENTRY_DSN = "https://2c4ae4ac92c84b0ea1cedc913ee39408:c5cdf2a5caec4910bd5aef75e4d70de8@app.getsentry.com/44757"
+let PHOTOS_BUCKET = "efins-photos"
 
 func chartPath() -> String? {
     let fileManager = NSFileManager.defaultManager()
