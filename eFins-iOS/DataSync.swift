@@ -679,8 +679,8 @@ class DataSync: NSObject, NSURLSessionDelegate {
                     //Since it's no longer dirty it won't ever get pushed again.
                     newModelObject.dirty = false
                     self.log("Deleting \(key) \(nkey) to \(newId)")
-                    dRealm.addObject(newModelObject)
                     dRealm.deleteObject(modelObject)
+                    dRealm.addObject(newModelObject)
                 }
             }
         }
