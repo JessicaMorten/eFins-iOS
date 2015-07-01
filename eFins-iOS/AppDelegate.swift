@@ -94,6 +94,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 photo.createSignedUrls { (success:Bool) in
                     println("Signed")
                 }
+                photo.dirty = true
             }
             i++
         }

@@ -105,24 +105,21 @@ class VesselFormTableViewController: UITableViewController, ItemForm, UITextFiel
     }
     
     @IBAction func nameChanged(sender: UITextField) {
-        let realm = RLMRealm.defaultRealm()
-        realm.beginWriteTransaction()
+        vessel.beginWriteTransaction()
         self.vessel.name = sender.text
-        realm.commitWriteTransaction()
+        vessel.commitWriteTransaction()
     }
     
     @IBAction func registrationChanged(sender: UITextField) {
-        let realm = RLMRealm.defaultRealm()
-        realm.beginWriteTransaction()
+        vessel.beginWriteTransaction()
         self.vessel.registration = sender.text
-        realm.commitWriteTransaction()
+        vessel.commitWriteTransaction()
     }
     
     @IBAction func fgNumberChanged(sender: UITextField) {
-        let realm = RLMRealm.defaultRealm()
-        realm.beginWriteTransaction()
+        vessel.beginWriteTransaction()
         self.vessel.fgNumber = sender.text
-        realm.commitWriteTransaction()
+        vessel.commitWriteTransaction()
     }
     
     @IBAction func save(sender: AnyObject) {
@@ -132,6 +129,7 @@ class VesselFormTableViewController: UITableViewController, ItemForm, UITextFiel
             let realm = RLMRealm.defaultRealm()
             realm.beginWriteTransaction()
             realm.addObject(self.vessel)
+            self.vessel.dirty = true
             realm.commitWriteTransaction()
             self.performSegueWithIdentifier("UnwindCustomForm", sender: self)
         }

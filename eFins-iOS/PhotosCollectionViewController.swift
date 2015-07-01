@@ -56,6 +56,7 @@ class PhotosCollectionViewController: UICollectionViewController, UIImagePickerC
         photo.setImage(image)
         realm.addObject(photo)
         activity.photos.addObject(photo)
+        activity.dirty = true
         realm.commitWriteTransaction()
         picker.dismissViewControllerAnimated(true, completion: nil)
         self.collectionView?.reloadData()

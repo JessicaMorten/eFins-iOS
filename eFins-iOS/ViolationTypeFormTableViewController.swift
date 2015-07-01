@@ -78,17 +78,15 @@ class ViolationTypeFormTableViewController: UITableViewController, ItemForm {
     }
     
     @IBAction func nameChanged(sender: UITextField) {
-        let realm = RLMRealm.defaultRealm()
-        realm.beginWriteTransaction()
+        self.violationType.beginWriteTransaction()
         self.violationType.name = sender.text
-        realm.commitWriteTransaction()
+        self.violationType.commitWriteTransaction()
     }
 
     @IBAction func codeChanged(sender: UITextField) {
-        let realm = RLMRealm.defaultRealm()
-        realm.beginWriteTransaction()
+        self.violationType.beginWriteTransaction()
         self.violationType.code = sender.text
-        realm.commitWriteTransaction()
+        self.violationType.commitWriteTransaction()
     }
     
     @IBAction func save(sender: AnyObject) {
@@ -98,6 +96,7 @@ class ViolationTypeFormTableViewController: UITableViewController, ItemForm {
             let realm = RLMRealm.defaultRealm()
             realm.beginWriteTransaction()
             realm.addObject(self.violationType)
+            self.violationType.dirty = true
             realm.commitWriteTransaction()
             self.performSegueWithIdentifier("UnwindCustomForm", sender: self)
         }

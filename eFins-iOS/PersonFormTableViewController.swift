@@ -153,6 +153,7 @@ class PersonFormTableViewController: UITableViewController, ItemForm, UITextFiel
                 realm.beginWriteTransaction()
                 realm.addObject(person)
             }
+            person.dirty = true
             realm.commitWriteTransaction()
             self.allowEditing = false
             self.performSegueWithIdentifier("UnwindCustomForm", sender: self)

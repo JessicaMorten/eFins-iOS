@@ -59,8 +59,8 @@ class ActivityFormTableViewController: UITableViewController, LocationManagerDel
         
         if self.activity == nil {
             let realm = RLMRealm.defaultRealm()
-            realm.beginWriteTransaction()
             activity = Activity()
+            activity.beginWriteTransaction()
             activity.type = activityType
             self.isNew = true
             self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Cancel,
@@ -78,7 +78,7 @@ class ActivityFormTableViewController: UITableViewController, LocationManagerDel
             }
             
             realm.addObject(self.activity)
-            realm.commitWriteTransaction()
+            activity.commitWriteTransaction()
             self.locationSwitch.setOn(true, animated: false)
             self.toggleLocationRecording(true)
         } else {
@@ -152,9 +152,9 @@ class ActivityFormTableViewController: UITableViewController, LocationManagerDel
             alert("Waiting for GPS Lock", "Your location has not yet been obtained. Please wait or turn of the Include Location switch.", self)
         } else {
             let realm = RLMRealm.defaultRealm()
-            realm.beginWriteTransaction()
+            activity.beginWriteTransaction()
             realm.addObject(self.activity)
-            realm.commitWriteTransaction()
+            activity.commitWriteTransaction()
             self.dismissViewControllerAnimated(true, completion: nil)
         }
     }
@@ -172,10 +172,10 @@ class ActivityFormTableViewController: UITableViewController, LocationManagerDel
         } else {
             self.locationLabel.text = " "
             let realm = RLMRealm.defaultRealm()
-            realm.beginWriteTransaction()
+            activity.beginWriteTransaction()
             self.activity.latitude = -1.0
             self.activity.longitude = -1.0
-            realm.commitWriteTransaction()
+            activity.commitWriteTransaction()
             self.locationActivityIndicator.hidden = true
             LocationManager.sharedInstance.removeLocationManagerDelegate(self)
             self.locationSwitch.setOn(false, animated: false)
@@ -185,9 +185,9 @@ class ActivityFormTableViewController: UITableViewController, LocationManagerDel
     @IBAction func numPersonsOnBoardEditingEnded(sender: AnyObject) {
         if let n = self.numPersonsOnBoardTextField!.text.toInt() {
             let realm = RLMRealm.defaultRealm()
-            realm.beginWriteTransaction()
+            activity.beginWriteTransaction()
             self.activity.numPersonsOnBoard = n
-            realm.commitWriteTransaction()
+            activity.commitWriteTransaction()
         }
     }
     
@@ -202,9 +202,9 @@ class ActivityFormTableViewController: UITableViewController, LocationManagerDel
     @IBAction func unwindDatePicker(sender: UIStoryboardSegue) {
         let sourceViewController = sender.sourceViewController as! DatePickerTableViewController
         let realm = RLMRealm.defaultRealm()
-        realm.beginWriteTransaction()
+        activity.beginWriteTransaction()
         activity?.time = sourceViewController.date!
-        realm.commitWriteTransaction()
+        activity.commitWriteTransaction()
         let formatter = getDateFormatter()
         dateTableCell.detailTextLabel?.text = formatter.stringFromDate(activity!.time)
     }
@@ -297,7 +297,7 @@ class ActivityFormTableViewController: UITableViewController, LocationManagerDel
     
     func textViewDidEndEditing(textView: UITextView) {
         let realm = RLMRealm.defaultRealm()
-        realm.beginWriteTransaction()
+        activity.beginWriteTransaction()
         if textView.text == "" {
             textView.text = "Add any relevant comments here..."
             textView.textColor = UIColor.lightGrayColor()
@@ -305,7 +305,7 @@ class ActivityFormTableViewController: UITableViewController, LocationManagerDel
         } else {
             self.activity?.remarks = textView.text
         }
-        realm.commitWriteTransaction()
+        activity.commitWriteTransaction()
         textView.resignFirstResponder()
     }
     
@@ -410,10 +410,10 @@ class ActivityFormTableViewController: UITableViewController, LocationManagerDel
     
     // LocationManagerDelegate
     func locationManagerDidUpdateLocation(location: CLLocation) {
-        RLMRealm.defaultRealm().beginWriteTransaction()
+        activity.beginWriteTransaction()
         self.activity.latitude = location.coordinate.latitude
         self.activity.longitude = location.coordinate.longitude
-        RLMRealm.defaultRealm().commitWriteTransaction()
+        activity.commitWriteTransaction()
         LocationManager.sharedInstance.removeLocationManagerDelegate(self)
         locationActivityIndicator.stopAnimating()
         self.locationLabel.text = "\(self.activity.latitude), \(self.activity.longitude)"

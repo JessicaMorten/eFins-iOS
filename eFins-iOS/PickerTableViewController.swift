@@ -111,6 +111,9 @@ class PickerTableViewController: UITableViewController, UISearchBarDelegate, UIS
             let realm = RLMRealm.defaultRealm()
             realm.beginWriteTransaction()
             realm.addObject(object)
+            if let m = object as? EfinsModel {
+                m.dirty = true
+            }
             realm.commitWriteTransaction()
             self.selection = object
             if self.cell != nil {

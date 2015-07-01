@@ -278,6 +278,9 @@ class RelationTableViewCell: UITableViewCell {
         // save Model
         // reload table data
         self.updateValues()
+        if let m = self.model as? EfinsModel {
+            m.dirty = true
+        }
         realm.commitWriteTransaction()
     }
 

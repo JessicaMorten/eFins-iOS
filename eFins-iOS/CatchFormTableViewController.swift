@@ -83,14 +83,13 @@ class CatchFormTableViewController: UITableViewController, ItemForm {
     }
     
     @IBAction func amountChanged(sender: UITextField) {
-        let realm = RLMRealm.defaultRealm()
-        realm.beginWriteTransaction()
+        catch.beginWriteTransaction()
         if count(sender.text) > 0 {
             self.catch.amount = sender.text.toInt()!
         } else {
             self.catch.amount = 0
         }
-        realm.commitWriteTransaction()
+        catch.commitWriteTransaction()
     }
     
     @IBAction func save(sender: AnyObject) {
@@ -100,9 +99,9 @@ class CatchFormTableViewController: UITableViewController, ItemForm {
             alert("Incomplete", "Amount (lbs) must be greater than zero", self)
         } else {
             let realm = RLMRealm.defaultRealm()
-            realm.beginWriteTransaction()
+            catch.beginWriteTransaction()
             realm.addObject(self.catch)
-            realm.commitWriteTransaction()
+            catch.commitWriteTransaction()
             self.performSegueWithIdentifier("UnwindCustomForm", sender: self)
         }
     }

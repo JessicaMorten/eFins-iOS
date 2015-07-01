@@ -111,7 +111,7 @@ class PatrolLogGeneralFormTableViewController: UITableViewController, UITextFiel
     
     func textFieldDidEndEditing(textField: UITextField) {
         let realm = RLMRealm.defaultRealm()
-        realm.beginWriteTransaction()
+        self.patrolLog.beginWriteTransaction()
         var value = 0
         if let val = textField.text.toInt() {
             value = val
@@ -140,7 +140,7 @@ class PatrolLogGeneralFormTableViewController: UITableViewController, UITextFiel
         default:
             println("unrecognized field")
         }
-        realm.commitWriteTransaction()
+        self.patrolLog.commitWriteTransaction()
         showEngineHoursAndFuel()
     }
     
@@ -206,9 +206,9 @@ class PatrolLogGeneralFormTableViewController: UITableViewController, UITextFiel
     @IBAction func unwindDatePicker(sender: UIStoryboardSegue) {
         let sourceViewController = sender.sourceViewController as! DatePickerTableViewController
         let realm = RLMRealm.defaultRealm()
-        realm.beginWriteTransaction()
+        patrolLog.beginWriteTransaction()
         patrolLog.date = sourceViewController.date!
-        realm.commitWriteTransaction()
+        patrolLog.commitWriteTransaction()
         let formatter = getDateFormatter()
         dateTableCell.detailTextLabel?.text = formatter.stringFromDate(patrolLog.date)
     }
@@ -234,7 +234,7 @@ class PatrolLogGeneralFormTableViewController: UITableViewController, UITextFiel
                 controller.date = patrolLog.date
             } else if indexPath.section == 2 {
                 let realm = RLMRealm.defaultRealm()
-                realm.beginWriteTransaction()
+                patrolLog.beginWriteTransaction()
 
                 if let cell = tableView.cellForRowAtIndexPath(indexPath) {
                     var on:Bool
@@ -264,7 +264,7 @@ class PatrolLogGeneralFormTableViewController: UITableViewController, UITextFiel
                             println("Should not get here")
                     }
                 }
-                realm.commitWriteTransaction()
+                patrolLog.commitWriteTransaction()
                 self.tableView.deselectRowAtIndexPath(indexPath, animated: true)
             }
         } else {
@@ -459,6 +459,7 @@ class PatrolLogGeneralFormTableViewController: UITableViewController, UITextFiel
             let realm = RLMRealm.defaultRealm()
             realm.beginWriteTransaction()
             realm.deleteObject(self.patrolLog)
+            self.patrolLog.dirty = true
             realm.commitWriteTransaction()
             if let parent = self.splitViewController {
                 if let tabBarController = parent.tabBarController as? EFinsTabBarController {

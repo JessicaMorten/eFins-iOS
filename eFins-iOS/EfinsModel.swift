@@ -115,6 +115,15 @@ class EfinsModel : RLMObject {
         
     }
     
+    func beginWriteTransaction() {
+        let realm = RLMRealm.defaultRealm()
+        realm.beginWriteTransaction()
+    }
+    
+    func commitWriteTransaction() {
+        let realm = RLMRealm.defaultRealm()
+        realm.commitWriteTransaction()
+    }
     
     func doNotPush() -> [String] {
         return []

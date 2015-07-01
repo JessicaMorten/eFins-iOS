@@ -26,13 +26,13 @@ class PatrolLogSidebarTableViewController: UITableViewController {
             patrolLog = PatrolLog()
             self.allowEditing = true
             let realm = RLMRealm.defaultRealm()
-            realm.beginWriteTransaction()
+            patrolLog.beginWriteTransaction()
             patrolLog.date = NSDate()
             if let user = (UIApplication.sharedApplication().delegate as! AppDelegate).getUser() {
                 patrolLog.user = user
             }
             realm.addObject(self.patrolLog)
-            realm.commitWriteTransaction()
+            patrolLog.commitWriteTransaction()
         } else {
             allowEditing = false
         }

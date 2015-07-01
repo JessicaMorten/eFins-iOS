@@ -86,10 +86,9 @@ class ViolationFormTableViewController: UITableViewController, ItemForm {
     }
 
     @IBAction func unwindViolationTypeForm(sender: UIStoryboardSegue) {
-        let realm = RLMRealm.defaultRealm()
-        realm.beginWriteTransaction()
+        enforcementAction.beginWriteTransaction()
         self.enforcementAction.violationType = (sender.sourceViewController as! ItemForm).model as! ViolationType
-        realm.commitWriteTransaction()
+        enforcementAction.commitWriteTransaction()
         self.violationTypeCell.updateValues()
     }
     
@@ -102,6 +101,7 @@ class ViolationFormTableViewController: UITableViewController, ItemForm {
             let realm = RLMRealm.defaultRealm()
             realm.beginWriteTransaction()
             realm.addObject(self.enforcementAction)
+            self.enforcementAction.dirty = true
             realm.commitWriteTransaction()
             self.performSegueWithIdentifier("UnwindCustomForm", sender: self)
         }

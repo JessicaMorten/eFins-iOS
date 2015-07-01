@@ -309,13 +309,13 @@ class DataSync: NSObject, NSURLSessionDelegate {
                     let photos = Photo.objectsWhere("localId = %@", id)
                     if photos.count > UInt(0) {
                         if let photo = photos.objectAtIndex(UInt(0)) as? Photo {
-                            RLMRealm.defaultRealm().beginWriteTransaction()
+                            photo.beginWriteTransaction()
                             if thumb {
                                 photo.uploadedThumbnail = true
                             } else {
                                 photo.uploaded = true
                             }
-                            RLMRealm.defaultRealm().commitWriteTransaction()
+                            photo.commitWriteTransaction()
                             println("photo uploaded")
                             println(photo)
                         }
