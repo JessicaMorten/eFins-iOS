@@ -22,11 +22,7 @@ class Photo: EfinsModel {
     dynamic var uploadedThumbnail = false
     dynamic var signedOriginalUploadUrl = ""
     dynamic var signedThumbnailUploadUrl = ""
-<<<<<<< HEAD
-    
-=======
 
->>>>>>> f23fed8d03be0025ef1b83df9044c92be63705ad
     override func doNotPush() -> [String] {
         return ["hasLocalCopy", "signedOriginalUploadUrl", "signedThumbnailUploadUrl"]
     }
@@ -64,8 +60,6 @@ class Photo: EfinsModel {
                 }
             }
             return UIImage(named: "not-synced")!
-<<<<<<< HEAD
-=======
         }
     }
     
@@ -94,39 +88,9 @@ class Photo: EfinsModel {
                 }
             }
             return nil
->>>>>>> f23fed8d03be0025ef1b83df9044c92be63705ad
         }
     }
-    
-    var originalImageData:NSData? {
-        get {
-            if let url = self.getOriginalFilePath() {
-                if let path = url.path {
-                    let filemgr = NSFileManager.defaultManager()
-                    if filemgr.fileExistsAtPath(path) {
-                        return NSData(contentsOfFile: path)
-                    }
-                }
-            }
-            return nil
-        }
-    }
-    
-    var thumbnailImageData:NSData? {
-        get {
-            if let url = self.getThumbnailFilePath() {
-                if let path = url.path {
-                    let filemgr = NSFileManager.defaultManager()
-                    if filemgr.fileExistsAtPath(path) {
-                        return NSData(contentsOfFile: path)
-                    }
-                }
-            }
-            return nil
-        }
-    }
-    
-    
+        
     func setImage(image:UIImage) {
         // store original
         let originalBlob = UIImageJPEGRepresentation(image, 0.8)

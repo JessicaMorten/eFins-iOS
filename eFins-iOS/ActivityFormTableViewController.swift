@@ -176,17 +176,10 @@ class ActivityFormTableViewController: UITableViewController, LocationManagerDel
         } else {
             self.locationLabel.text = " "
             let realm = RLMRealm.defaultRealm()
-<<<<<<< HEAD
             activity.beginWriteTransaction()
             self.activity.latitude = -1.0
             self.activity.longitude = -1.0
             activity.commitWriteTransaction()
-=======
-            self.beginWriteTransaction()
-            self.activity.latitude = -1.0
-            self.activity.longitude = -1.0
-            self.commitWriteTransaction()
->>>>>>> f23fed8d03be0025ef1b83df9044c92be63705ad
             self.locationActivityIndicator.hidden = true
             LocationManager.sharedInstance.removeLocationManagerDelegate(self)
             self.locationSwitch.setOn(false, animated: false)
@@ -196,15 +189,9 @@ class ActivityFormTableViewController: UITableViewController, LocationManagerDel
     @IBAction func numPersonsOnBoardEditingEnded(sender: AnyObject) {
         if let n = self.numPersonsOnBoardTextField!.text.toInt() {
             let realm = RLMRealm.defaultRealm()
-<<<<<<< HEAD
             activity.beginWriteTransaction()
             self.activity.numPersonsOnBoard = n
             activity.commitWriteTransaction()
-=======
-            self.beginWriteTransaction()
-            self.activity.numPersonsOnBoard = n
-            self.commitWriteTransaction()
->>>>>>> f23fed8d03be0025ef1b83df9044c92be63705ad
         }
     }
     
@@ -219,15 +206,9 @@ class ActivityFormTableViewController: UITableViewController, LocationManagerDel
     @IBAction func unwindDatePicker(sender: UIStoryboardSegue) {
         let sourceViewController = sender.sourceViewController as! DatePickerTableViewController
         let realm = RLMRealm.defaultRealm()
-<<<<<<< HEAD
         activity.beginWriteTransaction()
         activity?.time = sourceViewController.date!
         activity.commitWriteTransaction()
-=======
-        self.beginWriteTransaction()
-        activity?.time = sourceViewController.date!
-        self.commitWriteTransaction()
->>>>>>> f23fed8d03be0025ef1b83df9044c92be63705ad
         let formatter = getDateFormatter()
         dateTableCell.detailTextLabel?.text = formatter.stringFromDate(activity!.time)
     }
@@ -320,11 +301,7 @@ class ActivityFormTableViewController: UITableViewController, LocationManagerDel
     
     func textViewDidEndEditing(textView: UITextView) {
         let realm = RLMRealm.defaultRealm()
-<<<<<<< HEAD
         activity.beginWriteTransaction()
-=======
-        self.beginWriteTransaction()
->>>>>>> f23fed8d03be0025ef1b83df9044c92be63705ad
         if textView.text == "" {
             textView.text = "Add any relevant comments here..."
             textView.textColor = UIColor.lightGrayColor()
@@ -332,11 +309,7 @@ class ActivityFormTableViewController: UITableViewController, LocationManagerDel
         } else {
             self.activity?.remarks = textView.text
         }
-<<<<<<< HEAD
         activity.commitWriteTransaction()
-=======
-        self.commitWriteTransaction()
->>>>>>> f23fed8d03be0025ef1b83df9044c92be63705ad
         textView.resignFirstResponder()
     }
     

@@ -69,7 +69,6 @@
 		CB81E9391AAA21F70071C2D2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CB81E9381AAA21F70071C2D2 /* Images.xcassets */; };
 		CB81E93C1AAA21F70071C2D2 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = CB81E93A1AAA21F70071C2D2 /* LaunchScreen.xib */; };
 		CB81E9481AAA21F80071C2D2 /* eFins_iOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB81E9471AAA21F80071C2D2 /* eFins_iOSTests.swift */; };
-		CB8BADCA1B275018009D156F /* TimeAgo.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB8BADC91B275018009D156F /* TimeAgo.swift */; };
 		CB8CC7081AFAA49500B91B90 /* ViolationForm.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CB8CC7071AFAA49500B91B90 /* ViolationForm.storyboard */; };
 		CB8CC70A1AFAA53A00B91B90 /* ViolationFormTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB8CC7091AFAA53A00B91B90 /* ViolationFormTableViewController.swift */; };
 		CB8CC70C1AFABC8F00B91B90 /* ViolationTypeForm.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CB8CC70B1AFABC8F00B91B90 /* ViolationTypeForm.storyboard */; };
@@ -204,7 +203,6 @@
 		CB81E9411AAA21F80071C2D2 /* eFins-iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "eFins-iOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CB81E9461AAA21F80071C2D2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CB81E9471AAA21F80071C2D2 /* eFins_iOSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = eFins_iOSTests.swift; sourceTree = "<group>"; };
-		CB8BADC91B275018009D156F /* TimeAgo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeAgo.swift; sourceTree = "<group>"; };
 		CB8CC7011AF93C2000B91B90 /* eFins-iOS-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "eFins-iOS-Bridging-Header.h"; sourceTree = "<group>"; };
 		CB8CC7071AFAA49500B91B90 /* ViolationForm.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ViolationForm.storyboard; sourceTree = "<group>"; };
 		CB8CC7091AFAA53A00B91B90 /* ViolationFormTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViolationFormTableViewController.swift; sourceTree = "<group>"; };
@@ -394,7 +392,6 @@
 				CB81E9311AAA21F70071C2D2 /* FirstViewController.swift */,
 				CB81E9331AAA21F70071C2D2 /* SecondViewController.swift */,
 				CB81E9351AAA21F70071C2D2 /* Main.storyboard */,
-				CB8BADC91B275018009D156F /* TimeAgo.swift */,
 				CBC09A8C1B0E84D6002301F1 /* SettingsTableViewController.swift */,
 				CB4C00C61B0A62D300878902 /* Map.storyboard */,
 				CB504BE11B0A84C400941E70 /* MapSplitViewController.swift */,
@@ -655,7 +652,6 @@
 				CBCE35A41AC1EB2F005C6CA8 /* ActivityLogTableViewController.swift in Sources */,
 				CBA0330D1AF02B2A006838C6 /* PhotoCollectionViewCell.swift in Sources */,
 				93F1FF661B13DBDA00CEBDBF /* LocationSettingController.swift in Sources */,
-				CB8BADCA1B275018009D156F /* TimeAgo.swift in Sources */,
 				9310B5101ADC3BDD00D45CF3 /* Reachability.swift in Sources */,
 				935D24DD1AC2149300A2854D /* ViolationType.swift in Sources */,
 				935D24E11AC215AB00A2854D /* EnforcementActionTaken.swift in Sources */,
