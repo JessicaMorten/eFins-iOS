@@ -28,7 +28,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             region: AWSRegionType.USWest2,
             credentialsProvider: credentialsProvider)
         AWSServiceManager.defaultServiceManager().defaultServiceConfiguration = configuration
-        
         // Inside your application(application:didFinishLaunchingWithOptions:)
         
         // Notice setSchemaVersion is set to 1, this is always set manually. It must be
@@ -73,7 +72,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     }
                 })
             }
-            
+
             if oldSchemaVersion < 4 {
                 migration.enumerateObjects(Photo.className(), block: { (oldObject:RLMObject!, newObject:RLMObject!) in
                     if let photo = newObject as? Photo {
@@ -83,7 +82,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     }
                 })
             }
-            
         })
         
         var i = UInt(0)
@@ -209,6 +207,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                                     }
                                 }
                             }
+                            
                         }
                 }
             }

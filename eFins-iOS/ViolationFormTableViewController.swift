@@ -26,6 +26,30 @@ class ViolationFormTableViewController: UITableViewController, ItemForm {
         }
     }
     
+    var inWriteTransaction = false
+    
+    func beginWriteTransaction() {
+        if self.inWriteTransaction {
+            NSException.raise("Realm Transaction Error", format: "Tried to begin transaction, but one is open", arguments: getVaList([]))
+        }
+        self.inWriteTransaction = true
+        RLMRealm.defaultRealm().beginWriteTransaction()
+    }
+    
+    func commitWriteTransaction() {
+        if self.inWriteTransaction {
+            self.enforcementAction.updatedAt = NSDate()
+            self.enforcementAction.dirty = true
+            RLMRealm.defaultRealm().commitWriteTransaction()
+            self.inWriteTransaction = false
+        } else {
+            if self.inWriteTransaction {
+                NSException.raise("Realm Transaction Error", format: "Tried to commit transaction, but none open", arguments: getVaList([]))
+            }
+        }
+    }
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         let realm = RLMRealm.defaultRealm()
@@ -99,7 +123,7 @@ class ViolationFormTableViewController: UITableViewController, ItemForm {
             alert("Incomplete", "You must choose an action taken", self)
         } else {
             let realm = RLMRealm.defaultRealm()
-            realm.beginWriteTransaction()
+            self.beginWriteTransaction()
             realm.addObject(self.enforcementAction)
             self.enforcementAction.dirty = true
             realm.commitWriteTransaction()

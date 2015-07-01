@@ -43,6 +43,29 @@ class PatrolLogGeneralFormTableViewController: UITableViewController, UITextFiel
     @IBOutlet weak var portCell: RelationTableViewCell!
     @IBOutlet weak var crewCell: RelationTableViewCell!
     
+    var inWriteTransaction = false
+    
+    func beginWriteTransaction() {
+        if self.inWriteTransaction {
+            NSException.raise("Realm Transaction Error", format: "Tried to begin transaction, but one is open", arguments: getVaList([]))
+        }
+        self.inWriteTransaction = true
+        RLMRealm.defaultRealm().beginWriteTransaction()
+    }
+    
+    func commitWriteTransaction() {
+        if self.inWriteTransaction {
+            self.patrolLog.updatedAt = NSDate()
+            self.patrolLog.dirty = true
+            RLMRealm.defaultRealm().commitWriteTransaction()
+            self.inWriteTransaction = false
+        } else {
+            if self.inWriteTransaction {
+                NSException.raise("Realm Transaction Error", format: "Tried to commit transaction, but none open", arguments: getVaList([]))
+            }
+        }
+    }
+    
     override func viewDidLoad() {
         println("view did load")
         super.viewDidLoad()

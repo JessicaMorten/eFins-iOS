@@ -24,7 +24,6 @@ class ActivityLogTableViewController: ActivityFormTableViewController, UITextVie
         
         self.relationTableViewCells.append(self.vesselTableViewCell)
         self.relationTableViewCells.append(self.crewCell)
-        println(self.activity.patrolLog)
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

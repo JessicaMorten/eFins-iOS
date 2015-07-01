@@ -91,7 +91,6 @@ class DataSync: NSObject, NSURLSessionDelegate {
         }
         self.syncInProgress = true
         self.delegate?.dataSyncDidStart?()
-
         
         self.queueThreadTask { () -> () in
             self.log("Sync starting on background thread")
@@ -100,7 +99,9 @@ class DataSync: NSObject, NSURLSessionDelegate {
             let endOfLastSync = defaults.integerForKey("endOfLastSync")
             self.syncRealm = RLMRealm.defaultRealm()
             self.syncRealm!.beginWriteTransaction()
-            
+            dispatch_async(dispatch_get_main_queue(),{
+                self.delegate?.dataSyncDidStartPhotos?()
+            })
             self.log("About to pull")
             dispatch_async(dispatch_get_main_queue(),{
                 self.delegate?.dataSyncDidStartPull?()
@@ -120,6 +121,7 @@ class DataSync: NSObject, NSURLSessionDelegate {
                             self.delegate?.dataSyncDidStartPhotos?()
                             DataSync.manager.pushPhotos()
                         })
+
                     })
                 } else {
                     self.log("Pull failed; eschewing a push")
@@ -335,7 +337,6 @@ class DataSync: NSObject, NSURLSessionDelegate {
         }
     }
     
-    
     func pull(currentUsn: Int, endOfLastSync: Int, maxCount: Int, continuation: (Bool) -> () ) {
         self.log("Pull")
         let afterUsn = NSURLQueryItem(name: "afterUsn", value: "\(currentUsn)")
@@ -403,6 +404,7 @@ class DataSync: NSObject, NSURLSessionDelegate {
                 let eObject = object as! EfinsModel
                 tempArray.append(eObject.toJSON())
             }
+            println("tmp array size \(count(tempArray))")
             if count(tempArray) > 0 {
                 json["models"][key] = JSON(tempArray)
             }
@@ -431,7 +433,7 @@ class DataSync: NSObject, NSURLSessionDelegate {
                         self.log("Server reports 204, WTF?")
                     } else if response?.statusCode == 200 {
                         self.log("Successful push to server")
-                        self.deleteLocalObjects(data!)
+                        self.deleteOrUpdateLocalObjects(data!)
                         continuation()
                         return
                     } else {
@@ -658,10 +660,10 @@ class DataSync: NSObject, NSURLSessionDelegate {
         return true;
     }
     
-    func deleteLocalObjects(jsonString: String) -> Bool {
+    func deleteOrUpdateLocalObjects(jsonString: String) -> Bool {
         let json = JSON(data: jsonString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!)
         let dRealm = self.syncRealm!
-        
+        let defaults = NSUserDefaults.standardUserDefaults()
         let start = NSDate()
         for (key: String, subJson: JSON) in json {
             for (nkey: String, newInfo: JSON) in subJson {

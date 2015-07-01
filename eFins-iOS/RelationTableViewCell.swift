@@ -265,6 +265,7 @@ class RelationTableViewCell: UITableViewCell {
     }
     
     func unwindOneToOnePicker(sender: PickerTableViewController) {
+        println("unwind onetoone")
         let realm = RLMRealm.defaultRealm()
         realm.beginWriteTransaction()
         FuckFuckFuck = false
@@ -282,6 +283,8 @@ class RelationTableViewCell: UITableViewCell {
             m.dirty = true
         }
         realm.commitWriteTransaction()
+        println(self.model)
+        self.updateValues()
     }
 
     func displayDetails(table: UITableViewController) {
