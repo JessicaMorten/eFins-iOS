@@ -128,6 +128,7 @@ class EfinsModel : RLMObject {
     }
     
     func commitWriteTransaction() {
+        self.dirty = true
         let realm = RLMRealm.defaultRealm()
         realm.commitWriteTransaction()
     }

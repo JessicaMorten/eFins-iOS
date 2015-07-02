@@ -93,7 +93,7 @@ class DataSync: NSObject, NSURLSessionDelegate {
         self.delegate?.dataSyncDidStart?()
         
         self.queueThreadTask { () -> () in
-            self.log("Sync starting on background thread")
+            //self.log("Sync starting on background thread")
             let defaults = NSUserDefaults.standardUserDefaults()
             let usn = defaults.integerForKey("currentUsn")
             let endOfLastSync = defaults.integerForKey("endOfLastSync")
@@ -102,13 +102,11 @@ class DataSync: NSObject, NSURLSessionDelegate {
             dispatch_async(dispatch_get_main_queue(),{
                 self.delegate?.dataSyncDidStartPhotos?()
             })
-            self.log("About to pull")
             dispatch_async(dispatch_get_main_queue(),{
                 self.delegate?.dataSyncDidStartPull?()
             })
             self.pull( usn, endOfLastSync: endOfLastSync, maxCount: 0, continuation: { (success: Bool) -> () in
                 if(success) {
-                    self.log("starting push")
                     dispatch_async(dispatch_get_main_queue(),{
                         self.delegate?.dataSyncDidStartPush?()
                     })
@@ -182,7 +180,7 @@ class DataSync: NSObject, NSURLSessionDelegate {
         // Start up our friendly little worker, "Buttersmack".
         self.syncThread = NSThread(target: self, selector: "syncThreadLoop", object: nil)
         self.syncThread?.start()
-        self.log("sync thread started.")
+        self.log("Sync thread started.")
     }
     
     
@@ -198,7 +196,7 @@ class DataSync: NSObject, NSURLSessionDelegate {
             
             let block = self.syncQueue.removeAtIndex(0)
             self.syncCondition.unlock()
-            self.log("Found a thread task; running")
+            //self.log("Found a thread task; running")
             block()
         }
     }
@@ -338,7 +336,7 @@ class DataSync: NSObject, NSURLSessionDelegate {
     }
     
     func pull(currentUsn: Int, endOfLastSync: Int, maxCount: Int, continuation: (Bool) -> () ) {
-        self.log("Pull")
+        self.log("Starting pull")
         let afterUsn = NSURLQueryItem(name: "afterUsn", value: "\(currentUsn)")
         let endOfLastSync = NSURLQueryItem(name: "endOfLastSync", value: "\(endOfLastSync)")
 
@@ -395,6 +393,10 @@ class DataSync: NSObject, NSURLSessionDelegate {
         let dRealm = self.syncRealm!
         let dict = [String: AnyObject]()
         var json = JSON(dict)
+        var nObjsToPush = 0
+        
+        self.log("Starting push")
+        
         json["models"] = JSON([String: AnyObject]())
         for (key, model) in Models {
             //self.log("\(key)")
@@ -404,11 +406,18 @@ class DataSync: NSObject, NSURLSessionDelegate {
                 let eObject = object as! EfinsModel
                 tempArray.append(eObject.toJSON())
             }
-            println("tmp array size \(count(tempArray))")
+            //println("tmp array size \(count(tempArray))")
             if count(tempArray) > 0 {
                 json["models"][key] = JSON(tempArray)
+                nObjsToPush += count(tempArray)
             }
         }
+        
+        if nObjsToPush == 0 {
+            self.log("Nothing to push.")
+            return continuation()
+        }
+        
         self.log(json.rawString()!)
         var components = NSURLComponents(string: Urls.sync)!
         let mutableURLRequest = NSMutableURLRequest(URL: components.URL!)
@@ -419,7 +428,6 @@ class DataSync: NSObject, NSURLSessionDelegate {
         self.log("Posting to \(Urls.sync)")
         Alamofire.request(mutableURLRequest)
             .responseString{ (request, response, data, error) in
-                println(data)
                 self.queueThreadTask { () -> () in
                     if (error != nil) {
                         self.log("Connection Error, Problem connecting to server: \(error). \(response)")
