@@ -32,7 +32,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Notice setSchemaVersion is set to 1, this is always set manually. It must be
         // higher than the previous version (oldSchemaVersion) or an RLMException is thrown
-        RLMRealm.setSchemaVersion(4, forRealmAtPath: RLMRealm.defaultRealmPath(), withMigrationBlock: { (migration:RLMMigration!, oldSchemaVersion:UInt) in
+        RLMRealm.setSchemaVersion(5, forRealmAtPath: RLMRealm.defaultRealmPath(), withMigrationBlock: { (migration:RLMMigration!, oldSchemaVersion:UInt) in
             
             // We haven’t migrated anything yet, so oldSchemaVersion == 0
             if oldSchemaVersion < 1 {
@@ -81,6 +81,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         }
                     }
                 })
+            }
+            
+            if oldSchemaVersion < 5 {
+                // Do nothing; added deletedAt attribute to EFinsModel
             }
         })
         
