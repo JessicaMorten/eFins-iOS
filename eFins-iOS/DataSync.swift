@@ -343,9 +343,14 @@ class DataSync: NSObject, NSURLSessionDelegate {
         var components = NSURLComponents(string: Urls.sync)!
         components.queryItems = [ afterUsn, endOfLastSync]
 
+        let userDefaults = NSUserDefaults.standardUserDefaults()
         let mutableURLRequest = NSMutableURLRequest(URL: components.URL!)
         mutableURLRequest.HTTPMethod = "GET"
         mutableURLRequest.setValue("Bearer " + NSUserDefaults.standardUserDefaults().stringForKey("SessionToken")! , forHTTPHeaderField: "Authorization")
+        mutableURLRequest.setValue(userDefaults.valueForKey("UserEmail") as? String, forHTTPHeaderField: "eFins-User")
+        mutableURLRequest.setValue(UIDevice.currentDevice().name, forHTTPHeaderField: "Device-Name")
+        mutableURLRequest.setValue(UIDevice.currentDevice().identifierForVendor.UUIDString, forHTTPHeaderField: "Device-Id")
+
         self.log("Getting \(Urls.sync)")
         
         Alamofire.request(mutableURLRequest)
@@ -425,6 +430,10 @@ class DataSync: NSObject, NSURLSessionDelegate {
         mutableURLRequest.HTTPBody = json.rawData()
         mutableURLRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
         mutableURLRequest.setValue("Bearer " + NSUserDefaults.standardUserDefaults().stringForKey("SessionToken")! , forHTTPHeaderField: "Authorization")
+        mutableURLRequest.setValue(NSUserDefaults.standardUserDefaults().valueForKey("UserEmail") as? String, forHTTPHeaderField: "eFins-User")
+        mutableURLRequest.setValue(UIDevice.currentDevice().name, forHTTPHeaderField: "Device-Name")
+        mutableURLRequest.setValue(UIDevice.currentDevice().identifierForVendor.UUIDString, forHTTPHeaderField: "Device-Id")
+
         self.log("Posting to \(Urls.sync)")
         Alamofire.request(mutableURLRequest)
             .responseString{ (request, response, data, error) in
