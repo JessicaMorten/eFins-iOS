@@ -30,6 +30,7 @@
 		935D24DF1AC2153D00A2854D /* EnforcementActionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 935D24DE1AC2153D00A2854D /* EnforcementActionType.swift */; };
 		935D24E11AC215AB00A2854D /* EnforcementActionTaken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 935D24E01AC215AB00A2854D /* EnforcementActionTaken.swift */; };
 		935D24E31AC3548200A2854D /* EfinsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 935D24E21AC3548200A2854D /* EfinsModel.swift */; };
+		9381D7671B62ECD300E165A8 /* EfinsLoggingHttpForwarder.m in Sources */ = {isa = PBXBuildFile; fileRef = 9381D7661B62ECD300E165A8 /* EfinsLoggingHttpForwarder.m */; };
 		939C2AF91ADC6317008E2748 /* RLMSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 939C2AF81ADC6317008E2748 /* RLMSupport.swift */; };
 		93BE828E1ADED37F002C7EFE /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BE828D1ADED37F002C7EFE /* libc++.dylib */; };
 		93E701F01AB0E6C800BD179E /* DataSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93E701EF1AB0E6C800BD179E /* DataSync.swift */; };
@@ -157,6 +158,8 @@
 		935D24DE1AC2153D00A2854D /* EnforcementActionType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnforcementActionType.swift; sourceTree = "<group>"; };
 		935D24E01AC215AB00A2854D /* EnforcementActionTaken.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnforcementActionTaken.swift; sourceTree = "<group>"; };
 		935D24E21AC3548200A2854D /* EfinsModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EfinsModel.swift; sourceTree = "<group>"; };
+		9381D7651B62EC6400E165A8 /* EfinsLoggingHttpForwarder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EfinsLoggingHttpForwarder.h; sourceTree = "<group>"; };
+		9381D7661B62ECD300E165A8 /* EfinsLoggingHttpForwarder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EfinsLoggingHttpForwarder.m; sourceTree = "<group>"; };
 		939C2AF81ADC6317008E2748 /* RLMSupport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RLMSupport.swift; sourceTree = "<group>"; };
 		93BE828D1ADED37F002C7EFE /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
 		93BE82921ADEDCBC002C7EFE /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Realm.framework; sourceTree = "<group>"; };
@@ -312,6 +315,15 @@
 			name = DataModels;
 			sourceTree = "<group>";
 		};
+		9381D7641B62EC4000E165A8 /* RemoteLoggingSupport */ = {
+			isa = PBXGroup;
+			children = (
+				9381D7651B62EC6400E165A8 /* EfinsLoggingHttpForwarder.h */,
+				9381D7661B62ECD300E165A8 /* EfinsLoggingHttpForwarder.m */,
+			);
+			name = RemoteLoggingSupport;
+			sourceTree = "<group>";
+		};
 		93BE82911ADEDCBC002C7EFE /* Realm-dynamic-simulator */ = {
 			isa = PBXGroup;
 			children = (
@@ -359,6 +371,7 @@
 		CB81E92C1AAA21F70071C2D2 /* eFins-iOS */ = {
 			isa = PBXGroup;
 			children = (
+				9381D7641B62EC4000E165A8 /* RemoteLoggingSupport */,
 				CBF8C3CE1B0BE491005A7A42 /* MapLegendTableViewController.swift */,
 				CB504BDF1B0A7FD500941E70 /* MapViewController.swift */,
 				CB504BCE1B0A78AC00941E70 /* Mapbox-iOS-SDK */,
@@ -676,6 +689,7 @@
 				935D24C51AC1E4E800A2854D /* Species.swift in Sources */,
 				CB71D5581B164F5E00C69858 /* RavenConfig.swift in Sources */,
 				CB03EED71AB8E1B9004CCB47 /* SettingsViewController.swift in Sources */,
+				9381D7671B62ECD300E165A8 /* EfinsLoggingHttpForwarder.m in Sources */,
 				CBEF503A1B051E21005BC144 /* AgencyFreetextCrew.swift in Sources */,
 				CB1786AA1AF439FE00D08E73 /* CatchFormTableViewController.swift in Sources */,
 				93E701F01AB0E6C800BD179E /* DataSync.swift in Sources */,
@@ -858,6 +872,7 @@
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "eFins-iOS/eFins-iOS-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				USER_HEADER_SEARCH_PATHS = "Pods/**";
 			};
 			name = Debug;
 		};
@@ -891,6 +906,7 @@
 				PRODUCT_NAME = eFins;
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "eFins-iOS/eFins-iOS-Bridging-Header.h";
+				USER_HEADER_SEARCH_PATHS = "Pods/**";
 			};
 			name = Release;
 		};

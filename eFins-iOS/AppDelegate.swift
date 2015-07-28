@@ -23,6 +23,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         RavenClient.sharedClient?.setupExceptionHandler()
         RavenClient.sharedClient?.captureMessage("Launched app")
         
+        TELEPORT_DEBUG = true
+        Teleport.startWithForwarder(EfinsLoggingHttpForwarder(aggregatorUrl: SERVER_ROOT + "clientlog"))
+        
+        
+        
         let credentialsProvider = AWSStaticCredentialsProvider(accessKey: "AKIAIIJEMWNG5Z4PM4TA", secretKey: "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")
         let configuration = AWSServiceConfiguration(
             region: AWSRegionType.USWest2,

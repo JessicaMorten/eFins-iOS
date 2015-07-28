@@ -7,3 +7,5 @@
 #import <AWSCore/AWSCore.h>
 #import <AWSS3/AWSS3.h>
 #import <AWSS3/AWSS3PreSignedURL.h>
+#import "Teleport-NSLog/Teleport.h"
+#import "EfinsLoggingHttpForwarder.h"
