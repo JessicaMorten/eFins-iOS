@@ -23,6 +23,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         RavenClient.sharedClient?.setupExceptionHandler()
         RavenClient.sharedClient?.captureMessage("Launched app")
         
+        //TELEPORT_DEBUG = true
+        Teleport.startWithForwarder(EfinsLoggingHttpForwarder(aggregatorUrl: SERVER_ROOT + "clientlog"))
+        
+        
+        
         let credentialsProvider = AWSStaticCredentialsProvider(accessKey: "AKIAIIJEMWNG5Z4PM4TA", secretKey: "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")
         let configuration = AWSServiceConfiguration(
             region: AWSRegionType.USWest2,
@@ -32,7 +37,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Notice setSchemaVersion is set to 1, this is always set manually. It must be
         // higher than the previous version (oldSchemaVersion) or an RLMException is thrown
-        RLMRealm.setSchemaVersion(4, forRealmAtPath: RLMRealm.defaultRealmPath(), withMigrationBlock: { (migration:RLMMigration!, oldSchemaVersion:UInt) in
+        RLMRealm.setSchemaVersion(5, forRealmAtPath: RLMRealm.defaultRealmPath(), withMigrationBlock: { (migration:RLMMigration!, oldSchemaVersion:UInt) in
             
             // We haven’t migrated anything yet, so oldSchemaVersion == 0
             if oldSchemaVersion < 1 {
@@ -81,6 +86,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         }
                     }
                 })
+            }
+            
+            if oldSchemaVersion < 5 {
+                // added deletedAt attribute to EFinsModel
+                migration.enumerateObjects(EfinsModel.className(), block: { (oldObject:RLMObject!, newObject:RLMObject!) in
+                    if let efo = newObject as? EfinsModel {
+                        efo.deletedAt = NSDate(timeIntervalSinceNow: 0)
+                    }
+                })
+
             }
         })
         

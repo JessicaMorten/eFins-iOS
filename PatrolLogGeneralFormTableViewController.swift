@@ -110,7 +110,7 @@ class PatrolLogGeneralFormTableViewController: UITableViewController, UITextFiel
         
         self.vesselCell.setup(patrolLog, allowEditing: allowEditing, property: "agencyVessel", secondaryProperty: nil)
         self.portCell.setup(patrolLog, allowEditing: allowEditing, property: "departurePort", secondaryProperty: nil)
-        self.crewCell.setup(patrolLog, allowEditing: allowEditing, property: "crew", secondaryProperty: "freeTextCrew")
+        self.crewCell.setup(patrolLog, allowEditing: allowEditing, property: "freeTextCrew", secondaryProperty: "crew")
         self.crewCell.label = "Crew"
         self.relationTableViewCells.append(self.vesselCell)
         self.relationTableViewCells.append(self.portCell)

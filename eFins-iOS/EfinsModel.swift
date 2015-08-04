@@ -16,6 +16,7 @@ class EfinsModel : RLMObject {
     dynamic var usn : Int = -1
     dynamic var createdAt : NSDate = NSDate(timeIntervalSinceNow: 0)
     dynamic var updatedAt : NSDate = NSDate(timeIntervalSinceNow: 0)  // there are no hooks in Realm yet, so we can't really update this automatically as the object is updated
+    dynamic var deletedAt: NSDate = NSDate(timeIntervalSinceNow: 0)
     dynamic var dirty = true
     
     override class func primaryKey() -> String {
@@ -28,6 +29,7 @@ class EfinsModel : RLMObject {
         let defaults = NSUserDefaults.standardUserDefaults()
         let currentUsn = defaults.integerForKey("currentUsn")
         println("currentUsn \(currentUsn)")
+        
         for (index: String, model: JSON) in json {
             var dictionary = model.dictionaryObject
             let idAsString = model["id"].stringValue
@@ -42,6 +44,10 @@ class EfinsModel : RLMObject {
                     if(newV != nil) {
                         dictionary?.updateValue(newV!, forKey: k)
                     }
+                }
+                
+                if k == "deletedAt" && (v as! NSObject) == NSNull()  {
+                    dictionary?.removeValueForKey(k)
                 }
             }
             
@@ -60,11 +66,27 @@ class EfinsModel : RLMObject {
                 newEntities.append( classType.createOrUpdateInRealm(syncRealm, withObject:dictionary!))
             }
         }
-        println("New Entity Count \(newEntities.count)")
+        println("New and modified entity count \(newEntities.count)")
         for ne in newEntities as! [EfinsModel] {
             ne.dirty = false
         }
-        return newEntities
+        
+        let deletedEntities = newEntities.filter({
+            let eobj : EfinsModel = $0 as! EfinsModel
+            return eobj.deletedAt.isAfter(NSDate(timeIntervalSince1970: 0))
+        })
+        
+        let activeEntities = newEntities.filter({
+            let eobj : EfinsModel = $0 as! EfinsModel
+            return !eobj.deletedAt.isAfter(NSDate(timeIntervalSince1970: 0))
+        })
+        
+        
+        for de in deletedEntities {
+            syncRealm.deleteObject(de)
+        }
+        
+        return activeEntities
     }
     
     func toJSON() -> JSON {
@@ -100,12 +122,16 @@ class EfinsModel : RLMObject {
                     json[property.name] = JSON(self[property.name].id)
                 }
             } else if property.type == RLMPropertyType.Date {
-                let obj = self[property.name] as? NSDate
-                if obj != nil {
-                    //json[property.name] = JSON(obj!.timeIntervalSince1970)
-                    json[property.name] = JSON(dateFormatter.stringFromDate(obj!))
-
+                let obj = self[property.name] as! NSDate
+                
+                if property.name == "deletedAt" && obj.isEqualToDate(NSDate(timeIntervalSince1970: 0)) {
+                    continue
                 }
+                
+
+                json[property.name] = JSON(dateFormatter.stringFromDate(obj))
+                
+                
             } else if property.type == RLMPropertyType.Data {
                 let obj = self[property.name] as? NSData
                 if obj != nil {
@@ -140,6 +166,5 @@ class EfinsModel : RLMObject {
     class func getSpecialDataPropertyHandler(property: String) -> ((String) -> NSData)? {
         return nil
     }
-    
     
 }
