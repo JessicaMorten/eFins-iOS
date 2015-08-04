@@ -45,6 +45,10 @@ class EfinsModel : RLMObject {
                         dictionary?.updateValue(newV!, forKey: k)
                     }
                 }
+                
+                if k == "deletedAt" && (v as! NSObject) == NSNull()  {
+                    dictionary?.removeValueForKey(k)
+                }
             }
             
             for (key, var value) in dictionary! {
@@ -76,6 +80,7 @@ class EfinsModel : RLMObject {
             let eobj : EfinsModel = $0 as! EfinsModel
             return !eobj.deletedAt.isAfter(NSDate(timeIntervalSince1970: 0))
         })
+        
         
         for de in deletedEntities {
             syncRealm.deleteObject(de)
@@ -117,12 +122,16 @@ class EfinsModel : RLMObject {
                     json[property.name] = JSON(self[property.name].id)
                 }
             } else if property.type == RLMPropertyType.Date {
-                let obj = self[property.name] as? NSDate
-                if obj != nil {
-                    //json[property.name] = JSON(obj!.timeIntervalSince1970)
-                    json[property.name] = JSON(dateFormatter.stringFromDate(obj!))
-
+                let obj = self[property.name] as! NSDate
+                
+                if property.name == "deletedAt" && obj.isEqualToDate(NSDate(timeIntervalSince1970: 0)) {
+                    continue
                 }
+                
+
+                json[property.name] = JSON(dateFormatter.stringFromDate(obj))
+                
+                
             } else if property.type == RLMPropertyType.Data {
                 let obj = self[property.name] as? NSData
                 if obj != nil {

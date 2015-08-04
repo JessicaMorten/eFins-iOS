@@ -550,7 +550,7 @@ class DataSync: NSObject, NSURLSessionDelegate {
         let source = aJson["sourceModel"].stringValue
         let target = aJson["targetModel"].stringValue
         let thisAs = aJson["as"].stringValue
-        //self.log("\(thisAs) is a many-to-many between \(source) and \(target) ")
+        self.log("\(thisAs) is a many-to-many between \(source) and \(target) ")
         var sourceModel = Models[source]!
         var targetModel = Models[target]!
         var sourceSchema = dRealm.schema.schemaForClassName(source)
@@ -568,7 +568,7 @@ class DataSync: NSObject, NSURLSessionDelegate {
             let property: RLMProperty = p as! RLMProperty
             
             if property.type == RLMPropertyType.Array && property.objectClassName == target && property.name == thisAs {
-                //self.log("Found an array property named \(property.name) on \(source); this matches JSON property \(thisAs)")
+                self.log("Found an array property named \(property.name) on \(source); this matches JSON property \(thisAs)")
                 found++
             }
         }
@@ -576,7 +576,7 @@ class DataSync: NSObject, NSURLSessionDelegate {
             let property: RLMProperty = p as! RLMProperty
             
             if property.type == RLMPropertyType.Array && property.objectClassName == source {
-                //self.log("Found an array property named \(property.name) on \(target); deferring and will populate in other direction")
+                self.log("Found an array property named \(property.name) on \(target); deferring and will populate in other direction")
                 foundOnTarget = true
             }
         }
@@ -595,9 +595,11 @@ class DataSync: NSObject, NSURLSessionDelegate {
                 let tid : String = "\(target)Id"
                 let sourceId = idDict[sid]!.stringValue
                 let targetId = idDict[tid]!.stringValue
-                //self.log("Setting source \(source)Id \(sourceId) to refer to target \(target)Id \(targetId)")
-                let s = sourceModel.objectsInRealm(dRealm, "id == %@", sourceId).firstObject() as! EfinsModel
-                let t = targetModel.objectsInRealm(dRealm, "id == %@", targetId).firstObject() as! EfinsModel
+                self.log("Setting source \(source)Id \(sourceId) to refer to target \(target)Id \(targetId)")
+                let fdfs = sourceModel.objectsInRealm(dRealm, "id == %@", sourceId)
+                self.log("\(fdfs.count))")
+                let s = sourceModel.objectsInRealm(dRealm, "id == '%@'", sourceId).firstObject() as! EfinsModel
+                let t = targetModel.objectsInRealm(dRealm, "id == '%@'", targetId).firstObject() as! EfinsModel
                 let currentAssocs : RLMArray = s.valueForKey(thisAs) as! RLMArray
                 let i = currentAssocs.indexOfObject(t)
                 if i == UInt(NSNotFound) {

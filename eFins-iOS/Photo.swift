@@ -139,7 +139,7 @@ class Photo: EfinsModel {
                 return NSData()
             }
         }
-        return nil
+        return super.getSpecialDataPropertyHandler(property)
     }
     
     func createSignedUrls(next:(Bool) -> ()) {

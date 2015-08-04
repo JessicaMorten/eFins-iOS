@@ -23,7 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         RavenClient.sharedClient?.setupExceptionHandler()
         RavenClient.sharedClient?.captureMessage("Launched app")
         
-        TELEPORT_DEBUG = true
+        //TELEPORT_DEBUG = true
         Teleport.startWithForwarder(EfinsLoggingHttpForwarder(aggregatorUrl: SERVER_ROOT + "clientlog"))
         
         
@@ -89,7 +89,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
             
             if oldSchemaVersion < 5 {
-                // Do nothing; added deletedAt attribute to EFinsModel
+                // added deletedAt attribute to EFinsModel
+                migration.enumerateObjects(EfinsModel.className(), block: { (oldObject:RLMObject!, newObject:RLMObject!) in
+                    if let efo = newObject as? EfinsModel {
+                        efo.deletedAt = NSDate(timeIntervalSinceNow: 0)
+                    }
+                })
+
             }
         })
         
