@@ -16,7 +16,7 @@ class EfinsModel : RLMObject {
     dynamic var usn : Int = -1
     dynamic var createdAt : NSDate = NSDate(timeIntervalSinceNow: 0)
     dynamic var updatedAt : NSDate = NSDate(timeIntervalSinceNow: 0)  // there are no hooks in Realm yet, so we can't really update this automatically as the object is updated
-    dynamic var deletedAt: NSDate = NSDate(timeIntervalSinceNow: 0)
+    dynamic var deletedAt: NSDate = NSDate(timeIntervalSince1970: 0)
     dynamic var dirty = true
     
     override class func primaryKey() -> String {
@@ -28,7 +28,7 @@ class EfinsModel : RLMObject {
         let classType = self.self
         let defaults = NSUserDefaults.standardUserDefaults()
         let currentUsn = defaults.integerForKey("currentUsn")
-        println("currentUsn \(currentUsn)")
+        //println("currentUsn \(currentUsn)")
         
         for (index: String, model: JSON) in json {
             var dictionary = model.dictionaryObject
@@ -62,7 +62,7 @@ class EfinsModel : RLMObject {
             }
             if model["usn"].intValue > currentUsn {
                 let val = model["usn"].intValue
-                println("including \(val)")
+                //println("including \(val)")
                 newEntities.append( classType.createOrUpdateInRealm(syncRealm, withObject:dictionary!))
             }
         }

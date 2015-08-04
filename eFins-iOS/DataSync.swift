@@ -98,6 +98,7 @@ class DataSync: NSObject, NSURLSessionDelegate {
             let usn = defaults.integerForKey("currentUsn")
             let endOfLastSync = defaults.integerForKey("endOfLastSync")
             self.syncRealm = RLMRealm.defaultRealm()
+            self.log("Sync Realm file is: " + self.syncRealm!.path)
             //self.syncRealm!.beginWriteTransaction()
             dispatch_async(dispatch_get_main_queue(),{
                 self.delegate?.dataSyncDidStartPhotos?()
@@ -124,7 +125,7 @@ class DataSync: NSObject, NSURLSessionDelegate {
                 } else {
                     self.log("Pull failed; eschewing a push")
                     self.syncInProgress = false
-                    self.syncRealm!.cancelWriteTransaction()
+                    //self.syncRealm!.cancelWriteTransaction()
                     dispatch_async(dispatch_get_main_queue(),{
                         self.delegate?.dataSyncDidComplete?(false)
                     })
@@ -572,7 +573,7 @@ class DataSync: NSObject, NSURLSessionDelegate {
             let property: RLMProperty = p as! RLMProperty
             
             if property.type == RLMPropertyType.Array && property.objectClassName == target && property.name == thisAs {
-                self.log("Found an array property named \(property.name) on \(source); this matches JSON property \(thisAs)")
+                //self.log("Found an array property named \(property.name) on \(source); this matches JSON property \(thisAs)")
                 found++
             }
         }
@@ -580,7 +581,7 @@ class DataSync: NSObject, NSURLSessionDelegate {
             let property: RLMProperty = p as! RLMProperty
             
             if property.type == RLMPropertyType.Array && property.objectClassName == source {
-                self.log("Found an array property named \(property.name) on \(target); deferring and will populate in other direction")
+                //self.log("Found an array property named \(property.name) on \(target); deferring and will populate in other direction")
                 foundOnTarget = true
             }
         }
@@ -600,10 +601,8 @@ class DataSync: NSObject, NSURLSessionDelegate {
                 let sourceId = idDict[sid]!.stringValue
                 let targetId = idDict[tid]!.stringValue
                 self.log("Setting source \(source)Id \(sourceId) to refer to target \(target)Id \(targetId)")
-                let fdfs = sourceModel.objectsInRealm(dRealm, "id == %@", sourceId)
-                self.log("\(fdfs.count))")
-                let s = sourceModel.objectsInRealm(dRealm, "id == '%@'", sourceId).firstObject() as! EfinsModel
-                let t = targetModel.objectsInRealm(dRealm, "id == '%@'", targetId).firstObject() as! EfinsModel
+                let s = sourceModel.objectsInRealm(dRealm, "id == %@", sourceId).firstObject() as! EfinsModel
+                let t = targetModel.objectsInRealm(dRealm, "id == %@", targetId).firstObject() as! EfinsModel
                 let currentAssocs : RLMArray = s.valueForKey(thisAs) as! RLMArray
                 let i = currentAssocs.indexOfObject(t)
                 if i == UInt(NSNotFound) {
@@ -663,7 +662,7 @@ class DataSync: NSObject, NSURLSessionDelegate {
                 
                 
                 if foundType == RLMPropertyType.Object {
-                    //self.log("Setting foreign key to refer to target as \(targetId)")
+                    self.log("Setting foreign key to refer to target as \(targetId)")
                     let s = sourceModel.objectsInRealm(dRealm, "id == %@", sourceId).firstObject() as! EfinsModel
                     let t = targetModel.objectsInRealm(dRealm, "id == %@", targetId).firstObject() as! EfinsModel
                     s.setValue(t, forKey: assocName)
