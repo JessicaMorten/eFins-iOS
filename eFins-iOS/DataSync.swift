@@ -98,7 +98,7 @@ class DataSync: NSObject, NSURLSessionDelegate {
             let usn = defaults.integerForKey("currentUsn")
             let endOfLastSync = defaults.integerForKey("endOfLastSync")
             self.syncRealm = RLMRealm.defaultRealm()
-            self.syncRealm!.beginWriteTransaction()
+            //self.syncRealm!.beginWriteTransaction()
             dispatch_async(dispatch_get_main_queue(),{
                 self.delegate?.dataSyncDidStartPhotos?()
             })
@@ -112,7 +112,7 @@ class DataSync: NSObject, NSURLSessionDelegate {
                     })
                     self.push({
                         self.syncInProgress = false
-                        self.syncRealm!.commitWriteTransaction()
+                        //self.syncRealm!.commitWriteTransaction()
                         dispatch_async(dispatch_get_main_queue(),{
                             self.lastSync = NSDate()
                             self.delegate?.dataSyncDidComplete?(true)
@@ -456,6 +456,7 @@ class DataSync: NSObject, NSURLSessionDelegate {
     func digestResults(json: JSON) -> Bool {
         var newEntities: [RLMObject] = []
         let start = NSDate()
+        self.syncRealm!.beginWriteTransaction()
         for (key: String, subJson: JSON) in json {
             if(key == "models") {
                 self.log("Setting data for all models")
@@ -510,6 +511,7 @@ class DataSync: NSObject, NSURLSessionDelegate {
                 }
             }
         }
+        self.syncRealm!.commitWriteTransaction()
         let end = NSDate()
         let timeInterval: Double = end.timeIntervalSinceDate(start)
         self.log("Populated DB with new models and data: \(timeInterval) s")
@@ -520,6 +522,7 @@ class DataSync: NSObject, NSURLSessionDelegate {
     func setRelationships(rJson: JSON) -> Bool {
         self.log("Setting relationships/associations on new models")
         let start = NSDate()
+        self.syncRealm!.beginWriteTransaction()
         for (index: String, aJson : JSON) in rJson {
             if aJson["type"] == "BelongsTo" {
                 handleBelongsTo(aJson)
@@ -527,6 +530,7 @@ class DataSync: NSObject, NSURLSessionDelegate {
                 handleBelongsToMany(aJson)
             }
         }
+        self.syncRealm!.commitWriteTransaction()
         let end = NSDate()
         let timeInterval: Double = end.timeIntervalSinceDate(start)
         self.log("All relationships set: \(timeInterval) s")
@@ -673,6 +677,7 @@ class DataSync: NSObject, NSURLSessionDelegate {
         let dRealm = self.syncRealm!
         let defaults = NSUserDefaults.standardUserDefaults()
         let start = NSDate()
+        dRealm.beginWriteTransaction()
         for (key: String, subJson: JSON) in json {
             for (nkey: String, newInfo: JSON) in subJson {
                 let newId = newInfo.stringValue
@@ -694,6 +699,7 @@ class DataSync: NSObject, NSURLSessionDelegate {
                 }
             }
         }
+        dRealm.commitWriteTransaction()
         
         
         let fin = NSDate()
