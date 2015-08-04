@@ -11,6 +11,7 @@
  import Alamofire
  import SwiftyJSON
  import Realm
+ import RavenSwift
  
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {

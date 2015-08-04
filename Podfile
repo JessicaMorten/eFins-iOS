@@ -11,3 +11,4 @@ pod 'semver', :git => 'https://github.com/weekwood/Semver.Swift.git'
 pod 'ActionSheetPicker-3.0', '~> 1.6.2'
 pod 'AWSiOSSDKv2', "~> 2.1.2"
 pod 'Teleport-NSLog'
+pod 'RavenSwift', '~> 0.2.1'

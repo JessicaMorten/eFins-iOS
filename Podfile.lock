@@ -109,6 +109,7 @@ PODS:
   - Mantle/extobjc (1.5.4)
   - MaterialKit (0.3.5)
   - MBProgressHUD (0.9.1)
+  - RavenSwift (0.2.1)
   - Reachability (3.2)
   - Realm (0.91.5):
     - Realm/Headers (= 0.91.5)
@@ -126,6 +127,7 @@ DEPENDENCIES:
   - AWSiOSSDKv2 (~> 2.1.2)
   - MaterialKit (~> 0.3.1)
   - MBProgressHUD (~> 0.9.1)
+  - RavenSwift (~> 0.2.1)
   - Realm (~> 0.91.3)
   - semver (from `https://github.com/weekwood/Semver.Swift.git`)
   - SwiftyJSON (from `https://github.com/SwiftyJSON/SwiftyJSON.git`, commit `87fa9e2432187629aae80cf89027f2a615af2c31`)
@@ -168,6 +170,7 @@ SPEC CHECKSUMS:
   Mantle: 60acd0cd363e27d945bda0a6b8e90577112d28f3
   MaterialKit: 6f1e9382f89593df768bc0c31ded9952a6d8ad46
   MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad
+  RavenSwift: 0808b4942b8fc9b361bffabbcd67f40e086f6a1c
   Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
   Realm: 670059efdb212ab939c1745a60aff27820c0a9c4
   semver: ef035203253bcae77221cff1a0244d47a58786d9
