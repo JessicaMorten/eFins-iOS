@@ -23,6 +23,7 @@ class SettingsTableViewController: UITableViewController, DataSyncDelegate {
     @IBOutlet weak var photosSyncProgressLabel: UILabel!
     @IBOutlet weak var photosSyncActivityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var photosSyncStatusLabel: UILabel!
+    @IBOutlet weak var versionLabel: UILabel!
     
     let chartbackgroundSession = NSURLSessionConfiguration.backgroundSessionConfigurationWithIdentifier("org.efins.eFins.chart-background")
     let basemapBackgroundSession = NSURLSessionConfiguration.backgroundSessionConfigurationWithIdentifier("org.efins.eFins.basemap-background")
@@ -41,6 +42,7 @@ class SettingsTableViewController: UITableViewController, DataSyncDelegate {
         if let user = (UIApplication.sharedApplication().delegate as! AppDelegate).getUser() {
             self.loginCell.textLabel?.text = "Signed in as \(user.name)"
         }
+        self.versionLabel.text = "eFins " + (NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleShortVersionString") as! String);
         updateDisplay()
         DataSync.manager.delegate = self
         // Uncomment the following line to preserve selection between presentations
