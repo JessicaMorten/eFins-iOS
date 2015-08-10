@@ -61,8 +61,6 @@
 		CB504BE21B0A84C400941E70 /* MapSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB504BE11B0A84C400941E70 /* MapSplitViewController.swift */; };
 		CB71D5541B1635D100C69858 /* NSBundle+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB71D5531B1635D100C69858 /* NSBundle+Extension.swift */; };
 		CB81E9301AAA21F70071C2D2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB81E92F1AAA21F70071C2D2 /* AppDelegate.swift */; };
-		CB81E9321AAA21F70071C2D2 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB81E9311AAA21F70071C2D2 /* FirstViewController.swift */; };
-		CB81E9341AAA21F70071C2D2 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB81E9331AAA21F70071C2D2 /* SecondViewController.swift */; };
 		CB81E9371AAA21F70071C2D2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CB81E9351AAA21F70071C2D2 /* Main.storyboard */; };
 		CB81E9391AAA21F70071C2D2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CB81E9381AAA21F70071C2D2 /* Images.xcassets */; };
 		CB81E93C1AAA21F70071C2D2 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = CB81E93A1AAA21F70071C2D2 /* LaunchScreen.xib */; };
@@ -191,8 +189,6 @@
 		CB81E92A1AAA21F70071C2D2 /* eFins.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = eFins.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CB81E92E1AAA21F70071C2D2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CB81E92F1AAA21F70071C2D2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		CB81E9311AAA21F70071C2D2 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
-		CB81E9331AAA21F70071C2D2 /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
 		CB81E9361AAA21F70071C2D2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		CB81E9381AAA21F70071C2D2 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		CB81E93B1AAA21F70071C2D2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -325,6 +321,31 @@
 			path = "Realm-dynamic-simulator";
 			sourceTree = "<group>";
 		};
+		93C743871B7960EB00465EA1 /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				CB8CC7171B013E0300B91B90 /* ActivityLog.storyboard */,
+				CB1786A71AF4397300D08E73 /* CatchForm.storyboard */,
+				CB8CC71B1B013E8100B91B90 /* CDFWCommercialContact.storyboard */,
+				CB8CC7191B013E3C00B91B90 /* CDFWRecContact.storyboard */,
+				CBCE35A61AC1F763005C6CA8 /* DatePicker.storyboard */,
+				CB3B42BD1AE85F92004E9D60 /* DayDatePicker.storyboard */,
+				93F1FF611B13DA1300CEBDBF /* LocationSetting.storyboard */,
+				CBF9850D1AAE010500C4F721 /* Login.storyboard */,
+				CB81E9351AAA21F70071C2D2 /* Main.storyboard */,
+				CB4C00C61B0A62D300878902 /* Map.storyboard */,
+				CB8CC7151B013D9D00B91B90 /* NPSContact.storyboard */,
+				CBE117FE1ACC8C5400BC229F /* OneToMany.storyboard */,
+				CB8CC71F1B0166D200B91B90 /* PatrolLog.storyboard */,
+				CB0076701AE6E7BC00AD0590 /* PersonForm.storyboard */,
+				CB1F54781AEEB19D00D286F1 /* PhotoList.storyboard */,
+				CBE77B2D1AE1878B00197FF5 /* VesselForm.storyboard */,
+				CB8CC7071AFAA49500B91B90 /* ViolationForm.storyboard */,
+				CB8CC70B1AFABC8F00B91B90 /* ViolationTypeForm.storyboard */,
+			);
+			name = Storyboards;
+			sourceTree = "<group>";
+		};
 		A48B52BC4776BDBE7A47998D /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -360,65 +381,47 @@
 		CB81E92C1AAA21F70071C2D2 /* eFins-iOS */ = {
 			isa = PBXGroup;
 			children = (
+				933454C11AB75C3100E5C65E /* DataModels */,
+				93C743871B7960EB00465EA1 /* Storyboards */,
+				93BE82911ADEDCBC002C7EFE /* Realm-dynamic-simulator */,
 				9381D7641B62EC4000E165A8 /* RemoteLoggingSupport */,
+				CB81E92D1AAA21F70071C2D2 /* Supporting Files */,
+				CB504BCE1B0A78AC00941E70 /* Mapbox-iOS-SDK */,
+				CB81E9381AAA21F70071C2D2 /* Images.xcassets */,
 				CBF8C3CE1B0BE491005A7A42 /* MapLegendTableViewController.swift */,
 				CB504BDF1B0A7FD500941E70 /* MapViewController.swift */,
-				CB504BCE1B0A78AC00941E70 /* Mapbox-iOS-SDK */,
 				CB34A8E41B06882000EE328A /* EFinsTabBarController.swift */,
-				93BE82911ADEDCBC002C7EFE /* Realm-dynamic-simulator */,
 				CBE117F91ACB2A7800BC229F /* RelationTableViewCell.swift */,
-				CBE77B2D1AE1878B00197FF5 /* VesselForm.storyboard */,
 				CBE77B2F1AE18A1B00197FF5 /* VesselFormTableViewController.swift */,
-				CB0076701AE6E7BC00AD0590 /* PersonForm.storyboard */,
 				CB0076721AE6EBD200AD0590 /* PersonFormTableViewController.swift */,
-				CB1786A71AF4397300D08E73 /* CatchForm.storyboard */,
 				CB1786A91AF439FE00D08E73 /* CatchFormTableViewController.swift */,
-				CB8CC7071AFAA49500B91B90 /* ViolationForm.storyboard */,
-				CB8CC70B1AFABC8F00B91B90 /* ViolationTypeForm.storyboard */,
 				CB8CC70D1AFABCAC00B91B90 /* ViolationTypeFormTableViewController.swift */,
 				CB8CC7091AFAA53A00B91B90 /* ViolationFormTableViewController.swift */,
 				939C2AF81ADC6317008E2748 /* RLMSupport.swift */,
-				CB81E92D1AAA21F70071C2D2 /* Supporting Files */,
-				933454C11AB75C3100E5C65E /* DataModels */,
 				CBE272DF1AC3564600A4F236 /* LogbookTableViewController.swift */,
 				CBA980701B1F9CF20091CDE6 /* timeAgo.swift */,
 				CB03EED61AB8E1B9004CCB47 /* SettingsViewController.swift */,
-				CBF9850D1AAE010500C4F721 /* Login.storyboard */,
-				CBCE35A61AC1F763005C6CA8 /* DatePicker.storyboard */,
-				CB3B42BD1AE85F92004E9D60 /* DayDatePicker.storyboard */,
 				CB3B42BF1AE85FE5004E9D60 /* DayDatePickerTableViewController.swift */,
 				CBCE35A81AC1F7CD005C6CA8 /* DatePickerTableViewController.swift */,
 				CBD00BAA1AB0E6A300ED784E /* RegistrationIncompleteViewController.swift */,
 				CBF9850E1AAE010500C4F721 /* LoginViewController.swift */,
 				CB81E92F1AAA21F70071C2D2 /* AppDelegate.swift */,
-				CB81E9311AAA21F70071C2D2 /* FirstViewController.swift */,
-				CB81E9331AAA21F70071C2D2 /* SecondViewController.swift */,
-				CB81E9351AAA21F70071C2D2 /* Main.storyboard */,
 				CBC09A8C1B0E84D6002301F1 /* SettingsTableViewController.swift */,
-				CB4C00C61B0A62D300878902 /* Map.storyboard */,
 				CB504BE11B0A84C400941E70 /* MapSplitViewController.swift */,
 				CB34A8E21B0678EC00EE328A /* CurrentPatrolViewController.swift */,
 				CB8CC71D1B014CDA00B91B90 /* NewContactPopupTableViewController.swift */,
-				CB8CC71B1B013E8100B91B90 /* CDFWCommercialContact.storyboard */,
-				CB8CC71F1B0166D200B91B90 /* PatrolLog.storyboard */,
 				CB8CC7231B02932100B91B90 /* PatrolLogSidebarTableViewController.swift */,
 				CB8CC7211B0292ED00B91B90 /* PatrolLogSplitViewController.swift */,
-				CB8CC7191B013E3C00B91B90 /* CDFWRecContact.storyboard */,
-				CB8CC7171B013E0300B91B90 /* ActivityLog.storyboard */,
-				CB8CC7151B013D9D00B91B90 /* NPSContact.storyboard */,
 				CB8CC7111AFBF9DC00B91B90 /* NPSContactTableViewController.swift */,
 				CB17869D1AF3F76C00D08E73 /* CDFWCommBoardingCardTableViewController.swift */,
 				CB17869B1AF2A28200D08E73 /* CDFWRecContactTableViewController.swift */,
 				CBE77B311AE1A19A00197FF5 /* ItemForm.swift */,
-				CB81E9381AAA21F70071C2D2 /* Images.xcassets */,
 				CB81E93A1AAA21F70071C2D2 /* LaunchScreen.xib */,
 				CBD00BAC1AB0F79700ED784E /* Constants.swift */,
 				CB8CC7131AFD463200B91B90 /* ActivityFormTableViewController.swift */,
 				CB8CC70F1AFAF16B00B91B90 /* BoardingTypeTableViewController.swift */,
 				CBCE35A31AC1EB2F005C6CA8 /* ActivityLogTableViewController.swift */,
 				93E701EF1AB0E6C800BD179E /* DataSync.swift */,
-				CBE117FE1ACC8C5400BC229F /* OneToMany.storyboard */,
-				CB1F54781AEEB19D00D286F1 /* PhotoList.storyboard */,
 				CBA0330C1AF02B2A006838C6 /* PhotoCollectionViewCell.swift */,
 				CB1F547A1AEEB38C00D286F1 /* PhotosCollectionViewController.swift */,
 				CBE118021ACC8FAC00BC229F /* OneToManyTableViewController.swift */,
@@ -427,7 +430,6 @@
 				CB8CC7011AF93C2000B91B90 /* eFins-iOS-Bridging-Header.h */,
 				930371481B0D3A3100F0166E /* LocationManager.swift */,
 				CB71D5531B1635D100C69858 /* NSBundle+Extension.swift */,
-				93F1FF611B13DA1300CEBDBF /* LocationSetting.storyboard */,
 				93F1FF651B13DBDA00CEBDBF /* LocationSettingController.swift */,
 				935B55391B18E7DA006B9434 /* LocationViewController.swift */,
 			);
@@ -662,7 +664,6 @@
 				935D24D51AC212C200A2854D /* Fishery.swift in Sources */,
 				CBA980711B1F9CF20091CDE6 /* timeAgo.swift in Sources */,
 				CB504BE21B0A84C400941E70 /* MapSplitViewController.swift in Sources */,
-				CB81E9341AAA21F70071C2D2 /* SecondViewController.swift in Sources */,
 				CB71D5541B1635D100C69858 /* NSBundle+Extension.swift in Sources */,
 				935D24C11AC1E1D500A2854D /* PatrolLog.swift in Sources */,
 				CB8CC7121AFBF9DC00B91B90 /* NPSContactTableViewController.swift in Sources */,
@@ -693,7 +694,6 @@
 				935D24C91AC1E5F200A2854D /* Activity.swift in Sources */,
 				CB0076731AE6EBD200AD0590 /* PersonFormTableViewController.swift in Sources */,
 				CBC09A8D1B0E84D6002301F1 /* SettingsTableViewController.swift in Sources */,
-				CB81E9321AAA21F70071C2D2 /* FirstViewController.swift in Sources */,
 				CB17869E1AF3F76C00D08E73 /* CDFWCommBoardingCardTableViewController.swift in Sources */,
 				CBD00BAB1AB0E6A300ED784E /* RegistrationIncompleteViewController.swift in Sources */,
 				CB3B42C01AE85FE5004E9D60 /* DayDatePickerTableViewController.swift in Sources */,
