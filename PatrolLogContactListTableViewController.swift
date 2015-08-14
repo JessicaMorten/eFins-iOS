@@ -50,7 +50,7 @@ class PatrolLogContactListTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     func activities() -> RLMResults {
-        return Activity.objectsWhere("patrolLog = %@", self.patrolLog).sortedResultsUsingProperty("time", ascending: false)
+        return Activity.objectsWhere("patrolLog = %@ AND deletedAt == %@", self.patrolLog, NSDate(timeIntervalSince1970: 0)).sortedResultsUsingProperty("time", ascending: false)
     }
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
