@@ -67,7 +67,7 @@ class PatrolLogGeneralFormTableViewController: UITableViewController, UITextFiel
     }
     
     override func viewDidLoad() {
-        println("view did load")
+        //println("view did load")
         super.viewDidLoad()
         textFields.append(self.portHoursBroughtForwardField)
         textFields.append(self.starboardHoursBroughtForwardField)
@@ -87,6 +87,8 @@ class PatrolLogGeneralFormTableViewController: UITableViewController, UITextFiel
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
         navigationItem.leftBarButtonItem = splitViewController?.displayModeButtonItem()
         navigationItem.leftItemsSupplementBackButton = true
+        
+        
         
         self.portHoursBroughtForwardCell.textLabel?.text = "Port Hours Brought Forward"
         self.starboardHoursBroughtForwardCell.textLabel?.text = "Starboard Hours Brought Forward"
@@ -188,6 +190,8 @@ class PatrolLogGeneralFormTableViewController: UITableViewController, UITextFiel
     
     
     func showEngineHoursAndFuel() {
+        let formatter = getDateFormatter()
+        self.dateTableCell.detailTextLabel?.text = formatter.stringFromDate(patrolLog.date)
         self.portHoursBroughtForwardField.text = "\(patrolLog.portHoursBroughtForward)"
         self.starboardHoursBroughtForwardField.text = "\(patrolLog.starboardHoursBroughtForward)"
         self.portHoursLoggedField.text = "\(patrolLog.portLoggedHours)"
