@@ -82,9 +82,9 @@ class EfinsModel : RLMObject {
         })
         
         
-        for de in deletedEntities {
-            syncRealm.deleteObject(de)
-        }
+//        for de in deletedEntities {
+//            syncRealm.deleteObject(de)
+//        }
         
         return activeEntities
     }
@@ -161,6 +161,13 @@ class EfinsModel : RLMObject {
     
     func doNotPush() -> [String] {
         return []
+    }
+    
+    func markDeleted() {
+        beginWriteTransaction()
+        deletedAt = NSDate(timeIntervalSinceNow: 0)
+        self.dirty = true
+        commitWriteTransaction()
     }
     
     class func getSpecialDataPropertyHandler(property: String) -> ((String) -> NSData)? {

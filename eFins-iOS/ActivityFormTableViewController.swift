@@ -142,9 +142,7 @@ class ActivityFormTableViewController: UITableViewController, LocationManagerDel
     
     func doCancel() {
         let realm = RLMRealm.defaultRealm()
-        realm.beginWriteTransaction()
-        realm.deleteObject(self.activity)
-        realm.commitWriteTransaction()
+        self.activity.markDeleted()
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     

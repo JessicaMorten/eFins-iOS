@@ -17,7 +17,8 @@ class LogbookTableViewController: UITableViewController, UISearchBarDelegate, UI
 
     var _activities: RLMResults {
         get {
-            return Activity.allObjects().sortedResultsUsingProperty("time", ascending: false)
+            //return Activity.allObjects().sortedResultsUsingProperty("time", ascending: false)
+            return Activity.objectsWhere("deletedAt == %@", NSDate(timeIntervalSince1970:0)).sortedResultsUsingProperty("time", ascending: false)
         }
     }
     
@@ -30,7 +31,7 @@ class LogbookTableViewController: UITableViewController, UISearchBarDelegate, UI
                 items.append(activities[UInt(i)] as! RLMObject)
                 i++
             }
-            var patrolLogs = PatrolLog.allObjects().sortedResultsUsingProperty("date", ascending: false)
+            var patrolLogs = PatrolLog.objectsWhere("deletedAt == %@", NSDate(timeIntervalSince1970:0)).sortedResultsUsingProperty("date", ascending: false)
             i = 0
             while UInt(i) < patrolLogs.count {
                 items.append(patrolLogs[UInt(i)] as! RLMObject)

@@ -479,11 +479,7 @@ class PatrolLogGeneralFormTableViewController: UITableViewController, UITextFiel
     
     @IBAction func delete() {
         confirm("Delete Patrol", "Are you sure you want to delete this Patrol Log?", self) { () in
-            let realm = RLMRealm.defaultRealm()
-            realm.beginWriteTransaction()
-            realm.deleteObject(self.patrolLog)
-            self.patrolLog.dirty = true
-            realm.commitWriteTransaction()
+            self.patrolLog.markDeleted()
             if let parent = self.splitViewController {
                 if let tabBarController = parent.tabBarController as? EFinsTabBarController {
                     tabBarController.hidePatrol(false)
