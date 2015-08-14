@@ -289,7 +289,11 @@ class LogbookTableViewController: UITableViewController, UISearchBarDelegate, UI
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let activity = items[indexPath.row]
+        var activity = items[indexPath.row]
+        if self.searchController.active {
+            activity = filteredObjects[indexPath.row]
+        } 
+
         var controller:UIViewController
         if activity is Activity {
             switch (activity as! Activity).type {
