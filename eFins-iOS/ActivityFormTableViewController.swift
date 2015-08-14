@@ -95,7 +95,11 @@ class ActivityFormTableViewController: UITableViewController, LocationManagerDel
                 self.locationTableCell.accessoryType = UITableViewCellAccessoryType.None
                 self.locationViewingLabel.text = "None recorded"
             } else {
-                self.locationViewingLabel.text = "\(self.activity.latitude), \(self.activity.longitude)"
+                let (latDeg, latMin) = CoordinateConverter.decimalDegrees2degreesMinutes(degrees: self.activity.latitude)
+                let (longDeg, longMin) = CoordinateConverter.decimalDegrees2degreesMinutes(degrees: self.activity.longitude)
+                let latText = String(format: "%3.0f\u{00b0} %.3f\u{2032}", latDeg, latMin)
+                let longText = String(format: "%3.0f\u{00b0} %.3f\u{2032}", longDeg, longMin)
+                self.locationViewingLabel.text = "\(latText), \(longText)"
             }
         }
 
@@ -421,6 +425,12 @@ class ActivityFormTableViewController: UITableViewController, LocationManagerDel
         LocationManager.sharedInstance.removeLocationManagerDelegate(self)
         locationActivityIndicator.stopAnimating()
         self.locationLabel.text = "\(self.activity.latitude), \(self.activity.longitude)"
+        let topViewController = self.navigationController?.topViewController
+        if topViewController != nil {
+            if topViewController!.isKindOfClass(LocationSettingController) {
+                (topViewController as! LocationSettingController).updateLocation(location.coordinate)
+            }
+        }
     }
     
     func locationManagerDidFailToObtainLocation() {

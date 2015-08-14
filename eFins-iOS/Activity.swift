@@ -27,8 +27,8 @@ class Activity: EfinsModel {
     dynamic var numPersonsOnBoard:Int = 0
     dynamic var time = NSDate()
     dynamic var remarks = ""
-    dynamic var latitude = -1.0
-    dynamic var longitude = -1.0
+    dynamic var latitude: Double = 35.0
+    dynamic var longitude: Double = -122.0
     dynamic var locationManuallyEntered = false
     dynamic var contactType: ContactType?  // this is a NPS field
     dynamic var categoryOfBoarding:String = "Neutral"
