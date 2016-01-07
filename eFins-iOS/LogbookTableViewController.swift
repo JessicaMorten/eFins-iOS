@@ -221,7 +221,7 @@ class LogbookTableViewController: UITableViewController, UISearchBarDelegate, UI
     override func viewWillAppear(animated: Bool) {
         self.tableView.reloadData()
         if let tb = self.tabBarController as? EFinsTabBarController {
-            println(tb)
+            print(tb)
             if !tb.isDisplayingEditablePatrol() {
                 DataSync.manager.enableSync()
             }
@@ -241,7 +241,7 @@ class LogbookTableViewController: UITableViewController, UISearchBarDelegate, UI
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) 
         let index = indexPath.row
         var model:RLMObject
         if self.searchController.active {
@@ -315,7 +315,7 @@ class LogbookTableViewController: UITableViewController, UISearchBarDelegate, UI
         } else {
             if let tabs = self.tabBarController as? EFinsTabBarController {
                 if tabs.isDisplayingEditablePatrol() {
-                    alert("Close Active Patrol", "You are currently editing a patrol in the Patrol tab. Please save and close it before continuing.", self)
+                    alert("Close Active Patrol", message: "You are currently editing a patrol in the Patrol tab. Please save and close it before continuing.", view: self)
                 } else {
                     self.tableView.deselectRowAtIndexPath(indexPath, animated: false)
                     DataSync.manager.disableSync()
@@ -336,7 +336,7 @@ class LogbookTableViewController: UITableViewController, UISearchBarDelegate, UI
         let tvc = sender.sourceViewController as! UITableViewController
 //        let popover = tvc.popoverPresentationController
         let table = tvc.tableView
-        if let idx = table.indexPathForSelectedRow() {
+        if let idx = table.indexPathForSelectedRow {
             var storyboard:UIStoryboard
             var isPatrol = false
             switch idx.row {
@@ -356,7 +356,7 @@ class LogbookTableViewController: UITableViewController, UISearchBarDelegate, UI
                 tvc.dismissViewControllerAnimated(false, completion: nil)
                 if let tabs = self.tabBarController as? EFinsTabBarController {
                     if tabs.isDisplayingEditablePatrol() {
-                        alert("Close Active Patrol", "You are currently editing a patrol in the Patrol tab. Please save and close it before continuing.", self)
+                        alert("Close Active Patrol", message: "You are currently editing a patrol in the Patrol tab. Please save and close it before continuing.", view: self)
                     } else {
                         DataSync.manager.disableSync()
                         tabs.startNewPatrol()
@@ -366,7 +366,7 @@ class LogbookTableViewController: UITableViewController, UISearchBarDelegate, UI
                 if let tabBar = self.tabBarController as? EFinsTabBarController {
                     tvc.dismissViewControllerAnimated(false, completion: nil)
                     if tabBar.isDisplayingEditablePatrol() {
-                        alert("Close Active Patrol", "You are currently editing a patrol in the Patrol tab. Please save and close it before continuing, or log activity as part of the patrol.", self)
+                        alert("Close Active Patrol", message: "You are currently editing a patrol in the Patrol tab. Please save and close it before continuing, or log activity as part of the patrol.", view: self)
                     } else {
                         let controller = storyboard.instantiateInitialViewController()
                         tvc.dismissViewControllerAnimated(false, completion: nil)
@@ -374,8 +374,8 @@ class LogbookTableViewController: UITableViewController, UISearchBarDelegate, UI
                         self.presentViewController(controller as! UIViewController, animated: true, completion: nil)
                     }
                 } else {
-                    println("Could not find eFinsTabBarController")
-                    println(self.splitViewController?.tabBarController)
+                    print("Could not find eFinsTabBarController")
+                    print(self.splitViewController?.tabBarController)
                 }
             }
         } else {

@@ -76,17 +76,17 @@ class PickerTableViewController: UITableViewController, UISearchBarDelegate, UIS
             }
         }
         dispatch_async(dispatch_get_main_queue()) {
-            if self.filteredObjects.count < 1 && count(searchText) > 0 {
+            if self.filteredObjects.count < 1 && searchText.characters.count > 0 {
                 let button = UIButton()
                 // x, y, width, height
                 button.frame = CGRectMake((self.view.frame.width / 2) - 200, 120, 400, 40)
                 button.addTarget(self, action: "addNewObject", forControlEvents: UIControlEvents.TouchUpInside)
                 button.layer.cornerRadius = 4.0
-                button.backgroundColor = UIColor(hex: 0x112244, alpha: 1.0)
+                button.backgroundColor = UIColor(white: 0x112244, alpha: 1.0)
                 if self.labelAlreadyInList(searchText, list1: self.alreadySelected, list2: self.secondaryAlreadySelected) {
                     button.enabled = false
                     button.setTitle("\"\(searchText)\" already selected", forState: UIControlState.Normal)
-                    button.backgroundColor = UIColor(hex: 0x112244, alpha: 0.5)
+                    button.backgroundColor = UIColor(white: 0x112244, alpha: 0.5)
                 } else {
                     button.setTitle("Add \"\(searchText)\" to list", forState: UIControlState.Normal)
                 }
@@ -140,7 +140,7 @@ class PickerTableViewController: UITableViewController, UISearchBarDelegate, UIS
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if searchActive() {
-            if count(self.searchController.searchBar.text) == 0 {
+            if self.searchController.searchBar.text.characters.count == 0 {
                 if indexPath.row == 0 {
                     return
                 } else {
@@ -248,7 +248,7 @@ class PickerTableViewController: UITableViewController, UISearchBarDelegate, UIS
         
         var Model = Models[propertyClassName]! as RLMObject.Type
         // That dumb fucking CONTAINS[c] means case insensitive - CB
-        if count(searchText) == 0 {
+        if searchText.characters.count == 0 {
             self.filteredObjects = RecentValues.getRecent(self.model!, propertyClassName: self.propertyClassName, propertyName: self.propertyName, secondaryProperty: secondaryProperty).filter {
                 return !self.alreadyInList($0, list1: self.alreadySelected, list2: self.alreadySelected)
             }
@@ -273,7 +273,7 @@ class PickerTableViewController: UITableViewController, UISearchBarDelegate, UIS
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
         if searchActive() {
-            if count(self.searchController.searchBar.text) == 0 {
+            if self.searchController.searchBar.text.characters.count == 0 {
                 if self.filteredObjects.count > 0 {
                     return self.filteredObjects.count + 1
                 } else {
@@ -298,9 +298,9 @@ class PickerTableViewController: UITableViewController, UISearchBarDelegate, UIS
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var object:RLMObject
         if searchActive() {
-            if count(self.searchController.searchBar.text) == 0 {
+            if self.searchController.searchBar.text.characters.count == 0 {
                 if self.filteredObjects.count > 0 && indexPath.row == 0 {
-                    let cell = tableView.dequeueReusableCellWithIdentifier("recent", forIndexPath: indexPath) as! UITableViewCell
+                    let cell = tableView.dequeueReusableCellWithIdentifier("recent", forIndexPath: indexPath) 
                     return cell
                 } else {
                     object = self.filteredObjects[indexPath.row - 1] as RLMObject
@@ -311,7 +311,7 @@ class PickerTableViewController: UITableViewController, UISearchBarDelegate, UIS
         } else {
             object = items()[indexPath.row] as RLMObject
         }
-        let cell = tableView.dequeueReusableCellWithIdentifier("default", forIndexPath: indexPath) as! UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("default", forIndexPath: indexPath) 
         cell.textLabel?.text = object.valueForKey(labelProperty!) as? String
         
         // Configure the cell...

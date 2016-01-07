@@ -112,12 +112,12 @@ class Photo: EfinsModel {
     }
     
     func getOriginalFilePath() -> NSURL? {
-        let cache = NSFileManager.defaultManager().URLForDirectory(NSSearchPathDirectory.CachesDirectory, inDomain: NSSearchPathDomainMask.AllDomainsMask, appropriateForURL: nil, create: false, error: nil)
+        let cache = try? NSFileManager.defaultManager().URLForDirectory(NSSearchPathDirectory.CachesDirectory, inDomain: NSSearchPathDomainMask.AllDomainsMask, appropriateForURL: nil, create: false)
         return cache?.URLByAppendingPathComponent("\(self.localId)")
     }
     
     func getThumbnailFilePath() -> NSURL? {
-        let cache = NSFileManager.defaultManager().URLForDirectory(NSSearchPathDirectory.CachesDirectory, inDomain: NSSearchPathDomainMask.AllDomainsMask, appropriateForURL: nil, create: false, error: nil)
+        let cache = try? NSFileManager.defaultManager().URLForDirectory(NSSearchPathDirectory.CachesDirectory, inDomain: NSSearchPathDomainMask.AllDomainsMask, appropriateForURL: nil, create: false)
         return cache?.URLByAppendingPathComponent("\(self.localId)-thumb")
     }
     

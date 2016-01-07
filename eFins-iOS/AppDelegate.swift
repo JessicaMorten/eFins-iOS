@@ -131,7 +131,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func showLogin() {
         let storyboard:UIStoryboard = UIStoryboard(name: "Login", bundle: NSBundle(identifier: "mainBundle"))
-        var viewController = storyboard.instantiateViewControllerWithIdentifier("LoginViewController") as! LoginViewController
+        let viewController = storyboard.instantiateViewControllerWithIdentifier("LoginViewController") as! LoginViewController
         self.window?.rootViewController = viewController
     }
     
@@ -161,7 +161,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func gotoMainStoryboard() {
         let storyboard:UIStoryboard = UIStoryboard(name: "Main", bundle: NSBundle(identifier: "mainBundle"))
-        var viewController = storyboard.instantiateViewControllerWithIdentifier("MainTabs") as! UITabBarController
+        let viewController = storyboard.instantiateViewControllerWithIdentifier("MainTabs") as! UITabBarController
         self.window?.rootViewController = viewController
     }
 
@@ -190,7 +190,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func checkIfUpToDate() {
         if let lastChecked = self.lastCheckedForUpdates {
-            let minutes = NSCalendar.currentCalendar().components(NSCalendarUnit.CalendarUnitMinute, fromDate: lastChecked, toDate: NSDate(), options: nil).minute
+            let minutes = NSCalendar.currentCalendar().components(NSCalendarUnit.Minute, fromDate: lastChecked, toDate: NSDate(), options: []).minute
             if minutes < 10 {
                 return
             }
@@ -198,7 +198,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.lastCheckedForUpdates = NSDate()
         if let version = NSBundle.applicationVersionNumber {
             if Semver.valid(version) {
-                println("eFins Version \(version)")
+                print("eFins Version \(version)")
                 Alamofire.request(.GET, "https://www.installrapp.com/apps/status/oEuTK6AjDhQnw3Ez4hQfNZo3AOxG.json")
                     .responseJSON { (_, _, data, _) in
                         if data != nil {

@@ -32,7 +32,7 @@ class MapViewController: UIViewController, RMMapViewDelegate, UIAlertViewDelegat
         useSplitView = splitViewMode
     }
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         return
     }
@@ -60,7 +60,7 @@ class MapViewController: UIViewController, RMMapViewDelegate, UIAlertViewDelegat
         if loadTiles() {
             initMap()
         } else {
-            alert("Map Tiles Not Cached", "To use maps you need to first download data layers from the settings tab.", self)
+            alert("Map Tiles Not Cached", message: "To use maps you need to first download data layers from the settings tab.", view: self)
         }
     }
     
@@ -85,7 +85,7 @@ class MapViewController: UIViewController, RMMapViewDelegate, UIAlertViewDelegat
         map.maxZoom = 15
         map.minZoom = 8
         map.centerCoordinate = CLLocationCoordinate2D(latitude: 34.007, longitude: -119.829)
-        map.autoresizingMask = UIViewAutoresizing.FlexibleHeight | UIViewAutoresizing.FlexibleWidth
+        map.autoresizingMask = [UIViewAutoresizing.FlexibleHeight, UIViewAutoresizing.FlexibleWidth]
         map.setConstraintsSouthWest(southWestConstraints, northEast: northEastConstraints)
         
         map.userTrackingMode = RMUserTrackingModeNone
@@ -102,7 +102,7 @@ class MapViewController: UIViewController, RMMapViewDelegate, UIAlertViewDelegat
                 self.mapSegmentControl.enabled = true
             } else {
                 self.mapSegmentControl.enabled = false
-                alert("Map Tiles Not Cached", "To use maps you need to first download data layers from the settings tab.", self)
+                alert("Map Tiles Not Cached", message: "To use maps you need to first download data layers from the settings tab.", view: self)
             }
         }
     }
@@ -113,7 +113,7 @@ class MapViewController: UIViewController, RMMapViewDelegate, UIAlertViewDelegat
         if let source = self.map.tileSource as? RMInteractiveSource {
             if source.supportsInteractivity() {
                 var content = source.formattedOutputOfType(RMInteractiveSourceOutputTypeTeaser, forPoint: point, inMapView: map)
-                if content != nil && count(content) > 0 {
+                if content != nil && content.characters.count > 0 {
                     showPopup(content, point: point)
                 } else {
                     hidePopup()

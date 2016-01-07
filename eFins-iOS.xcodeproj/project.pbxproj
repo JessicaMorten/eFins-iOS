@@ -521,6 +521,8 @@
 		CB81E9221AAA21F70071C2D2 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftMigration = 0710;
+				LastSwiftUpdateCheck = 0710;
 				LastUpgradeCheck = 0610;
 				ORGANIZATIONNAME = "McClintock Lab";
 				TargetAttributes = {

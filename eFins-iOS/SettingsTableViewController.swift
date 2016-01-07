@@ -51,7 +51,7 @@ class SettingsTableViewController: UITableViewController, DataSyncDelegate {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
         updateDisplay()
-        println(DataSync.manager.lastSync)
+        print(DataSync.manager.lastSync)
     }
     
     
@@ -74,7 +74,7 @@ class SettingsTableViewController: UITableViewController, DataSyncDelegate {
         } else {
             self.logbookSyncActivityIndicator.stopAnimating()
             if let lastSync = DataSync.manager.lastSync {
-                self.logbookSyncLabel.text = "Synced \(timeAgoSinceDate(lastSync, true).lowercaseString)"
+                self.logbookSyncLabel.text = "Synced \(timeAgoSinceDate(lastSync, numericDates: true).lowercaseString)"
             } else {
                 self.logbookSyncLabel.text = " "
             }
@@ -96,10 +96,10 @@ class SettingsTableViewController: UITableViewController, DataSyncDelegate {
     }
     
     func dataSyncDidComplete(success: Bool) {
-        println("did complete")
+        print("did complete")
         if success {
             if let lastSync = DataSync.manager.lastSync {
-                self.logbookSyncLabel.text = "Synced \(timeAgoSinceDate(lastSync, true).lowercaseString)"
+                self.logbookSyncLabel.text = "Synced \(timeAgoSinceDate(lastSync, numericDates: true).lowercaseString)"
             }
         } else {
             if DataSync.manager.reachability.isReachable() {
@@ -147,15 +147,21 @@ class SettingsTableViewController: UITableViewController, DataSyncDelegate {
     
     @IBAction func downloadMaps(sender: AnyObject) {
         if !tilesExist() && !downloading {
-            println("going to download")
+            print("going to download")
             let fileManager = NSFileManager.defaultManager()
             if fileManager.fileExistsAtPath(chartPath()!) {
-                println("removing charts")
-                fileManager.removeItemAtPath(chartPath()!, error: nil)
+                print("removing charts")
+                do {
+                    try fileManager.removeItemAtPath(chartPath()!)
+                } catch _ {
+                }
             }
             if fileManager.fileExistsAtPath(basemapPath()!) {
-                println("removing basemaps")
-                fileManager.removeItemAtPath(basemapPath()!, error: nil)
+                print("removing basemaps")
+                do {
+                    try fileManager.removeItemAtPath(basemapPath()!)
+                } catch _ {
+                }
             }
             self.chartManager.session.getTasksWithCompletionHandler { (tasks, _, _) in
                 for item in tasks {
@@ -184,7 +190,7 @@ class SettingsTableViewController: UITableViewController, DataSyncDelegate {
             var basemapSizeFiguredOut = false
             var chartsDone = false
             var basemapDone = false
-            println("doing chartManager")
+            print("doing chartManager")
             self.chartManager.download(.GET, CHART_MBTILES, destination: { (temporaryURL, response) in
                 return NSURL(fileURLWithPath: chartPath()!, isDirectory: false)!
             })
@@ -218,7 +224,7 @@ class SettingsTableViewController: UITableViewController, DataSyncDelegate {
                         }
                     }
             }
-            println("doing basemapManager")
+            print("doing basemapManager")
             self.basemapManager.download(.GET, BASEMAP_MBTILES, destination: { (temporaryURL, response) in
                 return NSURL(fileURLWithPath: basemapPath()!, isDirectory: false)!
             })
@@ -253,11 +259,17 @@ class SettingsTableViewController: UITableViewController, DataSyncDelegate {
                     }
             }
         } else if tilesExist() {
-            println("tiles exist, delete?")
-            confirm("Delete Map Data", "Are you sure you want to clear map data? You will not be able to view maps until you download the data again.", self) { () in
+            print("tiles exist, delete?")
+            confirm("Delete Map Data", message: "Are you sure you want to clear map data? You will not be able to view maps until you download the data again.", view: self) { () in
                 let fileManager = NSFileManager.defaultManager()
-                fileManager.removeItemAtPath(chartPath()!, error: nil)
-                fileManager.removeItemAtPath(basemapPath()!, error: nil)
+                do {
+                    try fileManager.removeItemAtPath(chartPath()!)
+                } catch _ {
+                }
+                do {
+                    try fileManager.removeItemAtPath(basemapPath()!)
+                } catch _ {
+                }
                 self.updateDisplay()
             }
         }

@@ -78,7 +78,7 @@ class BoardingTypeTableViewController: UITableViewController {
     */
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        println("did select")
+        print("did select")
         if indexPath.row == 0 {
             selection = "Friendly"
         } else if indexPath.row == 1 {

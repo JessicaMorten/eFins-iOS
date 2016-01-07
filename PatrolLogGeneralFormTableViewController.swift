@@ -138,7 +138,7 @@ class PatrolLogGeneralFormTableViewController: UITableViewController, UITextFiel
         let realm = RLMRealm.defaultRealm()
         self.patrolLog.beginWriteTransaction()
         var value = 0
-        if let val = textField.text.toInt() {
+        if let val = Int(textField.text) {
             value = val
         }
         switch textField {
@@ -163,7 +163,7 @@ class PatrolLogGeneralFormTableViewController: UITableViewController, UITextFiel
         case self.outboardHoursLoggedField:
             self.patrolLog.outboardLoggedHours = Float(value)
         default:
-            println("unrecognized field")
+            print("unrecognized field")
         }
         self.patrolLog.commitWriteTransaction()
         showEngineHoursAndFuel()
@@ -214,7 +214,7 @@ class PatrolLogGeneralFormTableViewController: UITableViewController, UITextFiel
         if let parent = self.navigationController?.parentViewController as? PatrolLogSplitViewController {
             for nc in parent.viewControllers {
                 if let navigationController = nc as? UINavigationController {
-                    (navigationController.viewControllers[0] as! UIViewController).setValue(true, forKey: "allowEditing")
+                    (navigationController.viewControllers[0] ).setValue(true, forKey: "allowEditing")
                 }
             }
         }
@@ -288,7 +288,7 @@ class PatrolLogGeneralFormTableViewController: UITableViewController, UITextFiel
                         case "Gale":
                             patrolLog.hadGale = on
                         default:
-                            println("Should not get here")
+                            print("Should not get here")
                     }
                 }
                 patrolLog.commitWriteTransaction()
@@ -329,7 +329,7 @@ class PatrolLogGeneralFormTableViewController: UITableViewController, UITextFiel
     
     override func viewWillAppear(animated: Bool) {
         updateAccessoryTypes()
-        if let path = self.tableView.indexPathForSelectedRow() {
+        if let path = self.tableView.indexPathForSelectedRow {
             self.tableView.deselectRowAtIndexPath(path, animated: true)
         }
         if let nav = self.splitViewController?.viewControllers[0] as? UINavigationController {
@@ -482,7 +482,7 @@ class PatrolLogGeneralFormTableViewController: UITableViewController, UITextFiel
     
     
     @IBAction func delete() {
-        confirm("Delete Patrol", "Are you sure you want to delete this Patrol Log?", self) { () in
+        confirm("Delete Patrol", message: "Are you sure you want to delete this Patrol Log?", view: self) { () in
             self.patrolLog.markDeleted()
             if let parent = self.splitViewController {
                 if let tabBarController = parent.tabBarController as? EFinsTabBarController {

@@ -49,9 +49,9 @@ class RegistrationIncompleteViewController: UIViewController, UITextFieldDelegat
     func prepareState(state:String) {
         switch state {
             case "Authenticated":
-                println("Authenticated")
+                print("Authenticated")
             case "NotApproved":
-                println("NotApproved")
+                print("NotApproved")
                 self.registerButton.hidden = true
                 self.backButton.hidden = false
                 self.nameField.hidden = true
@@ -60,7 +60,7 @@ class RegistrationIncompleteViewController: UIViewController, UITextFieldDelegat
                 self.statusImage.image = UIImage(named: "approve")
                 self.statusImage.hidden = false
             case "EmailNotConfirmed":
-                println("EmailNotConfirmed")
+                print("EmailNotConfirmed")
                 self.registerButton.hidden = true
                 self.backButton.hidden = false
                 self.nameField.hidden = true
@@ -69,7 +69,7 @@ class RegistrationIncompleteViewController: UIViewController, UITextFieldDelegat
                 self.statusImage.hidden = false
                 self.instructionsLabel.text = emailInstructions
             default:
-                println("default")
+                print("default")
                 self.instructionsLabel.hidden = true
                 self.statusImage.hidden = true
         }
@@ -85,7 +85,7 @@ class RegistrationIncompleteViewController: UIViewController, UITextFieldDelegat
     }
     
     func getHeader(state: String) -> NSAttributedString {
-        var header = NSMutableAttributedString()
+        let header = NSMutableAttributedString()
         if let font = UIFont(name: "HelveticaNeue-Light", size: 36) {
             if let italic = UIFont(name: "HelveticaNeue-LightItalic", size: 36) {
                 let normalFont = [NSFontAttributeName:font]
@@ -119,7 +119,7 @@ class RegistrationIncompleteViewController: UIViewController, UITextFieldDelegat
     }
     
     @IBAction func registerAction(sender: AnyObject?) {
-        println("Register Action")
+        print("Register Action")
         if (self.nameField.text == nil || self.nameField.text.isEmpty) {
             alert("Form Error", message: "You must provide your full name to register", completion: nil)
         } else {
@@ -165,8 +165,8 @@ class RegistrationIncompleteViewController: UIViewController, UITextFieldDelegat
     }
     
     func alert(title:String, message:String, completion: (() -> Void)?) {
-        var alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler:{ (ACTION :UIAlertAction!)in
+        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler:{ (ACTION :UIAlertAction)in
             if completion != nil {
                 completion!()
             }
@@ -175,12 +175,12 @@ class RegistrationIncompleteViewController: UIViewController, UITextFieldDelegat
     }
     
     func checkStatus() {
-        println("CHeck status")
+        print("CHeck status")
         let params = [
             "email": self.email!,
             "password": self.password!
         ]
-        println("Posting to \(Urls.getToken)")
+        print("Posting to \(Urls.getToken)")
         let defaults = NSUserDefaults.standardUserDefaults()
         self.networkActivityLabel.text = "Checking Account Status"
         self.networkActivityLabel.hidden = false

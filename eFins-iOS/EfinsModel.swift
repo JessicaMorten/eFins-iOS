@@ -30,7 +30,7 @@ class EfinsModel : RLMObject {
         let currentUsn = defaults.integerForKey("currentUsn")
         //println("currentUsn \(currentUsn)")
         
-        for (index: String, model: JSON) in json {
+        for (index, model): (String, JSON) in json {
             var dictionary = model.dictionaryObject
             let idAsString = model["id"].stringValue
             dictionary?.updateValue(idAsString, forKey: "id")

@@ -67,7 +67,7 @@ class PatrolLogContactListTableViewController: UITableViewController {
 
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) 
         let index = UInt(indexPath.row)
         let model:AnyObject = self.activities().objectAtIndex(index)
         let formatter = getDateFormatter()
@@ -87,9 +87,9 @@ class PatrolLogContactListTableViewController: UITableViewController {
             }
             
             if let observedVessel = activity.vessel {
-                if count(observedVessel.name) > 0 {
+                if observedVessel.name.characters.count > 0 {
                     label += " (\(observedVessel.name))"
-                } else if count(observedVessel.registration) > 0 {
+                } else if observedVessel.registration.characters.count > 0 {
                     label += " (\(observedVessel.registration))"
                 }
             }
@@ -102,7 +102,7 @@ class PatrolLogContactListTableViewController: UITableViewController {
     @IBAction func unwindNewContactPopup(sender: UIStoryboardSegue) {
         let tvc = sender.sourceViewController as! UITableViewController
         let table = tvc.tableView
-        if let idx = table.indexPathForSelectedRow() {
+        if let idx = table.indexPathForSelectedRow {
             var storyboard:UIStoryboard
             switch idx.row {
             case 0:
@@ -150,7 +150,7 @@ class PatrolLogContactListTableViewController: UITableViewController {
         } else {
             if let tabs = self.tabBarController as? EFinsTabBarController {
                 if tabs.isDisplayingEditablePatrol() {
-                    alert("Close Active Patrol", "You are currently editing a patrol in the Patrol tab. Please save and close it before continuing.", self)
+                    alert("Close Active Patrol", message: "You are currently editing a patrol in the Patrol tab. Please save and close it before continuing.", view: self)
                 } else {
                     self.tableView.deselectRowAtIndexPath(indexPath, animated: false)
                     tabs.displayPatrol(activity as! PatrolLog)

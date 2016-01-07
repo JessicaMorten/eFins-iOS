@@ -19,7 +19,7 @@ class CatchFormTableViewController: UITableViewController, ItemForm {
     var model:RLMObject?
     var label:String?
     var allowEditing = true
-    var catch:Catch {
+    var `catch`:Catch {
         get {
             return self.model as! Catch
         }
@@ -39,8 +39,8 @@ class CatchFormTableViewController: UITableViewController, ItemForm {
     
     func commitWriteTransaction() {
         if self.inWriteTransaction {
-            self.catch.updatedAt = NSDate()
-            self.catch.dirty = true
+            self.`catch`.updatedAt = NSDate()
+            self.`catch`.dirty = true
             RLMRealm.defaultRealm().commitWriteTransaction()
             self.inWriteTransaction = false
         } else {
@@ -54,19 +54,19 @@ class CatchFormTableViewController: UITableViewController, ItemForm {
         super.viewDidLoad()
         if self.model == nil {
             self.model = Catch()
-            self.catch.amount = 0
+            self.`catch`.amount = 0
             self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Cancel, target: self, action: "cancel")
         } else {
             self.title = "Catch Details"
         }
         self.amountCell.textLabel?.text = "Amount (lbs)"
         displayValues()
-        self.speciesCell.setup(self.catch, allowEditing: self.allowEditing, property: "species", secondaryProperty: nil)
+        self.speciesCell.setup(self.`catch`, allowEditing: self.allowEditing, property: "species", secondaryProperty: nil)
         setEditingState()
     }
     
     func cancel() {
-        confirm("Cancel", "Are you sure you want to cancel without saving this new Catch?", self) { () in
+        confirm("Cancel", message: "Are you sure you want to cancel without saving this new Catch?", view: self) { () in
             self.navigationController?.popViewControllerAnimated(true)
         }
     }
@@ -97,36 +97,36 @@ class CatchFormTableViewController: UITableViewController, ItemForm {
     }
     
     func displayValues() {
-        self.amountTextField.text = "\(catch.amount)"
+        self.amountTextField.text = "\(`catch`.amount)"
     }
     
     
     @IBAction func unwindOneToMany(sender: UIStoryboardSegue) {
-        println("unwindOneToMany:VesselFormTableViewController")
+        print("unwindOneToMany:VesselFormTableViewController")
         let source = sender.sourceViewController as! OneToManyTableViewController
         source.cell?.updateValues()
     }
     
     @IBAction func amountChanged(sender: UITextField) {
-        catch.beginWriteTransaction()
-        if count(sender.text) > 0 {
-            self.catch.amount = sender.text.toInt()!
+        `catch`.beginWriteTransaction()
+        if sender.text.characters.count > 0 {
+            self.`catch`.amount = Int(sender.text)!
         } else {
-            self.catch.amount = 0
+            self.`catch`.amount = 0
         }
-        catch.commitWriteTransaction()
+        `catch`.commitWriteTransaction()
     }
     
     @IBAction func save(sender: AnyObject) {
-        if catch.species == nil {
-            alert("Incomplete", "You must choose a species", self)
-        } else if catch.amount == 0 {
-            alert("Incomplete", "Amount (lbs) must be greater than zero", self)
+        if `catch`.species == nil {
+            alert("Incomplete", message: "You must choose a species", view: self)
+        } else if `catch`.amount == 0 {
+            alert("Incomplete", message: "Amount (lbs) must be greater than zero", view: self)
         } else {
             let realm = RLMRealm.defaultRealm()
-            catch.beginWriteTransaction()
-            realm.addObject(self.catch)
-            catch.commitWriteTransaction()
+            `catch`.beginWriteTransaction()
+            realm.addObject(self.`catch`)
+            `catch`.commitWriteTransaction()
             self.performSegueWithIdentifier("UnwindCustomForm", sender: self)
         }
     }

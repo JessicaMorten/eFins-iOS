@@ -74,7 +74,7 @@ class VesselFormTableViewController: UITableViewController, ItemForm, UITextFiel
     }
     
     func cancel() {
-        confirm("Cancel", "Are you sure you want to cancel without saving this new Vessel?", self) { () in
+        confirm("Cancel", message: "Are you sure you want to cancel without saving this new Vessel?", view: self) { () in
             self.navigationController?.popViewControllerAnimated(true)
         }
     }
@@ -124,7 +124,7 @@ class VesselFormTableViewController: UITableViewController, ItemForm, UITextFiel
     
 
     @IBAction func unwindOneToMany(sender: UIStoryboardSegue) {
-        println("unwindOneToMany:VesselFormTableViewController")
+        print("unwindOneToMany:VesselFormTableViewController")
         let source = sender.sourceViewController as! OneToManyTableViewController
         source.cell?.updateValues()
     }
@@ -148,8 +148,8 @@ class VesselFormTableViewController: UITableViewController, ItemForm, UITextFiel
     }
     
     @IBAction func save(sender: AnyObject) {
-        if count(vessel.name) < 1 && count(vessel.registration) < 1 {
-            alert("Incomplete", "You must enter a vessel name or registration", self)
+        if vessel.name.characters.count < 1 && vessel.registration.characters.count < 1 {
+            alert("Incomplete", message: "You must enter a vessel name or registration", view: self)
         } else {
             let realm = RLMRealm.defaultRealm()
             realm.beginWriteTransaction()

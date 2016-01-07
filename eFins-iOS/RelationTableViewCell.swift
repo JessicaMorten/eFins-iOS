@@ -265,7 +265,7 @@ class RelationTableViewCell: UITableViewCell {
     }
     
     func unwindOneToOnePicker(sender: PickerTableViewController) {
-        println("unwind onetoone")
+        print("unwind onetoone")
         let realm = RLMRealm.defaultRealm()
         realm.beginWriteTransaction()
         FuckFuckFuck = false
@@ -289,7 +289,7 @@ class RelationTableViewCell: UITableViewCell {
 
     func displayDetails(table: UITableViewController) {
         if self.modelFormStoryboard != nil {
-            let form = self.modelFormStoryboard!.instantiateViewControllerWithIdentifier(self.modelFormId!) as! UIViewController
+            let form = self.modelFormStoryboard!.instantiateViewControllerWithIdentifier(self.modelFormId!) 
             if let l = self.label {
                 (form as! ItemForm).label = l
             } else {

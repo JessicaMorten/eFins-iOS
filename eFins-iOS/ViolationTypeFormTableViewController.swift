@@ -70,7 +70,7 @@ class ViolationTypeFormTableViewController: UITableViewController, ItemForm {
     }
     
     func cancel() {
-        confirm("Cancel", "Are you sure you want to cancel without saving this new Violation Type?", self) { () in
+        confirm("Cancel", message: "Are you sure you want to cancel without saving this new Violation Type?", view: self) { () in
             self.navigationController?.popViewControllerAnimated(true)
         }
     }
@@ -116,8 +116,8 @@ class ViolationTypeFormTableViewController: UITableViewController, ItemForm {
     }
     
     @IBAction func save(sender: AnyObject) {
-        if count(violationType.name) < 1 {
-            alert("Incomplete", "You must specify a violation type", self)
+        if violationType.name.characters.count < 1 {
+            alert("Incomplete", message: "You must specify a violation type", view: self)
         } else {
             let realm = RLMRealm.defaultRealm()
             realm.beginWriteTransaction()
