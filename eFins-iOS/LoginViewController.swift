@@ -68,8 +68,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     }
     
     func formValuesChanged() {
-        if (self.emailTextField.text != nil && !self.emailTextField.text.isEmpty &&
-            self.passwordTextField.text != nil && !self.passwordTextField.text.isEmpty) {
+        if (self.emailTextField.text != nil && !self.emailTextField.text!.isEmpty &&
+            self.passwordTextField.text != nil && !self.passwordTextField.text!.isEmpty) {
                 self.instructionLabel.hidden = true;
                 self.signInButton.hidden = false;
         } else {
@@ -88,7 +88,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     }
 
     @IBAction func login(sender: AnyObject) {
-        if (validateEmail(self.emailTextField.text)) {
+        if (validateEmail(self.emailTextField.text!)) {
             let params = [
                 "email": self.emailTextField.text,
                 "password": self.passwordTextField.text
@@ -147,7 +147,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         let params = [
             "email": self.emailTextField.text,
         ]
-        Alamofire.request(.POST, Urls.passwordReset, parameters: params)
+        Alamofire.request(.POST, Urls.passwordReset, parameters: params!)
             .responseString { (request, response, data, error) in
                 println(response)
         }

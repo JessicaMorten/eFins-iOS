@@ -9,6 +9,13 @@
 /* Begin PBXBuildFile section */
 		930371491B0D3A3100F0166E /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930371481B0D3A3100F0166E /* LocationManager.swift */; };
 		9310B5101ADC3BDD00D45CF3 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9310B50F1ADC3BDD00D45CF3 /* Reachability.swift */; };
+		931744B81C445A0300362A9D /* MKButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 931744B11C445A0300362A9D /* MKButton.swift */; };
+		931744B91C445A0300362A9D /* MKColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 931744B21C445A0300362A9D /* MKColor.swift */; };
+		931744BA1C445A0300362A9D /* MKImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 931744B31C445A0300362A9D /* MKImageView.swift */; };
+		931744BB1C445A0300362A9D /* MKLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 931744B41C445A0300362A9D /* MKLabel.swift */; };
+		931744BC1C445A0300362A9D /* MKLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 931744B51C445A0300362A9D /* MKLayer.swift */; };
+		931744BD1C445A0300362A9D /* MKTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 931744B61C445A0300362A9D /* MKTableViewCell.swift */; };
+		931744BE1C445A0300362A9D /* MKTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 931744B71C445A0300362A9D /* MKTextField.swift */; };
 		933454C41AB75C4A00E5C65E /* Agency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933454C21AB75C4A00E5C65E /* Agency.swift */; };
 		933454C51AB75C4A00E5C65E /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933454C31AB75C4A00E5C65E /* User.swift */; };
 		935D24BF1AC1DCBB00A2854D /* AgencyVessel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 935D24BE1AC1DCBB00A2854D /* AgencyVessel.swift */; };
@@ -38,7 +45,6 @@
 		93E701F01AB0E6C800BD179E /* DataSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93E701EF1AB0E6C800BD179E /* DataSync.swift */; };
 		93F1FF621B13DA1300CEBDBF /* LocationSetting.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 93F1FF611B13DA1300CEBDBF /* LocationSetting.storyboard */; };
 		93F1FF661B13DBDA00CEBDBF /* LocationSettingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F1FF651B13DBDA00CEBDBF /* LocationSettingController.swift */; };
-		C2D23E5308706D97FF932B04 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D70047102BE3CA65EBCD536 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		CB0076711AE6E7BC00AD0590 /* PersonForm.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CB0076701AE6E7BC00AD0590 /* PersonForm.storyboard */; };
 		CB0076731AE6EBD200AD0590 /* PersonFormTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB0076721AE6EBD200AD0590 /* PersonFormTableViewController.swift */; };
 		CB03EED71AB8E1B9004CCB47 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB03EED61AB8E1B9004CCB47 /* SettingsViewController.swift */; };
@@ -104,6 +110,7 @@
 		CBF8C3CF1B0BE491005A7A42 /* MapLegendTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF8C3CE1B0BE491005A7A42 /* MapLegendTableViewController.swift */; };
 		CBF9850F1AAE010500C4F721 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CBF9850D1AAE010500C4F721 /* Login.storyboard */; };
 		CBF985101AAE010500C4F721 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF9850E1AAE010500C4F721 /* LoginViewController.swift */; };
+		E35A9F0B4824414BC0175769 /* Pods_eFins_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82A68DF860E20C21A882D829 /* Pods_eFins_iOS.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -131,9 +138,17 @@
 
 /* Begin PBXFileReference section */
 		5D70047102BE3CA65EBCD536 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		793C641AC78FACAF6D5F6BBD /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		81FED2506F03315253FDFBE9 /* Pods-eFins-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-eFins-iOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-eFins-iOS/Pods-eFins-iOS.release.xcconfig"; sourceTree = "<group>"; };
+		82A68DF860E20C21A882D829 /* Pods_eFins_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_eFins_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		930371481B0D3A3100F0166E /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		9310B50F1ADC3BDD00D45CF3 /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
+		931744B11C445A0300362A9D /* MKButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKButton.swift; sourceTree = "<group>"; };
+		931744B21C445A0300362A9D /* MKColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKColor.swift; sourceTree = "<group>"; };
+		931744B31C445A0300362A9D /* MKImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKImageView.swift; sourceTree = "<group>"; };
+		931744B41C445A0300362A9D /* MKLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKLabel.swift; sourceTree = "<group>"; };
+		931744B51C445A0300362A9D /* MKLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKLayer.swift; sourceTree = "<group>"; };
+		931744B61C445A0300362A9D /* MKTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKTableViewCell.swift; sourceTree = "<group>"; };
+		931744B71C445A0300362A9D /* MKTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKTextField.swift; sourceTree = "<group>"; };
 		933454C21AB75C4A00E5C65E /* Agency.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Agency.swift; sourceTree = "<group>"; };
 		933454C31AB75C4A00E5C65E /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		935D24BE1AC1DCBB00A2854D /* AgencyVessel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AgencyVessel.swift; sourceTree = "<group>"; };
@@ -240,7 +255,7 @@
 		CBF8C3CE1B0BE491005A7A42 /* MapLegendTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapLegendTableViewController.swift; sourceTree = "<group>"; };
 		CBF9850D1AAE010500C4F721 /* Login.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
 		CBF9850E1AAE010500C4F721 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
-		ECD4EECAA55731D96DE64EE3 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		D2B6CC800ABFDEA46EE68767 /* Pods-eFins-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-eFins-iOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-eFins-iOS/Pods-eFins-iOS.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -254,7 +269,7 @@
 				CB504BD61B0A798800941E70 /* QuartzCore.framework in Frameworks */,
 				CB504BD41B0A797F00941E70 /* CoreLocation.framework in Frameworks */,
 				93BE828E1ADED37F002C7EFE /* libc++.dylib in Frameworks */,
-				C2D23E5308706D97FF932B04 /* Pods.framework in Frameworks */,
+				E35A9F0B4824414BC0175769 /* Pods_eFins_iOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -268,6 +283,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2134E941142F1B7DF09B25FF /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				D2B6CC800ABFDEA46EE68767 /* Pods-eFins-iOS.debug.xcconfig */,
+				81FED2506F03315253FDFBE9 /* Pods-eFins-iOS.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		78BA24B05F1F2CB8DD426914 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -279,8 +303,23 @@
 				CB504BD01B0A78D000941E70 /* libMapbox.a */,
 				93BE828D1ADED37F002C7EFE /* libc++.dylib */,
 				5D70047102BE3CA65EBCD536 /* Pods.framework */,
+				82A68DF860E20C21A882D829 /* Pods_eFins_iOS.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		931744B01C4459E600362A9D /* MaterialKit */ = {
+			isa = PBXGroup;
+			children = (
+				931744B11C445A0300362A9D /* MKButton.swift */,
+				931744B21C445A0300362A9D /* MKColor.swift */,
+				931744B31C445A0300362A9D /* MKImageView.swift */,
+				931744B41C445A0300362A9D /* MKLabel.swift */,
+				931744B51C445A0300362A9D /* MKLayer.swift */,
+				931744B61C445A0300362A9D /* MKTableViewCell.swift */,
+				931744B71C445A0300362A9D /* MKTextField.swift */,
+			);
+			name = MaterialKit;
 			sourceTree = "<group>";
 		};
 		933454C11AB75C3100E5C65E /* DataModels */ = {
@@ -353,15 +392,6 @@
 			name = Storyboards;
 			sourceTree = "<group>";
 		};
-		A48B52BC4776BDBE7A47998D /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				793C641AC78FACAF6D5F6BBD /* Pods.debug.xcconfig */,
-				ECD4EECAA55731D96DE64EE3 /* Pods.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
 		CB81E9211AAA21F70071C2D2 = {
 			isa = PBXGroup;
 			children = (
@@ -369,8 +399,8 @@
 				CB81E92C1AAA21F70071C2D2 /* eFins-iOS */,
 				CB81E9441AAA21F80071C2D2 /* eFins-iOSTests */,
 				CB81E92B1AAA21F70071C2D2 /* Products */,
-				A48B52BC4776BDBE7A47998D /* Pods */,
 				78BA24B05F1F2CB8DD426914 /* Frameworks */,
+				2134E941142F1B7DF09B25FF /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -386,6 +416,7 @@
 		CB81E92C1AAA21F70071C2D2 /* eFins-iOS */ = {
 			isa = PBXGroup;
 			children = (
+				931744B01C4459E600362A9D /* MaterialKit */,
 				933454C11AB75C3100E5C65E /* DataModels */,
 				93C743871B7960EB00465EA1 /* Storyboards */,
 				93BE82911ADEDCBC002C7EFE /* Realm-dynamic-simulator */,
@@ -480,13 +511,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = CB81E94B1AAA21F80071C2D2 /* Build configuration list for PBXNativeTarget "eFins-iOS" */;
 			buildPhases = (
-				97108042EF291211B38FE43D /* Check Pods Manifest.lock */,
+				46F4E8495D22C225A201F1B6 /* Check Pods Manifest.lock */,
 				CB81E9261AAA21F70071C2D2 /* Sources */,
 				CB81E9271AAA21F70071C2D2 /* Frameworks */,
 				CB81E9281AAA21F70071C2D2 /* Resources */,
-				2818CD5D8DC24A88D932C9EF /* Embed Pods Frameworks */,
-				B9C80EE28D68FAA6245F9ECC /* Copy Pods Resources */,
 				935887531AB0D6A70089CDE8 /* Copy Frameworks */,
+				60F0A4EBF4BBFDF134E93E14 /* Embed Pods Frameworks */,
+				C21B16FD4C7F623943F9C561 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -523,7 +554,7 @@
 			attributes = {
 				LastSwiftMigration = 0710;
 				LastSwiftUpdateCheck = 0710;
-				LastUpgradeCheck = 0610;
+				LastUpgradeCheck = 0710;
 				ORGANIZATIONNAME = "McClintock Lab";
 				TargetAttributes = {
 					CB81E9291AAA21F70071C2D2 = {
@@ -602,22 +633,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		2818CD5D8DC24A88D932C9EF /* Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		97108042EF291211B38FE43D /* Check Pods Manifest.lock */ = {
+		46F4E8495D22C225A201F1B6 /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -632,7 +648,22 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		B9C80EE28D68FAA6245F9ECC /* Copy Pods Resources */ = {
+		60F0A4EBF4BBFDF134E93E14 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-eFins-iOS/Pods-eFins-iOS-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C21B16FD4C7F623943F9C561 /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -644,7 +675,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-eFins-iOS/Pods-eFins-iOS-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -669,6 +700,7 @@
 				CB1F547B1AEEB38C00D286F1 /* PhotosCollectionViewController.swift in Sources */,
 				CBCE35A41AC1EB2F005C6CA8 /* ActivityLogTableViewController.swift in Sources */,
 				CBA0330D1AF02B2A006838C6 /* PhotoCollectionViewCell.swift in Sources */,
+				931744B81C445A0300362A9D /* MKButton.swift in Sources */,
 				93F1FF661B13DBDA00CEBDBF /* LocationSettingController.swift in Sources */,
 				9310B5101ADC3BDD00D45CF3 /* Reachability.swift in Sources */,
 				935D24DD1AC2149300A2854D /* ViolationType.swift in Sources */,
@@ -686,8 +718,10 @@
 				CB8CC70A1AFAA53A00B91B90 /* ViolationFormTableViewController.swift in Sources */,
 				935D24DF1AC2153D00A2854D /* EnforcementActionType.swift in Sources */,
 				CB81E9301AAA21F70071C2D2 /* AppDelegate.swift in Sources */,
+				931744B91C445A0300362A9D /* MKColor.swift in Sources */,
 				CB8CC7281B02A91B00B91B90 /* PatrolLogContactListTableViewController.swift in Sources */,
 				CBE77B301AE18A1B00197FF5 /* VesselFormTableViewController.swift in Sources */,
+				931744BE1C445A0300362A9D /* MKTextField.swift in Sources */,
 				935D24C51AC1E4E800A2854D /* Species.swift in Sources */,
 				CB03EED71AB8E1B9004CCB47 /* SettingsViewController.swift in Sources */,
 				9381D7671B62ECD300E165A8 /* EfinsLoggingHttpForwarder.m in Sources */,
@@ -700,6 +734,7 @@
 				CB504BE01B0A7FD500941E70 /* MapViewController.swift in Sources */,
 				935D24BF1AC1DCBB00A2854D /* AgencyVessel.swift in Sources */,
 				935D24E31AC3548200A2854D /* EfinsModel.swift in Sources */,
+				931744BB1C445A0300362A9D /* MKLabel.swift in Sources */,
 				935D24CF1AC1E8C000A2854D /* ContactType.swift in Sources */,
 				CBE117FA1ACB2A7800BC229F /* RelationTableViewCell.swift in Sources */,
 				935D24D11AC2117200A2854D /* VesselType.swift in Sources */,
@@ -708,7 +743,9 @@
 				CB0076731AE6EBD200AD0590 /* PersonFormTableViewController.swift in Sources */,
 				CBC09A8D1B0E84D6002301F1 /* SettingsTableViewController.swift in Sources */,
 				CB17869E1AF3F76C00D08E73 /* CDFWCommBoardingCardTableViewController.swift in Sources */,
+				931744BD1C445A0300362A9D /* MKTableViewCell.swift in Sources */,
 				CBD00BAB1AB0E6A300ED784E /* RegistrationIncompleteViewController.swift in Sources */,
+				931744BC1C445A0300362A9D /* MKLayer.swift in Sources */,
 				CB3B42C01AE85FE5004E9D60 /* DayDatePickerTableViewController.swift in Sources */,
 				93C7438E1B7D463D00465EA1 /* CLLocation+FESCoordinates.m in Sources */,
 				933454C41AB75C4A00E5C65E /* Agency.swift in Sources */,
@@ -722,6 +759,7 @@
 				935D24C71AC1E57500A2854D /* Port.swift in Sources */,
 				CB34A8E51B06882000EE328A /* EFinsTabBarController.swift in Sources */,
 				CBF8C3CF1B0BE491005A7A42 /* MapLegendTableViewController.swift in Sources */,
+				931744BA1C445A0300362A9D /* MKImageView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -783,6 +821,8 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				"FRAMEWORK_SEARCH_PATHS[arch=*]" = "";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -844,7 +884,7 @@
 		};
 		CB81E94C1AAA21F80071C2D2 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 793C641AC78FACAF6D5F6BBD /* Pods.debug.xcconfig */;
+			baseConfigurationReference = D2B6CC800ABFDEA46EE68767 /* Pods-eFins-iOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -870,6 +910,7 @@
 					"$(PROJECT_DIR)/eFins-iOS/Mapbox-iOS-SDK",
 				);
 				OTHER_SWIFT_FLAGS = "\"-D\" \"COCOAPODS\" \"-D\" \"DEBUG_SERVER\" $(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = org.efins.eFins;
 				PRODUCT_NAME = eFins;
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "eFins-iOS/eFins-iOS-Bridging-Header.h";
@@ -880,7 +921,7 @@
 		};
 		CB81E94D1AAA21F80071C2D2 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = ECD4EECAA55731D96DE64EE3 /* Pods.release.xcconfig */;
+			baseConfigurationReference = 81FED2506F03315253FDFBE9 /* Pods-eFins-iOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -905,6 +946,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/eFins-iOS/Mapbox-iOS-SDK",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = org.efins.eFins;
 				PRODUCT_NAME = eFins;
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "eFins-iOS/eFins-iOS-Bridging-Header.h";
@@ -926,6 +968,7 @@
 				);
 				INFOPLIST_FILE = "eFins-iOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "mcclintock.msi.ucsb.edu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/eFins-iOS.app/eFins-iOS";
 			};
@@ -941,6 +984,7 @@
 				);
 				INFOPLIST_FILE = "eFins-iOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "mcclintock.msi.ucsb.edu.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/eFins-iOS.app/eFins-iOS";
 			};

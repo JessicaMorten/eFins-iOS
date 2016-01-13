@@ -138,7 +138,7 @@ class PatrolLogGeneralFormTableViewController: UITableViewController, UITextFiel
         let realm = RLMRealm.defaultRealm()
         self.patrolLog.beginWriteTransaction()
         var value = 0
-        if let val = Int(textField.text) {
+        if let val = Int(textField.text!) {
             value = val
         }
         switch textField {

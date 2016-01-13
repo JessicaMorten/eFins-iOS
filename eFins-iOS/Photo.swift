@@ -94,20 +94,20 @@ class Photo: EfinsModel {
     func setImage(image:UIImage) {
         // store original
         let originalBlob = UIImageJPEGRepresentation(image, 0.8)
-        originalBlob.writeToFile(getOriginalFilePath()!.path!, atomically: true)
+        originalBlob!.writeToFile(getOriginalFilePath()!.path!, atomically: true)
         
         // make thumbnail
-        if let imageSource = CGImageSourceCreateWithData(originalBlob, nil) {
+        if let imageSource = CGImageSourceCreateWithData(originalBlob!, nil) {
             let options:[NSObject:AnyObject] = [
                 kCGImageSourceThumbnailMaxPixelSize: MAX_THUMBNAIL_SIZE,
                 kCGImageSourceCreateThumbnailFromImageIfAbsent: true,
                 kCGImageSourceCreateThumbnailWithTransform: true
             ]
             
-            let scaledImage = UIImage(CGImage: CGImageSourceCreateThumbnailAtIndex(imageSource, 0, options))
+            let scaledImage = UIImage(CGImage: CGImageSourceCreateThumbnailAtIndex(imageSource, 0, options)!)
             // store thumbnail
             let lowResolution = UIImageJPEGRepresentation(scaledImage, 0.6)
-            lowResolution.writeToFile(getThumbnailFilePath()!.path!, atomically: true)
+            lowResolution!.writeToFile(getThumbnailFilePath()!.path!, atomically: true)
         }
     }
     

@@ -7,7 +7,7 @@
 //
 
  import UIKit
- import semver
+ //import semver
  import Alamofire
  import SwiftyJSON
  import Realm
@@ -189,45 +189,46 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func checkIfUpToDate() {
-        if let lastChecked = self.lastCheckedForUpdates {
-            let minutes = NSCalendar.currentCalendar().components(NSCalendarUnit.Minute, fromDate: lastChecked, toDate: NSDate(), options: []).minute
-            if minutes < 10 {
-                return
-            }
-        }
-        self.lastCheckedForUpdates = NSDate()
-        if let version = NSBundle.applicationVersionNumber {
-            if Semver.valid(version) {
-                print("eFins Version \(version)")
-                Alamofire.request(.GET, "https://www.installrapp.com/apps/status/oEuTK6AjDhQnw3Ez4hQfNZo3AOxG.json")
-                    .responseJSON { (_, _, data, _) in
-                        if data != nil {
-                            var json = JSON(data!)
-                            if let installrVersion = json["appData"]["versionNumber"].string {
-                                if let installLink = json["appData"]["installUrl"].string {
-                                    println("Installr version = \(installrVersion)")
-                                    if Semver.gt(installrVersion, version2: version) {
-                                        println("out of date!")
-                                        let alertController = UIAlertController(title: "Updates Available", message:
-                                            "There is a new version of eFins available. Please upgrade as soon as convenient", preferredStyle: UIAlertControllerStyle.Alert)
-                                        alertController.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel,handler: nil))
-                                        alertController.addAction(UIAlertAction(title: "Update", style: UIAlertActionStyle.Default,handler: { (action) in
-                                                let url = NSURL(string: installLink)
-                                                UIApplication.sharedApplication().openURL(url!)
-                                        }))
-                                        if let root = self.window?.rootViewController {
-                                            if root.isViewLoaded() && root.view.window != nil {
-                                                root.presentViewController(alertController, animated: true, completion: nil)
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                            
-                        }
-                }
-            }
-        }
+        return
+//        if let lastChecked = self.lastCheckedForUpdates {
+//            let minutes = NSCalendar.currentCalendar().components(NSCalendarUnit.Minute, fromDate: lastChecked, toDate: NSDate(), options: []).minute
+//            if minutes < 10 {
+//                return
+//            }
+//        }
+//        self.lastCheckedForUpdates = NSDate()
+//        if let version = NSBundle.applicationVersionNumber {
+//            if Semver.valid(version) {
+//                print("eFins Version \(version)")
+//                Alamofire.request(.GET, "https://www.installrapp.com/apps/status/oEuTK6AjDhQnw3Ez4hQfNZo3AOxG.json")
+//                    .responseJSON { (_, _, data, _) in
+//                        if data != nil {
+//                            var json = JSON(data!)
+//                            if let installrVersion = json["appData"]["versionNumber"].string {
+//                                if let installLink = json["appData"]["installUrl"].string {
+//                                    println("Installr version = \(installrVersion)")
+//                                    if Semver.gt(installrVersion, version2: version) {
+//                                        println("out of date!")
+//                                        let alertController = UIAlertController(title: "Updates Available", message:
+//                                            "There is a new version of eFins available. Please upgrade as soon as convenient", preferredStyle: UIAlertControllerStyle.Alert)
+//                                        alertController.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel,handler: nil))
+//                                        alertController.addAction(UIAlertAction(title: "Update", style: UIAlertActionStyle.Default,handler: { (action) in
+//                                                let url = NSURL(string: installLink)
+//                                                UIApplication.sharedApplication().openURL(url!)
+//                                        }))
+//                                        if let root = self.window?.rootViewController {
+//                                            if root.isViewLoaded() && root.view.window != nil {
+//                                                root.presentViewController(alertController, animated: true, completion: nil)
+//                                            }
+//                                        }
+//                                    }
+//                                }
+//                            }
+//                            
+//                        }
+//                }
+//            }
+//        }
     }
 
 
