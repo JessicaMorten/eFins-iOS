@@ -175,57 +175,58 @@ class RegistrationIncompleteViewController: UIViewController, UITextFieldDelegat
     }
     
     func checkStatus() {
-        print("CHeck status")
-        let params = [
-            "email": self.email!,
-            "password": self.password!
-        ]
-        print("Posting to \(Urls.getToken)")
-        let defaults = NSUserDefaults.standardUserDefaults()
-        self.networkActivityLabel.text = "Checking Account Status"
-        self.networkActivityLabel.hidden = false
-        self.networkActivityIndicator.hidden = false
-        var oldState = defaults.stringForKey("SessionState")
-        if oldState == nil {
-            oldState = "NotApproved"
-        }
-        Alamofire.request(.POST, Urls.getToken, parameters: params)
-            .responseString { (request, response, data, error) in
-                self.networkActivityLabel.hidden = true
-                self.networkActivityIndicator.hidden = true
-                if (error != nil) {
-                    self.prepareState(oldState!)
-                } else if (response?.statusCode == 404) {
-                    self.alert("Error", message: "Users \(self.email) is not registered", completion: {self.dismissViewControllerAnimated(true, completion: nil)})
-                    self.prepareState(oldState!)
-                } else if (response?.statusCode == 401) {
-                    self.alert("Error", message: "Password for \(self.email) was incorrect", completion: {self.dismissViewControllerAnimated(true, completion: nil)})
-                } else if (response?.statusCode == 403) {
-                    if ((data?.rangeOfString("approved")) != nil) {
-                        defaults.setValue("NotApproved", forKey: "SessionState")
-                        self.prepareState(defaults.objectForKey("SessionState") as! String)
-                    } else {
-                        defaults.setValue("EmailNotConfirmed", forKey: "SessionState")
-                        self.prepareState(defaults.objectForKey("SessionState") as! String)
-                    }
-                } else if (response?.statusCode == 200) {
-                    let json = JSON(data: data!.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!)
-                    if let token = json["token"].string{
-                        defaults.setValue(token, forKey: "SessionToken")
-                        defaults.setValue("Authenticated", forKey: "SessionState")
-                        self.alert("Account Approved", message: "You may now access the system", completion: nil)
-                        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-                        appDelegate.gotoMainStoryboard()
-                    } else {
-                        self.alert("Login Error", message: "Problem reading response from server", completion: nil)
-                        self.prepareState(oldState!)
-                    }
-                } else {
-                    println(data)
-                    self.alert("Login Error", message: "Unknown error attempting login", completion: nil)
-                    self.prepareState(oldState!)
-                }
-        }
+        return
+//        print("CHeck status")
+//        let params = [
+//            "email": self.email!,
+//            "password": self.password!
+//        ]
+//        print("Posting to \(Urls.getToken)")
+//        let defaults = NSUserDefaults.standardUserDefaults()
+//        self.networkActivityLabel.text = "Checking Account Status"
+//        self.networkActivityLabel.hidden = false
+//        self.networkActivityIndicator.hidden = false
+//        var oldState = defaults.stringForKey("SessionState")
+//        if oldState == nil {
+//            oldState = "NotApproved"
+//        }
+//        Alamofire.request(.POST, Urls.getToken, parameters: params)
+//            .responseString { (request, response, data, error) in
+//                self.networkActivityLabel.hidden = true
+//                self.networkActivityIndicator.hidden = true
+//                if (error != nil) {
+//                    self.prepareState(oldState!)
+//                } else if (response?.statusCode == 404) {
+//                    self.alert("Error", message: "Users \(self.email) is not registered", completion: {self.dismissViewControllerAnimated(true, completion: nil)})
+//                    self.prepareState(oldState!)
+//                } else if (response?.statusCode == 401) {
+//                    self.alert("Error", message: "Password for \(self.email) was incorrect", completion: {self.dismissViewControllerAnimated(true, completion: nil)})
+//                } else if (response?.statusCode == 403) {
+//                    if ((data?.rangeOfString("approved")) != nil) {
+//                        defaults.setValue("NotApproved", forKey: "SessionState")
+//                        self.prepareState(defaults.objectForKey("SessionState") as! String)
+//                    } else {
+//                        defaults.setValue("EmailNotConfirmed", forKey: "SessionState")
+//                        self.prepareState(defaults.objectForKey("SessionState") as! String)
+//                    }
+//                } else if (response?.statusCode == 200) {
+//                    let json = JSON(data: data!.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!)
+//                    if let token = json["token"].string{
+//                        defaults.setValue(token, forKey: "SessionToken")
+//                        defaults.setValue("Authenticated", forKey: "SessionState")
+//                        self.alert("Account Approved", message: "You may now access the system", completion: nil)
+//                        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+//                        appDelegate.gotoMainStoryboard()
+//                    } else {
+//                        self.alert("Login Error", message: "Problem reading response from server", completion: nil)
+//                        self.prepareState(oldState!)
+//                    }
+//                } else {
+//                    println(data)
+//                    self.alert("Login Error", message: "Unknown error attempting login", completion: nil)
+//                    self.prepareState(oldState!)
+//                }
+//        }
 
     }
 
