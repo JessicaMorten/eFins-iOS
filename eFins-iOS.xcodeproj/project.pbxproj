@@ -18,6 +18,7 @@
 		933454C41AB75C4A00E5C65E /* Agency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933454C21AB75C4A00E5C65E /* Agency.swift */; };
 		933454C51AB75C4A00E5C65E /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933454C31AB75C4A00E5C65E /* User.swift */; };
 		933C5D081C4E9C0D0016B3A2 /* RLMSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933C5D071C4E9C0D0016B3A2 /* RLMSupport.swift */; };
+		933C5D0A1C4E9E050016B3A2 /* TimeAgo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933C5D091C4E9E050016B3A2 /* TimeAgo.swift */; };
 		935D24BF1AC1DCBB00A2854D /* AgencyVessel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 935D24BE1AC1DCBB00A2854D /* AgencyVessel.swift */; };
 		935D24C11AC1E1D500A2854D /* PatrolLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 935D24C01AC1E1D500A2854D /* PatrolLog.swift */; };
 		935D24C31AC1E3C100A2854D /* FreeTextCrew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 935D24C21AC1E3C100A2854D /* FreeTextCrew.swift */; };
@@ -91,7 +92,6 @@
 		CB8CC7261B02976E00B91B90 /* PatrolLogGeneralFormTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB8CC7251B02976E00B91B90 /* PatrolLogGeneralFormTableViewController.swift */; };
 		CB8CC7281B02A91B00B91B90 /* PatrolLogContactListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB8CC7271B02A91B00B91B90 /* PatrolLogContactListTableViewController.swift */; };
 		CBA0330D1AF02B2A006838C6 /* PhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBA0330C1AF02B2A006838C6 /* PhotoCollectionViewCell.swift */; };
-		CBA980711B1F9CF20091CDE6 /* timeAgo.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBA980701B1F9CF20091CDE6 /* timeAgo.swift */; };
 		CBC09A8D1B0E84D6002301F1 /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBC09A8C1B0E84D6002301F1 /* SettingsTableViewController.swift */; };
 		CBCE35A41AC1EB2F005C6CA8 /* ActivityLogTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBCE35A31AC1EB2F005C6CA8 /* ActivityLogTableViewController.swift */; };
 		CBCE35A71AC1F763005C6CA8 /* DatePicker.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CBCE35A61AC1F763005C6CA8 /* DatePicker.storyboard */; };
@@ -151,6 +151,7 @@
 		933454C21AB75C4A00E5C65E /* Agency.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Agency.swift; sourceTree = "<group>"; };
 		933454C31AB75C4A00E5C65E /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		933C5D071C4E9C0D0016B3A2 /* RLMSupport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RLMSupport.swift; sourceTree = "<group>"; };
+		933C5D091C4E9E050016B3A2 /* TimeAgo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeAgo.swift; sourceTree = "<group>"; };
 		935D24BE1AC1DCBB00A2854D /* AgencyVessel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AgencyVessel.swift; sourceTree = "<group>"; };
 		935D24C01AC1E1D500A2854D /* PatrolLog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatrolLog.swift; sourceTree = "<group>"; };
 		935D24C21AC1E3C100A2854D /* FreeTextCrew.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FreeTextCrew.swift; sourceTree = "<group>"; };
@@ -236,7 +237,6 @@
 		CB8CC7251B02976E00B91B90 /* PatrolLogGeneralFormTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PatrolLogGeneralFormTableViewController.swift; path = ../PatrolLogGeneralFormTableViewController.swift; sourceTree = "<group>"; };
 		CB8CC7271B02A91B00B91B90 /* PatrolLogContactListTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PatrolLogContactListTableViewController.swift; path = ../PatrolLogContactListTableViewController.swift; sourceTree = "<group>"; };
 		CBA0330C1AF02B2A006838C6 /* PhotoCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoCollectionViewCell.swift; sourceTree = "<group>"; };
-		CBA980701B1F9CF20091CDE6 /* timeAgo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = timeAgo.swift; sourceTree = "<group>"; };
 		CBC09A8C1B0E84D6002301F1 /* SettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
 		CBCE35A31AC1EB2F005C6CA8 /* ActivityLogTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityLogTableViewController.swift; sourceTree = "<group>"; };
 		CBCE35A61AC1F763005C6CA8 /* DatePicker.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = DatePicker.storyboard; sourceTree = "<group>"; };
@@ -424,6 +424,7 @@
 				CB81E92D1AAA21F70071C2D2 /* Supporting Files */,
 				CB504BCE1B0A78AC00941E70 /* Mapbox-iOS-SDK */,
 				CB81E9381AAA21F70071C2D2 /* Images.xcassets */,
+				933C5D091C4E9E050016B3A2 /* TimeAgo.swift */,
 				CB8CC7271B02A91B00B91B90 /* PatrolLogContactListTableViewController.swift */,
 				CB8CC7251B02976E00B91B90 /* PatrolLogGeneralFormTableViewController.swift */,
 				CBF8C3CE1B0BE491005A7A42 /* MapLegendTableViewController.swift */,
@@ -436,7 +437,6 @@
 				CB8CC70D1AFABCAC00B91B90 /* ViolationTypeFormTableViewController.swift */,
 				CB8CC7091AFAA53A00B91B90 /* ViolationFormTableViewController.swift */,
 				CBE272DF1AC3564600A4F236 /* LogbookTableViewController.swift */,
-				CBA980701B1F9CF20091CDE6 /* timeAgo.swift */,
 				CB03EED61AB8E1B9004CCB47 /* SettingsViewController.swift */,
 				CB3B42BF1AE85FE5004E9D60 /* DayDatePickerTableViewController.swift */,
 				CBCE35A81AC1F7CD005C6CA8 /* DatePickerTableViewController.swift */,
@@ -705,7 +705,6 @@
 				935D24E11AC215AB00A2854D /* EnforcementActionTaken.swift in Sources */,
 				CB8CC7221B0292ED00B91B90 /* PatrolLogSplitViewController.swift in Sources */,
 				935D24D51AC212C200A2854D /* Fishery.swift in Sources */,
-				CBA980711B1F9CF20091CDE6 /* timeAgo.swift in Sources */,
 				CB504BE21B0A84C400941E70 /* MapSplitViewController.swift in Sources */,
 				933C5D081C4E9C0D0016B3A2 /* RLMSupport.swift in Sources */,
 				938A26481C4E8F5D000BE8C5 /* Reachability.swift in Sources */,
@@ -742,6 +741,7 @@
 				935D24C91AC1E5F200A2854D /* Activity.swift in Sources */,
 				CB0076731AE6EBD200AD0590 /* PersonFormTableViewController.swift in Sources */,
 				CBC09A8D1B0E84D6002301F1 /* SettingsTableViewController.swift in Sources */,
+				933C5D0A1C4E9E050016B3A2 /* TimeAgo.swift in Sources */,
 				CB17869E1AF3F76C00D08E73 /* CDFWCommBoardingCardTableViewController.swift in Sources */,
 				931744BD1C445A0300362A9D /* MKTableViewCell.swift in Sources */,
 				CBD00BAB1AB0E6A300ED784E /* RegistrationIncompleteViewController.swift in Sources */,
