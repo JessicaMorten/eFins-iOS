@@ -66,7 +66,7 @@ class EfinsModel : RLMObject {
                 newEntities.append( classType.createOrUpdateInRealm(syncRealm, withObject:dictionary!))
             }
         }
-        println("New and modified entity count \(newEntities.count)")
+        print("New and modified entity count \(newEntities.count)")
         for ne in newEntities as! [EfinsModel] {
             ne.dirty = false
         }
@@ -102,7 +102,7 @@ class EfinsModel : RLMObject {
 
         for p in sourceSchema.properties {
             let property: RLMProperty = p as! RLMProperty
-            if contains(excludedArray, property.name) {
+            if excludedArray.contains(property.name) {
                 continue
             }
             
@@ -135,11 +135,11 @@ class EfinsModel : RLMObject {
             } else if property.type == RLMPropertyType.Data {
                 let obj = self[property.name] as? NSData
                 if obj != nil {
-                    json[property.name] = JSON(obj!.base64EncodedStringWithOptions(nil))
+                    json[property.name] = JSON(obj!.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.Encoding64CharacterLineLength))
                 }
 
             } else {
-                if !(contains(["dirty", "localId"], property.name)) {
+                if ["dirty", "localId"].contains(property.name) {
                     json[property.name] = JSON(self.valueForKey(property.name)!)
                 }
             }

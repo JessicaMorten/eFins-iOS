@@ -119,13 +119,13 @@ class RelationTableViewCell: UITableViewCell {
         self.model = model
         self.allowEditing = allowEditing
         if property != nil {
-            let prop = getRealmModelProperty(model.objectSchema.className, property!)
+            let prop = getRealmModelProperty(model.objectSchema.className, propertyName: property!)
             self.propertyName = prop.name
             self.propertyType = prop.type
             self.propertyClassName = prop.objectClassName
         }
         if let prop = secondaryProperty {
-            self.secondaryProperty = getRealmModelProperty(model.objectSchema.className, prop)
+            self.secondaryProperty = getRealmModelProperty(model.objectSchema.className, propertyName: prop)
         }
         updateValues()
     }
@@ -283,7 +283,7 @@ class RelationTableViewCell: UITableViewCell {
             m.dirty = true
         }
         realm.commitWriteTransaction()
-        println(self.model)
+        print(self.model)
         self.updateValues()
     }
 

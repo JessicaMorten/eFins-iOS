@@ -109,8 +109,8 @@ class CatchFormTableViewController: UITableViewController, ItemForm {
     
     @IBAction func amountChanged(sender: UITextField) {
         `catch`.beginWriteTransaction()
-        if sender.text.characters.count > 0 {
-            self.`catch`.amount = Int(sender.text)!
+        if sender.text!.characters.count > 0 {
+            self.`catch`.amount = Int(sender.text!)!
         } else {
             self.`catch`.amount = 0
         }

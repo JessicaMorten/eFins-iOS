@@ -122,7 +122,7 @@ class PatrolLogContactListTableViewController: UITableViewController {
                 }
             }
             
-            self.presentViewController(controller as! UIViewController, animated: true, completion: nil)
+            self.presentViewController(controller! as UIViewController, animated: true, completion: nil)
         } else {
             tvc.dismissViewControllerAnimated(true, completion: nil)
         }

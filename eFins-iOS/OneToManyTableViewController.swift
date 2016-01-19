@@ -30,7 +30,7 @@ class OneToManyTableViewController: UITableViewController {
         if allowEditing {
             self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: "add")
         }
-        let attr = addHelpLabel.attributedText.mutableCopy() as! NSMutableAttributedString
+        let attr = addHelpLabel.attributedText!.mutableCopy() as! NSMutableAttributedString
         attr.mutableString.replaceOccurrencesOfString("<items>", withString: entryFieldName!, options: NSStringCompareOptions.CaseInsensitiveSearch, range: NSMakeRange(0, attr.mutableString.length))
         addHelpLabel.attributedText = attr
         

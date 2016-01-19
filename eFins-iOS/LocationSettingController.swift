@@ -96,8 +96,8 @@ import ActionSheetPicker_3_0
 
     
     private func displayValues() {
-        let (latDeg, latMin) = CoordinateConverter.decimalDegrees2degreesMinutes(degrees: location!.latitude)
-        let (longDeg, longMin) = CoordinateConverter.decimalDegrees2degreesMinutes(degrees: location!.longitude)
+        let (latDeg, latMin) = CoordinateConverter.decimalDegrees2degreesMinutes(location!.latitude)
+        let (longDeg, longMin) = CoordinateConverter.decimalDegrees2degreesMinutes(location!.longitude)
         let latText = String(format: "%3.0f\u{00b0} %.3f\u{2032}", latDeg, latMin)
         let longText = String(format: "%3.0f\u{00b0} %.3f\u{2032}", longDeg, longMin)
         latitudeCell.detailTextLabel?.text = latText
@@ -226,7 +226,7 @@ class CoordinateConverter {
     }
     
     class func decimalDegrees2degreesMinutesSeconds(degrees: CLLocationDegrees) -> (degrees : Double, minutes: Double, seconds: Double) {
-        let (deg, min) = decimalDegrees2degreesMinutes(degrees: degrees)
+        let (deg, min) = decimalDegrees2degreesMinutes(degrees)
         let minutes = Double(Int(min))
         let seconds = min - minutes
         return (deg, minutes, seconds)

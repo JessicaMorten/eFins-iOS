@@ -95,7 +95,6 @@ class PersonFormTableViewController: UITableViewController, ItemForm, UITextFiel
     func startEditing() {
         self.navigationItem.rightBarButtonItem = nil
         self.allowEditing = true
-        let realm = RLMRealm.defaultRealm()
         self.beginWriteTransaction()
         setEditingState()
     }
@@ -113,11 +112,11 @@ class PersonFormTableViewController: UITableViewController, ItemForm, UITextFiel
     }
     
     @IBAction func nameChanged(sender: UITextField) {
-        self.person.name = sender.text
+        self.person.name = sender.text!
     }
 
     @IBAction func licenseChanged(sender: UITextField) {
-        self.person.license = sender.text
+        self.person.license = sender.text!
     }
     
     func textViewDidBeginEditing(textView: UITextView) {

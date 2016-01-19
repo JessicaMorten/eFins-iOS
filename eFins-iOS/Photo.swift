@@ -11,6 +11,7 @@ import Realm
 import AVFoundation
 import ImageIO
 import AWSS3
+import Bolts
 
 let MAX_THUMBNAIL_SIZE = 960
 
@@ -149,20 +150,20 @@ class Photo: EfinsModel {
         r.HTTPMethod = AWSHTTPMethod.PUT
         r.expires = NSDate(timeIntervalSinceNow: 31556952 * 2) // one year * 2
         r.contentType = "image/jpg"
-        AWSS3PreSignedURLBuilder.defaultS3PreSignedURLBuilder().getPreSignedURL(r).continueWithBlock { (task:BFTask!) -> (AnyObject!) in
+        AWSS3PreSignedURLBuilder.defaultS3PreSignedURLBuilder().getPreSignedURL(r).continueWithBlock { (task:AWSTask!) -> (AnyObject!) in
             if task.error != nil {
                 next(false)
             } else {
                 if let presignedURL = task.result as? NSURL {
-                    println("upload presignedURL is: \n%@", presignedURL)
+                    print("upload presignedURL is: \n%@", presignedURL)
                     self.signedOriginalUploadUrl = presignedURL.URLString
                     r.key = "\(self.localId)-thumb"
-                    AWSS3PreSignedURLBuilder.defaultS3PreSignedURLBuilder().getPreSignedURL(r).continueWithBlock { (task:BFTask!) -> (AnyObject!) in
+                    AWSS3PreSignedURLBuilder.defaultS3PreSignedURLBuilder().getPreSignedURL(r).continueWithBlock { (task:AWSTask!) -> (AnyObject!) in
                         if task.error != nil {
                             next(false)
                         } else {
                             if let presignedURL = task.result as? NSURL {
-                                println("thumbnail presignedURL is: \n%@", presignedURL)
+                                print("thumbnail presignedURL is: \n%@", presignedURL)
                                 self.signedThumbnailUploadUrl = presignedURL.URLString
                                 next(true)
                             } else {

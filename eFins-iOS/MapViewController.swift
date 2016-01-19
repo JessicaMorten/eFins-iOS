@@ -42,7 +42,11 @@ class MapViewController: UIViewController, RMMapViewDelegate, UIAlertViewDelegat
         self.popupLabel.alpha = 0
         let uri = NSURL(string: SERVER_ROOT)
         let host = uri?.host ?? ""
-        self.reachability = Reachability(hostname: host)
+        do {
+            try self.reachability = Reachability(hostname: host)
+        } catch {
+            print("Reachability won't start.  We'll be crashing shortly; brace for impact.")
+        }
         
         if useSplitView {
             self.splitViewController?.preferredDisplayMode = UISplitViewControllerDisplayMode.PrimaryHidden

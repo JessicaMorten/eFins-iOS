@@ -65,7 +65,7 @@ class PickerTableViewController: UITableViewController, UISearchBarDelegate, UIS
     }
     
     func updateSearchResultsForSearchController(searchController: UISearchController) {
-        self.filterContentForSearchText(self.searchController.searchBar.text)
+        self.filterContentForSearchText(self.searchController.searchBar.text!)
         self.tableView.reloadData()
     }
     
@@ -106,7 +106,7 @@ class PickerTableViewController: UITableViewController, UISearchBarDelegate, UIS
 //            self.navigationItem.title = "Cancel"
             self.navigationController?.pushViewController(controller!, animated: true)
         } else {
-            let object = Model()
+            let object : RLMObject = Model.init()
             object.setValue(text, forKey: self.labelProperty!)
             let realm = RLMRealm.defaultRealm()
             realm.beginWriteTransaction()
@@ -140,7 +140,7 @@ class PickerTableViewController: UITableViewController, UISearchBarDelegate, UIS
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if searchActive() {
-            if self.searchController.searchBar.text.characters.count == 0 {
+            if self.searchController.searchBar.text!.characters.count == 0 {
                 if indexPath.row == 0 {
                     return
                 } else {
@@ -273,7 +273,7 @@ class PickerTableViewController: UITableViewController, UISearchBarDelegate, UIS
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
         if searchActive() {
-            if self.searchController.searchBar.text.characters.count == 0 {
+            if self.searchController.searchBar.text!.characters.count == 0 {
                 if self.filteredObjects.count > 0 {
                     return self.filteredObjects.count + 1
                 } else {
@@ -298,7 +298,7 @@ class PickerTableViewController: UITableViewController, UISearchBarDelegate, UIS
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var object:RLMObject
         if searchActive() {
-            if self.searchController.searchBar.text.characters.count == 0 {
+            if self.searchController.searchBar.text!.characters.count == 0 {
                 if self.filteredObjects.count > 0 && indexPath.row == 0 {
                     let cell = tableView.dequeueReusableCellWithIdentifier("recent", forIndexPath: indexPath) 
                     return cell

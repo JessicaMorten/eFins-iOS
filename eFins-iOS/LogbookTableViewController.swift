@@ -82,7 +82,7 @@ class LogbookTableViewController: UITableViewController, UISearchBarDelegate, UI
     }
     
     func updateSearchResultsForSearchController(searchController: UISearchController) {
-        self.filterContentForSearchText(self.searchController.searchBar.text)
+        self.filterContentForSearchText(self.searchController.searchBar.text!)
         self.tableView.reloadData()
     }
     
@@ -269,9 +269,9 @@ class LogbookTableViewController: UITableViewController, UISearchBarDelegate, UI
             }
             
             if let observedVessel = activity.vessel {
-                if count(observedVessel.name) > 0 {
+                if !observedVessel.name.isEmpty {
                     label += " (\(observedVessel.name))"
-                } else if count(observedVessel.registration) > 0 {
+                } else if !observedVessel.registration.isEmpty {
                     label += " (\(observedVessel.registration))"
                 }
             }
@@ -371,7 +371,7 @@ class LogbookTableViewController: UITableViewController, UISearchBarDelegate, UI
                         let controller = storyboard.instantiateInitialViewController()
                         tvc.dismissViewControllerAnimated(false, completion: nil)
                         DataSync.manager.disableSync()
-                        self.presentViewController(controller as! UIViewController, animated: true, completion: nil)
+                        self.presentViewController(controller! as UIViewController, animated: true, completion: nil)
                     }
                 } else {
                     print("Could not find eFinsTabBarController")

@@ -155,7 +155,7 @@ class _RecentValues {
                 break
             }
             if (key as! NSString).containsString("recent-values") && (key as! NSString).containsString(model.objectSchema.className) && ((key as! NSString).containsString(propertyName) || (secondaryProperty != nil && (key as! NSString).containsString(secondaryProperty!.name))) {
-                var parts = split(key ) { $0 == ","}
+                var parts = key.componentsSeparatedByString(",")
                 let id = parts[3]
                 items[id] = value.integerValue
                 sortedKeys.append(id)

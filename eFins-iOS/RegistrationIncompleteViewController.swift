@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import MaterialKit
 import Alamofire
 import SwiftyJSON
 
@@ -120,7 +119,7 @@ class RegistrationIncompleteViewController: UIViewController, UITextFieldDelegat
     
     @IBAction func registerAction(sender: AnyObject?) {
         print("Register Action")
-        if (self.nameField.text == nil || self.nameField.text.isEmpty) {
+        if (self.nameField.text == nil || self.nameField.text!.isEmpty) {
             alert("Form Error", message: "You must provide your full name to register", completion: nil)
         } else {
             self.nameField.hidden = true
@@ -135,12 +134,13 @@ class RegistrationIncompleteViewController: UIViewController, UITextFieldDelegat
             ]
             self.registerButton.hidden = true
             Alamofire.request(.POST, Urls.register, parameters: params)
-                .responseString { (request, response, data, error) in
+                .response { (request, response, rawData, error) in
+                    let data = NSString(data: rawData!, encoding: NSUTF8StringEncoding)
                     self.networkActivityLabel.hidden = true
                     self.networkActivityIndicator.hidden = true
                     if (error == nil) {
-                        println("Status is \(response?.statusCode)")
-                        println(data)
+                        print("Status is \(response?.statusCode)")
+                        print(data)
                         if response?.statusCode == 200 || response?.statusCode == 201 {
                             self.prepareState("NotApproved")
                         } else if response?.statusCode == 400 {
@@ -148,15 +148,15 @@ class RegistrationIncompleteViewController: UIViewController, UITextFieldDelegat
                                 self.alert("Registration Error", message: "A user with this name is already registered. Could you be registered with another email address?", completion: {self.dismissViewControllerAnimated(true, completion: nil)})
                             } else {
                                 let val = data?.rangeOfString("name")
-                                println("It's unknown!!? \(val)")
+                                print("It's unknown!!? \(val)")
                                 self.alert("Registration Error", message: "An unknown validation error occurred registering", completion: {self.dismissViewControllerAnimated(true, completion: nil)})
                             }
                         } else {
                             self.alert("Registration Error", message: "An unknown error occurred registering", completion: {self.dismissViewControllerAnimated(true, completion: nil)})
                         }
                     } else {
-                        println("There was an error")
-                        println(error)
+                        print("There was an error")
+                        print(error)
                         self.alert("Registration Error", message: "An unknown error occurred registering", completion: {self.dismissViewControllerAnimated(true, completion: nil)})
                         
                     }

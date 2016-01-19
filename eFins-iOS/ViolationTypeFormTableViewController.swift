@@ -105,13 +105,13 @@ class ViolationTypeFormTableViewController: UITableViewController, ItemForm {
     
     @IBAction func nameChanged(sender: UITextField) {
         self.violationType.beginWriteTransaction()
-        self.violationType.name = sender.text
+        self.violationType.name = sender.text!
         self.violationType.commitWriteTransaction()
     }
 
     @IBAction func codeChanged(sender: UITextField) {
         self.violationType.beginWriteTransaction()
-        self.violationType.code = sender.text
+        self.violationType.code = sender.text!
         self.violationType.commitWriteTransaction()
     }
     

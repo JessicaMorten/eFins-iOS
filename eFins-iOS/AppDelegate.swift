@@ -63,7 +63,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     if let photo = newObject as? Photo {
                         photo.createSignedUrls { (success:Bool) in
                             if !success {
-                                println("Could not create signed url for photo")
+                                print("Could not create signed url for photo")
                             }
                         }
                     }
@@ -106,7 +106,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         while i < photos.count {
             if let photo = photos.objectAtIndex(i) as? Photo {
                 photo.createSignedUrls { (success:Bool) in
-                    println("Signed")
+                    print("Signed")
                 }
                 photo.dirty = true
             }

@@ -38,7 +38,7 @@ class SettingsTableViewController: UITableViewController, DataSyncDelegate {
         super.viewDidLoad()
         self.chartManager = Alamofire.Manager(configuration: chartbackgroundSession)
         self.basemapManager = Alamofire.Manager(configuration: basemapBackgroundSession)
-        println("manager \(self.chartManager)")
+        print("manager \(self.chartManager)")
         if let user = (UIApplication.sharedApplication().delegate as! AppDelegate).getUser() {
             self.loginCell.textLabel?.text = "Signed in as \(user.name)"
         }
@@ -165,18 +165,18 @@ class SettingsTableViewController: UITableViewController, DataSyncDelegate {
             }
             self.chartManager.session.getTasksWithCompletionHandler { (tasks, _, _) in
                 for item in tasks {
-                    println("item \(item)")
+                    print("item \(item)")
                     if let task = item as? NSURLSessionDownloadTask {
-                        println("cancelling")
+                        print("cancelling")
                         task.cancel()
                     }
                 }
             }
             self.basemapManager.session.getTasksWithCompletionHandler { (tasks, _, _) in
                 for item in tasks {
-                    println("item \(item)")
+                    print("item \(item)")
                     if let task = item as? NSURLSessionDownloadTask {
-                        println("cancelling")
+                        print("cancelling")
                         task.cancel()
                     }
                 }
@@ -192,10 +192,10 @@ class SettingsTableViewController: UITableViewController, DataSyncDelegate {
             var basemapDone = false
             print("doing chartManager")
             self.chartManager.download(.GET, CHART_MBTILES, destination: { (temporaryURL, response) in
-                return NSURL(fileURLWithPath: chartPath()!, isDirectory: false)!
+                return NSURL(fileURLWithPath: chartPath()!, isDirectory: false)
             })
                 .progress { (bytesRead, totalBytesRead, totalBytesExpectedToRead) in
-                    println("progress, charts")
+                    print("progress, charts")
                     if self.chartBytesRead == 0 {
                         self.totalBytes += Int(totalBytesExpectedToRead)
                     }
@@ -206,15 +206,15 @@ class SettingsTableViewController: UITableViewController, DataSyncDelegate {
                 }
                 .response { (request, response, _, error) in
                     if error != nil {
-                        println(error)
-                        alert("Error Downloading", "\(error?.description)", self)
+                        print(error)
+                        alert("Error Downloading", message: "message: \(error?.description)", view: self)
                         self.downloading = false
                         dispatch_async(dispatch_get_main_queue(), {
                             self.updateDisplay()
                         })
                     } else {
-                        println("charts error")
-                        println(error)
+                        print("charts error")
+                        print(error)
                         chartsDone = true
                         if chartsDone && basemapDone {
                             self.downloading = false
@@ -226,10 +226,10 @@ class SettingsTableViewController: UITableViewController, DataSyncDelegate {
             }
             print("doing basemapManager")
             self.basemapManager.download(.GET, BASEMAP_MBTILES, destination: { (temporaryURL, response) in
-                return NSURL(fileURLWithPath: basemapPath()!, isDirectory: false)!
-            })
+                return NSURL(fileURLWithPath: basemapPath()!, isDirectory: false)
+           })
                 .progress { (bytesRead, totalBytesRead, totalBytesExpectedToRead) in
-                    println("progress, basemap")
+                    print("progress, basemap")
                     if self.basemapBytesRead == 0 {
                         self.totalBytes += Int(totalBytesExpectedToRead)
                     }
@@ -240,15 +240,15 @@ class SettingsTableViewController: UITableViewController, DataSyncDelegate {
                 }
                 .response { (request, response, _, error) in
                     if error != nil {
-                        println(error)
-                        alert("Error Downloading", "\(error?.description)", self)
+                        print(error)
+                        alert("Error Downloading", message: "message: \(error?.description)", view: self)
                         self.downloading = false
                         dispatch_async(dispatch_get_main_queue(), {
                             self.updateDisplay()
                         })
                     } else {
-                        println("error, basemaps")
-                        println(error)
+                        print("error, basemaps")
+                        print(error)
                         basemapDone = true
                         if chartsDone && basemapDone {
                             self.downloading = false

@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		930371491B0D3A3100F0166E /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930371481B0D3A3100F0166E /* LocationManager.swift */; };
-		9310B5101ADC3BDD00D45CF3 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9310B50F1ADC3BDD00D45CF3 /* Reachability.swift */; };
 		931744B81C445A0300362A9D /* MKButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 931744B11C445A0300362A9D /* MKButton.swift */; };
 		931744B91C445A0300362A9D /* MKColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 931744B21C445A0300362A9D /* MKColor.swift */; };
 		931744BA1C445A0300362A9D /* MKImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 931744B31C445A0300362A9D /* MKImageView.swift */; };
@@ -18,6 +17,7 @@
 		931744BE1C445A0300362A9D /* MKTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 931744B71C445A0300362A9D /* MKTextField.swift */; };
 		933454C41AB75C4A00E5C65E /* Agency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933454C21AB75C4A00E5C65E /* Agency.swift */; };
 		933454C51AB75C4A00E5C65E /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933454C31AB75C4A00E5C65E /* User.swift */; };
+		933C5D081C4E9C0D0016B3A2 /* RLMSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933C5D071C4E9C0D0016B3A2 /* RLMSupport.swift */; };
 		935D24BF1AC1DCBB00A2854D /* AgencyVessel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 935D24BE1AC1DCBB00A2854D /* AgencyVessel.swift */; };
 		935D24C11AC1E1D500A2854D /* PatrolLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 935D24C01AC1E1D500A2854D /* PatrolLog.swift */; };
 		935D24C31AC1E3C100A2854D /* FreeTextCrew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 935D24C21AC1E3C100A2854D /* FreeTextCrew.swift */; };
@@ -37,7 +37,7 @@
 		935D24E11AC215AB00A2854D /* EnforcementActionTaken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 935D24E01AC215AB00A2854D /* EnforcementActionTaken.swift */; };
 		935D24E31AC3548200A2854D /* EfinsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 935D24E21AC3548200A2854D /* EfinsModel.swift */; };
 		9381D7671B62ECD300E165A8 /* EfinsLoggingHttpForwarder.m in Sources */ = {isa = PBXBuildFile; fileRef = 9381D7661B62ECD300E165A8 /* EfinsLoggingHttpForwarder.m */; };
-		939C2AF91ADC6317008E2748 /* RLMSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 939C2AF81ADC6317008E2748 /* RLMSupport.swift */; };
+		938A26481C4E8F5D000BE8C5 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 938A26471C4E8F5D000BE8C5 /* Reachability.swift */; };
 		93BE828E1ADED37F002C7EFE /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BE828D1ADED37F002C7EFE /* libc++.dylib */; };
 		93C7438B1B7D44B300465EA1 /* LatPickerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 93C7438A1B7D44B200465EA1 /* LatPickerDelegate.m */; };
 		93C7438E1B7D463D00465EA1 /* CLLocation+FESCoordinates.m in Sources */ = {isa = PBXBuildFile; fileRef = 93C7438D1B7D463D00465EA1 /* CLLocation+FESCoordinates.m */; };
@@ -141,7 +141,6 @@
 		81FED2506F03315253FDFBE9 /* Pods-eFins-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-eFins-iOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-eFins-iOS/Pods-eFins-iOS.release.xcconfig"; sourceTree = "<group>"; };
 		82A68DF860E20C21A882D829 /* Pods_eFins_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_eFins_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		930371481B0D3A3100F0166E /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
-		9310B50F1ADC3BDD00D45CF3 /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		931744B11C445A0300362A9D /* MKButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKButton.swift; sourceTree = "<group>"; };
 		931744B21C445A0300362A9D /* MKColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKColor.swift; sourceTree = "<group>"; };
 		931744B31C445A0300362A9D /* MKImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKImageView.swift; sourceTree = "<group>"; };
@@ -151,6 +150,7 @@
 		931744B71C445A0300362A9D /* MKTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKTextField.swift; sourceTree = "<group>"; };
 		933454C21AB75C4A00E5C65E /* Agency.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Agency.swift; sourceTree = "<group>"; };
 		933454C31AB75C4A00E5C65E /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		933C5D071C4E9C0D0016B3A2 /* RLMSupport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RLMSupport.swift; sourceTree = "<group>"; };
 		935D24BE1AC1DCBB00A2854D /* AgencyVessel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AgencyVessel.swift; sourceTree = "<group>"; };
 		935D24C01AC1E1D500A2854D /* PatrolLog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatrolLog.swift; sourceTree = "<group>"; };
 		935D24C21AC1E3C100A2854D /* FreeTextCrew.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FreeTextCrew.swift; sourceTree = "<group>"; };
@@ -171,7 +171,7 @@
 		935D24E21AC3548200A2854D /* EfinsModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EfinsModel.swift; sourceTree = "<group>"; };
 		9381D7651B62EC6400E165A8 /* EfinsLoggingHttpForwarder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EfinsLoggingHttpForwarder.h; sourceTree = "<group>"; };
 		9381D7661B62ECD300E165A8 /* EfinsLoggingHttpForwarder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EfinsLoggingHttpForwarder.m; sourceTree = "<group>"; };
-		939C2AF81ADC6317008E2748 /* RLMSupport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RLMSupport.swift; sourceTree = "<group>"; };
+		938A26471C4E8F5D000BE8C5 /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		93BE828D1ADED37F002C7EFE /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
 		93BE82921ADEDCBC002C7EFE /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Realm.framework; sourceTree = "<group>"; };
 		93C743891B7D44B200465EA1 /* LatPickerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LatPickerDelegate.h; sourceTree = "<group>"; };
@@ -435,7 +435,6 @@
 				CB1786A91AF439FE00D08E73 /* CatchFormTableViewController.swift */,
 				CB8CC70D1AFABCAC00B91B90 /* ViolationTypeFormTableViewController.swift */,
 				CB8CC7091AFAA53A00B91B90 /* ViolationFormTableViewController.swift */,
-				939C2AF81ADC6317008E2748 /* RLMSupport.swift */,
 				CBE272DF1AC3564600A4F236 /* LogbookTableViewController.swift */,
 				CBA980701B1F9CF20091CDE6 /* timeAgo.swift */,
 				CB03EED61AB8E1B9004CCB47 /* SettingsViewController.swift */,
@@ -464,7 +463,6 @@
 				CB1F547A1AEEB38C00D286F1 /* PhotosCollectionViewController.swift */,
 				CBE118021ACC8FAC00BC229F /* OneToManyTableViewController.swift */,
 				CBE118071ACDE6A600BC229F /* PickerTableViewController.swift */,
-				9310B50F1ADC3BDD00D45CF3 /* Reachability.swift */,
 				CB8CC7011AF93C2000B91B90 /* eFins-iOS-Bridging-Header.h */,
 				930371481B0D3A3100F0166E /* LocationManager.swift */,
 				CB71D5531B1635D100C69858 /* NSBundle+Extension.swift */,
@@ -475,6 +473,8 @@
 				93C7438D1B7D463D00465EA1 /* CLLocation+FESCoordinates.m */,
 				93C7438F1B7D46BF00465EA1 /* LonPickerDelegate.h */,
 				93C743901B7D46BF00465EA1 /* LonPickerDelegate.m */,
+				938A26471C4E8F5D000BE8C5 /* Reachability.swift */,
+				933C5D071C4E9C0D0016B3A2 /* RLMSupport.swift */,
 			);
 			path = "eFins-iOS";
 			sourceTree = "<group>";
@@ -689,7 +689,6 @@
 				935D24D71AC212EF00A2854D /* Person.swift in Sources */,
 				CB8CC7101AFAF16B00B91B90 /* BoardingTypeTableViewController.swift in Sources */,
 				935D24D91AC213D500A2854D /* Action.swift in Sources */,
-				939C2AF91ADC6317008E2748 /* RLMSupport.swift in Sources */,
 				935D24D31AC211DE00A2854D /* Vessel.swift in Sources */,
 				CB34A8E31B0678EC00EE328A /* CurrentPatrolViewController.swift in Sources */,
 				CBE77B321AE1A19A00197FF5 /* ItemForm.swift in Sources */,
@@ -702,13 +701,14 @@
 				CBA0330D1AF02B2A006838C6 /* PhotoCollectionViewCell.swift in Sources */,
 				931744B81C445A0300362A9D /* MKButton.swift in Sources */,
 				93F1FF661B13DBDA00CEBDBF /* LocationSettingController.swift in Sources */,
-				9310B5101ADC3BDD00D45CF3 /* Reachability.swift in Sources */,
 				935D24DD1AC2149300A2854D /* ViolationType.swift in Sources */,
 				935D24E11AC215AB00A2854D /* EnforcementActionTaken.swift in Sources */,
 				CB8CC7221B0292ED00B91B90 /* PatrolLogSplitViewController.swift in Sources */,
 				935D24D51AC212C200A2854D /* Fishery.swift in Sources */,
 				CBA980711B1F9CF20091CDE6 /* timeAgo.swift in Sources */,
 				CB504BE21B0A84C400941E70 /* MapSplitViewController.swift in Sources */,
+				933C5D081C4E9C0D0016B3A2 /* RLMSupport.swift in Sources */,
+				938A26481C4E8F5D000BE8C5 /* Reachability.swift in Sources */,
 				CB71D5541B1635D100C69858 /* NSBundle+Extension.swift in Sources */,
 				935D24C11AC1E1D500A2854D /* PatrolLog.swift in Sources */,
 				CB8CC7121AFBF9DC00B91B90 /* NPSContactTableViewController.swift in Sources */,

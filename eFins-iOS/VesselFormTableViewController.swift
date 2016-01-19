@@ -131,19 +131,19 @@ class VesselFormTableViewController: UITableViewController, ItemForm, UITextFiel
     
     @IBAction func nameChanged(sender: UITextField) {
         vessel.beginWriteTransaction()
-        self.vessel.name = sender.text
+        self.vessel.name = sender.text!
         vessel.commitWriteTransaction()
     }
     
     @IBAction func registrationChanged(sender: UITextField) {
         vessel.beginWriteTransaction()
-        self.vessel.registration = sender.text
+        self.vessel.registration = sender.text!
         vessel.commitWriteTransaction()
     }
     
     @IBAction func fgNumberChanged(sender: UITextField) {
         vessel.beginWriteTransaction()
-        self.vessel.fgNumber = sender.text
+        self.vessel.fgNumber = sender.text!
         vessel.commitWriteTransaction()
     }
     

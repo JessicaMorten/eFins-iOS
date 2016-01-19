@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import MaterialKit
 import Alamofire
 import SwiftyJSON
 
@@ -90,18 +89,19 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     @IBAction func login(sender: AnyObject) {
         if (validateEmail(self.emailTextField.text!)) {
             let params = [
-                "email": self.emailTextField.text,
-                "password": self.passwordTextField.text
+                "email": self.emailTextField.text!,
+                "password": self.passwordTextField.text!
             ]
             print("Posting to \(Urls.getToken)")
             let defaults = NSUserDefaults.standardUserDefaults()
             Alamofire.request(.POST, Urls.getToken, parameters: params)
-                .responseString { (request, response, data, error) in
-                    println(data)
+                .response { (request, response, rawData, error) in
+                    let data = NSString(data: rawData!, encoding: NSUTF8StringEncoding)
+                    print(data)
                     if (error != nil) {
                         self.alert("Login Error", message: "Problem connecting to server")
                     } else if (response?.statusCode == 404) {
-                        println("User not registered")
+                        print("User not registered")
                         defaults.setValue("NoAccount", forKey: "SessionState")
                         self.performSegueWithIdentifier("registrationIncomplete", sender: self)
                     } else if (response?.statusCode == 401) {
@@ -110,20 +110,20 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                         self.forgotPasswordButton.hidden = false
                     } else if (response?.statusCode == 403) {
                         if ((data?.rangeOfString("approved")) != nil) {
-                            println("account not approved")
+                            print("account not approved")
                             defaults.setValue("NotApproved", forKey: "SessionState")
                         } else {
                             defaults.setValue("EmailNotConfirmed", forKey: "SessionState")
-                            println("email not confirmed")
+                            print("email not confirmed")
                         }
                         defaults.setValue(self.emailTextField.text, forKey: "UserEmail")
                         self.performSegueWithIdentifier("registrationIncomplete", sender: self)
                         self.alert("Login Error", message: "Invalid password")
                     } else if response?.statusCode == 200 {
-                        println("Authenticated!")
+                        print("Authenticated!")
                         let json = JSON(data: data!.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!)
                         if let token = json["token"].string{
-                            println("Token is \(token)")
+                            print("Token is \(token)")
                             defaults.setValue(token, forKey: "SessionToken")
                             defaults.setValue(params["email"], forKey: "UserEmail")
                             defaults.setValue("Authenticated", forKey: "SessionState")
@@ -133,7 +133,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                             appDelegate.gotoMainStoryboard()
                         }
                     } else {
-                        println(data)
+                        print(data)
                         self.alert("Login Error", message: "Unknown error attempting login")
                     }
                 }
@@ -145,11 +145,11 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     @IBAction func forgotPasswordAction(sender: AnyObject) {
         let params = [
-            "email": self.emailTextField.text,
+            "email": self.emailTextField.text!
         ]
-        Alamofire.request(.POST, Urls.passwordReset, parameters: params!)
-            .responseString { (request, response, data, error) in
-                println(response)
+        Alamofire.request(.POST, Urls.passwordReset, parameters: params)
+            .response { (request, response, data, error) in
+                print(response)
         }
         self.alert("Password Reset", message: "An email has been sent with instructions on how to reset your password")
         self.forgotPasswordButton.hidden = true
@@ -164,7 +164,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     }
     
     func validateEmail(email: String) -> Bool {
-        if let match = email.rangeOfString("[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}", options: .RegularExpressionSearch) {
+        if let _ = email.rangeOfString("[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}", options: .RegularExpressionSearch) {
             return true
         } else {
             return false
@@ -175,7 +175,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if (segue.identifier == "registrationIncomplete") {
-            var controller:RegistrationIncompleteViewController = segue.destinationViewController as! RegistrationIncompleteViewController
+            let controller:RegistrationIncompleteViewController = segue.destinationViewController as! RegistrationIncompleteViewController
             controller.password = self.passwordTextField.text
             controller.email = self.emailTextField.text
         }

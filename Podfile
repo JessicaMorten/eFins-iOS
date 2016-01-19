@@ -12,4 +12,5 @@ target "eFins-iOS" do
 	pod 'AWSiOSSDKv2', "~> 2.3.3"
 	pod 'Teleport-NSLog'
 	pod 'RavenSwift', '~> 0.4.0'
+	pod 'Bolts', '~> 1.6.0'
 end

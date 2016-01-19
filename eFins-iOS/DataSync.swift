@@ -59,13 +59,13 @@ class DataSync: NSObject, NSURLSessionDelegate {
     override init() {
         let uri = NSURL(string: SERVER_ROOT)
         let host = uri?.host ?? ""
-        self.reachability = Reachability(hostname: host)
+        try! self.reachability = Reachability(hostname: host)
         super.init()
         self.log("Reachability will be measured against " + host)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "reachabilityChanged", name: ReachabilityChangedNotification, object: reachability)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "tokenObtained", name: TokenObtainedNotification, object: nil)
 
-        reachability.startNotifier()
+        try! reachability.startNotifier()
         
         let sessionConfig = NSURLSessionConfiguration.backgroundSessionConfiguration("org.efins.eFins-iOS-Uploader")
             self.uploadSession = NSURLSession(configuration: sessionConfig, delegate: self, delegateQueue: nil)
@@ -238,7 +238,7 @@ class DataSync: NSObject, NSURLSessionDelegate {
     func pushPhotos() {
         self.numPhotosUploading = 0
         self.numPhotosCompletedUploading = 0
-        self.uploadSession!.getTasksWithCompletionHandler { (_, uploadTasks:[AnyObject]!, _) in
+        self.uploadSession!.getTasksWithCompletionHandler { (_, uploadTasks:[NSURLSessionUploadTask]!, _) in
             for item in uploadTasks {
                 if let task = item as? NSURLSessionUploadTask {
                     task.cancel()
@@ -318,7 +318,7 @@ class DataSync: NSObject, NSURLSessionDelegate {
                             }
                             photo.commitWriteTransaction()
                             print("photo uploaded")
-                            println(photo)
+                            print(photo)
                         }
                     } else {
                         print("couldnt find photo with matching localid")
@@ -350,12 +350,13 @@ class DataSync: NSObject, NSURLSessionDelegate {
         mutableURLRequest.setValue("Bearer " + NSUserDefaults.standardUserDefaults().stringForKey("SessionToken")! , forHTTPHeaderField: "Authorization")
         mutableURLRequest.setValue(userDefaults.valueForKey("UserEmail") as? String, forHTTPHeaderField: "eFins-User")
         mutableURLRequest.setValue(UIDevice.currentDevice().name, forHTTPHeaderField: "Device-Name")
-        mutableURLRequest.setValue(UIDevice.currentDevice().identifierForVendor.UUIDString, forHTTPHeaderField: "Device-Id")
+        mutableURLRequest.setValue(UIDevice.currentDevice().identifierForVendor!.UUIDString, forHTTPHeaderField: "Device-Id")
 
         self.log("Getting \(Urls.sync)")
         
         Alamofire.request(mutableURLRequest)
-            .responseString{ (request, response, data, error) in
+            .response{ (request, response, rawData, error) in
+                let data = NSString(data: rawData!, encoding: NSUTF8StringEncoding)
                 self.queueThreadTask { () -> () in
                     //println(data)
                     if (error != nil) {
@@ -413,9 +414,9 @@ class DataSync: NSObject, NSURLSessionDelegate {
                 tempArray.append(eObject.toJSON())
             }
             //println("tmp array size \(count(tempArray))")
-            if count(tempArray) > 0 {
+            if tempArray.count > 0 {
                 json["models"][key] = JSON(tempArray)
-                nObjsToPush += count(tempArray)
+                nObjsToPush += tempArray.count
             }
         }
         
@@ -428,16 +429,21 @@ class DataSync: NSObject, NSURLSessionDelegate {
         var components = NSURLComponents(string: Urls.sync)!
         let mutableURLRequest = NSMutableURLRequest(URL: components.URL!)
         mutableURLRequest.HTTPMethod = "POST"
-        mutableURLRequest.HTTPBody = json.rawData()
+        do {
+            try mutableURLRequest.HTTPBody = json.rawData()
+        } catch {
+            // Dance like an elf seems like as good a strategy as any
+        }
         mutableURLRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
         mutableURLRequest.setValue("Bearer " + NSUserDefaults.standardUserDefaults().stringForKey("SessionToken")! , forHTTPHeaderField: "Authorization")
         mutableURLRequest.setValue(NSUserDefaults.standardUserDefaults().valueForKey("UserEmail") as? String, forHTTPHeaderField: "eFins-User")
         mutableURLRequest.setValue(UIDevice.currentDevice().name, forHTTPHeaderField: "Device-Name")
-        mutableURLRequest.setValue(UIDevice.currentDevice().identifierForVendor.UUIDString, forHTTPHeaderField: "Device-Id")
+        mutableURLRequest.setValue(UIDevice.currentDevice().identifierForVendor!.UUIDString, forHTTPHeaderField: "Device-Id")
 
         self.log("Posting to \(Urls.sync)")
         Alamofire.request(mutableURLRequest)
-            .responseString{ (request, response, data, error) in
+            .response{ (request, response, rawData, error) in
+                let data = NSString(data: rawData!, encoding: NSUTF8StringEncoding)
                 self.queueThreadTask { () -> () in
                     if (error != nil) {
                         self.log("Connection Error, Problem connecting to server: \(error). \(response)")
@@ -451,7 +457,7 @@ class DataSync: NSObject, NSURLSessionDelegate {
                         self.log("Server reports 204, WTF?")
                     } else if response?.statusCode == 200 {
                         self.log("Successful push to server")
-                        self.deleteOrUpdateLocalObjects(data!)
+                        self.deleteOrUpdateLocalObjects(data! as String)
                         continuation()
                         return
                     } else {
@@ -594,7 +600,7 @@ class DataSync: NSObject, NSURLSessionDelegate {
             self.log("CORRECT YOUR SCHEMA!!!!!")
         } else {
             // Now, we gotta fetch all the models referred to by the association and set their targets.  This has got to be massively inefficient.
-            for (index, idHash : JSON) in aJson["idmap"] {
+            for (_,  idHash) in aJson["idmap"] {
                 let idDict = idHash.dictionaryObject!
                 let sid : String = "\(source)Id"
                 let tid : String = "\(target)Id"
@@ -652,7 +658,7 @@ class DataSync: NSObject, NSURLSessionDelegate {
             self.log("CORRECT YOUR SCHEMA!!!!!")
         } else {
             // Now, we gotta fetch all the models referred to by the association and set their targets.  This has got to be massively inefficient.
-            for (index, idHash : JSON) in aJson["idmap"] {
+            for (_, idHash) in aJson["idmap"] {
                 let idDict = idHash.dictionaryObject!
                 let sid : String = "id"
                 let tid : String = foreignKey
@@ -698,7 +704,7 @@ class DataSync: NSObject, NSURLSessionDelegate {
                     self.log("No \(key) object was found for local id \(nkey)")
                 } else {
                     let modelObject = queryResults?.firstObject() as! EfinsModel
-                    let newModelObject = joker?(object: modelObject) as! EfinsModel
+                    let newModelObject = joker?.init(object: modelObject) as! EfinsModel
                     newModelObject.id = newId
                     //Don't actually set the USN here.  By definition, this model has a USN of -1, and the USN will get set to the correct number on the next pull.
                     //Since it's no longer dirty it won't ever get pushed again.

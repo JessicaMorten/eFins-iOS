@@ -10,11 +10,11 @@ import Foundation
 
 func timeAgoSinceDate(date:NSDate, numericDates:Bool) -> String {
     let calendar = NSCalendar.currentCalendar()
-    let unitFlags = NSCalendarUnit.CalendarUnitMinute | NSCalendarUnit.CalendarUnitHour | NSCalendarUnit.CalendarUnitDay | NSCalendarUnit.CalendarUnitWeekOfYear | NSCalendarUnit.CalendarUnitMonth | NSCalendarUnit.CalendarUnitYear | NSCalendarUnit.CalendarUnitSecond
+    let unitFlags: NSCalendarUnit = [.Minute,  .Hour,  .Day,  .WeekOfYear, .Month, .Year, .Second]
     let now = NSDate()
     let earliest = now.earlierDate(date)
     let latest = (earliest == now) ? date : now
-    let components:NSDateComponents = calendar.components(unitFlags, fromDate: earliest, toDate: latest, options: nil)
+    let components:NSDateComponents = calendar.components(unitFlags, fromDate: earliest, toDate: latest, options: NSCalendarOptions.MatchFirst)
     
     if (components.year >= 2) {
         return "\(components.year) years ago"

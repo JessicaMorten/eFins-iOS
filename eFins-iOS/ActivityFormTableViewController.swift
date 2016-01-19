@@ -95,8 +95,8 @@ class ActivityFormTableViewController: UITableViewController, LocationManagerDel
                 self.locationTableCell.accessoryType = UITableViewCellAccessoryType.None
                 self.locationViewingLabel.text = "None recorded"
             } else {
-                let (latDeg, latMin) = CoordinateConverter.decimalDegrees2degreesMinutes(degrees: self.activity.latitude)
-                let (longDeg, longMin) = CoordinateConverter.decimalDegrees2degreesMinutes(degrees: self.activity.longitude)
+                let (latDeg, latMin) = CoordinateConverter.decimalDegrees2degreesMinutes(self.activity.latitude)
+                let (longDeg, longMin) = CoordinateConverter.decimalDegrees2degreesMinutes(self.activity.longitude)
                 let latText = String(format: "%3.0f\u{00b0} %.3f\u{2032}", latDeg, latMin)
                 let longText = String(format: "%3.0f\u{00b0} %.3f\u{2032}", longDeg, longMin)
                 self.locationViewingLabel.text = "\(latText), \(longText)"
@@ -189,7 +189,7 @@ class ActivityFormTableViewController: UITableViewController, LocationManagerDel
     }
     
     @IBAction func numPersonsOnBoardEditingEnded(sender: AnyObject) {
-        if let n = Int(self.numPersonsOnBoardTextField!.text) {
+        if let n = Int(self.numPersonsOnBoardTextField!.text!) {
             let realm = RLMRealm.defaultRealm()
             activity.beginWriteTransaction()
             self.activity.numPersonsOnBoard = n

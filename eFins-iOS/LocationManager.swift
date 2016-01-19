@@ -178,7 +178,7 @@ class LocationManager : NSObject, CLLocationManagerDelegate {
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         var satisfiedObservers : [DelegateRecord] = []
-        let mostRecentLocation : CLLocation = locations.last as! CLLocation
+        let mostRecentLocation : CLLocation = locations.last! as CLLocation
         recordAccuracyMeasurement(mostRecentLocation.horizontalAccuracy)
         print("Most recent location: \(mostRecentLocation). \(observers.count) observers")
         for observer in observers {
