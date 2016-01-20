@@ -115,7 +115,7 @@ class OneToManyTableViewController: UITableViewController {
             let getter = propertyName
             prop = model?.valueForKey(getter) as! RLMArray
         } else {
-            let getter = secondaryProperty!.name!
+            let getter = secondaryProperty!.name
             prop = model?.valueForKey(getter) as! RLMArray
         }
         if self.allowEditing {
@@ -249,7 +249,7 @@ class OneToManyTableViewController: UITableViewController {
                 let getter = propertyName
                 prop = model?.valueForKey(getter) as! RLMArray
             } else {
-                let getter = secondaryProperty!.name!
+                let getter = secondaryProperty!.name
                 prop = model?.valueForKey(getter) as! RLMArray
             }
             if self.allowEditing {
@@ -289,7 +289,7 @@ class OneToManyTableViewController: UITableViewController {
             let getter = propertyName
             controller.alreadySelected = model?.valueForKey(getter) as? RLMArray
             if secondaryProperty != nil {
-                let secgetter = secondaryProperty!.name!
+                let secgetter = secondaryProperty!.name
                 controller.secondaryAlreadySelected = model?.valueForKey(secgetter) as? RLMArray                
             }
         }

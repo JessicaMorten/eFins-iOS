@@ -9,9 +9,9 @@
 import Foundation
 import Realm
 
-//var SERVER_ROOT = "http://localhost:3002/"
+var SERVER_ROOT = "http://localhost:3002/"
 //var SERVER_ROOT = "http://10.0.1.10:3002/"
-var SERVER_ROOT = "http://efins.org/"
+//var SERVER_ROOT = "http://efins.org/"
 
 let CHART_MBTILES = "http://d22rw30n9mffwa.cloudfront.net/charts.mbtiles"
 let BASEMAP_MBTILES = "http://d22rw30n9mffwa.cloudfront.net/efins-basemap.mbtiles"
@@ -112,7 +112,7 @@ var Models: [String: RLMObject.Type] = [
 
 func getRealmModelProperty(model:String, propertyName:String) -> RLMProperty {
     let realm = RLMRealm.defaultRealm()
-    let properties = realm.schema.schemaForClassName(model).properties as! [RLMProperty]
+    let properties = realm.schema.schemaForClassName(model)!.properties as! [RLMProperty]
     for prop in properties {
         if prop.name == propertyName {
             return prop
@@ -167,7 +167,7 @@ class _RecentValues {
         let Model = Models[propertyClassName]
         var Model2:RLMObject.Type?
         if secondaryProperty != nil {
-            Model2 = Models[secondaryProperty!.objectClassName]
+            Model2 = Models[secondaryProperty!.objectClassName!]
         }
         for id in sortedKeys {
             let results = Model!.objectsWithPredicate(NSPredicate(format: "localid = %@", id))

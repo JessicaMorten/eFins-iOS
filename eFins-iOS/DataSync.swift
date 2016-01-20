@@ -429,11 +429,7 @@ class DataSync: NSObject, NSURLSessionDelegate {
         var components = NSURLComponents(string: Urls.sync)!
         let mutableURLRequest = NSMutableURLRequest(URL: components.URL!)
         mutableURLRequest.HTTPMethod = "POST"
-        do {
-            try mutableURLRequest.HTTPBody = json.rawData()
-        } catch {
-            // Dance like an elf seems like as good a strategy as any
-        }
+        try! mutableURLRequest.HTTPBody = json.rawData()
         mutableURLRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
         mutableURLRequest.setValue("Bearer " + NSUserDefaults.standardUserDefaults().stringForKey("SessionToken")! , forHTTPHeaderField: "Authorization")
         mutableURLRequest.setValue(NSUserDefaults.standardUserDefaults().valueForKey("UserEmail") as? String, forHTTPHeaderField: "eFins-User")
@@ -575,7 +571,7 @@ class DataSync: NSObject, NSURLSessionDelegate {
         
         var found = 0
         var foundOnTarget = false
-        for p in sourceSchema.properties {
+        for p in sourceSchema!.properties {
             let property: RLMProperty = p as! RLMProperty
             
             if property.type == RLMPropertyType.Array && property.objectClassName == target && property.name == thisAs {
@@ -583,7 +579,7 @@ class DataSync: NSObject, NSURLSessionDelegate {
                 found++
             }
         }
-        for p in targetSchema.properties {
+        for p in targetSchema!.properties {
             let property: RLMProperty = p as! RLMProperty
             
             if property.type == RLMPropertyType.Array && property.objectClassName == source {
@@ -639,7 +635,7 @@ class DataSync: NSObject, NSURLSessionDelegate {
         }
         var found = 0
         var foundType = RLMPropertyType.Object
-        for p in sourceSchema.properties {
+        for p in sourceSchema!.properties {
             let property: RLMProperty = p as! RLMProperty
             if property.type == RLMPropertyType.Object && property.objectClassName == target && property.name == assocName {
                 //self.log("Found a property named \(property.name) on \(source); this matches JSON property \(assocName)")

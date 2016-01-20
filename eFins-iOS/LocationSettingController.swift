@@ -39,8 +39,6 @@ import ActionSheetPicker_3_0
         self.originalLongitude = self.location.longitude
         self.originalManuallyEntered = self.manuallyEntered
         self.tableView.delegate = self
-        let uri = NSURL(string: SERVER_ROOT)
-        let host = uri?.host ?? ""
         RMConfiguration.sharedInstance().accessToken = "pk.eyJ1IjoidW5kZXJibHVld2F0ZXJzIiwiYSI6IjMzZ215RTQifQ.u6Gb_-kNfvaxiHdd9eJEEA"
         //displayValues()
     }
@@ -77,7 +75,6 @@ import ActionSheetPicker_3_0
     }
     
     func initMap(center:CLLocationCoordinate2D) {
-        var tilesLoaded = false
         self.thematicLayer = RMMBTilesSource(tileSetURL: NSURL(fileURLWithPath: basemapPath()!, isDirectory: false))
         self.map = RMMapView(frame: self.mapCell.contentView.frame, andTilesource: self.thematicLayer)
         map.zoom = 9
@@ -131,7 +128,6 @@ import ActionSheetPicker_3_0
         if !canEdit {
             return
         }
-        let cell = tableView.cellForRowAtIndexPath(indexPath)
         if indexPath.item == 0 {
             let delegate = LatPickerDelegate()
             delegate.receiver = self

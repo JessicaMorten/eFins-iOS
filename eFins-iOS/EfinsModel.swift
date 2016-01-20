@@ -99,8 +99,10 @@ class EfinsModel : RLMObject {
         dateFormatter.timeStyle = NSDateFormatterStyle.LongStyle
         dateFormatter.timeZone = NSTimeZone(forSecondsFromGMT: 0)
         let excludedArray = self.doNotPush()
+        
+        NSLog("%@", sourceSchema!)
 
-        for p in sourceSchema.properties {
+        for p in sourceSchema!.properties {
             let property: RLMProperty = p as! RLMProperty
             if excludedArray.contains(property.name) {
                 continue
@@ -119,7 +121,7 @@ class EfinsModel : RLMObject {
             } else if property.type == RLMPropertyType.Object {
                 let obj = self[property.name] as? RLMObject
                 if obj != nil {
-                    json[property.name] = JSON(self[property.name].id)
+                    json[property.name] = JSON(self[property.name]!.id)
                 }
             } else if property.type == RLMPropertyType.Date {
                 let obj = self[property.name] as! NSDate
@@ -139,7 +141,7 @@ class EfinsModel : RLMObject {
                 }
 
             } else {
-                if ["dirty", "localId"].contains(property.name) {
+                if !["dirty", "localId"].contains(property.name) {
                     json[property.name] = JSON(self.valueForKey(property.name)!)
                 }
             }

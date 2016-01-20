@@ -109,17 +109,16 @@ class LogbookTableViewController: UITableViewController, UISearchBarDelegate, UI
             return true
         }
         // look for crew member matches
-        if let crew = patrolLog.freeTextCrew {
-            if crew.count > 0 {
-                var i = 0
-                while UInt(i) < crew.count {
-                    if let member = crew.objectAtIndex(UInt(i)) as? AgencyFreetextCrew {
-                        if member.name.rangeOfString(text, options: NSStringCompareOptions.CaseInsensitiveSearch, range: nil, locale: nil) != nil {
-                            return true
-                        }
+        let crew = patrolLog.freeTextCrew
+        if crew.count > 0 {
+            var i = 0
+            while UInt(i) < crew.count {
+                if let member = crew.objectAtIndex(UInt(i)) as? AgencyFreetextCrew {
+                    if member.name.rangeOfString(text, options: NSStringCompareOptions.CaseInsensitiveSearch, range: nil, locale: nil) != nil {
+                        return true
                     }
-                    i++
                 }
+                i++
             }
         }
         // look for agency vessel matches
@@ -151,17 +150,16 @@ class LogbookTableViewController: UITableViewController, UISearchBarDelegate, UI
             }
         }
         // check crew names
-        if let crew = activity.crew {
-            if crew.count > 0 {
-                var i = 0
-                while UInt(i) < crew.count {
-                    if let member = crew.objectAtIndex(UInt(i)) as? Person {
-                        if member.name.rangeOfString(text, options: NSStringCompareOptions.CaseInsensitiveSearch, range: nil, locale: nil) != nil {
-                            return true
-                        }
+        let crew = activity.crew
+        if crew.count > 0 {
+            var i = 0
+            while UInt(i) < crew.count {
+                if let member = crew.objectAtIndex(UInt(i)) as? Person {
+                    if member.name.rangeOfString(text, options: NSStringCompareOptions.CaseInsensitiveSearch, range: nil, locale: nil) != nil {
+                        return true
                     }
-                    i++
                 }
+                i++
             }
         }
         // check person
@@ -172,17 +170,16 @@ class LogbookTableViewController: UITableViewController, UISearchBarDelegate, UI
         }
         
         // check users
-        if let users = activity.users {
-            if users.count > 0 {
-                var i = 0
-                while UInt(i) < users.count {
-                    if let user = users.objectAtIndex(UInt(i)) as? User {
-                        if user.name.rangeOfString(text, options: NSStringCompareOptions.CaseInsensitiveSearch, range: nil, locale: nil) != nil {
-                            return true
-                        }
+        let users = activity.users
+        if users.count > 0 {
+            var i = 0
+            while UInt(i) < users.count {
+                if let user = users.objectAtIndex(UInt(i)) as? User {
+                    if user.name.rangeOfString(text, options: NSStringCompareOptions.CaseInsensitiveSearch, range: nil, locale: nil) != nil {
+                        return true
                     }
-                    i++
                 }
+                i++
             }
         }
         return false

@@ -183,7 +183,7 @@ class PickerTableViewController: UITableViewController, UISearchBarDelegate, UIS
             }            
         }
         if secondaryProperty != nil {
-            Model = Models[secondaryProperty!.objectClassName]! as RLMObject.Type
+            Model = Models[secondaryProperty!.objectClassName!]! as RLMObject.Type
             results = Model.allObjects()
             if results.count > 0 {
                 for index in 0...(Int(results.count) - 1) {

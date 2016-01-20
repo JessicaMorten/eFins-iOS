@@ -201,7 +201,7 @@ class RelationTableViewCell: UITableViewCell {
                 }
                 if secondaryProperty != nil {
                     if let item = secondaryPropertyValue as? RLMObject {
-                        RecentValues.increment(item, model: self.model!, propertyClassName: self.secondaryProperty!.objectClassName, propertyName: self.secondaryProperty!.name)
+                        RecentValues.increment(item, model: self.model!, propertyClassName: self.secondaryProperty!.objectClassName!, propertyName: self.secondaryProperty!.name)
                     }
                 }
             }

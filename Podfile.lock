@@ -1,5 +1,4 @@
 PODS:
-  - ActionSheetPicker-3.0 (2.0.4)
   - Alamofire (3.1.4)
   - AWSAutoScaling (2.3.3):
     - AWSCore (= 2.3.3)
@@ -66,33 +65,24 @@ PODS:
     - AWSCore (= 2.3.3)
   - AWSSQS (2.3.3):
     - AWSCore (= 2.3.3)
-  - Bolts (1.6.0):
-    - Bolts/AppLinks (= 1.6.0)
-    - Bolts/Tasks (= 1.6.0)
-  - Bolts/AppLinks (1.6.0):
-    - Bolts/Tasks
-  - Bolts/Tasks (1.6.0)
   - MBProgressHUD (0.9.2)
   - RavenSwift (0.4.0)
-  - Realm (0.91.3):
-    - Realm/Headers (= 0.91.3)
-  - Realm/Headers (0.91.3)
+  - Realm (0.95.3):
+    - Realm/Headers (= 0.95.3)
+  - Realm/Headers (0.95.3)
   - SwiftyJSON (2.3.2)
   - Teleport-NSLog (0.2.1)
 
 DEPENDENCIES:
-  - ActionSheetPicker-3.0 (~> 2.0.4)
   - Alamofire (~> 3.1.4)
   - AWSiOSSDKv2 (~> 2.3.3)
-  - Bolts (~> 1.6.0)
   - MBProgressHUD (~> 0.9.1)
   - RavenSwift (~> 0.4.0)
-  - Realm (= 0.91.3)
+  - Realm (= 0.95.3)
   - SwiftyJSON (~> 2.3.2)
   - Teleport-NSLog
 
 SPEC CHECKSUMS:
-  ActionSheetPicker-3.0: 860466cb4a66854e6acb590071ecee404b48f49d
   Alamofire: fbc829692f351fa1d8a31dd75fd7f7f56fea31fb
   AWSAutoScaling: effea7f5902b3c7536fdbc85a169f7a4e4dcbbbc
   AWSCloudWatch: 9349044542bc21b71082c5b62210b88ce882c6f5
@@ -108,10 +98,9 @@ SPEC CHECKSUMS:
   AWSSimpleDB: ba3c2c2d3e8503afcb41c1253f0ed35418a21188
   AWSSNS: d6b874e95c1b9795085bd8e5c9aa0f205a7cbe23
   AWSSQS: 6b150bbdc971582104ddc1f8660581ff9e21a762
-  Bolts: f52a250053bb517ca874523c3913776359ab3def
   MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
   RavenSwift: a90485acb670b09e29172c15bf8bc5f506d0a325
-  Realm: 4bfdac6f0f3170a3947c7196e2e9a2e49c943719
+  Realm: 55885fa05865344994ad8b56da96669ffa39fbf1
   SwiftyJSON: 04ccea08915aa0109039157c7974cf0298da292a
   Teleport-NSLog: eeb094445ba4c00e97e72492d2168fcf1a1adfdb
 

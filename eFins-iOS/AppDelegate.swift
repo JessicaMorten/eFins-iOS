@@ -12,6 +12,7 @@
  import SwiftyJSON
  import Realm
  import RavenSwift
+ import Teleport_NSLog
  
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -38,7 +39,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Notice setSchemaVersion is set to 1, this is always set manually. It must be
         // higher than the previous version (oldSchemaVersion) or an RLMException is thrown
-        RLMRealm.setSchemaVersion(5, forRealmAtPath: RLMRealm.defaultRealmPath(), withMigrationBlock: { (migration:RLMMigration!, oldSchemaVersion:UInt) in
+        RLMRealmConfiguration.defaultConfiguration().schemaVersion = 5
+        RLMRealmConfiguration.defaultConfiguration().migrationBlock = { (migration:RLMMigration!, oldSchemaVersion:UInt64) in
             
             // We haven’t migrated anything yet, so oldSchemaVersion == 0
             if oldSchemaVersion < 1 {
@@ -59,7 +61,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             if oldSchemaVersion < 2 {
                 // do nothing
-                migration.enumerateObjects(Photo.className(), block: { (oldObject:RLMObject!, newObject:RLMObject!) in
+                migration.enumerateObjects(Photo.className(), block: { (oldObject:RLMObject?, newObject:RLMObject?) in
                     if let photo = newObject as? Photo {
                         photo.createSignedUrls { (success:Bool) in
                             if !success {
@@ -71,7 +73,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
             
             if oldSchemaVersion < 3 {
-                migration.enumerateObjects(Photo.className(), block: { (oldObject:RLMObject!, newObject:RLMObject!) in
+                migration.enumerateObjects(Photo.className(), block: { (oldObject:RLMObject?, newObject:RLMObject?) in
                     if let photo = newObject as? Photo {
                         photo.bucket = PHOTOS_BUCKET
                         photo.s3key = photo.localId
@@ -80,7 +82,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
 
             if oldSchemaVersion < 4 {
-                migration.enumerateObjects(Photo.className(), block: { (oldObject:RLMObject!, newObject:RLMObject!) in
+                migration.enumerateObjects(Photo.className(), block: { (oldObject:RLMObject?, newObject:RLMObject?) in
                     if let photo = newObject as? Photo {
                         if let oldPhoto = oldObject as? Photo {
                             photo.uploadedThumbnail = oldPhoto.uploaded
@@ -91,18 +93,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             if oldSchemaVersion < 5 {
                 // added deletedAt attribute to EFinsModel
-                migration.enumerateObjects(EfinsModel.className(), block: { (oldObject:RLMObject!, newObject:RLMObject!) in
+                migration.enumerateObjects(EfinsModel.className(), block: { (oldObject:RLMObject?, newObject:RLMObject?) in
                     if let efo = newObject as? EfinsModel {
                         efo.deletedAt = NSDate(timeIntervalSinceNow: 0)
                     }
                 })
 
             }
-        })
+        }
         
         var i = UInt(0)
-        let photos = Photo.objectsWhere("uploaded = false", [])
         RLMRealm.defaultRealm().beginWriteTransaction()
+        let photos = Photo.objectsWhere("uploaded = false", [])
+
         while i < photos.count {
             if let photo = photos.objectAtIndex(i) as? Photo {
                 photo.createSignedUrls { (success:Bool) in
