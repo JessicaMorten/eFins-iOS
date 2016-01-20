@@ -11,7 +11,6 @@ import Realm
 import AVFoundation
 import ImageIO
 import AWSS3
-import Bolts
 
 let MAX_THUMBNAIL_SIZE = 960
 
