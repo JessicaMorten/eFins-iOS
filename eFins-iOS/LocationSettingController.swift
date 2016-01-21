@@ -8,7 +8,7 @@
 
 import Foundation
 import UIKit
-import ActionSheetPicker_3_0
+//import ActionSheetPicker
 
 
 @objc class LocationSettingController : UITableViewController, RMMapViewDelegate {

@@ -4,6 +4,7 @@ workspace './eFins-iOS.xcworkspace'
 use_frameworks!
 
 target "eFins-iOS" do
+	pod 'Mapbox-iOS-SDK', '1.6.1'
 	pod 'Alamofire', '~> 3.1.4'
 	pod "SwiftyJSON", "~> 2.3.2"
 	pod "Realm", "0.95.3"
