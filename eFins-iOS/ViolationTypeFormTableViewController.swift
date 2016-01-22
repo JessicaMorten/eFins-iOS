@@ -66,7 +66,10 @@ class ViolationTypeFormTableViewController: UITableViewController, ItemForm {
         displayValues()
         setEditingState()
         self.nameCell.textLabel?.text = "Violation Type"
+        self.nameCell.contentView.sendSubviewToBack(self.nameCell.textLabel!)
         self.codeCell.textLabel?.text = "Code"
+        self.codeCell.contentView.sendSubviewToBack(self.codeCell.textLabel!)
+
     }
     
     func cancel() {

@@ -64,7 +64,9 @@ class PersonFormTableViewController: UITableViewController, ItemForm, UITextFiel
             self.title = "Details"
         }
         self.nameCell.textLabel?.text = "Name"
+        self.nameCell.contentView.sendSubviewToBack(self.nameCell.textLabel!)
         self.licenseCell.textLabel?.text = "License"
+        self.licenseCell.contentView.sendSubviewToBack(self.licenseCell.textLabel!)
         self.nameCell.detailTextLabel?.text = " "
         self.licenseCell.detailTextLabel?.text = " "
         displayValues()

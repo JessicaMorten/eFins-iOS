@@ -65,8 +65,12 @@ class VesselFormTableViewController: UITableViewController, ItemForm, UITextFiel
             self.title = "Vessel Details"
         }
         self.nameCell.textLabel?.text = "Vessel Name"
+        self.nameCell.contentView.sendSubviewToBack(self.nameCell.textLabel!)
         self.registrationCell.textLabel?.text = "Registration"
+        self.registrationCell.contentView.sendSubviewToBack(self.registrationCell.textLabel!)
         self.fgNumberCell.textLabel?.text = "Fish & Game Number"
+        self.fgNumberCell.contentView.sendSubviewToBack(self.fgNumberCell.textLabel!)
+
         displayValues()
         self.vesselTypeCell.setup(self.vessel, allowEditing: self.allowEditing, property: "vesselType", secondaryProperty: nil)
         

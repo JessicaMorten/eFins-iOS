@@ -126,9 +126,8 @@ class ActivityFormTableViewController: UITableViewController, LocationManagerDel
         }
         
         self.numberOfPersonsOnBoardCell?.textLabel?.text = "Number of Persons on Board"
+        self.numberOfPersonsOnBoardCell?.contentView.sendSubviewToBack(self.numberOfPersonsOnBoardCell!.textLabel!)
         updateAccessoryTypes()
-        print("updatedAt")
-        print(activity.updatedAt)
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -150,7 +149,6 @@ class ActivityFormTableViewController: UITableViewController, LocationManagerDel
     }
     
     func back() {
-        print("back \(self.allowEditing)")
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     

@@ -60,6 +60,7 @@ class CatchFormTableViewController: UITableViewController, ItemForm {
             self.title = "Catch Details"
         }
         self.amountCell.textLabel?.text = "Amount (lbs)"
+        self.amountCell.contentView.sendSubviewToBack(self.amountCell.textLabel!)
         displayValues()
         self.speciesCell.setup(self.`catch`, allowEditing: self.allowEditing, property: "species", secondaryProperty: nil)
         setEditingState()

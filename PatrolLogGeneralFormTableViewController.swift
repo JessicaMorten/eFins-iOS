@@ -91,15 +91,26 @@ class PatrolLogGeneralFormTableViewController: UITableViewController, UITextFiel
         
         
         self.portHoursBroughtForwardCell.textLabel?.text = "Port Hours Brought Forward"
+        self.portHoursBroughtForwardCell.contentView.sendSubviewToBack(self.portHoursBroughtForwardCell.textLabel!)
         self.starboardHoursBroughtForwardCell.textLabel?.text = "Starboard Hours Brought Forward"
+        self.starboardHoursBroughtForwardCell.contentView.sendSubviewToBack(self.starboardHoursBroughtForwardCell.textLabel!)
         self.portHoursLogged.textLabel?.text = "Port Hours Logged"
+        self.portHoursLogged.contentView.sendSubviewToBack(self.portHoursLogged.textLabel!)
         self.starboardHoursLogged.textLabel?.text = "Starboard Hours Logged"
+        self.starboardHoursLogged.contentView.sendSubviewToBack(self.starboardHoursLogged.textLabel!)
         self.fuelToDate.textLabel?.text = "Fuel to Date"
+        self.fuelToDate.contentView.sendSubviewToBack(self.fuelToDate.textLabel!)
         self.fuelPurchased.textLabel?.text = "Fuel Purchased"
+        self.fuelPurchased.contentView.sendSubviewToBack(self.fuelPurchased.textLabel!)
         self.generatorHoursBroughtForward.textLabel?.text = "Generator Hours Brought Forward"
+        self.generatorHoursBroughtForward.contentView.sendSubviewToBack(self.generatorHoursBroughtForward.textLabel!)
         self.generatorHoursLogged.textLabel?.text = "Generator Hours Logged"
+        self.generatorHoursLogged.contentView.sendSubviewToBack(self.generatorHoursLogged.textLabel!)
         self.outboardHoursBroughtForward.textLabel?.text = "Outboard Hours Brought Forward"
+        self.outboardHoursBroughtForward.contentView.sendSubviewToBack(self.outboardHoursBroughtForward.textLabel!)
         self.outboardHoursLogged.textLabel?.text = "Outboard Hours Logged"
+        self.outboardHoursLogged.contentView.sendSubviewToBack(self.outboardHoursLogged.textLabel!)
+
         
         var i = 100
         for field in self.textFields {
