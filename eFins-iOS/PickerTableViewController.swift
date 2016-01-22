@@ -82,7 +82,7 @@ class PickerTableViewController: UITableViewController, UISearchBarDelegate, UIS
                 button.frame = CGRectMake((self.view.frame.width / 2) - 200, 120, 400, 40)
                 button.addTarget(self, action: "addNewObject", forControlEvents: UIControlEvents.TouchUpInside)
                 button.layer.cornerRadius = 4.0
-                button.backgroundColor = UIColor(white: 0x112244, alpha: 1.0)
+                button.backgroundColor = UIColor.blackColor()
                 if self.labelAlreadyInList(searchText, list1: self.alreadySelected, list2: self.secondaryAlreadySelected) {
                     button.enabled = false
                     button.setTitle("\"\(searchText)\" already selected", forState: UIControlState.Normal)
@@ -121,6 +121,7 @@ class PickerTableViewController: UITableViewController, UISearchBarDelegate, UIS
                 self.navigationController?.popViewControllerAnimated(true)
             } else {
                 self.performSegueWithIdentifier("UnwindPicker", sender: self)
+                self.navigationController?.popViewControllerAnimated(true)
             }
         }
     }

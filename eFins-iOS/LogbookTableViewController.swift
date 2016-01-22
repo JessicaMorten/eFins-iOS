@@ -338,13 +338,10 @@ class LogbookTableViewController: UITableViewController, UISearchBarDelegate, UI
             var isPatrol = false
             switch idx.row {
                 case 0:
-                    isPatrol = true
-                    storyboard = UIStoryboard(name: "PatrolLog", bundle: nil)
-                case 1:
                     storyboard = UIStoryboard(name: "CDFWCommercialContact", bundle: nil)
-                case 2:
+                case 1:
                     storyboard = UIStoryboard(name: "CDFWRecContact", bundle: nil)
-                case 3:
+                case 2:
                     storyboard = UIStoryboard(name: "ActivityLog", bundle: nil)
                 default:
                     storyboard = UIStoryboard(name: "NPSContact", bundle: nil)

@@ -85,12 +85,12 @@
         <scene sceneID="id6-61-XKr">
             <objects>
                 <tableViewController restorationIdentifier="Picker" storyboardIdentifier="Picker" id="Zhl-lm-8WD" customClass="PickerTableViewController" customModule="eFins" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="f3n-U4-CEJ">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="f3n-U4-CEJ">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <label key="tableFooterView" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="k9S-6d-ZzZ">
-                            <rect key="frame" x="0.0" y="174" width="600" height="44"/>
+                            <rect key="frame" x="0.0" y="180" width="600" height="44"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <attributedString key="attributedText">
                                 <fragment content="Type into the search bar to create new choices">
@@ -105,7 +105,7 @@
                         </label>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="recent" id="DNo-cr-zvF">
-                                <rect key="frame" x="0.0" y="86" width="600" height="44"/>
+                                <rect key="frame" x="0.0" y="92" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="DNo-cr-zvF" id="jLO-V2-QzR">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
@@ -125,7 +125,7 @@
                                 </tableViewCellContentView>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="default" textLabel="a7X-JW-3xj" style="IBUITableViewCellStyleDefault" id="EO9-gE-nUs">
-                                <rect key="frame" x="0.0" y="130" width="600" height="44"/>
+                                <rect key="frame" x="0.0" y="136" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="EO9-gE-nUs" id="pee-N9-Smg">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
