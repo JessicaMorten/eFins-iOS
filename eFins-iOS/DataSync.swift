@@ -57,7 +57,7 @@ class DataSync: NSObject, NSURLSessionDelegate {
     }
     
     override init() {
-        let uri = NSURL(string: SERVER_ROOT)
+        let uri = NSURL(string: ServerRoot.address())
         let host = uri?.host ?? ""
         try! self.reachability = Reachability(hostname: host)
         super.init()
@@ -165,9 +165,9 @@ class DataSync: NSObject, NSURLSessionDelegate {
         self.log("DataSync Manager Starting");
         let dRealm = self.defaultRealm()
         self.log("Default Realm file is: " + dRealm.path)
-        self.log("Checking reachability against " + SERVER_ROOT);
+        self.log("Checking reachability against " + ServerRoot.address());
         if (self.reachability.isReachable()) {
-            self.log("Server " + SERVER_ROOT + " is currently reachable")
+            self.log("Server " + ServerRoot.address() + " is currently reachable")
             let token = NSUserDefaults.standardUserDefaults().stringForKey("SessionToken")
             if (token != nil) {
                 //If connectivity and a token, trigger a sync now.
@@ -176,7 +176,7 @@ class DataSync: NSObject, NSURLSessionDelegate {
             }
             self.startPeriodicSyncs()
         } else {
-            self.log("Server " + SERVER_ROOT + " is NOT currently reachable")
+            self.log("Server " + ServerRoot.address() + " is NOT currently reachable")
         }
         // Start up our friendly little worker, "Buttersmack".
         self.syncThread = NSThread(target: self, selector: "syncThreadLoop", object: nil)

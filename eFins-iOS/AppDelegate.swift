@@ -26,7 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         RavenClient.sharedClient?.captureMessage("Launched app")
         
         //TELEPORT_DEBUG = true
-        Teleport.startWithForwarder(EfinsLoggingHttpForwarder(aggregatorUrl: SERVER_ROOT + "clientlog"))
+        Teleport.startWithForwarder(EfinsLoggingHttpForwarder(aggregatorUrl: ServerRoot.address() + "clientlog"))
         
         
         

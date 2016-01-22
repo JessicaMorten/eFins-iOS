@@ -9,9 +9,26 @@
 import Foundation
 import Realm
 
-var SERVER_ROOT = "http://localhost:3002/"
-//var SERVER_ROOT = "http://10.0.1.10:3002/"
-//var SERVER_ROOT = "http://efins.org/"
+class ServerRoot
+{
+    private class var isRunningSimulator: Bool
+        {
+        get
+        {
+            return TARGET_OS_SIMULATOR != 0 // Use this line in Xcode 7 or newer
+        }
+    }
+    
+    class func address() -> String {
+        if ServerRoot.isRunningSimulator {
+            return "http://localhost:3002/"
+        } else {
+            return "http://efins.org/"
+        }
+    }
+}
+
+
 
 let CHART_MBTILES = "http://d22rw30n9mffwa.cloudfront.net/charts.mbtiles"
 let BASEMAP_MBTILES = "http://d22rw30n9mffwa.cloudfront.net/efins-basemap.mbtiles"
@@ -50,7 +67,7 @@ func tilesExist() -> Bool {
 }
 
 struct Urls {
-    static let root = SERVER_ROOT
+    static let root = ServerRoot.address()
 
     // requires email, password
     static let register = "\(root)auth/register"

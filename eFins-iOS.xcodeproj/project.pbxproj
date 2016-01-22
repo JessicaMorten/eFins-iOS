@@ -18,7 +18,7 @@
 		933454C41AB75C4A00E5C65E /* Agency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933454C21AB75C4A00E5C65E /* Agency.swift */; };
 		933454C51AB75C4A00E5C65E /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933454C31AB75C4A00E5C65E /* User.swift */; };
 		933C5D081C4E9C0D0016B3A2 /* RLMSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933C5D071C4E9C0D0016B3A2 /* RLMSupport.swift */; };
-		933C5D0E1C4EDC2E0016B3A2 /* ActionSheetPicker-3.0 in Resources */ = {isa = PBXBuildFile; fileRef = 933C5D0D1C4EDC2E0016B3A2 /* ActionSheetPicker-3.0 */; };
+		9350A9111C51673E002D2F6C /* TimeAgo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9350A9101C51673E002D2F6C /* TimeAgo.swift */; };
 		935D24BF1AC1DCBB00A2854D /* AgencyVessel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 935D24BE1AC1DCBB00A2854D /* AgencyVessel.swift */; };
 		935D24C11AC1E1D500A2854D /* PatrolLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 935D24C01AC1E1D500A2854D /* PatrolLog.swift */; };
 		935D24C31AC1E3C100A2854D /* FreeTextCrew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 935D24C21AC1E3C100A2854D /* FreeTextCrew.swift */; };
@@ -159,7 +159,7 @@
 		933454C21AB75C4A00E5C65E /* Agency.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Agency.swift; sourceTree = "<group>"; };
 		933454C31AB75C4A00E5C65E /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		933C5D071C4E9C0D0016B3A2 /* RLMSupport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RLMSupport.swift; sourceTree = "<group>"; };
-		933C5D0D1C4EDC2E0016B3A2 /* ActionSheetPicker-3.0 */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "ActionSheetPicker-3.0"; path = "/Users/bryan/src/eFins-iOS/eFins-iOS/ActionSheetPicker-3.0"; sourceTree = "<absolute>"; };
+		9350A9101C51673E002D2F6C /* TimeAgo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeAgo.swift; sourceTree = "<group>"; };
 		935D24BE1AC1DCBB00A2854D /* AgencyVessel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AgencyVessel.swift; sourceTree = "<group>"; };
 		935D24C01AC1E1D500A2854D /* PatrolLog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatrolLog.swift; sourceTree = "<group>"; };
 		935D24C21AC1E3C100A2854D /* FreeTextCrew.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FreeTextCrew.swift; sourceTree = "<group>"; };
@@ -520,6 +520,7 @@
 				93C743901B7D46BF00465EA1 /* LonPickerDelegate.m */,
 				938A26471C4E8F5D000BE8C5 /* Reachability.swift */,
 				933C5D071C4E9C0D0016B3A2 /* RLMSupport.swift */,
+				9350A9101C51673E002D2F6C /* TimeAgo.swift */,
 			);
 			path = "eFins-iOS";
 			sourceTree = "<group>";
@@ -659,7 +660,6 @@
 				CBCE35A71AC1F763005C6CA8 /* DatePicker.storyboard in Resources */,
 				CB8CC71A1B013E3C00B91B90 /* CDFWRecContact.storyboard in Resources */,
 				CB0076711AE6E7BC00AD0590 /* PersonForm.storyboard in Resources */,
-				933C5D0E1C4EDC2E0016B3A2 /* ActionSheetPicker-3.0 in Resources */,
 				CB1786A81AF4397300D08E73 /* CatchForm.storyboard in Resources */,
 				CB3B42BE1AE85F92004E9D60 /* DayDatePicker.storyboard in Resources */,
 				CB8CC71C1B013E8100B91B90 /* CDFWCommercialContact.storyboard in Resources */,
@@ -731,6 +731,7 @@
 			files = (
 				CB8CC71E1B014CDA00B91B90 /* NewContactPopupTableViewController.swift in Sources */,
 				935D24D71AC212EF00A2854D /* Person.swift in Sources */,
+				9350A9111C51673E002D2F6C /* TimeAgo.swift in Sources */,
 				CB8CC7101AFAF16B00B91B90 /* BoardingTypeTableViewController.swift in Sources */,
 				935D24D91AC213D500A2854D /* Action.swift in Sources */,
 				935D24D31AC211DE00A2854D /* Vessel.swift in Sources */,

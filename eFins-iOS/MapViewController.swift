@@ -40,7 +40,7 @@ class MapViewController: UIViewController, RMMapViewDelegate, UIAlertViewDelegat
     override func viewDidLoad() {
         super.viewDidLoad()
         self.popupLabel.alpha = 0
-        let uri = NSURL(string: SERVER_ROOT)
+        let uri = NSURL(string: ServerRoot.address())
         let host = uri?.host ?? ""
         do {
             try self.reachability = Reachability(hostname: host)
