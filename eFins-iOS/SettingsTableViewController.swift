@@ -42,6 +42,8 @@ class SettingsTableViewController: UITableViewController, DataSyncDelegate {
         if let user = (UIApplication.sharedApplication().delegate as! AppDelegate).getUser() {
             self.loginCell.textLabel?.text = "Signed in as \(user.name)"
         }
+        self.loginCell.contentView.sendSubviewToBack(self.loginCell.textLabel!)
+
         self.versionLabel.text = "eFins " + (NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleShortVersionString") as! String);
         updateDisplay()
         DataSync.manager.delegate = self
