@@ -20,6 +20,7 @@ class ServerRoot
     }
     
     class func address() -> String {
+        return "http://efins.org/"
         if ServerRoot.isRunningSimulator {
             return "http://localhost:3002/"
         } else {
