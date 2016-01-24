@@ -20,7 +20,7 @@ class ServerRoot
     }
     
     class func address() -> String {
-        return "http://efins.org/"
+        // Only if you want to test aganst the live system while in the sim: return "http://efins.org/"
         if ServerRoot.isRunningSimulator {
             return "http://localhost:3002/"
         } else {
