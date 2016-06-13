@@ -9,8 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "ActionSheetPicker-3.0/ActionSheetPicker.h"
 
-
-
 @interface LatPickerDelegate: NSObject <ActionSheetCustomPickerDelegate, UIPickerViewDelegate, UIPickerViewDataSource>
 @property (nonatomic, weak) NSObject *receiver;
 @property (nonatomic) SEL selectorToPerform;

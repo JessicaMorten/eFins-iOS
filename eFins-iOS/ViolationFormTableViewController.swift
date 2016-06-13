@@ -68,7 +68,7 @@ class ViolationFormTableViewController: UITableViewController, ItemForm {
     }
     
     func cancel() {
-        confirm("Cancel", "Are you sure you want to cancel without saving this new Violation?", self) { () in
+        confirm("Cancel", message: "Are you sure you want to cancel without saving this new Violation?", view: self) { () in
             self.navigationController?.popViewControllerAnimated(true)
         }
     }
@@ -100,7 +100,7 @@ class ViolationFormTableViewController: UITableViewController, ItemForm {
     }
     
     @IBAction func unwindOneToMany(sender: UIStoryboardSegue) {
-        println("unwindOneToMany:VesselFormTableViewController")
+        print("unwindOneToMany:VesselFormTableViewController")
         let source = sender.sourceViewController as! OneToManyTableViewController
         source.cell?.updateValues()
     }
@@ -118,9 +118,9 @@ class ViolationFormTableViewController: UITableViewController, ItemForm {
     
     @IBAction func save(sender: AnyObject) {
         if enforcementAction.violationType == nil {
-            alert("Incomplete", "You must choose a violation type", self)
+            alert("Incomplete", message: "You must choose a violation type", view: self)
         } else if enforcementAction.enforcementActionType == nil {
-            alert("Incomplete", "You must choose an action taken", self)
+            alert("Incomplete", message: "You must choose an action taken", view: self)
         } else {
             let realm = RLMRealm.defaultRealm()
             self.beginWriteTransaction()

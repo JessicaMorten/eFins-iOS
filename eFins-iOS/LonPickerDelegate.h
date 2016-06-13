@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "ActionSheetPicker-3.0/ActionSheetPicker.h"
+#import "ActionSheetPicker.h"
 
 @interface LonPickerDelegate: NSObject <ActionSheetCustomPickerDelegate, UIPickerViewDelegate, UIPickerViewDataSource>
 @property (nonatomic, weak) NSObject *receiver;

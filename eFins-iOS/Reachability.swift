@@ -30,12 +30,12 @@ import Foundation
 
 let ReachabilityChangedNotification = "ReachabilityChangedNotification"
 
-class Reachability: NSObject, Printable {
+class Reachability: NSObject, CustomStringConvertible {
     
     typealias NetworkReachable = (Reachability) -> ()
     typealias NetworkUneachable = (Reachability) -> ()
 
-    enum NetworkStatus: Printable {
+    enum NetworkStatus: CustomStringConvertible {
         
         case NotReachable, ReachableViaWiFi, ReachableViaWWAN
         
@@ -257,7 +257,7 @@ class Reachability: NSObject, Printable {
     }
     
     private func isReachableWithTest(test: (SCNetworkReachabilityFlags) -> (Bool)) -> Bool {
-        var flags: SCNetworkReachabilityFlags = 0
+        var flags: SCNetworkReachabilityFlags = []
         let gotFlags = SCNetworkReachabilityGetFlags(reachabilityRef, &flags) != 0
         if gotFlags {
             return test(flags)
@@ -293,42 +293,42 @@ class Reachability: NSObject, Printable {
     }
     
     private func isOnWWAN(flags: SCNetworkReachabilityFlags) -> Bool {
-        return flags & SCNetworkReachabilityFlags(kSCNetworkReachabilityFlagsIsWWAN) != 0
+        return flags.intersect(SCNetworkReachabilityFlags.IsWWAN) != []
     }
     private func isReachable(flags: SCNetworkReachabilityFlags) -> Bool {
-        return flags & SCNetworkReachabilityFlags(kSCNetworkReachabilityFlagsReachable) != 0
+        return flags.intersect(SCNetworkReachabilityFlags.Reachable) != []
     }
     private func isConnectionRequired(flags: SCNetworkReachabilityFlags) -> Bool {
-        return flags & SCNetworkReachabilityFlags(kSCNetworkReachabilityFlagsConnectionRequired) != 0
+        return flags.intersect(SCNetworkReachabilityFlags.ConnectionRequired) != []
     }
     private func isInterventionRequired(flags: SCNetworkReachabilityFlags) -> Bool {
-        return flags & SCNetworkReachabilityFlags(kSCNetworkReachabilityFlagsInterventionRequired) != 0
+        return flags.intersect(SCNetworkReachabilityFlags.InterventionRequired) != []
     }
     private func isConnectionOnTraffic(flags: SCNetworkReachabilityFlags) -> Bool {
-        return flags & SCNetworkReachabilityFlags(kSCNetworkReachabilityFlagsConnectionOnTraffic) != 0
+        return flags.intersect(SCNetworkReachabilityFlags.ConnectionOnTraffic) != []
     }
     private func isConnectionOnDemand(flags: SCNetworkReachabilityFlags) -> Bool {
-        return flags & SCNetworkReachabilityFlags(kSCNetworkReachabilityFlagsConnectionOnDemand) != 0
+        return flags.intersect(SCNetworkReachabilityFlags.ConnectionOnDemand) != []
     }
     func isConnectionOnTrafficOrDemand(flags: SCNetworkReachabilityFlags) -> Bool {
-        return flags & SCNetworkReachabilityFlags(kSCNetworkReachabilityFlagsConnectionOnTraffic | kSCNetworkReachabilityFlagsConnectionOnDemand) != 0
+        return flags.intersect(SCNetworkReachabilityFlags.ConnectionOnTraffic.union(SCNetworkReachabilityFlags.ConnectionOnDemand)) != []
     }
     private func isTransientConnection(flags: SCNetworkReachabilityFlags) -> Bool {
-        return flags & SCNetworkReachabilityFlags(kSCNetworkReachabilityFlagsTransientConnection) != 0
+        return flags.intersect(SCNetworkReachabilityFlags.TransientConnection) != []
     }
     private func isLocalAddress(flags: SCNetworkReachabilityFlags) -> Bool {
-        return flags & SCNetworkReachabilityFlags(kSCNetworkReachabilityFlagsIsLocalAddress) != 0
+        return flags.intersect(SCNetworkReachabilityFlags.IsLocalAddress) != []
     }
     private func isDirect(flags: SCNetworkReachabilityFlags) -> Bool {
-        return flags & SCNetworkReachabilityFlags(kSCNetworkReachabilityFlagsIsDirect) != 0
+        return flags.intersect(SCNetworkReachabilityFlags.IsDirect) != []
     }
     private func isConnectionRequiredOrTransient(flags: SCNetworkReachabilityFlags) -> Bool {
-        let testcase = SCNetworkReachabilityFlags(kSCNetworkReachabilityFlagsConnectionRequired | kSCNetworkReachabilityFlagsTransientConnection)
+        let testcase = SCNetworkReachabilityFlags(arrayLiteral: SCNetworkReachabilityFlags.ConnectionRequired.union(SCNetworkReachabilityFlags.TransientConnection))
         return flags & testcase == testcase
     }
     
     private var reachabilityFlags: SCNetworkReachabilityFlags {
-        var flags: SCNetworkReachabilityFlags = 0
+        var flags: SCNetworkReachabilityFlags = []
         let gotFlags = SCNetworkReachabilityGetFlags(reachabilityRef, &flags) != 0
         if gotFlags {
             return flags

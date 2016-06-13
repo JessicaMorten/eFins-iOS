@@ -66,7 +66,7 @@ class CDFWCommBoardingCardTableViewController: ActivityFormTableViewController, 
     
     // MARK: Actions
     
-    override func shouldPerformSegueWithIdentifier(identifier: String?, sender: AnyObject?) -> Bool {
+    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
         if self.isNew == false {
             if sender is UITableViewCell && (sender as! UITableViewCell) == self.categoryOfBoardingCell && allowEditing != true {
                 return false

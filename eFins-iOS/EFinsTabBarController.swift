@@ -19,9 +19,9 @@ class EFinsTabBarController: UITabBarController {
             if let controller = viewControllers[1] as? CurrentPatrolViewController {
                 self.currentPatrolPrompt = controller
             }
-            println("map")
+            print("map")
             if let mapController = UIStoryboard(name: "Map", bundle: nil).instantiateInitialViewController() as? UINavigationController {
-                println(mapController)
+                print(mapController)
                 let icon = UITabBarItem(title: "Map", image:UIImage(named: "map_route"), selectedImage: nil)
                 mapController.tabBarItem = icon
                 viewControllers.insert(mapController, atIndex: 2)
@@ -100,8 +100,8 @@ class EFinsTabBarController: UITabBarController {
                 }
                 if self.selectedIndex == 0 {
                     // animate
-                    let fromView = self.viewControllers![0] as! UIViewController
-                    let toView = self.viewControllers![1] as! UIViewController
+                    let fromView = self.viewControllers![0] 
+                    let toView = self.viewControllers![1] 
                     UIView.transitionFromView(fromView.view, toView: toView.view, duration: NSTimeInterval(0.3), options: UIViewAnimationOptions.TransitionCurlUp, completion: { (done) in
                         self.selectedIndex = 1
                     })

@@ -38,7 +38,7 @@ class PhotosCollectionViewController: UICollectionViewController, UIImagePickerC
             ipc.sourceType = UIImagePickerControllerSourceType.Camera
             self.presentViewController(ipc, animated: true, completion: nil)
         } else {
-            alert("Camera Not Available", "Camera is not available on this device", self)
+            alert("Camera Not Available", message: "Camera is not available on this device", view: self)
         }
     }
     

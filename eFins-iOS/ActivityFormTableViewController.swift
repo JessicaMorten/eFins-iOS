@@ -124,8 +124,8 @@ class ActivityFormTableViewController: UITableViewController, LocationManagerDel
         
         self.numberOfPersonsOnBoardCell?.textLabel?.text = "Number of Persons on Board"
         updateAccessoryTypes()
-        println("updatedAt")
-        println(activity.updatedAt)
+        print("updatedAt")
+        print(activity.updatedAt)
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -137,7 +137,7 @@ class ActivityFormTableViewController: UITableViewController, LocationManagerDel
     
     func cancel() {
         stopAllEditing()
-        confirm("Cancel Record", "Are you sure you want to delete this record?", self, doCancel)
+        confirm("Cancel Record", message: "Are you sure you want to delete this record?", view: self, next: doCancel)
     }
     
     func doCancel() {
@@ -147,7 +147,7 @@ class ActivityFormTableViewController: UITableViewController, LocationManagerDel
     }
     
     func back() {
-        println("back \(self.allowEditing)")
+        print("back \(self.allowEditing)")
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
@@ -155,7 +155,7 @@ class ActivityFormTableViewController: UITableViewController, LocationManagerDel
     @IBAction func saveAction(sender: AnyObject) {
         // TODO: Validation (if any?)
         if (self.activity.latitude == -1.0 && self.locationSwitch.on == true) {
-            alert("Waiting for GPS Lock", "Your location has not yet been obtained. Please wait or turn of the Include Location switch.", self)
+            alert("Waiting for GPS Lock", message: "Your location has not yet been obtained. Please wait or turn of the Include Location switch.", view: self)
         } else {
             let realm = RLMRealm.defaultRealm()
             activity.beginWriteTransaction()
@@ -189,7 +189,7 @@ class ActivityFormTableViewController: UITableViewController, LocationManagerDel
     }
     
     @IBAction func numPersonsOnBoardEditingEnded(sender: AnyObject) {
-        if let n = self.numPersonsOnBoardTextField!.text.toInt() {
+        if let n = Int(self.numPersonsOnBoardTextField!.text) {
             let realm = RLMRealm.defaultRealm()
             activity.beginWriteTransaction()
             self.activity.numPersonsOnBoard = n
@@ -251,7 +251,7 @@ class ActivityFormTableViewController: UITableViewController, LocationManagerDel
                         controller.date = activity!.time
                         return
                     } else {
-                        if let row = tableView.indexPathForSelectedRow() {
+                        if let row = tableView.indexPathForSelectedRow {
                             tableView.deselectRowAtIndexPath(row, animated: false)
                             return
                         }
@@ -274,10 +274,10 @@ class ActivityFormTableViewController: UITableViewController, LocationManagerDel
                             navigationController?.pushViewController(controller, animated: true)
                             //                    controller.setupWithLocation(location, wasManuallyEntered: false, withEditingAbility: allowEditing)
                         } else {
-                            alert("Map Data not available", "Download maps from the settings tab while connected to the internet for offline use.", self)
+                            alert("Map Data not available", message: "Download maps from the settings tab while connected to the internet for offline use.", view: self)
                         }
                     }
-                    if let row = tableView.indexPathForSelectedRow() {
+                    if let row = tableView.indexPathForSelectedRow {
                         tableView.deselectRowAtIndexPath(row, animated: false)
                     }
                     return                    
@@ -287,7 +287,7 @@ class ActivityFormTableViewController: UITableViewController, LocationManagerDel
 
         
         if allowEditing == false {
-            if let row = tableView.indexPathForSelectedRow() {
+            if let row = tableView.indexPathForSelectedRow {
                 tableView.deselectRowAtIndexPath(row, animated: false)
             }            
         }
@@ -352,7 +352,7 @@ class ActivityFormTableViewController: UITableViewController, LocationManagerDel
     override func viewWillAppear(animated: Bool) {
         self.photosCell.detailTextLabel?.text = "\(self.activity.photos.count)"
         updateAccessoryTypes()
-        if let path = self.tableView.indexPathForSelectedRow() {
+        if let path = self.tableView.indexPathForSelectedRow {
             self.tableView.deselectRowAtIndexPath(path, animated: true)
         }
         updateTitle()
@@ -432,9 +432,9 @@ class ActivityFormTableViewController: UITableViewController, LocationManagerDel
     }
     
     func locationManagerDidFailToObtainLocation() {
-        println("We tried to get a location and couldn't.  Retry?")
+        print("We tried to get a location and couldn't.  Retry?")
         LocationManager.sharedInstance.removeLocationManagerDelegate(self)
-        alert("Failed to set Location", "Could not acheive GPS lock. To try again, toggle the location switch.", self)
+        alert("Failed to set Location", message: "Could not acheive GPS lock. To try again, toggle the location switch.", view: self)
         self.toggleLocationRecording(false)
     }
     

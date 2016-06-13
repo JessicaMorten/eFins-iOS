@@ -72,7 +72,7 @@ class PersonFormTableViewController: UITableViewController, ItemForm, UITextFiel
     }
     
     func cancel() {
-        confirm("Cancel", "Are you sure you want to cancel without saving this new Person?", self) { () in
+        confirm("Cancel", message: "Are you sure you want to cancel without saving this new Person?", view: self) { () in
             self.navigationController?.popViewControllerAnimated(true)
         }
     }
@@ -166,12 +166,12 @@ class PersonFormTableViewController: UITableViewController, ItemForm, UITextFiel
     @IBAction func save(sender: AnyObject) {
         self.nameField.endEditing(true)
         self.licenseField.endEditing(true)
-        if count(person.name) < 1 && count(person.license) < 1 {
-            alert("Incomplete", "You must enter a name or license", self)
+        if person.name.characters.count < 1 && person.license.characters.count < 1 {
+            alert("Incomplete", message: "You must enter a name or license", view: self)
         } else {
             let realm = RLMRealm.defaultRealm()
             if self.inWriteTransaction{
-                println("open transaction")
+                print("open transaction")
             } else {
                 self.beginWriteTransaction()
                 realm.addObject(person)

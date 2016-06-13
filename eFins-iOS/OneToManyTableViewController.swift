@@ -67,7 +67,7 @@ class OneToManyTableViewController: UITableViewController {
 
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("default", forIndexPath: indexPath) as! UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("default", forIndexPath: indexPath) 
         let item:RLMObject = self.items().objectAtIndex(indexPath.row) as! RLMObject
         cell.textLabel?.text = item.valueForKey(modelLabelProperty) as! String
         if self.propertyClassName == item.objectSchema.className && self.modelFormStoryboard != nil {
@@ -83,13 +83,13 @@ class OneToManyTableViewController: UITableViewController {
         if self.propertyClassName == item.objectSchema.className {
             displayDetails(item)
         } else {
-            println("this shouldn't happen")
+            print("this shouldn't happen")
         }
     }
     
     func displayDetails(item:RLMObject) {
         if self.modelFormStoryboard != nil {
-            let form = self.modelFormStoryboard!.instantiateViewControllerWithIdentifier(self.modelFormId!) as! UIViewController
+            let form = self.modelFormStoryboard!.instantiateViewControllerWithIdentifier(self.modelFormId!) 
             (form as! ItemForm).label = self.cell?.textLabel?.text
             (form as! ItemForm).model = item
             (form as! ItemForm).allowEditing = false
@@ -127,7 +127,7 @@ class OneToManyTableViewController: UITableViewController {
             // save Model
             // reload table data
         } else {
-            println("Not allowing editing")
+            print("Not allowing editing")
         }
         if let m = self.model as? EfinsModel {
             m.dirty = true
@@ -261,7 +261,7 @@ class OneToManyTableViewController: UITableViewController {
                 // save Model
                 // reload table data
             } else {
-                println("Not allowing editing")
+                print("Not allowing editing")
             }
         }
         if let m = self.model as? EfinsModel {

@@ -55,7 +55,7 @@ import ActionSheetPicker_3_0
     
     func setupWithLocation(location: CLLocation, wasManuallyEntered: Bool, withEditingAbility: Bool) {
         self.location = location.coordinate
-        println("\(location.coordinate.latitude), \(location.coordinate.longitude)")
+        print("\(location.coordinate.latitude), \(location.coordinate.longitude)")
         originalLatitude = location.coordinate.latitude
         originalLongitude = location.coordinate.longitude
         originalManuallyEntered = wasManuallyEntered
@@ -86,7 +86,7 @@ import ActionSheetPicker_3_0
         map.centerCoordinate = center
         self.mapCell.contentView.insertSubview(map, atIndex: 0)
         
-        map.autoresizingMask = UIViewAutoresizing.FlexibleHeight | UIViewAutoresizing.FlexibleWidth
+        map.autoresizingMask = [UIViewAutoresizing.FlexibleHeight, UIViewAutoresizing.FlexibleWidth]
         map.setConstraintsSouthWest(southWestConstraints, northEast: northEastConstraints)
         
         map.userTrackingMode = RMUserTrackingModeNone

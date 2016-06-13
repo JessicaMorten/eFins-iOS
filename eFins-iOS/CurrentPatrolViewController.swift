@@ -37,7 +37,7 @@ class CurrentPatrolViewController: UIViewController {
     }
     
     @IBAction func startPatrolLog(sender: AnyObject) {
-        println("start patrol log")
+        print("start patrol log")
         UIView.animateWithDuration(0.3, delay: 0.0, options: UIViewAnimationOptions.CurveEaseIn, animations: {
             self.titleLabel.alpha = 0.0
             self.descriptionLabel.alpha = 0.0

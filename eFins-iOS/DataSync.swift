@@ -261,7 +261,7 @@ class DataSync: NSObject, NSURLSessionDelegate {
                                 self.numPhotosUploading++
                                 uploadTask.resume()
                             } else {
-                                println("could not get photo data")
+                                print("could not get photo data")
                             }
                         }
                     }
@@ -276,7 +276,7 @@ class DataSync: NSObject, NSURLSessionDelegate {
                                 self.numPhotosUploading++
                                 uploadTask.resume()
                             } else {
-                                println("could not get photo thumbnail data")
+                                print("could not get photo thumbnail data")
                             }
                         }
                     }
@@ -285,26 +285,26 @@ class DataSync: NSObject, NSURLSessionDelegate {
                 i++
             }
             self.delegate?.dataSyncPhotoUploadStarted?(self.numPhotosUploading)
-            println("Uploading \(self.numPhotosUploading) photos")
+            print("Uploading \(self.numPhotosUploading) photos")
         } else {
             self.delegate?.dataSyncPhotoUploadStarted?(0)
             self.delegate?.dataSyncPhotoUploadCompleted?(nil)
-            println("completed photo uploading")
+            print("completed photo uploading")
         }
     }
     
     func URLSession(session: NSURLSession, task: NSURLSessionTask, didCompleteWithError error: NSError?) {
         if let uploadTask = task as? NSURLSessionUploadTask {
             if error != nil {
-                println(error)
+                print(error)
             } else {
                 if var path = uploadTask.response?.URL?.path {
-                    path = path.substringWithRange(Range<String.Index>(start: advance(path.startIndex, 1), end: path.endIndex)) // get rid of "/"
+                    path = path.substringWithRange(Range<String.Index>(start: path.startIndex.advancedBy(1), end: path.endIndex)) // get rid of "/"
                     var thumb = false
                     var id = path
-                    if count(path) > 36 {
+                    if path.characters.count > 36 {
                         thumb = true
-                        id = path.substringWithRange(Range<String.Index>(start: path.startIndex, end: advance(path.endIndex, -6))) // get rid of "/"
+                        id = path.substringWithRange(Range<String.Index>(start: path.startIndex, end: path.endIndex.advancedBy(-6))) // get rid of "/"
                     }
                     //                    dispatch_async(dispatch_get_main_queue(),{
                     let photos = Photo.objectsWhere("localId = %@", id)
@@ -317,21 +317,21 @@ class DataSync: NSObject, NSURLSessionDelegate {
                                 photo.uploaded = true
                             }
                             photo.commitWriteTransaction()
-                            println("photo uploaded")
+                            print("photo uploaded")
                             println(photo)
                         }
                     } else {
-                        println("couldnt find photo with matching localid")
+                        print("couldnt find photo with matching localid")
                     }
                     //                    })
                 }
             }
             self.numPhotosCompletedUploading++
             self.delegate?.dataSyncPhotoUploadProgress?(self.numPhotosUploading, numCompleted: self.numPhotosCompletedUploading)
-            println("Completed \(self.numPhotosCompletedUploading)/\(self.numPhotosUploading) uploads")
+            print("Completed \(self.numPhotosCompletedUploading)/\(self.numPhotosUploading) uploads")
             if self.numPhotosCompletedUploading >= self.numPhotosUploading {
                 self.delegate?.dataSyncPhotoUploadCompleted?(nil)
-                println("Photo uploads complete")
+                print("Photo uploads complete")
             }
         }
     }
@@ -467,11 +467,11 @@ class DataSync: NSObject, NSURLSessionDelegate {
         var newEntities: [RLMObject] = []
         let start = NSDate()
         self.syncRealm!.beginWriteTransaction()
-        for (key: String, subJson: JSON) in json {
+        for (key, subJson): (String, JSON) in json {
             if(key == "models") {
                 self.log("Setting data for all models")
                 
-                for (nkey: String, modelArrayJson: JSON) in subJson {
+                for (nkey, modelArrayJson): (String, JSON) in subJson {
                     //self.log("Handling \(nkey)")
                     // This whole switch statement is only needed because we don't have a good way of turning a string into a Swift class yet
                     switch(nkey) {
@@ -533,7 +533,7 @@ class DataSync: NSObject, NSURLSessionDelegate {
         self.log("Setting relationships/associations on new models")
         let start = NSDate()
         self.syncRealm!.beginWriteTransaction()
-        for (index: String, aJson : JSON) in rJson {
+        for (index, aJson): (String, JSON) in rJson {
             if aJson["type"] == "BelongsTo" {
                 handleBelongsTo(aJson)
             } else {
@@ -688,8 +688,8 @@ class DataSync: NSObject, NSURLSessionDelegate {
         let defaults = NSUserDefaults.standardUserDefaults()
         let start = NSDate()
         dRealm.beginWriteTransaction()
-        for (key: String, subJson: JSON) in json {
-            for (nkey: String, newInfo: JSON) in subJson {
+        for (key, subJson): (String, JSON) in json {
+            for (nkey, newInfo): (String, JSON) in subJson {
                 let newId = newInfo.stringValue
                 self.log("Handling \(nkey) remapping to \(newId)")
                 let joker = Models[key]

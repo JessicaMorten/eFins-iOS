@@ -25,7 +25,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let borderColor = UIColor(hex: 000, alpha: 0.2)
+        let borderColor = UIColor(white: 000, alpha: 0.2)
         self.signInButton.layer.borderColor = borderColor.CGColor
         self.signInButton.layer.borderWidth = 2.0
         self.signInButton.layer.cornerRadius = 5.0
@@ -93,7 +93,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                 "email": self.emailTextField.text,
                 "password": self.passwordTextField.text
             ]
-            println("Posting to \(Urls.getToken)")
+            print("Posting to \(Urls.getToken)")
             let defaults = NSUserDefaults.standardUserDefaults()
             Alamofire.request(.POST, Urls.getToken, parameters: params)
                 .responseString { (request, response, data, error) in
@@ -156,9 +156,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     }
     
     func alert(title:String, message:String) {
-        var alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler:{ (ACTION :UIAlertAction!)in
-            println("Okay, I see that my email is messed up.")
+        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler:{ (ACTION :UIAlertAction)in
+            print("Okay, I see that my email is messed up.")
         }))
         self.presentViewController(alert, animated: true, completion: nil)
     }

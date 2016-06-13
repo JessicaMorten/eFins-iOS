@@ -70,7 +70,7 @@ class LocationManager : NSObject, CLLocationManagerDelegate {
         super.init()
         let status = CLLocationManager.authorizationStatus()
         if status == CLAuthorizationStatus.Restricted || status == CLAuthorizationStatus.Denied {
-            println("Raise an alert or something - location services not available")
+            print("Raise an alert or something - location services not available")
         } else {
             coreLocationManager.delegate = self
         }
@@ -81,7 +81,7 @@ class LocationManager : NSObject, CLLocationManagerDelegate {
     }
     
     func addLocationManagerDelegate(delegate: LocationManagerDelegate, accuracy: CLLocationAccuracy?, timeout: NSTimeInterval?) {
-        println("Adding a delegate listener")
+        print("Adding a delegate listener")
         var trueAccuracy : CLLocationAccuracy = -1
         var timeoutDatetime : NSDate
         if timeout == nil {
@@ -101,34 +101,34 @@ class LocationManager : NSObject, CLLocationManagerDelegate {
         if timer == nil {
             timer = NSTimer(timeInterval: 2, target: self, selector: "checkForTimeouts", userInfo: nil, repeats: true)
         } else {
-            println("Attempted double add of delegate to location manager")
+            print("Attempted double add of delegate to location manager")
         }
         coreLocationManager.startUpdatingLocation()
         
     }
     
     func removeLocationManagerDelegate(delegate: LocationManagerDelegate) {
-        println("Removing a delegate")
-        println(count(observers))
+        print("Removing a delegate")
+        print(observers.count)
         observers = observers.filter { if $0.delegate === delegate {return true } else {return false} }
-        println(count(observers))
-        if count(observers) == 0 && (!isPreheating) {
+        print(observers.count)
+        if observers.count == 0 && (!isPreheating) {
             accuracyHistory.removeAll()
             coreLocationManager.stopUpdatingLocation()
         }
     }
     
     func startPreheat() {
-        println("Start preheat")
+        print("Start preheat")
         isPreheating = true
         coreLocationManager.startUpdatingLocation()
         
     }
     
     func stopPreheat() {
-        println("Stop preheat")
+        print("Stop preheat")
         isPreheating = false
-        if count(observers) == 0 {
+        if observers.count == 0 {
             coreLocationManager.stopUpdatingLocation()
         }
     }
@@ -142,7 +142,7 @@ class LocationManager : NSObject, CLLocationManagerDelegate {
             record.delegate.locationManagerDidFailToObtainLocation()
             observers = observers.filter {$0 != record}
             stopTimerIfNecessary()
-            if count(observers) == 0 && (!isPreheating) {
+            if observers.count == 0 && (!isPreheating) {
                 coreLocationManager.stopUpdatingLocation()
                 accuracyHistory.removeAll()
             }
@@ -150,37 +150,37 @@ class LocationManager : NSObject, CLLocationManagerDelegate {
     }
     
     private func stopTimerIfNecessary() {
-        if count(observers) == 0 {
+        if observers.count == 0 {
             timer?.invalidate()
             timer = nil
         }
     }
     
     private func recordAccuracyMeasurement(accuracy : CLLocationAccuracy) {
-        println("Record \(accuracy)")
+        print("Record \(accuracy)")
         accuracyHistory.append(accuracy)
-        if count(accuracyHistory) > LocationManager.ACCURACY_BUFFER_LENGTH {
+        if accuracyHistory.count > LocationManager.ACCURACY_BUFFER_LENGTH {
             accuracyHistory.removeAtIndex(0)
         }
     }
     
     private func accuracyHasConverged(minimumAccuracy: CLLocationAccuracy) -> Bool {
-        if count(accuracyHistory) < LocationManager.ACCURACY_BUFFER_LENGTH { return false }
+        if accuracyHistory.count < LocationManager.ACCURACY_BUFFER_LENGTH { return false }
         let initialAccuracy = accuracyHistory.first
-        println("accuracyHasConverged: initial accuracy \(initialAccuracy)")
+        print("accuracyHasConverged: initial accuracy \(initialAccuracy)")
         if minimumAccuracy != -1 && initialAccuracy > minimumAccuracy {return false }
         for measurement in accuracyHistory {
             if measurement > initialAccuracy {return false}
         }
-        println("Accuracy has converged at \(accuracyHistory) and \(minimumAccuracy) was requested.")
+        print("Accuracy has converged at \(accuracyHistory) and \(minimumAccuracy) was requested.")
         return true
     }
     
-    func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         var satisfiedObservers : [DelegateRecord] = []
         let mostRecentLocation : CLLocation = locations.last as! CLLocation
         recordAccuracyMeasurement(mostRecentLocation.horizontalAccuracy)
-        println("Most recent location: \(mostRecentLocation). \(count(observers)) observers")
+        print("Most recent location: \(mostRecentLocation). \(observers.count) observers")
         for observer in observers {
             let desiredAccuracy : CLLocationAccuracy = observer.accuracy
             if accuracyHasConverged(desiredAccuracy) {
@@ -194,13 +194,13 @@ class LocationManager : NSObject, CLLocationManagerDelegate {
             return true
         }
         stopTimerIfNecessary()
-        if count(observers) == 0 && (!isPreheating) {
+        if observers.count == 0 && (!isPreheating) {
             coreLocationManager.stopUpdatingLocation()
             accuracyHistory.removeAll()
         }
     }
     
-    func locationManager(manager: CLLocationManager!, didFailWithError error: NSError!) {
+    func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
         errorCount += 1
         if errorCount >= LocationManager.MAX_LOCATION_ERROR {
             coreLocationManager.stopUpdatingLocation()

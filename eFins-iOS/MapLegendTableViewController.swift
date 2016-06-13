@@ -23,7 +23,7 @@ class MapLegendTableViewController: UITableViewController {
 
     @IBAction func emptyOfflineCache(sender: AnyObject) {
         if let map = (self.splitViewController?.viewControllers[1] as? UINavigationController)?.viewControllers[0] as? MapViewController {
-            confirm("Clear offline cache", "Map data will have to be downloaded again before you can use maps offline.", self) { () in
+            confirm("Clear offline cache", message: "Map data will have to be downloaded again before you can use maps offline.", view: self) { () in
                 map.emptyCache()
             }
         }

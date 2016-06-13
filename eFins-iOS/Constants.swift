@@ -137,13 +137,13 @@ class _RecentValues {
     }
     
     func debugValues() {
-        println("===== Stored Recently Used Values =====")
+        print("===== Stored Recently Used Values =====")
         for (key, value) in NSUserDefaults.standardUserDefaults().dictionaryRepresentation() {
-            if (key as! NSString).containsString("recent-values") {
-                println("\(key): \(value)")
+            if (key as NSString).containsString("recent-values") {
+                print("\(key): \(value)")
             }
         }
-        println("======================================= ")
+        print("======================================= ")
     }
     
     func getRecent(model: RLMObject, propertyClassName: String, propertyName: String, secondaryProperty: RLMProperty?) -> [RLMObject] {
@@ -155,13 +155,13 @@ class _RecentValues {
                 break
             }
             if (key as! NSString).containsString("recent-values") && (key as! NSString).containsString(model.objectSchema.className) && ((key as! NSString).containsString(propertyName) || (secondaryProperty != nil && (key as! NSString).containsString(secondaryProperty!.name))) {
-                var parts = split(key as! String) { $0 == ","}
+                var parts = split(key ) { $0 == ","}
                 let id = parts[3]
                 items[id] = value.integerValue
                 sortedKeys.append(id)
             }
         }
-        sortedKeys.sort {
+        sortedKeys.sortInPlace {
             items[$0] > items[$1]
         }
         let Model = Models[propertyClassName]
@@ -201,19 +201,19 @@ func rlmArrayToNSArray(rlmArray:RLMArray) -> [RLMObject] {
 import UIKit
 
 func alert(title:String, message:String, view:UIViewController) {
-    var alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
-    alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler:{ (ACTION :UIAlertAction!)in
-        println("ok")
+    let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
+    alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler:{ (ACTION :UIAlertAction)in
+        print("ok")
     }))
     view.presentViewController(alert, animated: true, completion: nil)
 }
 
 func confirm(title:String, message:String, view:UIViewController, next:() -> ()) {
-    var alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
-    alert.addAction(UIAlertAction(title: "No", style: UIAlertActionStyle.Default, handler:{ (ACTION :UIAlertAction!)in
-        println("cancelled")
+    let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
+    alert.addAction(UIAlertAction(title: "No", style: UIAlertActionStyle.Default, handler:{ (ACTION :UIAlertAction)in
+        print("cancelled")
     }))
-    alert.addAction(UIAlertAction(title: "Yes", style: UIAlertActionStyle.Default, handler:{ (ACTION :UIAlertAction!)in
+    alert.addAction(UIAlertAction(title: "Yes", style: UIAlertActionStyle.Default, handler:{ (ACTION :UIAlertAction)in
         next()
     }))
     view.presentViewController(alert, animated: true, completion: nil)
