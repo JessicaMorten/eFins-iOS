@@ -96,6 +96,7 @@
 		93737BD31D10ADFD00A7BA2A /* RelationEditor.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9309BE461D0F611F0072E5A6 /* RelationEditor.storyboard */; };
 		93737BD41D10AE0000A7BA2A /* ViolationForm.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9309BE531D0F611F0072E5A6 /* ViolationForm.storyboard */; };
 		93737BD51D10AE0300A7BA2A /* ViolationTypeForm.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9309BE561D0F611F0072E5A6 /* ViolationTypeForm.storyboard */; };
+		93737BD71D10B74C00A7BA2A /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93737BD61D10B74C00A7BA2A /* MapViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -213,6 +214,7 @@
 		9309BE7B1D0F62A70072E5A6 /* eFinsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = eFinsTests.m; sourceTree = "<group>"; };
 		9309BE7D1D0F62A70072E5A6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		93737BC11D10AB9200A7BA2A /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/usr/lib/libz.tbd; sourceTree = DEVELOPER_DIR; };
+		93737BD61D10B74C00A7BA2A /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		E890D305F3F5A69AFBFBE402 /* Pods-eFins.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-eFins.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-eFins/Pods-eFins.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -392,6 +394,7 @@
 				9309BE1E1D0F611F0072E5A6 /* Images.xcassets */,
 				9309BE6D1D0F62A70072E5A6 /* Assets.xcassets */,
 				9309BE721D0F62A70072E5A6 /* Info.plist */,
+				93737BD61D10B74C00A7BA2A /* MapViewController.swift */,
 			);
 			path = eFins;
 			sourceTree = "<group>";
@@ -633,6 +636,7 @@
 				9309BEA81D0F638E0072E5A6 /* NewContactPopupTableViewController.swift in Sources */,
 				9309BEAC1D0F638E0072E5A6 /* PatrolLogContactListTableViewController.swift in Sources */,
 				9309BE8D1D0F62EB0072E5A6 /* EnforcementActionType.swift in Sources */,
+				93737BD71D10B74C00A7BA2A /* MapViewController.swift in Sources */,
 				9309BEAE1D0F638E0072E5A6 /* PatrolLogSidebarTableViewController.swift in Sources */,
 				9309BEC11D0F639C0072E5A6 /* CDFWRecContactTableViewController.swift in Sources */,
 				9309BE8A1D0F62EB0072E5A6 /* ContactType.swift in Sources */,
