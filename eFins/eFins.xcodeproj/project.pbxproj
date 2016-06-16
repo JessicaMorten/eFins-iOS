@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		285EE2B29CB34B43DEA65C74 /* Pods_eFins.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 235EAC5937964928C2B52858 /* Pods_eFins.framework */; };
-		9309BE6E1D0F62A70072E5A6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9309BE6D1D0F62A70072E5A6 /* Assets.xcassets */; };
 		9309BE7C1D0F62A70072E5A6 /* eFinsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9309BE7B1D0F62A70072E5A6 /* eFinsTests.m */; };
 		9309BE841D0F62EB0072E5A6 /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9309BDF61D0F611F0072E5A6 /* Action.swift */; };
 		9309BE851D0F62EB0072E5A6 /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9309BDF71D0F611F0072E5A6 /* Activity.swift */; };
@@ -97,6 +96,7 @@
 		93737BD41D10AE0000A7BA2A /* ViolationForm.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9309BE531D0F611F0072E5A6 /* ViolationForm.storyboard */; };
 		93737BD51D10AE0300A7BA2A /* ViolationTypeForm.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9309BE561D0F611F0072E5A6 /* ViolationTypeForm.storyboard */; };
 		93737BD71D10B74C00A7BA2A /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93737BD61D10B74C00A7BA2A /* MapViewController.swift */; };
+		93737BD81D11CA0500A7BA2A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9309BE1E1D0F611F0072E5A6 /* Images.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -500,6 +500,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				93737BD81D11CA0500A7BA2A /* Images.xcassets in Resources */,
 				93737BC61D10ADD300A7BA2A /* PatrolLog.storyboard in Resources */,
 				93737BCB1D10ADE400A7BA2A /* Main.storyboard in Resources */,
 				93737BD41D10AE0000A7BA2A /* ViolationForm.storyboard in Resources */,
@@ -515,7 +516,6 @@
 				93737BC81D10ADDA00A7BA2A /* VesselForm.storyboard in Resources */,
 				93737BC51D10ADCF00A7BA2A /* OneToMany.storyboard in Resources */,
 				93737BD51D10AE0300A7BA2A /* ViolationTypeForm.storyboard in Resources */,
-				9309BE6E1D0F62A70072E5A6 /* Assets.xcassets in Resources */,
 				93737BCF1D10ADF000A7BA2A /* DatePicker.storyboard in Resources */,
 				93737BC31D10ADC700A7BA2A /* Map.storyboard in Resources */,
 				93737BCC1D10ADE700A7BA2A /* ActivityLog.storyboard in Resources */,
