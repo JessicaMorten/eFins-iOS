@@ -13,15 +13,15 @@ import Realm
 //var SERVER_ROOT = "http://10.0.1.10:3002/"
 var SERVER_ROOT = "http://efins.org/"
 
-let CHART_MBTILES = "http://d22rw30n9mffwa.cloudfront.net/charts.mbtiles"
-let BASEMAP_MBTILES = "http://d22rw30n9mffwa.cloudfront.net/efins-basemap.mbtiles"
+let CHART_MBTILES = "http://d22rw30n9mffwa.cloudfront.net/efcharts_experimental.zip"
+let BASEMAP_MBTILES = "http://d22rw30n9mffwa.cloudfront.net/efbasemap_experimental.zip"
 let SENTRY_DSN = "https://2c4ae4ac92c84b0ea1cedc913ee39408:c5cdf2a5caec4910bd5aef75e4d70de8@app.getsentry.com/44757"
 let PHOTOS_BUCKET = "efins-photos"
 
 func chartPath() -> String? {
     let fileManager = NSFileManager.defaultManager()
     if let cachePath = NSSearchPathForDirectoriesInDomains(.CachesDirectory, .UserDomainMask, true)[0] as? String {
-        return cachePath.stringByAppendingString("charts.mbtiles")
+        return cachePath.stringByAppendingString("/efcharts_experimental.zip")
     } else {
         return nil
     }
@@ -30,10 +30,30 @@ func chartPath() -> String? {
 func basemapPath() -> String? {
     let fileManager = NSFileManager.defaultManager()
     if let cachePath = NSSearchPathForDirectoriesInDomains(.CachesDirectory, .UserDomainMask, true)[0] as? String {
-        return cachePath.stringByAppendingString("efins-basemap.mbtiles")
+        return cachePath.stringByAppendingString("/efbasemap_experimental.zip")
     } else {
         return nil
     }
+}
+
+func chartTilesRoot() -> String? {
+    let fileManager = NSFileManager.defaultManager()
+    if let cachePath = NSSearchPathForDirectoriesInDomains(.CachesDirectory, .UserDomainMask, true)[0] as? String {
+        return cachePath.stringByAppendingString("/efcharts_tiles")
+    } else {
+        return nil
+    }
+}
+
+func basemapTilesRoot() -> String? {
+    let fileManager = NSFileManager.defaultManager()
+    if let cachePath = NSSearchPathForDirectoriesInDomains(.CachesDirectory, .UserDomainMask, true)[0] as? String {
+        return cachePath.stringByAppendingString("/efbasemap_tiles")
+    } else {
+        return nil
+    }
+
+    
 }
 
 func tilesExist() -> Bool {

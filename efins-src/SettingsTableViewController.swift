@@ -8,6 +8,7 @@
 
 import UIKit
 import Alamofire
+import SSZipArchive
 
 class SettingsTableViewController: UITableViewController, DataSyncDelegate {
     
@@ -30,6 +31,7 @@ class SettingsTableViewController: UITableViewController, DataSyncDelegate {
     var chartManager:Alamofire.Manager!
     var basemapManager:Alamofire.Manager!
     var downloading = false
+    var unpacking = false
     var chartBytesRead = 0
     var basemapBytesRead = 0
     var totalBytes = 0
@@ -132,6 +134,12 @@ class SettingsTableViewController: UITableViewController, DataSyncDelegate {
                 self.mapDownloadButton.hidden = true
                 let msg = "Downloading Map Data (\((basemapBytesRead + chartBytesRead) / 1000 / 1000) MB / \(totalBytes / 1000 / 1000) MB)"
                 self.mapLabel.text = msg
+            } else if unpacking {
+                self.progress.hidden = false
+                self.mapDownloadButton.hidden = true
+                let msg = "Unpacking Map Data (\((basemapBytesRead + chartBytesRead) / 1000 / 1000) MB / \(totalBytes / 1000 / 1000) MB)"
+                self.mapLabel.text = msg
+
             } else {
                 self.mapDownloadButton.setTitle("Download Map Data", forState: UIControlState.Normal)
                 self.mapDownloadButton.enabled = true
@@ -199,6 +207,7 @@ class SettingsTableViewController: UITableViewController, DataSyncDelegate {
                     if self.chartBytesRead == 0 {
                         self.totalBytes += Int(totalBytesExpectedToRead)
                     }
+                    print("\(self.totalBytes) read")
                     self.chartBytesRead = Int(totalBytesRead)
                     dispatch_async(dispatch_get_main_queue(), {
                         self.updateProgress()
@@ -217,10 +226,7 @@ class SettingsTableViewController: UITableViewController, DataSyncDelegate {
                         print(error)
                         chartsDone = true
                         if chartsDone && basemapDone {
-                            self.downloading = false
-                            dispatch_async(dispatch_get_main_queue(), {
-                                self.updateDisplay()
-                            })
+                            self.unpack()
                         }
                     }
             }
@@ -251,11 +257,8 @@ class SettingsTableViewController: UITableViewController, DataSyncDelegate {
                         print(error)
                         basemapDone = true
                         if chartsDone && basemapDone {
-                            self.downloading = false
-                            dispatch_async(dispatch_get_main_queue(), {
-                                self.updateDisplay()
-                            })
-                        }
+                            self.unpack()
+                                                    }
                     }
             }
         } else if tilesExist() {
@@ -273,6 +276,21 @@ class SettingsTableViewController: UITableViewController, DataSyncDelegate {
                 self.updateDisplay()
             }
         }
+    }
+    
+    
+    func unpack () {
+        self.downloading = false
+        self.unpacking = true
+        SSZipArchive.unzipFileAtPath(basemapPath(), toDestination: basemapTilesRoot(), progressHandler: { (name: String!, zipInfo, entryNumber: Int, total: Int) in
+                NSLog("\(basemapPath()): \(entryNumber) of \(total)")
+        }, completionHandler: { (path: String!, succeeded, error: NSError!) in
+                NSLog("Done with \(path)")
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.updateDisplay()
+                })
+
+        })
     }
     
     func updateProgress() {

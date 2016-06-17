@@ -8,12 +8,13 @@
 
 import UIKit
 import Foundation
+import MapKit
 
-class MapViewController: UIViewController, RMMapViewDelegate, UIAlertViewDelegate, RMTileCacheBackgroundDelegate {
+class MapViewController: UIViewController, MKMapViewDelegate, UIAlertViewDelegate {
     
-    var map:RMMapView!
-    var thematicLayer:RMMBTilesSource?
-    var charts:RMMBTilesSource!
+    var map:MKMapView!
+    //var thematicLayer:RMMBTilesSource?
+    //var charts:RMMBTilesSource!
     var reachability: Reachability!
     var useSplitView : Bool = true
     let southWestConstraints = CLLocationCoordinate2DMake(32, -123)
@@ -48,7 +49,6 @@ class MapViewController: UIViewController, RMMapViewDelegate, UIAlertViewDelegat
             self.splitViewController?.preferredDisplayMode = UISplitViewControllerDisplayMode.PrimaryHidden
         }
         
-        RMConfiguration.sharedInstance().accessToken = "pk.eyJ1IjoidW5kZXJibHVld2F0ZXJzIiwiYSI6IjMzZ215RTQifQ.u6Gb_-kNfvaxiHdd9eJEEA"
         
         // configure map tile source based on previous metadata if available
         //        if let tileJSON = cachedJSON() {
@@ -66,7 +66,8 @@ class MapViewController: UIViewController, RMMapViewDelegate, UIAlertViewDelegat
     
     func loadTiles() -> Bool {
         if tilesExist() {
-            self.charts = RMMBTilesSource(tileSetURL: NSURL(fileURLWithPath: chartPath()!, isDirectory: false))
+            NSLog("TILES tilesExist")
+            ////self.charts = RMMBTilesSource(tileSetURL: NSURL(fileURLWithPath: chartPath()!, isDirectory: false))
             self.thematicLayer = RMMBTilesSource(tileSetURL: NSURL(fileURLWithPath: basemapPath()!, isDirectory: false))
             return true
         } else {
@@ -75,20 +76,20 @@ class MapViewController: UIViewController, RMMapViewDelegate, UIAlertViewDelegat
     }
     
     func initMap() {
-        self.map = RMMapView(frame: view.bounds, andTilesource: self.thematicLayer)
+        self.map = MKMapView(frame: view.bounds)
         self.backgroundView.insertSubview(map, atIndex: 0)
         
         if useSplitView {
             self.map.delegate = self
         }
-        map.zoom = 9
-        map.maxZoom = 15
-        map.minZoom = 8
+//        map.zoom = 9
+//        map.maxZoom = 15
+//        map.minZoom = 8
         map.centerCoordinate = CLLocationCoordinate2D(latitude: 34.007, longitude: -119.829)
-        map.autoresizingMask = [UIViewAutoresizing.FlexibleHeight, UIViewAutoresizing.FlexibleWidth]
-        map.setConstraintsSouthWest(southWestConstraints, northEast: northEastConstraints)
+        //map.autoresizingMask = [UIViewAutoresizing.FlexibleHeight, UIViewAutoresizing.FlexibleWidth]
+        //map.setConstraintsSouthWest(southWestConstraints, northEast: northEastConstraints)
         
-        map.userTrackingMode = RMUserTrackingModeNone
+        map.userTrackingMode = MKUserTrackingMode.None
         self.navigationItem.rightBarButtonItem = RMUserTrackingBarButtonItem(mapView: map)
         self.didLoadTiles = true
     }
@@ -109,17 +110,17 @@ class MapViewController: UIViewController, RMMapViewDelegate, UIAlertViewDelegat
     
     
     // We only register as delegate of the map if we are in split view mode, so this won't be triggered there (in location setting view, the parent table view controller acts as delegate)
-    func singleTapOnMap(map: RMMapView!, at point: CGPoint) {
-        if let source = self.map.tileSource as? RMInteractiveSource {
-            if source.supportsInteractivity() {
-                var content = source.formattedOutputOfType(RMInteractiveSourceOutputTypeTeaser, forPoint: point, inMapView: map)
-                if content != nil && content.characters.count > 0 {
-                    showPopup(content, point: point)
-                } else {
-                    hidePopup()
-                }
-            }
-        }
+    func singleTapOnMap(map: MKMapView!, at point: CGPoint) {
+//        if let source = self.map.tileSource as? RMInteractiveSource {
+//            if source.supportsInteractivity() {
+//                var content = source.formattedOutputOfType(RMInteractiveSourceOutputTypeTeaser, forPoint: point, inMapView: map)
+//                if content != nil && content.characters.count > 0 {
+//                    showPopup(content, point: point)
+//                } else {
+//                    hidePopup()
+//                }
+//            }
+//        }
     }
     
     func showPopup(content:String, point:CGPoint) {
