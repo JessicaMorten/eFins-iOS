@@ -222,8 +222,7 @@ class SettingsTableViewController: UITableViewController, DataSyncDelegate {
                             self.updateDisplay()
                         })
                     } else {
-                        print("charts error")
-                        print(error)
+                        print("charts downloaded")
                         chartsDone = true
                         if chartsDone && basemapDone {
                             self.unpack()
@@ -253,8 +252,7 @@ class SettingsTableViewController: UITableViewController, DataSyncDelegate {
                             self.updateDisplay()
                         })
                     } else {
-                        print("error, basemaps")
-                        print(error)
+                        print("basemaps downloaded")
                         basemapDone = true
                         if chartsDone && basemapDone {
                             self.unpack()
@@ -282,7 +280,7 @@ class SettingsTableViewController: UITableViewController, DataSyncDelegate {
     func unpack () {
         self.downloading = false
         self.unpacking = true
-        SSZipArchive.unzipFileAtPath(basemapPath(), toDestination: basemapTilesRoot(), progressHandler: { (name: String!, zipInfo, entryNumber: Int, total: Int) in
+        SSZipArchive.unzipFileAtPath(basemapPath(), toDestination: basemapTilesPath(), progressHandler: { (name: String!, zipInfo, entryNumber: Int, total: Int) in
                 NSLog("\(basemapPath()): \(entryNumber) of \(total)")
         }, completionHandler: { (path: String!, succeeded, error: NSError!) in
                 NSLog("Done with \(path)")
@@ -291,6 +289,16 @@ class SettingsTableViewController: UITableViewController, DataSyncDelegate {
                 })
 
         })
+        SSZipArchive.unzipFileAtPath(chartPath(), toDestination: chartTilesPath(), progressHandler: { (name: String!, zipInfo, entryNumber: Int, total: Int) in
+            NSLog("\(chartPath()): \(entryNumber) of \(total)")
+            }, completionHandler: { (path: String!, succeeded, error: NSError!) in
+                NSLog("Done with \(path)")
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.updateDisplay()
+                })
+                
+        })
+
     }
     
     func updateProgress() {

@@ -14,8 +14,8 @@ import ReachabilitySwift
 class MapViewController: UIViewController, MKMapViewDelegate, UIAlertViewDelegate {
     
     var map:MKMapView!
-    //var thematicLayer:RMMBTilesSource?
-    //var charts:RMMBTilesSource!
+    var thematicLayer:MKTileOverlay?
+    var charts:MKTileOverlay?
     var reachability: Reachability!
     var useSplitView : Bool = true
     let southWestConstraints = CLLocationCoordinate2DMake(32, -123)
@@ -58,26 +58,29 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIAlertViewDelegat
         //            self.thematicLayer = RMMapboxSource(mapID: "underbluewaters.i9hjn51p")
         //        }
         
-//        if loadTiles() {
-//            initMap()
-//        } else {
-//            alert("Map Tiles Not Cached", "To use maps you need to first download data layers from the settings tab.", self)
-//        }
-        
-        initMap()
+        if loadTiles() {
+            initMap()
+        } else {
+            alert("Map Tiles Not Cached", message: "To use maps you need to first download data layers from the settings tab.", view: self)
+        }
     }
     
-//    func loadTiles() -> Bool {
-//        if tilesExist() {
-//            self.charts = RMMBTilesSource(tileSetURL: NSURL(fileURLWithPath: chartPath()!, isDirectory: false))
-//            self.thematicLayer = RMMBTilesSource(tileSetURL: NSURL(fileURLWithPath: basemapPath()!, isDirectory: false))
-//            return true
-//        } else {
-//            return false
-//        }
-//    }
+    func loadTiles() -> Bool {
+        if tilesExist() {
+            NSLog("TILE EXIST: " +  chartTilesUrl()! + "/{z}/{x}/{y}.png")
+            self.charts = MKTileOverlay(URLTemplate: chartTilesUrl()! + "{z}/{x}/{y}.png")
+            self.thematicLayer = MKTileOverlay(URLTemplate: basemapTilesUrl()! + "{z}/{x}/{y}.png")
+            self.charts?.canReplaceMapContent = true
+            self.thematicLayer?.canReplaceMapContent = true
+            NSLog("Created overlays")
+            return true
+        } else {
+            return false
+        }
+    }
     
     func initMap() {
+        NSLog("Initializing map")
         self.map = MKMapView(frame: view.bounds)
         self.backgroundView.insertSubview(map, atIndex: 0)
         
@@ -93,21 +96,22 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIAlertViewDelegat
         
         map.userTrackingMode = MKUserTrackingMode.None
         //self.navigationItem.rightBarButtonItem = RMUserTrackingBarButtonItem(mapView: map)
+        self.map.addOverlay(self.thematicLayer!, level: MKOverlayLevel.AboveLabels)
         self.didLoadTiles = true
     }
     
     override func viewWillAppear(animated: Bool) {
-//        if self.didLoadTiles {
-//            self.mapSegmentControl.enabled = true
-//        } else {
-//            if loadTiles() {
-//                initMap()
-//                self.mapSegmentControl.enabled = true
-//            } else {
-//                self.mapSegmentControl.enabled = false
-//                alert("Map Tiles Not Cached", "To use maps you need to first download data layers from the settings tab.", self)
-//            }
-//        }
+        if self.didLoadTiles {
+            self.mapSegmentControl.enabled = true
+        } else {
+            if loadTiles() {
+                initMap()
+                self.mapSegmentControl.enabled = true
+            } else {
+                self.mapSegmentControl.enabled = false
+                alert("Map Tiles Not Cached", message: "To use maps you need to first download data layers from the settings tab.", view: self)
+            }
+        }
     }
     
     
@@ -201,19 +205,31 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIAlertViewDelegat
 //    
 //    // MARK: - Alert Delegate
 //    
-//    @IBAction func layerChange(sender: AnyObject) {
-//        if self.didLoadTiles {
-//            switch self.mapSegmentControl.selectedSegmentIndex {
-//            case 0:
-//                self.map.tileSource = self.thematicLayer
-//            case 1:
-//                //            self.map.adjustTilesForRetinaDisplay = true
-//                self.map.tileSource = self.charts
-//            default:
-//                //            self.map.adjustTilesForRetinaDisplay = true
-//                self.map.tileSource = self.charts
-//            }
-//        }
-//    }
+    @IBAction func layerChange(sender: AnyObject) {
+        if self.didLoadTiles {
+            switch self.mapSegmentControl.selectedSegmentIndex {
+            case 0:
+                self.map.removeOverlay(self.charts!)
+                self.map.addOverlay(self.thematicLayer!, level: MKOverlayLevel.AboveLabels)
+            case 1:
+                //            self.map.adjustTilesForRetinaDisplay = true
+                self.map.removeOverlay(self.thematicLayer!)
+                self.map.addOverlay(self.charts!, level: MKOverlayLevel.AboveLabels)
+            default:
+                //            self.map.adjustTilesForRetinaDisplay = true
+                self.map.removeOverlay(self.thematicLayer!)
+                self.map.addOverlay(self.charts!, level: MKOverlayLevel.AboveLabels)
+            }
+        }
+    }
+    
+    
+    func mapView(mapView: MKMapView, rendererForOverlay overlay: MKOverlay) -> MKOverlayRenderer {
+        guard let tileOverlay = overlay as? MKTileOverlay else {
+            return MKOverlayRenderer()
+        }
+        
+        return MKTileOverlayRenderer(tileOverlay: tileOverlay)
+    }
     
 }

@@ -36,24 +36,36 @@ func basemapPath() -> String? {
     }
 }
 
-func chartTilesRoot() -> String? {
+func chartTilesPath() -> String? {
     let fileManager = NSFileManager.defaultManager()
     if let cachePath = NSSearchPathForDirectoriesInDomains(.CachesDirectory, .UserDomainMask, true)[0] as? String {
-        return cachePath.stringByAppendingString("/efcharts_tiles")
+        let path = cachePath.stringByAppendingString("/efcharts_tiles/")
+        try! NSFileManager.defaultManager().createDirectoryAtPath(path, withIntermediateDirectories: true, attributes: nil)
+        return path
     } else {
         return nil
     }
 }
 
-func basemapTilesRoot() -> String? {
+func chartTilesUrl() -> String? {
+    return "file://" + chartTilesPath()! + "efins_charts/"
+}
+
+func basemapTilesPath() -> String? {
     let fileManager = NSFileManager.defaultManager()
     if let cachePath = NSSearchPathForDirectoriesInDomains(.CachesDirectory, .UserDomainMask, true)[0] as? String {
-        return cachePath.stringByAppendingString("/efbasemap_tiles")
+        let path = cachePath.stringByAppendingString("/efbasemap_tiles/")
+        try! NSFileManager.defaultManager().createDirectoryAtPath(path, withIntermediateDirectories: true, attributes: nil)
+        return path
     } else {
         return nil
     }
 
     
+}
+
+func basemapTilesUrl() -> String? {
+    return "file://" + basemapTilesPath()! + "efins_basemap/"
 }
 
 func tilesExist() -> Bool {

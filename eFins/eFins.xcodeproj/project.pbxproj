@@ -97,6 +97,7 @@
 		93737BD51D10AE0300A7BA2A /* ViolationTypeForm.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9309BE561D0F611F0072E5A6 /* ViolationTypeForm.storyboard */; };
 		93737BD71D10B74C00A7BA2A /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93737BD61D10B74C00A7BA2A /* MapViewController.swift */; };
 		93737BD81D11CA0500A7BA2A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9309BE1E1D0F611F0072E5A6 /* Images.xcassets */; };
+		939AE4991D31C25400616DBA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 939AE4981D31C25400616DBA /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -215,6 +216,7 @@
 		9309BE7D1D0F62A70072E5A6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		93737BC11D10AB9200A7BA2A /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/usr/lib/libz.tbd; sourceTree = DEVELOPER_DIR; };
 		93737BD61D10B74C00A7BA2A /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		939AE4981D31C25400616DBA /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E890D305F3F5A69AFBFBE402 /* Pods-eFins.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-eFins.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-eFins/Pods-eFins.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -318,6 +320,7 @@
 				9309BE461D0F611F0072E5A6 /* RelationEditor.storyboard */,
 				9309BE531D0F611F0072E5A6 /* ViolationForm.storyboard */,
 				9309BE561D0F611F0072E5A6 /* ViolationTypeForm.storyboard */,
+				939AE4981D31C25400616DBA /* LaunchScreen.storyboard */,
 			);
 			name = Storyboards;
 			path = "../../efins-src";
@@ -518,6 +521,7 @@
 				93737BD51D10AE0300A7BA2A /* ViolationTypeForm.storyboard in Resources */,
 				93737BCF1D10ADF000A7BA2A /* DatePicker.storyboard in Resources */,
 				93737BC31D10ADC700A7BA2A /* Map.storyboard in Resources */,
+				939AE4991D31C25400616DBA /* LaunchScreen.storyboard in Resources */,
 				93737BCC1D10ADE700A7BA2A /* ActivityLog.storyboard in Resources */,
 				93737BC91D10ADDD00A7BA2A /* PersonForm.storyboard in Resources */,
 			);
@@ -759,9 +763,10 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = org.efins.eFins;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				"SWIFT_OBJC_BRIDGING_HEADER[arch=*]" = "${SRCROOT}/../efins-src/eFins-iOS-Bridging-Header.h";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 2;
 				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/../efins-src";
 			};
 			name = Debug;
@@ -812,9 +817,10 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = org.efins.eFins;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				"SWIFT_OBJC_BRIDGING_HEADER[arch=*]" = "${SRCROOT}/../efins-src/eFins-iOS-Bridging-Header.h";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 2;
 				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/../efins-src";
 				VALIDATE_PRODUCT = YES;
 			};

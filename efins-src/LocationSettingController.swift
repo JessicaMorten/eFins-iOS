@@ -26,7 +26,8 @@ import MapKit
     var originalLongitude = Double(0)
     var delegate : GeoPickerConsumer? = nil
     var map:MKMapView!
-    //var thematicLayer:RMMBTilesSource?
+    var thematicLayer:MKTileOverlay?
+    var chartsLayer:MKTileOverlay?
     let southWestConstraints = CLLocationCoordinate2DMake(32, -123)
     let northEastConstraints = CLLocationCoordinate2DMake(35.42, -116.5)
 
