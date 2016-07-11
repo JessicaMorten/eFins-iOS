@@ -19,6 +19,7 @@ class CDFWCommBoardingCardTableViewController: ActivityFormTableViewController, 
     @IBOutlet weak var citationsCell: RelationTableViewCell!
     @IBOutlet weak var categoryOfBoardingCell: UITableViewCell!
     
+    
     override func viewDidLoad() {
         self.activityType = Activity.Types.CDFW_COMM
         super.viewDidLoad()

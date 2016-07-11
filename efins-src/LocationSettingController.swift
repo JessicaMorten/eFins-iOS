@@ -79,17 +79,23 @@ import MapKit
     func initMap(center:CLLocationCoordinate2D) {
         var tilesLoaded = false
         self.map = MKMapView(frame: self.mapCell.contentView.frame)
-        setZoomLevel(9)
+        //setZoomLevel(9)
         //map.maxZoom = 15
         //map.minZoom = 8
-        map.centerCoordinate = center
+        //map.centerCoordinate = center
         self.mapCell.contentView.insertSubview(map, atIndex: 0)
+        map.setCenterCoordinate(center, zoomLevel: 9, animated: true)
         
         map.autoresizingMask = [UIViewAutoresizing.FlexibleHeight, UIViewAutoresizing.FlexibleWidth]
         //map.setConstraintsSouthWest(southWestConstraints, northEast: northEastConstraints)
         map.userTrackingMode = MKUserTrackingMode.None
         map.userInteractionEnabled = true
         //self.navigationItem.rightBarButtonItem = RMUserTrackingBarButtonItem(mapView: map)
+        
+        self.thematicLayer = MKTileOverlay(URLTemplate: basemapTilesUrl()! + "{z}/{x}/{y}.png")
+        self.thematicLayer?.canReplaceMapContent = true
+        map.addOverlay(self.thematicLayer!)
+
     }
 
     
@@ -101,7 +107,7 @@ import MapKit
         latitudeCell.detailTextLabel?.text = latText
         longitudeCell.detailTextLabel?.text = longText
         drawLocation(location, label: "location")
-        map.setCenterCoordinate(location, animated: true)
+        map.setCenterCoordinate(location, zoomLevel: 9, animated: true)
         if manuallyEntered {manualEntryHappened()}
     }
     
@@ -196,17 +202,21 @@ import MapKit
     }
     
     func setZoomLevel(zoomLevel : Double) {
-        setCenterCoordinate(map.centerCoordinate, zoomLevel: zoomLevel, animated: true)
+        map.setCenterCoordinate(map.centerCoordinate, zoomLevel: UInt(zoomLevel), animated: true)
     }
     
     func zoomLevel() -> Int {
         return Int(log2(360 * (Double(map.frame.size.width/256) / map.region.span.longitudeDelta))) + 1
     }
     
-    func setCenterCoordinate(centerCoordinate: CLLocationCoordinate2D, zoomLevel: Double, animated: Bool) {
-        let span = MKCoordinateSpanMake(0, 360/pow(2, Double(zoomLevel))*Double(map.frame.size.width/256))
-        map.setRegion(MKCoordinateRegionMake(centerCoordinate, span), animated: animated)
+    func mapView(mapView: MKMapView, rendererForOverlay overlay: MKOverlay) -> MKOverlayRenderer {
+        guard let tileOverlay = overlay as? MKTileOverlay else {
+            return MKOverlayRenderer()
+        }
+        
+        return MKTileOverlayRenderer(tileOverlay: tileOverlay)
     }
+
 
 }
 

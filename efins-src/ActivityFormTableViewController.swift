@@ -34,6 +34,7 @@ class ActivityFormTableViewController: UITableViewController, LocationManagerDel
     @IBOutlet weak var locationDisplay: UITextField!
     @IBOutlet weak var reporterLabel: UILabel!
 
+    @IBOutlet weak var locationTitle: UILabel!
     
     @IBOutlet weak var saveButton: UIButton!
     
@@ -68,7 +69,7 @@ class ActivityFormTableViewController: UITableViewController, LocationManagerDel
             self.isNew = true
             self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Cancel,
                 target: self, action: "cancel")
-            self.locationTableCell.textLabel?.text = "Include Location"
+            self.locationTitle?.text = "Include Location"
             activity.time = NSDate()
             if let user = (UIApplication.sharedApplication().delegate as! AppDelegate).getUser() {
                 activity.users.addObject(user)
@@ -90,7 +91,7 @@ class ActivityFormTableViewController: UITableViewController, LocationManagerDel
             self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Edit", style: UIBarButtonItemStyle.Plain, target: self, action: "editButtonTapped")
             self.saveButton.hidden = true
             self.dateTableCell.accessoryType = UITableViewCellAccessoryType.None
-            self.locationTableCell.textLabel?.text = "Location"
+            self.locationTitle?.text = "Location"
             self.locationSwitch.hidden = true
             self.remarksTextView?.editable = false
             if self.activity.latitude == -1.0 {

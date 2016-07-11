@@ -96,16 +96,16 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="gZ4-gb-dKV">
-                                                    <rect key="frame" x="482" y="12" width="20" height="20"/>
+                                                    <rect key="frame" x="490" y="12" width="20" height="20"/>
                                                 </activityIndicatorView>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="QoS-PP-fdu">
-                                                    <rect key="frame" x="510" y="6" width="51" height="31"/>
+                                                    <rect key="frame" x="518" y="6" width="51" height="31"/>
                                                     <connections>
                                                         <action selector="locationSwitchValueChanged:" destination="xd9-lq-Y0j" eventType="valueChanged" id="AZ2-wR-fFS"/>
                                                     </connections>
                                                 </switch>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Location label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6YY-gj-sv8">
-                                                    <rect key="frame" x="292" y="11" width="210" height="21"/>
+                                                    <rect key="frame" x="300" y="11" width="210" height="21"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="210" id="fTD-Uy-SZf"/>
                                                     </constraints>
@@ -114,7 +114,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Location label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vWz-ec-n5f">
-                                                    <rect key="frame" x="349" y="11" width="210" height="21"/>
+                                                    <rect key="frame" x="357" y="11" width="210" height="21"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="210" id="FGz-bY-zg1"/>
                                                     </constraints>
@@ -122,14 +122,27 @@
                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Location" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NJz-xR-th4">
+                                                    <rect key="frame" x="17" y="10" width="66" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="QoS-PP-fdu" firstAttribute="leading" secondItem="gZ4-gb-dKV" secondAttribute="trailing" constant="8" id="07F-n0-X53"/>
                                                 <constraint firstItem="QoS-PP-fdu" firstAttribute="trailing" secondItem="3xO-d4-UW0" secondAttribute="trailingMargin" id="9tG-fh-POa"/>
+                                                <constraint firstItem="vWz-ec-n5f" firstAttribute="trailing" secondItem="3xO-d4-UW0" secondAttribute="trailingMargin" constant="8" id="CDb-e6-ao4"/>
                                                 <constraint firstItem="vWz-ec-n5f" firstAttribute="baseline" secondItem="6YY-gj-sv8" secondAttribute="baseline" id="DVJ-nP-ISR"/>
+                                                <constraint firstItem="QoS-PP-fdu" firstAttribute="trailing" secondItem="3xO-d4-UW0" secondAttribute="trailingMargin" constant="8" id="IAn-YU-QQG"/>
                                                 <constraint firstItem="QoS-PP-fdu" firstAttribute="leading" secondItem="6YY-gj-sv8" secondAttribute="trailing" constant="8" symbolic="YES" id="L67-dL-Lsp"/>
+                                                <constraint firstItem="NJz-xR-th4" firstAttribute="leading" secondItem="3xO-d4-UW0" secondAttribute="leadingMargin" constant="9" id="Not-Co-wed"/>
                                                 <constraint firstItem="vWz-ec-n5f" firstAttribute="trailing" secondItem="QoS-PP-fdu" secondAttribute="trailing" id="UfW-Hf-FRm"/>
                                                 <constraint firstItem="gZ4-gb-dKV" firstAttribute="top" secondItem="3xO-d4-UW0" secondAttribute="topMargin" constant="4" id="fLX-AY-6z2"/>
+                                                <constraint firstItem="NJz-xR-th4" firstAttribute="leading" secondItem="3xO-d4-UW0" secondAttribute="leadingMargin" constant="9" id="nAY-oB-rsM"/>
                                                 <constraint firstItem="6YY-gj-sv8" firstAttribute="bottom" secondItem="gZ4-gb-dKV" secondAttribute="bottom" id="rzB-mQ-A82"/>
+                                                <constraint firstItem="NJz-xR-th4" firstAttribute="centerY" secondItem="3xO-d4-UW0" secondAttribute="centerY" constant="-1.25" id="srF-EB-YIo"/>
+                                                <constraint firstItem="NJz-xR-th4" firstAttribute="leading" secondItem="3xO-d4-UW0" secondAttribute="leadingMargin" constant="9" id="xvk-5E-39w"/>
                                                 <constraint firstItem="QoS-PP-fdu" firstAttribute="centerY" secondItem="3xO-d4-UW0" secondAttribute="centerY" id="zem-hM-E7g"/>
                                                 <constraint firstItem="QoS-PP-fdu" firstAttribute="leading" secondItem="gZ4-gb-dKV" secondAttribute="trailing" constant="8" symbolic="YES" id="zyT-52-QiG"/>
                                             </constraints>
@@ -468,6 +481,7 @@
                         <outlet property="locationLabel" destination="6YY-gj-sv8" id="nDH-1X-6Oo"/>
                         <outlet property="locationSwitch" destination="QoS-PP-fdu" id="SHt-ZL-8dM"/>
                         <outlet property="locationTableCell" destination="GIx-lz-thk" id="JC7-gn-Jyj"/>
+                        <outlet property="locationTitle" destination="NJz-xR-th4" id="e24-pw-5el"/>
                         <outlet property="locationViewingLabel" destination="vWz-ec-n5f" id="CCG-nt-1G4"/>
                         <outlet property="observersTableViewCell" destination="btX-rG-AOj" id="HPM-BA-WhO"/>
                         <outlet property="photosCell" destination="Wk6-A1-wCI" id="cM9-Df-hRC"/>
