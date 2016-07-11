@@ -13,15 +13,15 @@ import Realm
 //var SERVER_ROOT = "http://10.0.1.10:3002/"
 var SERVER_ROOT = "http://efins.org/"
 
-let CHART_MBTILES = "http://d22rw30n9mffwa.cloudfront.net/efcharts_experimental.zip"
-let BASEMAP_MBTILES = "http://d22rw30n9mffwa.cloudfront.net/efbasemap_experimental.zip"
+let CHART_MBTILES = "http://d22rw30n9mffwa.cloudfront.net/efcharts.zip"
+let BASEMAP_MBTILES = "http://d22rw30n9mffwa.cloudfront.net/efbasemap.zip"
 let SENTRY_DSN = "https://2c4ae4ac92c84b0ea1cedc913ee39408:c5cdf2a5caec4910bd5aef75e4d70de8@app.getsentry.com/44757"
 let PHOTOS_BUCKET = "efins-photos"
 
 func chartPath() -> String? {
     let fileManager = NSFileManager.defaultManager()
     if let cachePath = NSSearchPathForDirectoriesInDomains(.CachesDirectory, .UserDomainMask, true)[0] as? String {
-        return cachePath.stringByAppendingString("/efcharts_experimental.zip")
+        return cachePath.stringByAppendingString("/efcharts.zip")
     } else {
         return nil
     }
@@ -30,7 +30,7 @@ func chartPath() -> String? {
 func basemapPath() -> String? {
     let fileManager = NSFileManager.defaultManager()
     if let cachePath = NSSearchPathForDirectoriesInDomains(.CachesDirectory, .UserDomainMask, true)[0] as? String {
-        return cachePath.stringByAppendingString("/efbasemap_experimental.zip")
+        return cachePath.stringByAppendingString("/efbasemap.zip")
     } else {
         return nil
     }

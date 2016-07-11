@@ -25,6 +25,7 @@ class SettingsTableViewController: UITableViewController, DataSyncDelegate {
     @IBOutlet weak var photosSyncActivityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var photosSyncStatusLabel: UILabel!
     @IBOutlet weak var versionLabel: UILabel!
+    @IBOutlet weak var loginNameLabel: UILabel!
     
     let chartbackgroundSession = NSURLSessionConfiguration.backgroundSessionConfigurationWithIdentifier("org.efins.eFins.chart-background")
     let basemapBackgroundSession = NSURLSessionConfiguration.backgroundSessionConfigurationWithIdentifier("org.efins.eFins.basemap-background")
@@ -34,7 +35,8 @@ class SettingsTableViewController: UITableViewController, DataSyncDelegate {
     var unpacking = false
     var chartBytesRead = 0
     var basemapBytesRead = 0
-    var totalBytes = 0
+    var chartTotalBytes = 0
+    var basemapTotalBytes = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,7 +44,7 @@ class SettingsTableViewController: UITableViewController, DataSyncDelegate {
         self.basemapManager = Alamofire.Manager(configuration: basemapBackgroundSession)
         print("manager \(self.chartManager)")
         if let user = (UIApplication.sharedApplication().delegate as! AppDelegate).getUser() {
-            self.loginCell.textLabel?.text = "Signed in as \(user.name)"
+            self.loginNameLabel.text = "Signed in as \(user.name)"
         }
         self.versionLabel.text = "eFins " + (NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleShortVersionString") as! String);
         updateDisplay()
@@ -132,14 +134,14 @@ class SettingsTableViewController: UITableViewController, DataSyncDelegate {
             if downloading {
                 self.progress.hidden = false
                 self.mapDownloadButton.hidden = true
-                let msg = "Downloading Map Data (\((basemapBytesRead + chartBytesRead) / 1000 / 1000) MB / \(totalBytes / 1000 / 1000) MB)"
+                let allBytes = chartTotalBytes + basemapTotalBytes
+                let msg = "Downloading Map Data (\((basemapBytesRead + chartBytesRead) / 1000 / 1000) MB / \(allBytes / 1000 / 1000) MB)"
                 self.mapLabel.text = msg
             } else if unpacking {
                 self.progress.hidden = false
                 self.mapDownloadButton.hidden = true
-                let msg = "Unpacking Map Data (\((basemapBytesRead + chartBytesRead) / 1000 / 1000) MB / \(totalBytes / 1000 / 1000) MB)"
+                let msg = "Unpacking Map Data..."
                 self.mapLabel.text = msg
-
             } else {
                 self.mapDownloadButton.setTitle("Download Map Data", forState: UIControlState.Normal)
                 self.mapDownloadButton.enabled = true
@@ -191,8 +193,9 @@ class SettingsTableViewController: UITableViewController, DataSyncDelegate {
             }
             self.mapDownloadButton.enabled = false
             self.downloading = true
-            self.totalBytes = 0
+            self.chartTotalBytes = 0
             self.chartBytesRead = 0
+            self.basemapTotalBytes = 0
             self.basemapBytesRead = 0
             var chartsSizeFiguredOut = false
             var basemapSizeFiguredOut = false
@@ -204,10 +207,7 @@ class SettingsTableViewController: UITableViewController, DataSyncDelegate {
             })
                 .progress { (bytesRead, totalBytesRead, totalBytesExpectedToRead) in
                     print("progress, charts")
-                    if self.chartBytesRead == 0 {
-                        self.totalBytes += Int(totalBytesExpectedToRead)
-                    }
-                    print("\(self.totalBytes) read")
+                    self.chartTotalBytes = Int(totalBytesExpectedToRead)
                     self.chartBytesRead = Int(totalBytesRead)
                     dispatch_async(dispatch_get_main_queue(), {
                         self.updateProgress()
@@ -235,9 +235,7 @@ class SettingsTableViewController: UITableViewController, DataSyncDelegate {
             })
                 .progress { (bytesRead, totalBytesRead, totalBytesExpectedToRead) in
                     print("progress, basemap")
-                    if self.basemapBytesRead == 0 {
-                        self.totalBytes += Int(totalBytesExpectedToRead)
-                    }
+                    self.basemapTotalBytes = Int(totalBytesExpectedToRead)
                     self.basemapBytesRead = Int(totalBytesRead)
                     dispatch_async(dispatch_get_main_queue(), {
                         self.updateProgress()
@@ -303,9 +301,10 @@ class SettingsTableViewController: UITableViewController, DataSyncDelegate {
     
     func updateProgress() {
         self.progress.hidden = false
+        let totalBytes = self.chartTotalBytes + self.basemapTotalBytes
         let msg = "Downloading Map Data (\((basemapBytesRead + chartBytesRead) / 1000 / 1000) MB / \(totalBytes / 1000 / 1000) MB)"
         self.mapLabel.text = msg
-        self.progress.setProgress(Float(self.chartBytesRead + self.basemapBytesRead) / Float(self.totalBytes), animated: true)
+        self.progress.setProgress(Float(self.chartBytesRead + self.basemapBytesRead) / Float(totalBytes), animated: true)
     }
     
 }

@@ -32,6 +32,7 @@ class ActivityFormTableViewController: UITableViewController, LocationManagerDel
     @IBOutlet weak var numPersonsOnBoardTextField: UITextField?
     @IBOutlet weak var numberOfPersonsOnBoardCell: UITableViewCell?
     @IBOutlet weak var locationDisplay: UITextField!
+    @IBOutlet weak var reporterLabel: UILabel!
 
     
     @IBOutlet weak var saveButton: UIButton!
@@ -120,6 +121,14 @@ class ActivityFormTableViewController: UITableViewController, LocationManagerDel
             self.textFields.append(numPersonsField)
             if isNew == false {
                 numPersonsField.enabled = false
+            }
+        }
+        
+        if self.reporterLabel != nil {
+            if activity.users.count > 0 {
+                self.reporterLabel.text = (activity.users.firstObject() as! User?)!.name
+            } else {
+                self.reporterLabel.text = "- Unknown -"
             }
         }
         
