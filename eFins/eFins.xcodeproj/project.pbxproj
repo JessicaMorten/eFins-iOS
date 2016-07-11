@@ -97,6 +97,8 @@
 		93737BD51D10AE0300A7BA2A /* ViolationTypeForm.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9309BE561D0F611F0072E5A6 /* ViolationTypeForm.storyboard */; };
 		93737BD71D10B74C00A7BA2A /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93737BD61D10B74C00A7BA2A /* MapViewController.swift */; };
 		93737BD81D11CA0500A7BA2A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9309BE1E1D0F611F0072E5A6 /* Images.xcassets */; };
+		93737BDD1D33769500A7BA2A /* DCTar.m in Sources */ = {isa = PBXBuildFile; fileRef = 93737BDC1D33769500A7BA2A /* DCTar.m */; };
+		93737CA01D3382F700A7BA2A /* MKMapView+ZoomLevel.m in Sources */ = {isa = PBXBuildFile; fileRef = 93737C9F1D3382F700A7BA2A /* MKMapView+ZoomLevel.m */; };
 		939AE4991D31C25400616DBA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 939AE4981D31C25400616DBA /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
@@ -216,6 +218,10 @@
 		9309BE7D1D0F62A70072E5A6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		93737BC11D10AB9200A7BA2A /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/usr/lib/libz.tbd; sourceTree = DEVELOPER_DIR; };
 		93737BD61D10B74C00A7BA2A /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		93737BDB1D33765E00A7BA2A /* DCTar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DCTar.h; sourceTree = "<group>"; };
+		93737BDC1D33769500A7BA2A /* DCTar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCTar.m; sourceTree = "<group>"; };
+		93737C9E1D3382F700A7BA2A /* MKMapView+ZoomLevel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "MKMapView+ZoomLevel.h"; path = "../../efins-src/MKMapView+ZoomLevel.h"; sourceTree = "<group>"; };
+		93737C9F1D3382F700A7BA2A /* MKMapView+ZoomLevel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "MKMapView+ZoomLevel.m"; path = "../../efins-src/MKMapView+ZoomLevel.m"; sourceTree = "<group>"; };
 		939AE4981D31C25400616DBA /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E890D305F3F5A69AFBFBE402 /* Pods-eFins.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-eFins.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-eFins/Pods-eFins.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -338,6 +344,8 @@
 		9309BE601D0F62A70072E5A6 /* eFins */ = {
 			isa = PBXGroup;
 			children = (
+				93737C9E1D3382F700A7BA2A /* MKMapView+ZoomLevel.h */,
+				93737C9F1D3382F700A7BA2A /* MKMapView+ZoomLevel.m */,
 				9309BDF81D0F611F0072E5A6 /* ActivityFormTableViewController.swift */,
 				9309BDFA1D0F611F0072E5A6 /* ActivityLogTableViewController.swift */,
 				9309BDFE1D0F611F0072E5A6 /* AppDelegate.swift */,
@@ -398,6 +406,8 @@
 				9309BE6D1D0F62A70072E5A6 /* Assets.xcassets */,
 				9309BE721D0F62A70072E5A6 /* Info.plist */,
 				93737BD61D10B74C00A7BA2A /* MapViewController.swift */,
+				93737BDB1D33765E00A7BA2A /* DCTar.h */,
+				93737BDC1D33769500A7BA2A /* DCTar.m */,
 			);
 			path = eFins;
 			sourceTree = "<group>";
@@ -611,6 +621,7 @@
 				9309BE9E1D0F63660072E5A6 /* ItemForm.swift in Sources */,
 				9309BEAA1D0F638E0072E5A6 /* NSBundle+Extension.swift in Sources */,
 				9309BEC31D0F639C0072E5A6 /* Constants.swift in Sources */,
+				93737CA01D3382F700A7BA2A /* MKMapView+ZoomLevel.m in Sources */,
 				9309BEB91D0F638E0072E5A6 /* SettingsTableViewController.swift in Sources */,
 				9309BEBE1D0F638E0072E5A6 /* ViolationTypeFormTableViewController.swift in Sources */,
 				9309BEB51D0F638E0072E5A6 /* RegistrationIncompleteViewController.swift in Sources */,
@@ -637,6 +648,7 @@
 				9309BEBD1D0F638E0072E5A6 /* ViolationFormTableViewController.swift in Sources */,
 				9309BE971D0F62EB0072E5A6 /* VesselType.swift in Sources */,
 				9309BEB71D0F638E0072E5A6 /* RelationTableViewCell.swift in Sources */,
+				93737BDD1D33769500A7BA2A /* DCTar.m in Sources */,
 				9309BEA81D0F638E0072E5A6 /* NewContactPopupTableViewController.swift in Sources */,
 				9309BEAC1D0F638E0072E5A6 /* PatrolLogContactListTableViewController.swift in Sources */,
 				9309BE8D1D0F62EB0072E5A6 /* EnforcementActionType.swift in Sources */,

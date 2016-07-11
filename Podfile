@@ -20,5 +20,6 @@ pod 'Teleport-NSLog'
 pod 'RavenSwift'
 pod 'ReachabilitySwift', '~> 2.3.3'
 pod 'SSZipArchive'
+pod "NVHTarGzip"
 
 end

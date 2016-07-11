@@ -68,7 +68,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIAlertViewDelegat
         if tilesExist() {
             NSLog("TILES tilesExist")
             ////self.charts = RMMBTilesSource(tileSetURL: NSURL(fileURLWithPath: chartPath()!, isDirectory: false))
-            self.thematicLayer = RMMBTilesSource(tileSetURL: NSURL(fileURLWithPath: basemapPath()!, isDirectory: false))
+            //self.thematicLayer = RMMBTilesSource(tileSetURL: NSURL(fileURLWithPath: basemapPath()!, isDirectory: false))
             return true
         } else {
             return false

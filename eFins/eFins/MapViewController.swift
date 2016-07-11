@@ -90,13 +90,15 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIAlertViewDelegat
 //        map.zoom = 9
 //        map.maxZoom = 15
 //        map.minZoom = 8
-        map.centerCoordinate = CLLocationCoordinate2D(latitude: 34.007, longitude: -119.829)
+        //map.centerCoordinate = CLLocationCoordinate2D(latitude: 34.007, longitude: -119.829)
+        map.setCenterCoordinate(CLLocationCoordinate2D(latitude: 34.007, longitude: -119.829), zoomLevel: 9, animated: true)
 //        map.autoresizingMask = UIViewAutoresizing.FlexibleHeight | UIViewAutoresizing.FlexibleWidth
 //        map.setConstraintsSouthWest(southWestConstraints, northEast: northEastConstraints)
         
-        map.userTrackingMode = MKUserTrackingMode.None
+        map.showsUserLocation = true
+        map.userTrackingMode = MKUserTrackingMode.Follow
         //self.navigationItem.rightBarButtonItem = RMUserTrackingBarButtonItem(mapView: map)
-        self.map.addOverlay(self.thematicLayer!, level: MKOverlayLevel.AboveLabels)
+        self.map.addOverlay(self.thematicLayer!, level: MKOverlayLevel.AboveRoads)
         self.didLoadTiles = true
     }
     

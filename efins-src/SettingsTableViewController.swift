@@ -138,7 +138,7 @@ class SettingsTableViewController: UITableViewController, DataSyncDelegate {
             } else if unpacking {
                 self.progress.hidden = false
                 self.mapDownloadButton.hidden = true
-                let msg = "Unpacking Map Data: \(self.nFilesUnpacked) files of \(self.nFiles) unpacked"
+                let msg = "Unpacking Map Data..."
                 self.mapLabel.text = msg
             } else {
                 self.mapDownloadButton.setTitle("Download Map Data", forState: UIControlState.Normal)
@@ -240,20 +240,24 @@ class SettingsTableViewController: UITableViewController, DataSyncDelegate {
         self.downloading = false
         self.unpacking = true
         let cachePath = NSSearchPathForDirectoriesInDomains(.CachesDirectory, .UserDomainMask, true)[0] as? String
-        SSZipArchive.unzipFileAtPath(tilePath(), toDestination: cachePath, progressHandler: { (name: String!, zipInfo, entryNumber: Int, total: Int) in
-                NSLog("\(tilePath()): \(entryNumber) of \(total)")
-            if (entryNumber % 100) == 0 {
-                dispatch_async(dispatch_get_main_queue(), {
-                    self.updateUnpack(entryNumber, tot: total)
-                })
-            }
-        }, completionHandler: { (path: String!, succeeded, error: NSError!) in
-                NSLog("Done with \(path)")
-                dispatch_async(dispatch_get_main_queue(), {
-                    self.updateDisplay()
-                })
-
-        })
+        
+        updateDisplay()
+        try! DCTar.decompressFileAtPath(tilePath(), toPath: cachePath)
+        
+//        SSZipArchive.unzipFileAtPath(tilePath(), toDestination: cachePath, progressHandler: { (name: String!, zipInfo, entryNumber: Int, total: Int) in
+//                NSLog("\(tilePath()): \(entryNumber) of \(total)")
+//            if (entryNumber % 100) == 0 {
+//                dispatch_async(dispatch_get_main_queue(), {
+//                    self.updateUnpack(entryNumber, tot: total)
+//                })
+//            }
+//        }, completionHandler: { (path: String!, succeeded, error: NSError!) in
+//                NSLog("Done with \(path)")
+//                dispatch_async(dispatch_get_main_queue(), {
+//                    self.updateDisplay()
+//                })
+//
+//        })
     }
     
     func updateProgress(n: Int64, tot: Int64) {

@@ -13,7 +13,7 @@ import Realm
 //var SERVER_ROOT = "http://10.0.1.10:3002/"
 var SERVER_ROOT = "http://efins.org/"
 
-let TILES_URL = "http://d22rw30n9mffwa.cloudfront.net/eftiles_none.zip"
+let TILES_URL = "http://d22rw30n9mffwa.cloudfront.net/eftiles.tar.gz"
 //let CHART_MBTILES = "http://d22rw30n9mffwa.cloudfront.net/efcharts.zip"
 //let BASEMAP_MBTILES = "http://d22rw30n9mffwa.cloudfront.net/efbasemap.zip"
 let SENTRY_DSN = "https://2c4ae4ac92c84b0ea1cedc913ee39408:c5cdf2a5caec4910bd5aef75e4d70de8@app.getsentry.com/44757"
@@ -22,7 +22,7 @@ let PHOTOS_BUCKET = "efins-photos"
 func tilePath() -> String? {
     let fileManager = NSFileManager.defaultManager()
     if let cachePath = NSSearchPathForDirectoriesInDomains(.CachesDirectory, .UserDomainMask, true)[0] as? String {
-        return cachePath.stringByAppendingString("/eftiles_none.zip")
+        return cachePath.stringByAppendingString("/eftiles.tar.gz")
     } else {
         return nil
     }
