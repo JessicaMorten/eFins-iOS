@@ -12,3 +12,4 @@
 #import "Teleport_NSLog/Teleport.h"
 #import "DCTar.h"
 #import "MKMapView+ZoomLevel.h"
+#import <NVHTarGzip/NVHTarGzip.h>

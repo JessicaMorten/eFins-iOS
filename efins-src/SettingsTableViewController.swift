@@ -9,6 +9,7 @@
 import UIKit
 import Alamofire
 import SSZipArchive
+import NVHTarGzip
 
 class SettingsTableViewController: UITableViewController, DataSyncDelegate {
     
@@ -241,8 +242,17 @@ class SettingsTableViewController: UITableViewController, DataSyncDelegate {
         self.unpacking = true
         let cachePath = NSSearchPathForDirectoriesInDomains(.CachesDirectory, .UserDomainMask, true)[0] as? String
         
+    
         updateDisplay()
-        try! DCTar.decompressFileAtPath(tilePath(), toPath: cachePath)
+        try! NVHTarGzip.sharedInstance().unTarGzipFileAtPath(tilePath(), toPath: cachePath)
+        
+//        let progress = NSProgress(totalUnitCount: 1)
+//        let keyPath = NSStringFromSelector(Selector("updateProgress"))
+//        progress.addObserver(self, forKeyPath: keyPath, options: NSKeyValueObservingOptions.Initial, context: nil)
+//        progress.becomeCurrentWithPendingUnitCount(1)
+//        NVHTarGzip.sharedInstance().unTarGzipFileAtPath(tilePath(), toPath: cachePath,
+        
+//        try! DCTar.decompressFileAtPath(tilePath(), toPath: cachePath)
         
 //        SSZipArchive.unzipFileAtPath(tilePath(), toDestination: cachePath, progressHandler: { (name: String!, zipInfo, entryNumber: Int, total: Int) in
 //                NSLog("\(tilePath()): \(entryNumber) of \(total)")
