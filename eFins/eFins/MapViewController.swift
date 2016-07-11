@@ -25,6 +25,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIAlertViewDelegat
     @IBOutlet var backgroundView: UIView!
     @IBOutlet weak var popupLabel: UILabel!
     var didLoadTiles = false
+    var locMgr:CLLocationManager = CLLocationManager()
     
     @IBOutlet weak var mapSegmentControl: UISegmentedControl!
     
@@ -95,10 +96,14 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIAlertViewDelegat
 //        map.autoresizingMask = UIViewAutoresizing.FlexibleHeight | UIViewAutoresizing.FlexibleWidth
 //        map.setConstraintsSouthWest(southWestConstraints, northEast: northEastConstraints)
         
-        map.showsUserLocation = true
-        map.userTrackingMode = MKUserTrackingMode.Follow
-        //self.navigationItem.rightBarButtonItem = RMUserTrackingBarButtonItem(mapView: map)
-        self.map.addOverlay(self.thematicLayer!, level: MKOverlayLevel.AboveRoads)
+               //self.navigationItem.rightBarButtonItem = RMUserTrackingBarButtonItem(mapView: map)
+        self.map.addOverlay(self.thematicLayer!, level: MKOverlayLevel.AboveLabels)
+        locMgr.requestWhenInUseAuthorization()
+        if CLLocationManager.authorizationStatus() == CLAuthorizationStatus.AuthorizedWhenInUse {
+            map.showsUserLocation = true
+            //map.userTrackingMode = MKUserTrackingMode.Follow
+        }
+
         self.didLoadTiles = true
     }
     
