@@ -16,6 +16,7 @@ class NPSContactTableViewController: ActivityFormTableViewController {
     @IBOutlet weak var citationsCell: RelationTableViewCell!
     @IBOutlet weak var contactTypeCell: RelationTableViewCell!
     
+    
     override func viewDidLoad() {
         activityType = Activity.Types.NPS
         super.viewDidLoad()
