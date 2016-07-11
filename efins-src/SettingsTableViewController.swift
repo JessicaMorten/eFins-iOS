@@ -27,22 +27,21 @@ class SettingsTableViewController: UITableViewController, DataSyncDelegate {
     @IBOutlet weak var versionLabel: UILabel!
     @IBOutlet weak var loginNameLabel: UILabel!
     
-    let chartbackgroundSession = NSURLSessionConfiguration.backgroundSessionConfigurationWithIdentifier("org.efins.eFins.chart-background")
-    let basemapBackgroundSession = NSURLSessionConfiguration.backgroundSessionConfigurationWithIdentifier("org.efins.eFins.basemap-background")
-    var chartManager:Alamofire.Manager!
-    var basemapManager:Alamofire.Manager!
+    let tilebackgroundSession = NSURLSessionConfiguration.backgroundSessionConfigurationWithIdentifier("org.efins.eFins.chart-background")
+    //let basemapBackgroundSession = NSURLSessionConfiguration.backgroundSessionConfigurationWithIdentifier("org.efins.eFins.basemap-background")
+    var tileManager:Alamofire.Manager!
+    //var basemapManager:Alamofire.Manager!
     var downloading = false
     var unpacking = false
-    var chartBytesRead = 0
-    var basemapBytesRead = 0
-    var chartTotalBytes = 0
-    var basemapTotalBytes = 0
+    var bytesRead = 0
+    var totalBytes = 0
+    var nFilesUnpacked = 0
+    var nFiles = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.chartManager = Alamofire.Manager(configuration: chartbackgroundSession)
-        self.basemapManager = Alamofire.Manager(configuration: basemapBackgroundSession)
-        print("manager \(self.chartManager)")
+        self.tileManager = Alamofire.Manager(configuration: tilebackgroundSession)
+        print("manager \(self.tileManager)")
         if let user = (UIApplication.sharedApplication().delegate as! AppDelegate).getUser() {
             self.loginNameLabel.text = "Signed in as \(user.name)"
         }
@@ -134,13 +133,12 @@ class SettingsTableViewController: UITableViewController, DataSyncDelegate {
             if downloading {
                 self.progress.hidden = false
                 self.mapDownloadButton.hidden = true
-                let allBytes = chartTotalBytes + basemapTotalBytes
-                let msg = "Downloading Map Data (\((basemapBytesRead + chartBytesRead) / 1000 / 1000) MB / \(allBytes / 1000 / 1000) MB)"
+                let msg = "Downloading Map Data (\(self.bytesRead / 1000 / 1000) MB / \(self.totalBytes / 1000 / 1000) MB)"
                 self.mapLabel.text = msg
             } else if unpacking {
                 self.progress.hidden = false
                 self.mapDownloadButton.hidden = true
-                let msg = "Unpacking Map Data..."
+                let msg = "Unpacking Map Data: \(self.nFilesUnpacked) files of \(self.nFiles) unpacked"
                 self.mapLabel.text = msg
             } else {
                 self.mapDownloadButton.setTitle("Download Map Data", forState: UIControlState.Normal)
@@ -159,21 +157,26 @@ class SettingsTableViewController: UITableViewController, DataSyncDelegate {
         if !tilesExist() && !downloading {
             print("going to download")
             let fileManager = NSFileManager.defaultManager()
-            if fileManager.fileExistsAtPath(chartPath()!) {
-                print("removing charts")
-                do {
-                    try fileManager.removeItemAtPath(chartPath()!)
-                } catch _ {
-                }
-            }
-            if fileManager.fileExistsAtPath(basemapPath()!) {
-                print("removing basemaps")
-                do {
-                    try fileManager.removeItemAtPath(basemapPath()!)
-                } catch _ {
-                }
-            }
-            self.chartManager.session.getTasksWithCompletionHandler { (tasks, _, _) in
+//            if fileManager.fileExistsAtPath(tilePath()!) {
+//                self.unpack()
+//                return
+//            }
+
+//            if fileManager.fileExistsAtPath(chartPath()!) {
+//                print("removing charts")
+//                do {
+//                    try fileManager.removeItemAtPath(chartPath()!)
+//                } catch _ {
+//                }
+//            }
+//            if fileManager.fileExistsAtPath(basemapPath()!) {
+//                print("removing basemaps")
+//                do {
+//                    try fileManager.removeItemAtPath(basemapPath()!)
+//                } catch _ {
+//                }
+//            }
+            self.tileManager.session.getTasksWithCompletionHandler { (tasks, _, _) in
                 for item in tasks {
                     print("item \(item)")
                     if let task = item as? NSURLSessionDownloadTask {
@@ -182,35 +185,25 @@ class SettingsTableViewController: UITableViewController, DataSyncDelegate {
                     }
                 }
             }
-            self.basemapManager.session.getTasksWithCompletionHandler { (tasks, _, _) in
-                for item in tasks {
-                    print("item \(item)")
-                    if let task = item as? NSURLSessionDownloadTask {
-                        print("cancelling")
-                        task.cancel()
-                    }
-                }
-            }
+           
             self.mapDownloadButton.enabled = false
             self.downloading = true
-            self.chartTotalBytes = 0
-            self.chartBytesRead = 0
-            self.basemapTotalBytes = 0
-            self.basemapBytesRead = 0
+            self.totalBytes = 0
+            self.bytesRead = 0
             var chartsSizeFiguredOut = false
             var basemapSizeFiguredOut = false
             var chartsDone = false
             var basemapDone = false
-            print("doing chartManager")
-            self.chartManager.download(.GET, CHART_MBTILES, destination: { (temporaryURL, response) in
-                return NSURL(fileURLWithPath: chartPath()!, isDirectory: false)
+            print("doing tileManager")
+            self.tileManager.download(.GET, TILES_URL, destination: { (temporaryURL, response) in
+                return NSURL(fileURLWithPath: tilePath()!, isDirectory: false)
             })
                 .progress { (bytesRead, totalBytesRead, totalBytesExpectedToRead) in
-                    print("progress, charts")
-                    self.chartTotalBytes = Int(totalBytesExpectedToRead)
-                    self.chartBytesRead = Int(totalBytesRead)
+                    print("progress, tiles")
+//                    self.totalBytes = Int(totalBytesExpectedToRead)
+//                    self.bytesRead = Int(totalBytesRead)
                     dispatch_async(dispatch_get_main_queue(), {
-                        self.updateProgress()
+                        self.updateProgress(totalBytesRead, tot: totalBytesExpectedToRead)
                     })
                 }
                 .response { (request, response, _, error) in
@@ -222,51 +215,19 @@ class SettingsTableViewController: UITableViewController, DataSyncDelegate {
                             self.updateDisplay()
                         })
                     } else {
-                        print("charts downloaded")
-                        chartsDone = true
-                        if chartsDone && basemapDone {
-                            self.unpack()
-                        }
+                        print("tiles downloaded, starting unpack")
+                        self.unpack()
                     }
             }
-            print("doing basemapManager")
-            self.basemapManager.download(.GET, BASEMAP_MBTILES, destination: { (temporaryURL, response) in
-                return NSURL(fileURLWithPath: basemapPath()!, isDirectory: false)
-            })
-                .progress { (bytesRead, totalBytesRead, totalBytesExpectedToRead) in
-                    print("progress, basemap")
-                    self.basemapTotalBytes = Int(totalBytesExpectedToRead)
-                    self.basemapBytesRead = Int(totalBytesRead)
-                    dispatch_async(dispatch_get_main_queue(), {
-                        self.updateProgress()
-                    })
-                }
-                .response { (request, response, _, error) in
-                    if error != nil {
-                        print(error)
-                        alert("Error Downloading", message: "\(error?.description)", view: self)
-                        self.downloading = false
-                        dispatch_async(dispatch_get_main_queue(), {
-                            self.updateDisplay()
-                        })
-                    } else {
-                        print("basemaps downloaded")
-                        basemapDone = true
-                        if chartsDone && basemapDone {
-                            self.unpack()
-                                                    }
-                    }
-            }
-        } else if tilesExist() {
+    } else if tilesExist() {
             print("tiles exist, delete?")
             confirm("Delete Map Data", message: "Are you sure you want to clear map data? You will not be able to view maps until you download the data again.", view: self) { () in
+                //**************************
+                //return
+                //*************************
                 let fileManager = NSFileManager.defaultManager()
                 do {
-                    try fileManager.removeItemAtPath(chartPath()!)
-                } catch _ {
-                }
-                do {
-                    try fileManager.removeItemAtPath(basemapPath()!)
+                    try fileManager.removeItemAtPath(tilePath()!)
                 } catch _ {
                 }
                 self.updateDisplay()
@@ -278,8 +239,14 @@ class SettingsTableViewController: UITableViewController, DataSyncDelegate {
     func unpack () {
         self.downloading = false
         self.unpacking = true
-        SSZipArchive.unzipFileAtPath(basemapPath(), toDestination: basemapTilesPath(), progressHandler: { (name: String!, zipInfo, entryNumber: Int, total: Int) in
-                NSLog("\(basemapPath()): \(entryNumber) of \(total)")
+        let cachePath = NSSearchPathForDirectoriesInDomains(.CachesDirectory, .UserDomainMask, true)[0] as? String
+        SSZipArchive.unzipFileAtPath(tilePath(), toDestination: cachePath, progressHandler: { (name: String!, zipInfo, entryNumber: Int, total: Int) in
+                NSLog("\(tilePath()): \(entryNumber) of \(total)")
+            if (entryNumber % 100) == 0 {
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.updateUnpack(entryNumber, tot: total)
+                })
+            }
         }, completionHandler: { (path: String!, succeeded, error: NSError!) in
                 NSLog("Done with \(path)")
                 dispatch_async(dispatch_get_main_queue(), {
@@ -287,24 +254,21 @@ class SettingsTableViewController: UITableViewController, DataSyncDelegate {
                 })
 
         })
-        SSZipArchive.unzipFileAtPath(chartPath(), toDestination: chartTilesPath(), progressHandler: { (name: String!, zipInfo, entryNumber: Int, total: Int) in
-            NSLog("\(chartPath()): \(entryNumber) of \(total)")
-            }, completionHandler: { (path: String!, succeeded, error: NSError!) in
-                NSLog("Done with \(path)")
-                dispatch_async(dispatch_get_main_queue(), {
-                    self.updateDisplay()
-                })
-                
-        })
-
     }
     
-    func updateProgress() {
+    func updateProgress(n: Int64, tot: Int64) {
         self.progress.hidden = false
-        let totalBytes = self.chartTotalBytes + self.basemapTotalBytes
-        let msg = "Downloading Map Data (\((basemapBytesRead + chartBytesRead) / 1000 / 1000) MB / \(totalBytes / 1000 / 1000) MB)"
+        let msg = "Downloading Map Data (\(n / 1000 / 1000) MB / \(tot / 1000 / 1000) MB)"
         self.mapLabel.text = msg
-        self.progress.setProgress(Float(self.chartBytesRead + self.basemapBytesRead) / Float(totalBytes), animated: true)
+        self.progress.setProgress(Float(n) / Float(tot), animated: true)
+    }
+    
+    
+    func updateUnpack(unpacked: Int, tot: Int) {
+        self.progress.hidden = false
+        let msg = "Unpacking Map Data: \(unpacked) files of \(tot) unpacked"
+        self.mapLabel.text = msg
+        self.progress.setProgress(Float(unpacked) / Float(tot), animated: true)
     }
     
 }

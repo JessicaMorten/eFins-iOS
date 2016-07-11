@@ -13,33 +13,44 @@ import Realm
 //var SERVER_ROOT = "http://10.0.1.10:3002/"
 var SERVER_ROOT = "http://efins.org/"
 
-let CHART_MBTILES = "http://d22rw30n9mffwa.cloudfront.net/efcharts.zip"
-let BASEMAP_MBTILES = "http://d22rw30n9mffwa.cloudfront.net/efbasemap.zip"
+let TILES_URL = "http://d22rw30n9mffwa.cloudfront.net/eftiles_none.zip"
+//let CHART_MBTILES = "http://d22rw30n9mffwa.cloudfront.net/efcharts.zip"
+//let BASEMAP_MBTILES = "http://d22rw30n9mffwa.cloudfront.net/efbasemap.zip"
 let SENTRY_DSN = "https://2c4ae4ac92c84b0ea1cedc913ee39408:c5cdf2a5caec4910bd5aef75e4d70de8@app.getsentry.com/44757"
 let PHOTOS_BUCKET = "efins-photos"
 
-func chartPath() -> String? {
+func tilePath() -> String? {
     let fileManager = NSFileManager.defaultManager()
     if let cachePath = NSSearchPathForDirectoriesInDomains(.CachesDirectory, .UserDomainMask, true)[0] as? String {
-        return cachePath.stringByAppendingString("/efcharts.zip")
+        return cachePath.stringByAppendingString("/eftiles_none.zip")
     } else {
         return nil
     }
 }
 
-func basemapPath() -> String? {
-    let fileManager = NSFileManager.defaultManager()
-    if let cachePath = NSSearchPathForDirectoriesInDomains(.CachesDirectory, .UserDomainMask, true)[0] as? String {
-        return cachePath.stringByAppendingString("/efbasemap.zip")
-    } else {
-        return nil
-    }
-}
+
+//func chartPath() -> String? {
+//    let fileManager = NSFileManager.defaultManager()
+//    if let cachePath = NSSearchPathForDirectoriesInDomains(.CachesDirectory, .UserDomainMask, true)[0] as? String {
+//        return cachePath.stringByAppendingString("/efcharts.zip")
+//    } else {
+//        return nil
+//    }
+//}
+//
+//func basemapPath() -> String? {
+//    let fileManager = NSFileManager.defaultManager()
+//    if let cachePath = NSSearchPathForDirectoriesInDomains(.CachesDirectory, .UserDomainMask, true)[0] as? String {
+//        return cachePath.stringByAppendingString("/efbasemap.zip")
+//    } else {
+//        return nil
+//    }
+//}
 
 func chartTilesPath() -> String? {
     let fileManager = NSFileManager.defaultManager()
     if let cachePath = NSSearchPathForDirectoriesInDomains(.CachesDirectory, .UserDomainMask, true)[0] as? String {
-        let path = cachePath.stringByAppendingString("/efcharts_tiles/")
+        let path = cachePath.stringByAppendingString("/efins_charts/")
         try! NSFileManager.defaultManager().createDirectoryAtPath(path, withIntermediateDirectories: true, attributes: nil)
         return path
     } else {
@@ -48,13 +59,13 @@ func chartTilesPath() -> String? {
 }
 
 func chartTilesUrl() -> String? {
-    return "file://" + chartTilesPath()! + "efins_charts/"
+    return "file://" + chartTilesPath()!
 }
 
 func basemapTilesPath() -> String? {
     let fileManager = NSFileManager.defaultManager()
     if let cachePath = NSSearchPathForDirectoriesInDomains(.CachesDirectory, .UserDomainMask, true)[0] as? String {
-        let path = cachePath.stringByAppendingString("/efbasemap_tiles/")
+        let path = cachePath.stringByAppendingString("/efins_basemap/")
         try! NSFileManager.defaultManager().createDirectoryAtPath(path, withIntermediateDirectories: true, attributes: nil)
         return path
     } else {
@@ -65,17 +76,13 @@ func basemapTilesPath() -> String? {
 }
 
 func basemapTilesUrl() -> String? {
-    return "file://" + basemapTilesPath()! + "efins_basemap/"
+    return "file://" + basemapTilesPath()!
 }
 
 func tilesExist() -> Bool {
     let filemgr = NSFileManager.defaultManager()
-    if filemgr.fileExistsAtPath(chartPath()!) {
-        if filemgr.fileExistsAtPath(basemapPath()!) {
-            return true
-        } else {
-            return false
-        }
+    if filemgr.fileExistsAtPath(tilePath()!) {
+        return true
     } else {
         return false
     }
